@@ -1,0 +1,928 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-065.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-065_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-065_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-065_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.networking.storage"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tornando tudo mais rápido, armazenando em cache no armazenamento local</font></font></h2>
+
+  <p id="d24e25502"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+Nosso aplicativo funciona, mas é muito lento porque baixa tudo toda vez, e isso desperdiça tempo e dados do usuário.</font></font></p>
+
+  <p id="d24e25528"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para tornar nosso aplicativo mais eficiente, teremos que salvar os quadrinhos em um cache local e recuperá-los de lá antes de tentar obtê-los da Internet. </font><font style="vertical-align: inherit;">Se a história em quadrinhos necessária ainda não tiver sido salva, faremos o download da Internet.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma introdução ao pacote path_provider</font></font></h3>
+
+  <p id="d24e25533"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Os aplicativos móveis podem armazenar dados em dois diretórios: um diretório de cache temporário (que usaremos neste exemplo) ou um diretório permanente de Dados / Documentos (que deve ser usado para armazenamento permanente de dados do usuário). </font><font style="vertical-align: inherit;">A diferença entre esses dois diretórios é que o diretório de cache pode ser apagado a qualquer momento pelo sistema operacional ou pelo usuário; </font><font style="vertical-align: inherit;">a limpeza do diretório de dados deve ser feita somente após avisar o usuário de que ele pode perder dados importantes.</font></font></p>
+
+  <p id="d24e25539"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">pacote </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">path_provider</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> permite que você obtenha o caminho onde essas pastas estão localizadas em todos os sistemas operacionais suportados pelo Flutter, enquanto as operações de E / S em si são gerenciadas pelo </font><font style="vertical-align: inherit;">plug </font><font style="vertical-align: inherit;">-in </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: io</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> integrado </font><font style="vertical-align: inherit;">. </font><font style="vertical-align: inherit;">Vamos começar adicionando o seguinte às dependências em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/pubspec.yaml"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / pubspec.yaml</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">path_provider:</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25556"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E importe-o em nosso código Dart usando isto no topo:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: path_provider / path_provider.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25567"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Como eles realizam operações de E / S (que levam um tempo considerável para serem concluídas), as </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">funções path_provider</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: io</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retornam </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s.
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Comece a trabalhar: implemente o cache</font></font></h3>
+
+  <p id="d24e25586"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Como também precisamos usar o </font><font style="vertical-align: inherit;">plug </font><font style="vertical-align: inherit;">-in </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: io</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> integrado do Dart </font><font style="vertical-align: inherit;">para realmente executar as operações de E / S, precisamos adicionar o seguinte na parte superior do arquivo Dart:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'dardo: io'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25618"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O código que precisamos modificar é o código que busca os quadrinhos: precisamos das funções de busca de quadrinhos para verificar se o quadrinho já está salvo, obtê-lo do armazenamento local se estiver, e baixá-lo e salvá-lo se já não estiver salvou.</font></font></p>
+
+  <p id="d24e25620"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Criaremos um arquivo para armazenar o número do quadrinho mais recente (que será atualizado sempre que o aplicativo for iniciado com uma conexão de rede disponível) e cada quadrinho será salvo em um arquivo separado.</font></font></p>
+
+  <p id="d24e25622"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Vamos começar com a mudança mais significativa: a mudança nos </font><font style="vertical-align: inherit;">métodos </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fetchComic</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e25631"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Especificamente, o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HomeScreen</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é método fetchComic, que, no momento, esta aparência:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking_starting / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt;Map &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;&gt; _fetchComic ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) async =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  json.decode (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    aguarde http.read (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"https://xkcd.com/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {latestComic-n} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/info.0.json"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25671"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A sintaxe de seta gorda não funcionará para o que precisamos agora: antes de retornar um valor, precisamos obter o caminho do diretório temporário, verifique se o comic já foi baixado e busque-o se não foi.</font></font></p>
+
+  <p id="d24e25674"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Começaremos a editá-lo, revertendo para a sintaxe regular, com colchetes e retorno:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt;Map &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;&gt; _fetchComic ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) {async</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> json.decode (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    aguarde http.read (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"https://xkcd.com/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {latestComic-n} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/info.0.json"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25716"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No início da função, declararemos três variáveis: o diretório que conterá os arquivos, o número de quadrinhos (já que vamos usá-lo mais de uma vez, é mais fácil calcular apenas uma vez e usá-lo todas as vezes) e Objeto de arquivo em si.</font></font></p>
+
+  <p id="d24e25718"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A função que retorna o diretório é </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">getTemporaryDirectory</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , é assíncrona e retorna um </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Directory</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , a própria string do caminho é o </font><font style="vertical-align: inherit;">membro </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Directory.path</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e25729"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Os arquivos são gerenciados por meio da </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">File</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que nos permite criar arquivos e realizar operações de leitura / gravação neles.</font></font></p>
+
+  <p id="d24e25738"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">construtor </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">File</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é muito simples: leva um argumento posicional, que é o caminho para o arquivo.</font></font></p>
+
+  <p id="d24e25743"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Podemos executar operações em arquivos usando dois métodos para cada operação: podemos escolher entre um método síncrono (como </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">File.readAsStringSync</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) que retorna tudo o que for solicitados diretamente (sem </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s envolvidos), e um método assíncrono (como </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">File.readAsString</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) que é assíncrona, retorna um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e requer </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aguardam</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future.then</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para recuperar os dados solicitados. </font><font style="vertical-align: inherit;">A vantagem do método síncrono é que não precisamos converter tudo para métodos assíncronos e não precisamos usar o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">await</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> o tempo todo, enquanto a vantagem do método assíncrono é que podemos apenas executá-lo e deixar o resto da thread principal ser executado sem ser afetado se não precisarmos do resultado, como aconteceria quando criamos arquivos, por exemplo.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A primeira etapa: salvando a resposta JSON</font></font></h4>
+
+  <p id="d24e25774"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Essas três coisas podem ser feitas com as seguintes três linhas de código:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dir = getTemporaryDirectory Await ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicNumber = latestComic-n;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicFile = Arquivo ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ comicNumber </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25801"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora precisamos verificar se o arquivo existe e não está vazio e retornar seu conteúdo decodificado:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (comicFile.exists esperam () &amp;&amp; comicFile.readAsStringSync ()! = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> json.decode (comicFile.readAsStringSync ());</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25829"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se não for, precisamos criar o arquivo e gravar a string JSON nele:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">finais</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> = cómicas</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      aguardam http.read ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'https://xkcd.com/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {latestComic - n} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/info.0.json'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25854"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Toda a função, quando reunida, acaba sendo:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt;Map &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;&gt; _fetchComic ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) {async</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dir = getTemporaryDirectory Await ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicNumber = latestComic-n;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicFile = Arquivo ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ comicNumber </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (comicFile.exists esperam () &amp;&amp; comicFile.readAsStringSync ()! = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> json.decode (comicFile.readAsStringSync ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">finais</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> = cómicas</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        aguardam http.read ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'https://xkcd.com/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {latestComic - n} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/info.0.json'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ * Não há necessidade de usar métodos de sincronização como nós</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       não tem que esperar que ela termine cache * /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    comicFile.writeAsString (comic);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> json.decode (cómica);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e25969"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SelectionPage</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> também deve tirar proveito dos quadrinhos em cache, só precisamos modificar ligeiramente essa função para tomar o número do quadrinho como um argumento de string:
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt;Map &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;&gt; _fetchComic ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) {async</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dir = getTemporaryDirectory Await ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicFile = Arquivo ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (comicFile.exists esperam () &amp;&amp; comicFile.readAsStringSync ()! = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> json.decode (comicFile.readAsStringSync ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">finais</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> = cómicas</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        aguardam http.read ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'https://xkcd.com/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/info.0.json'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    comicFile.writeAsString (comic);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> json.decode (cómica);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Salvando o último número de quadrinhos</font></font></h3>
+
+  <p id="d24e26078"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Em seu estado atual, nosso aplicativo ainda depende do último número cômico obtido na inicialização para funcionar, mas podemos salvá-lo em um arquivo quando o conseguirmos e, se em algum ponto não pudermos buscá-lo na inicialização, iremos tente obtê-lo do arquivo.</font></font></p>
+
+  <p id="d24e26084"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Obviamente, queremos buscar o remoto sempre que pudermos, pois queremos que esse número mude quando novos quadrinhos </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">forem lançados</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font><font style="vertical-align: inherit;">ao contrário do que fizemos em </font><span class="cf methodname"><font style="vertical-align: inherit;">_fetchComic</font></span><font style="vertical-align: inherit;"> , onde buscamos de arquivos sempre que possível e apenas recorríamos à busca na Internet se não fosse não é possível.</font></font></p>
+
+  <p id="d24e26089"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para fazer isso em nosso aplicativo, precisamos alterar a </font><font style="vertical-align: inherit;">função de nível superior </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">getLatestComicNumber</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e, para alcançar o que queremos, há um recurso que será familiar para a maioria dos programadores é capturar exceção usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">try</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">catch</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e26100"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se o aplicativo tentar uma conexão de rede e falhar (o que acontece quando o site não pode ser alcançado pelo dispositivo por qualquer motivo), ele lançará uma exceção.</font></font></p>
+
+  <p id="d24e26102"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos pegar essa exceção e pegar o número cômico do armazenamento local.</font></font></p>
+
+  <p id="d24e26104"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Começaremos a editar a função declarando as variáveis ​​de diretório e arquivo, junto com uma variável para armazenar o último número cômico que será retornado:
+
+
+
+
+
+</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dir = getTemporaryDirectory Await ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> file = Arquivo ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/latestComicNumber.txt'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n = 1;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Captura de exceções</font></font></h3>
+
+  <p id="d24e26142"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Esta seção é uma antecipação de </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-073.html#sec.testing.errors"><em><font style="vertical-align: inherit;">jogar e pegar exceções</font></em></a><font style="vertical-align: inherit;"> , já que vamos lidar com </font><span class="cf ic"><font style="vertical-align: inherit;">try</font></span><font style="vertical-align: inherit;"> - </font><span class="cf ic"><font style="vertical-align: inherit;">captura</font></span><font style="vertical-align: inherit;"> bloco para capturar exceções.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-073.html#sec.testing.errors"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf ic"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf ic"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e26161"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sempre que, em qualquer linguagem de programação, um trecho de código falha em realizar a ação solicitada, a linguagem de programação permite que ele </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">lance</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> uma </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exceção</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Isso resultará em um travamento do software em questão, mas qualquer exceção pode ser tratada </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">capturando</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> -a e executando uma ação em resposta à exceção.</font></font></p>
+
+  <p id="d24e26172"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, se tentarmos obter o número cômico e uma exceção for lançada (o que significa que o último número cômico não pôde ser obtido, provavelmente porque nenhuma conexão de rede está disponível), podemos capturar essa exceção e verificar se a obtemos em uma ocasião anterior, para que possamos recuperá-lo de lá.</font></font></p>
+
+  <p id="d24e26174"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para fazer isso, vamos começar envolvendo tudo o que pode falhar em um </font><font style="vertical-align: inherit;">bloco </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">try</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , como este:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tente</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// código que pode FALHA</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">} </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">De captura</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (exceptionDetails) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  imprimir ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Alguma coisa falhou"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  imprimir (exceptionDetails);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26203"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Então, vamos buscar o mais recente número cômico, mas em um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">try</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> bloco:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tente</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  n = json.decode (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Await http.read ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'https://xkcd.com/info.0.json'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ) [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Num"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ];</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26237"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como salvar o número em um arquivo não afeta o resto da execução da função, podemos verificar se o arquivo existe, criá-lo se não existir e escrever o número no arquivo em uma thread separada, sem fazer a função esperar para que essas operações sejam concluídas (tudo isso vai para dentro do </font><font style="vertical-align: inherit;">bloco </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">try</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e só será executado se a instrução anterior não falhar):</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">file.exists (). then (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  (existe) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (existe!) file.createSync ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    file.writeAsString ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ N </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26278"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.then</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> cria um novo thread, esperando que a função retorne um valor.</font></font></p>
+
+  <p id="d24e26283"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Quando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">file.exists</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retorna um valor, ele é passado para uma função anônima que faz tudo o que precisamos, sem afetar o resto da função.</font></font></p>
+
+  <p id="d24e26288"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se isso falhar e houver um arquivo do qual podemos obter o número, obteremos o número desse arquivo, usando a </font><font style="vertical-align: inherit;">palavra-chave </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">catch</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">captura</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (e) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    file.existsSync () &amp;&amp;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    file.readAsStringSync ()! = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    n = </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .parse (file.readAsStringSync ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26331"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E, independentemente de como cheguemos aqui, devolvemos o número:
+
+</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">regresso</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Salvando as imagens</font></font></h3>
+
+  <p id="d24e26345"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Agora, se você tentar abrir o aplicativo sem conexão de rede, vai perceber que tudo funciona, mas não há imagens.</font></font></p>
+
+  <p id="d24e26366"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso não deve ser surpresa: estamos apenas salvando sua URL e, obviamente, não podemos acessar as imagens sem uma conexão de rede.</font></font></p>
+
+  <p id="d24e26368"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso significa que precisamos baixar as imagens para tornar nosso aplicativo 100% utilizável offline e, para poder fazer isso, teremos, mais uma vez, que fazer alterações no </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fetchComic</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e26373"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O código que é executado quando o arquivo já existe não precisa ser alterado: ele apenas lê o arquivo e o salva, só precisamos garantir que limpemos o cache antes de executar o aplicativo, pois faremos alterações em como o A string JSON de comic está sendo salva e faremos alterações nas funções que usam os valores nos quadrinhos armazenados em cache.</font></font></p>
+
+  <p id="d24e26375"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Na </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">outra</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> chaves da declaração no </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HomeScreen</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> método fetchComic ‘s precisamos criar o arquivo, obter corpo JSON dos quadrinhos, salve a imagem para o armazenamento local, e substituir a URL no parâmetro img com o caminho da imagem salva.</font></font></p>
+
+  <p id="d24e26385"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todas essas operações já foram descritas neste livro e, quando colocadas juntas, produzem o seguinte </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_fetchComic</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt;Map &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;&gt; _fetchComic ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) {async</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dir = getTemporaryDirectory Await ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicNumber = latestComic-n;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicFile = Arquivo ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ comicNumber </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  aguarde comicFile.exists () &amp;&amp;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  comicFile.readAsStringSync ()! = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> json.decode (comicFile.readAsStringSync ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   comicFile.createSync ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> cómica = json.decode (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     aguarde http.read (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'https://xkcd.com/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ comicNumber </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/info.0.json'</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Arquivo ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ comicNumber </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.png'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      .writeAsBytesSync (Await http.readBytes (cómica [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ]));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    cômico [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ] = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ comicNumber </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.png'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    comicFile.writeAsString (json.encode (comic));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">voltar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> quadrinhos;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26557"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Estamos apenas usando uma função assíncrona sem uma </font><font style="vertical-align: inherit;">expressão de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">espera</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para escrever o arquivo de quadrinhos, uma vez que não será usado pelo aplicativo até que seja reiniciado, então não precisamos pausar a execução para escrevê-lo como fazemos , por exemplo, para o arquivo de imagem que será usado pelo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ComicTile logo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> após o retorno do método.</font></font></p>
+
+  <p id="d24e26565"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">As mesmas mudanças exatas aplicam ao </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SelectionPage</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_fetchComic</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> método, dado que esta parte da função não muda entre os dois:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt;Map &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;&gt; _fetchComic ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) async {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dir = getTemporaryDirectory Await ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicFile = Arquivo ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   aguarde comicFile.exists () &amp;&amp;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   comicFile.readAsStringSync ()! = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> json.decode (comicFile.readAsStringSync ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   comicFile.createSync ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> cómica = json.decode (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     aguardam http.read ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'https://xkcd.com/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/info.0.json'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   Arquivo ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.png'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     .writeAsBytesSync (Await http.readBytes (cómica [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ]));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   cômico [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ] = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {dir.path} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.png'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   comicFile.writeAsString (json.encode (comic));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">voltar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> quadrinhos;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26732"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como o valor </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">comic ["img"]</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> agora é o caminho para o arquivo que contém a imagem de quadrinhos, precisamos alterar (nos métodos de construção para o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ComicPage</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e para o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ComicTile</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) a seguinte linha:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Image.network (quadrinhos [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ])</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26753"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Image.file (File (quadrinhos [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ]))</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26765"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Neste ponto, abrir o aplicativo com uma conexão de Internet ativa, fechá-lo e abri-lo novamente sem uma conexão com a Internet revelará que o aplicativo agora é totalmente capaz de navegar em quadrinhos que já foram buscados, mas não é capaz de realizar solicitações ao site do XKCD .
+
+
+
+</font></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-065_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

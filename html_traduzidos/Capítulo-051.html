@@ -1,0 +1,962 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-051.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-051_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-051_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-051_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e18324"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fazendo seus próprios pacotes</font></font></h2>
+
+  <p id="d24e18327"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Agora que você sabe como usar um pacote, talvez queira saber como fazer seu próprio pacote e como escrever um código específico de plataforma para ser usado dentro de um aplicativo Flutter.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Criando o Pacote</font></font></h3>
+
+  <p id="d24e18339"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Fazer um pacote é muito parecido com fazer um aplicativo.</font></font></p>
+
+  <p id="d24e18345"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você estiver usando o Android Studio, você só precisa usar Arquivo -&gt; Novo -&gt; Novo projeto do Flutter.</font></font></p>
+
+  <p id="d24e18347"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você só precisa usar o código Dart multiplataforma para o seu pacote, escolha a opção Flutter Package, se também precisar adicionar código iOS (Objective-C / Swift) ou Android (Java / Kotlin), escolha Flutter Plugin.</font></font></p>
+
+  <p id="d24e18349"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Interação entre o código Dart e código específico da plataforma é descrito em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-051.html#sec.packages.makingplugins"><em><font style="vertical-align: inherit;">Integrando código nativo: Fazendo pacotes de plugins</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-051.html#sec.packages.makingplugins"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e18353"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Se você estiver usando a linha de comando, execute este comando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter create --template = pacote packagename</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18363"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você deseja criar um plugin, substitua a palavra </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacote</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> por </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">plugin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Desenvolvimento de Pacotes</font></font></h3>
+
+  <p id="d24e18374"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Criando um pacote Dart somente normal é tão simples como editar e criar arquivos de dardo no </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">lib</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pasta, definindo as funções e classes que você quer que seu pacote para fornecer, e depois publicá-lo, conforme explicado na </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-052.html#sec.packages.publishing"><em><font style="vertical-align: inherit;">publicação de um pacote para Pub</font></em></a><font style="vertical-align: inherit;"> .
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-052.html#sec.packages.publishing"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h3 id="sec.packages.makingplugins"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Integrando Código Nativo: Fazendo Pacotes de Plug-in</font></font></h3>
+
+  <p id="d24e18385"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+A situação se torna mais complicada quando você deseja que seu pacote se comunique com o código específico da plataforma, já que você precisará juntar três bases de código diferentes escritas em três linguagens diferentes.</font></font></p>
+
+  <p id="d24e18396"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Muitos recursos nativos do Android / iOS estão disponíveis usando pacotes do Pub, mas pode ser necessário usar um recurso que não está disponível no Flutter e que não é fornecido por nenhum pacote, portanto, você precisará escrever seu próprio recurso específico da plataforma código para acessar esse recurso.</font></font></p>
+
+  <p id="d24e18398"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Embora este capítulo é sobre os pacotes, as informações </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-051.html#sec.packages.platformchannels"><em><font style="vertical-align: inherit;">de conexão Flutter e Platform-Specific código em conjunto, utilizando Canais Platform</font></em></a><font style="vertical-align: inherit;"> também é útil se você quiser apenas para conectar Android e iOS código para apenas um aplicativo, sem a criação de um pacote.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-051.html#sec.packages.platformchannels"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Criando um pacote de plug-in</font></font></h4>
+
+  <p id="d24e18405"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você pode criar um pacote de plug-in usando o seguinte comando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter create --template = plugin packagename</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18415"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso permitirá que você use Java para código específico do Android e Objective-C para código iOS, mas, especialmente no mundo do iOS, essas linguagens estão perdendo terreno para Kotlin (para Android) e Swift (para iOS). </font><font style="vertical-align: inherit;">Na verdade, o Flutter também fornece um modelo para essas linguagens, e se você quiser usar Swift e Kotlin, será necessário executar este comando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter create --template = plugin -a kotlin -i swift packagename</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18421"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como acabamos de ver, você pode usar </font><font style="vertical-align: inherit;">a </font><font style="vertical-align: inherit;">opção </font><span class="cf commandoption"><font style="vertical-align: inherit;">-a do </font></span></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para especificar o idioma a ser usado para o código Android e </font><span class="cf commandoption"><font style="vertical-align: inherit;">-i</font></span><font style="vertical-align: inherit;"> para especificar o idioma para o código iOS.
+</font></font><span class="cf commandoption"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf commandoption"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <h4 id="sec.packages.platformchannels"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Conectando código específico de plataforma e oscilação usando canais de plataforma</font></font></h4>
+
+  <p id="d24e18436"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Vamos escrever a interface para nosso pacote no Dart, mas vamos precisar conectá-lo ao código específico da plataforma, e você pode fazer isso usando canais de plataforma.</font></font></p>
+
+  <p id="d24e18445"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Canais de plataforma não são exclusivos de pacotes: também podemos usá-los com aplicativos.</font></font></p>
+
+  <p id="d24e18448"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O código Flutter chama métodos para que o código específico da plataforma seja executado por meio de um canal da plataforma, o código específico da plataforma escuta no canal, recebe a chamada do método, executa as ações necessárias e retorna uma resposta.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como funcionam os canais de plataforma</font></font></strong></p>
+
+  <p id="d24e18453"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Para se conectar ao nosso código específico da plataforma, usaremos a </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodChannel</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é o lado do Flutter da interface entre o Flutter e o código específico da plataforma.</font></font></p>
+
+  <p id="d24e18462"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Passamos o nome do canal para seu construtor, que é um </font><font style="vertical-align: inherit;">identificador </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> exclusivo </font><font style="vertical-align: inherit;">para o canal em todo o aplicativo.</font></font></p>
+
+  <p id="d24e18467"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma vez que deve ser exclusivo para todo o aplicativo, o nome do canal geralmente é prefixado por um nome de domínio.</font></font></p>
+
+  <p id="d24e18469"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O canal funciona da seguinte maneira: o código Dart invoca métodos no canal, o código específico da plataforma escuta no canal, esperando por uma chamada de método, que é tratada por um manipulador de chamada de método, que envia o resultado de volta para o Dart código.</font></font></p>
+
+  <p id="d24e18471"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+A resposta é recebida pelo código Dart na forma de um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Implementando a Interface de Flutter no Dart</font></font></strong></p>
+
+  <p id="d24e18483"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Um exemplo de interface básica do Flutter que pode interagir com o código específico da plataforma é o seguinte:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/lib/plugin_example.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes / making_plugins / lib / plugin_example.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'dardo: async'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: vibração / services.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> PluginExample {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estática </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _platformChannel =</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      MethodChannel ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'example.com/plugin_example'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estática</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Futuro &lt;type&gt; exampleMethod async {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">voltar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _platformChannel.invokeMethod await ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'runExampleMethod'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18543"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Podemos acessar os canais da plataforma usando a </font><font style="vertical-align: inherit;">biblioteca de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">serviços</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e também precisamos usar a biblioteca assíncrona para lidar com o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , portanto, as seguintes linhas precisam ser colocadas no topo do seu arquivo DART:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/lib/plugin_example.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes / making_plugins / lib / plugin_example.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'dardo: async'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: vibração / services.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18590"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em seguida, definimos a classe que conterá nosso código e começamos definindo o canal que usaremos, que será </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">example.com/plugin_example</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/lib/plugin_example.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes / making_plugins / lib / plugin_example.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estática </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _platformChannel =</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    MethodChannel ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'example.com/plugin_example'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18609"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Esta string pode ser qualquer coisa: você pode prefixá-la com um domínio real, um domínio falso ou nenhum domínio, mas você deve prefixá-la com um domínio real, se possível, para garantir que isso não entre em conflito com o canal de nenhum outro plugin nome. </font><font style="vertical-align: inherit;">Nesse sentido, é muito semelhante aos nomes de pacotes Java, exceto que o prefixo de domínio é opcional neste caso.</font></font></p>
+
+  <p id="d24e18612"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de escolher o nome do canal, implemente a interface real para o pacote:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/lib/plugin_example.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes / making_plugins / lib / plugin_example.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estática</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Futuro &lt;type&gt; exampleMethod async {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">voltar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _platformChannel.invokeMethod await ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'runExampleMethod'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18633"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onde no </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> você substituiria o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tipo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pelo tipo que você deseja que a função retorne.</font></font></p>
+
+  <p id="d24e18641"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para mais informações sobre quais os tipos de dados em Java e Swift correspondem aos tipos de dados do DART, consulte a tabela </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-095.html#sec.dart.types.conversion"><em><font style="vertical-align: inherit;">de conversão entre tipos Native Java / Apple e dados Dart</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-095.html#sec.dart.types.conversion"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e18647"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso é o que realmente será chamado pelos usuários de seu pacote, e a única coisa a ter em mente é que a maneira como você chama o código específico da plataforma é invocando métodos usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">platformChannel.invokeMethod (METHOD_NAME)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e18652"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Obviamente, para um pacote tão simples, você poderia pular a definição da </font><font style="vertical-align: inherit;">variável </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">platformChannel</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e apenas usar </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodChannel (CHANNEL_NAME) .invokeMethod (METHOD_NAME)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas isso não tornaria o código muito mais curto e poderia ser uma maneira muito ruim de fazer as coisas a longo prazo, então continue com a declaração do canal de antemão, como mostramos no exemplo.
+
+</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Implementando a Interface Android em Java</font></font></strong></p>
+
+  <p id="d24e18666"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+No </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">android</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , haverá uma árvore de código-fonte que se parece com a árvore de código-fonte de um aplicativo, com a única diferença sendo o conteúdo real dos arquivos.</font></font></p>
+
+  <p id="d24e18680"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma implementação de plug-in Java específica para Android se parece com o seguinte:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packages / making_plugins / android / src / main / java / com / example / pluginexample / PluginExamplePlugin.java</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">empacotar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com.example.pluginexample;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">io.flutter.plugin.common.MethodChannel</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">io.flutter.plugin.common.MethodChannel.MethodCallHandler</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">io.flutter.plugin.common.MethodChannel.Result</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">io.flutter.plugin.common.MethodCall</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">io.flutter.plugin.common.PluginRegistry.Registrar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">públicas </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> PluginExample </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">implementos</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MethodCallHandler {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">público </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estático </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">registerWith</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (secretário registrar) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">último</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> canal MethodChannel =</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nova </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodChannel</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (registrar.messenger (), </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"example.com/plugin_example"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    channel.setMethodCallHandler ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">novas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> PluginExample ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @Sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pública </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OnMethodCall</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (chamada MethodCall, resultado Resultado) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (call.method.equals ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"runExampleMethod"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      result.success (DATA_TO_RESPOND_WITH);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    } </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      result.notImplemented ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18836"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Especificamente, o arquivo Java será uma classe que implementa o </font><font style="vertical-align: inherit;">traço </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodCallHandler</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e precisaremos definir dois métodos para ele: um </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">registerWith</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , onde definiremos em qual canal ouvir, e um </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onMethodCall</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que é chamado quando um método é chamado no canal:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packages / making_plugins / android / src / main / java / com / example / pluginexample / PluginExamplePlugin.java</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">públicas </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> PluginExample </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">implementos</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MethodCallHandler {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">público </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estático </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">registerWith</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (secretário registrar) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">último</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> canal MethodChannel =</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nova </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodChannel</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (registrar.messenger (), </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"example.com/plugin_example"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    channel.setMethodCallHandler ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">novas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> PluginExample ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @Sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pública </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OnMethodCall</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (chamada MethodCall, resultado Resultado) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (call.method.equals ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"runExampleMethod"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      result.success (DATA_TO_RESPOND_WITH);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    } </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      result.notImplemented ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e18953"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vamos começar a dissecar o código observando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">registerWith</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packages / making_plugins / android / src / main / java / com / example / pluginexample / PluginExamplePlugin.java</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">público </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estático </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">registerWith</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (secretário registrar) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">último</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> canal MethodChannel =</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nova </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodChannel</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (registrar.messenger (), </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"example.com/plugin_example"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  channel.setMethodCallHandler ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">novas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> PluginExample ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19002"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Este método é comparável ao </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">initState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em widgets Flutter: aqui você adicionaria qualquer ação que deve ser executada uma vez e é necessária para a funcionalidade do pacote, incluindo definir a classe como o manipulador de chamada de método para o canal em que o plugin opera.</font></font></p>
+
+  <p id="d24e19008"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mais especificamente, quando um método é invocado, </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onMethodCall</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é chamado, com dois argumentos: um descrevendo a chamada e outro fornecendo uma interface para retornar um resultado.</font></font></p>
+
+  <p id="d24e19013"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onMethodCall</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode ser definido da seguinte maneira:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packages / making_plugins / android / src / main / java / com / example / pluginexample / PluginExamplePlugin.java</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@Sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pública </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OnMethodCall</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (chamada MethodCall, resultado Resultado) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (call.method.equals ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"runExampleMethod"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    result.success (DATA_TO_RESPOND_WITH);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  } </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    result.notImplemented ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19064"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como um plug-in pode chamar métodos diferentes no mesmo canal, o </font><font style="vertical-align: inherit;">argumento </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">call</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> fornece informações sobre a chamada do método, mais especificamente:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e19071"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">call.method</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é o nome do método que está sendo chamado, neste caso seria </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"runExampleMethod"</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e19079"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">call.arguments</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que contém os argumentos fornecidos pelo código de chamada (se houver algum), este tópico é explicado em maior detalhe no </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-051.html#sec.packages.platformchannels.arguments"><em><font style="vertical-align: inherit;">Adicionando argumentos para chamadas de método</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-051.html#sec.packages.platformchannels.arguments"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e19086"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O resultado é retornado usando o </font><font style="vertical-align: inherit;">argumento </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">result</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : a execução de </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">result.success (DATA)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retornará DATA para o código de chamada, enquanto a execução de </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">result.notImplemented</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dirá ao código de chamada que lá o método que foi chamado não foi implementado no específico da plataforma código.
+
+</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Implementando a Interface iOS em Swift</font></font></strong></p>
+
+  <p id="d24e19103"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Ao criar um projeto de plug-in Swift, na </font><font style="vertical-align: inherit;">pasta </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ios / Classes</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , você encontrará um arquivo Swift onde escreverá o código específico do iOS:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packages / making_plugins / ios / Classes / SwiftPluginExamplePlugin.swift</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Flutter</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">UIKit</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">públicas </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PluginExample</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NSObject</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterPlugin</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pública </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estática </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">func </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">registo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (com registro: </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterPluginRegistrar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">deixar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> = channel</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterMethodChannel</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                citar: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"example.com/plugin_swift"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                binaryMessenger:. registrar </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">messenger</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">deixe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> handler = </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PluginExample</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    registrador. </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">addMethodCallDelegate</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (manipulador, canal: canal)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pública </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">func </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">alça</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (chamada: </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterMethodCall</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , resultado: </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@escaping </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterResult</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (call.method == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"runExampleMethod"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">resultar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DADOS</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19274"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em vez de ter um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodChannel</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodCall</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , você usará um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterMethodChannel</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterMethodCall</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas a maioria dos mesmos princípios se aplicam.</font></font></p>
+
+  <p id="d24e19288"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O registro é um pouco diferente:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packages / making_plugins / ios / Classes / SwiftPluginExamplePlugin.swift</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pública </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estática </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">func </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">registo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (com registro: </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterPluginRegistrar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">deixar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> = channel</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterMethodChannel</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">              citar: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"example.com/plugin_swift"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">              binaryMessenger:. registrar </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">messenger</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">deixe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> handler = </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PluginExample</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  registrador. </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">addMethodCallDelegate</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (manipulador, canal: canal)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19364"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Os </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterMethodChannel</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> argumentos do construtor são nomeados e não posicional e você pode definir o manipulador método usando a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterPluginRegistrar</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ‘s </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">addMethodCallDelegate</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> método, passando a classe manipulador como um argumento posicional e o canal como um argumento nomeado:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packages / making_plugins / ios / Classes / SwiftPluginExamplePlugin.swift</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">registrador. </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">addMethodCallDelegate</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (manipulador, canal: canal)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19386"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onMethodCall</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> torna-se </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">handle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e, em vez de usar </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">result.success</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para retornar dados, é apenas </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">resultado</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , com o resto das diferenças sendo reduzidas a variações na sintaxe entre Java e Swift:
+
+</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packages / making_plugins / ios / Classes / SwiftPluginExamplePlugin.swift</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pública </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">func </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">alça</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (chamada: </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterMethodCall</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , resultado: </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@escaping </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterResult</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (call.method == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"runExampleMethod"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">resultar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DADOS</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p><strong id="sec.packages.platformchannels.arguments"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Adicionando argumentos a chamadas de método</font></font></strong></p>
+
+  <p id="d24e19453"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Obter um valor de uma API específica da plataforma é útil, mas às vezes você precisa passar argumentos para o código chamado e pode fazer isso passando outro argumento para </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">invokeMethod</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e19462"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Os argumentos estarão disponíveis no </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MethodCall</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do Android </font><font style="vertical-align: inherit;">e no </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterMethodCall</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do iOS </font><font style="vertical-align: inherit;">em </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">call.arguments</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e19473"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Seu tipo é </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em Dart, </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Object</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em Java e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">id</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em Objective-C, o que significa que pode ser qualquer coisa.</font></font></p>
+
+  <p id="d24e19484"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, vamos passar um número inteiro e multiplicá-lo por 10 para ver como isso é feito.</font></font></p>
+
+  <p id="d24e19486"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A interface do Dart é bastante simples:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estática</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Futuro &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; multiplyBy10 ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) {async</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> aguardam platformChannel.invokeMethod ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'multiplyBy10'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , n);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19513"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+No código Android, depois de converter o tipo dos argumentos para </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , é tão simples quanto retornar o número multiplicado por 10:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (call.method.equals ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"multiplyBy10"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    result.success ((( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) call.arguments) * 10);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19551"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Para o código iOS, em </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">call.arguments</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> você obterá um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NSNumber NumberWithInt</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , portanto, são necessárias algumas etapas extras para conseguir isso:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (call.method == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"multiplyBy10"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">deixe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> arg = call.arguments </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como! </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NSNumber </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NumberWithInt</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">resultado</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NSNumber</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (valor: arg.integerValue * 10))</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19601"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dado que o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NSNumber</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> contém o número real no </font><font style="vertical-align: inherit;">membro </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">integerValue</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , é isso que precisamos multiplicar por 10. Depois de fazer isso, convertemos de volta para um NSNumber e o enviamos de volta para o código de chamada. </font><font style="vertical-align: inherit;">Para mais informações sobre as conversões de tipo entre Dart e código específico da plataforma, a seção </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-095.html#sec.dart.types.conversion"><em><font style="vertical-align: inherit;">Conversão Entre nativa Java / Apple e Dados Dart Tipos de</font></em></a><font style="vertical-align: inherit;"> listas as mais importantes.
+
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-095.html#sec.dart.types.conversion"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando o pacote em um aplicativo sem publicar no Pub</font></font></h3>
+
+  <p id="d24e19617"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Suponhamos que você tenha uma estrutura de diretório semelhante a esta:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter_stuff</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">├── app</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">│ ├── lib</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">│ │ └── main.dart</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">│ └── pubspec.yaml</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">└── nome do pacote</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ├── lib</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    │ └── packagename.dart</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    └── pubspec.yaml</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19644"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e quiser que o aplicativo na </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">App</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> diretório para usar o pacote no </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packagename</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> diretório.</font></font></p>
+
+  <p id="d24e19652"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como explicamos no </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-049.html#sec.packages.nopub"><em><font style="vertical-align: inherit;">Buscando Pacotes de Localizações que não sejam Pub</font></em></a><font style="vertical-align: inherit;"> , você pode simplesmente acrescentar:</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-049.html#sec.packages.nopub"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nome do pacote:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  caminho: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">../packagename/</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19669"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">às dependências em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e adicione:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: packagename / packagename.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19684"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">app / lib </font></font></span><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">main.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e você poderá acessar o pacote como faria se tivesse usado o Pub.</font></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-051_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

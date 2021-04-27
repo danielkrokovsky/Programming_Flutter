@@ -1,0 +1,1185 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-071.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-071_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-071_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-071_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e29170"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Testando</font></font></h2>
+
+  <p id="d24e29173"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Existem vários tipos de testes automatizados que podem ser aplicados a aplicativos Flutter:
+
+
+</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e29192"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Teste de unidade, o mais comum, que testa uma parte menor do código e deve compreender a maioria dos testes que você deve fazer em um aplicativo.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e29195"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O teste de integração, que testa uma grande seção de peças integradas de código e, no caso do Flutter, executa o aplicativo em um emulador ou dispositivo físico para verificar se ele se comporta como deveria quando o usuário interage com ele de determinada maneira.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <ul>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Teste de widget, que testa os elementos da IU sem disparar o aplicativo em um emulador ou dispositivo, em vez de apenas acompanhar tudo o que deveria estar na tela e nos permitir interagir com isso de uma forma muito mais simples e rápida do que no testes de integração.</font></font></li>
+
+  </ul>
+
+  <p id="d24e29202"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nesta seção vamos usar como exemplo o aplicativo calculadora nós construímos no início do livro (Capítulo 3, </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-031.html#chp.calculator"><em><font style="vertical-align: inherit;">Construindo um Calculator App</font></em></a><font style="vertical-align: inherit;"> ) e escrever alguns testes que tornam-se cada seção do aplicativo está funcionando corretamente. </font><font style="vertical-align: inherit;">Em seguida, vamos testar o aplicativo de navegação em quadrinhos XKCD criado no capítulo anterior para apresentar a você os objetos simulados e a injeção de dependência no Flutter.
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-031.html#chp.calculator"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Teste de unidade de dardo</font></font></h3>
+
+  <p id="d24e29210"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+O teste de unidade é realmente simples: você executa uma parte do código (por exemplo, um construtor de classe e alguns métodos de membro) e verifica se o valor de retorno é o esperado.</font></font></p>
+
+  <p id="d24e29224"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Para realizar o teste de unidade, precisamos adicionar o </font><font style="vertical-align: inherit;">pacote de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ao </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dev_dependencies</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é a seção onde listamos as dependências necessárias apenas para desenvolvimento e depuração / teste e não necessárias para a execução do aplicativo no dispositivo de um usuário.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Escrevendo testes de unidade para o aplicativo Calculadora</font></font></h4>
+
+  <p id="d24e29253"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Vamos começar dando uma olhada na árvore do aplicativo criada por </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter create</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : ela contém um diretório chamado </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">test</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">É onde vamos adicionar quaisquer testes que desejamos que sejam realizados pelo Flutter.</font></font></p>
+
+  <p id="d24e29265"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Aqui nós vamos criar um arquivo chamado </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">calculation_test.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , dentro do qual, como o nome diz, vamos testar o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cálculo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> classe que, se você se lembrar (ou voltar para </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-043.html#sec.calculator.calculation"><em><font style="vertical-align: inherit;">implementar os cálculos</font></em></a><font style="vertical-align: inherit;"> ), nos permite adicionar pouco pedaços de uma expressão (como </font><span class="cf class"><font style="vertical-align: inherit;">String</font></span><font style="vertical-align: inherit;"> s) de cada vez e, em seguida, obtém o resultado como um </font><font style="vertical-align: inherit;">número </font><span class="cf ic"><font style="vertical-align: inherit;">duplo</font></span><font style="vertical-align: inherit;"> ou uma </font><span class="cf class"><font style="vertical-align: inherit;">String que</font></span><font style="vertical-align: inherit;"> representa a expressão.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-043.html#sec.calculator.calculation"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf ic"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e29285"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Existem vários testes que podem ser feitos: vamos testar se ele executa todas as operações diferentes e retorna o resultado correto, se pode lidar com várias operações e se respeita a precedência do operador. </font><font style="vertical-align: inherit;">Além disso, precisamos verificar os valores da string e os valores numéricos retornados por ela.</font></font></p>
+
+  <p id="d24e29292"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Começaremos a escrever o teste importando as classes necessárias. </font><font style="vertical-align: inherit;">Nesse caso, precisaremos importar o </font><font style="vertical-align: inherit;">pacote de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e o </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">calculator.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no qual definimos a </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Calculation</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: flutter_test / flutter_test.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: calculadora / calculator.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29323"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em seguida, chamamos o </font><font style="vertical-align: inherit;">construtor </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Calculation</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para obter um objeto no qual operar:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> calc = Cálculo ();</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29334"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todo o resto irá para a </font><font style="vertical-align: inherit;">função </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">principal</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">principal</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () {</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29353"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A primeira coisa a fazer é definir uma </font><font style="vertical-align: inherit;">função </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">setUp</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que será chamada antes de cada teste, criando um objeto de cálculo totalmente novo chamando o construtor para garantir que cada teste seja executado isoladamente.</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">configurar(() {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc = Cálculo ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29366"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Vamos chamar a </font><font style="vertical-align: inherit;">função de </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que recebe uma string e uma função de retorno de chamada como argumentos posicionais. </font><font style="vertical-align: inherit;">A string é uma descrição de texto do teste, para que saibamos quais testes falharam (se houver falha) e o retorno de chamada é o código que será executado quando o teste for disparado. </font><font style="vertical-align: inherit;">Dentro do retorno de chamada, usaremos a </font><font style="vertical-align: inherit;">função </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">expect</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para especificar qual valor uma determinada instrução deve retornar. </font><font style="vertical-align: inherit;">Por exemplo, se quiséssemos testar uma operação de adição simples em nosso </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cálculo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , poderíamos escrever o seguinte:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'simples adição'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"+"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"6"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  expect (calc.getResult (), 70,0);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29427"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se quisermos testar mais de uma operação de adição / subtração no mesmo teste, basta adicionar o seguinte depois dela:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'mais somas'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"-"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"+"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"50"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  expect (calc.getResult (), 100,0);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29492"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Também precisamos testar se a multiplicação funciona, como fazemos no seguinte:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'multiplicação simples'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"X"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"6"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  expect (calc.getResult (), 30,0);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29532"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A divisão também é importante e também temos a chance de verificar se podemos retornar valores de ponto flutuante com uma parte decimal:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'divisão'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"÷"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"2"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  esperar (calc.getResult (), 2,5);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29572"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A precedência do operador não pode ser considerada garantida, portanto, precisamos verificar se ela é respeitada:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'precedência'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"+"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"6"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"X"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  expect (calc.getResult (), 35,0);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29629"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A última coisa a verificar é se a </font><font style="vertical-align: inherit;">operação </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">getString</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> funciona corretamente:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'string'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"X"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"6"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"+"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"7"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  esperar (calc.getString () toString (),. </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5x6 + 7"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e29694"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todo o </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">calculator_test.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> soma o seguinte:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculadora / teste / cálculo_teste.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: flutter_test / flutter_test.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: calculadora / calculator.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> calc = Cálculo ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">principal</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  configurar(() {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc = Cálculo ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'simples adição'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"+"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"6"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    expect (calc.getResult (), 70,0);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'mais somas'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"-"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"+"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"50"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    expect (calc.getResult (), 100,0);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'multiplicação simples'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"X"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"6"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    expect (calc.getResult (), 30,0);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'divisão'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"÷"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"2"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    esperar (calc.getResult (), 2,5);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'precedência'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"+"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"6"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"X"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    expect (calc.getResult (), 35,0);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  teste ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'string'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"X"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"6"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"+"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    calc.add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"7"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    esperar (calc.getString () toString (),. </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"5x6 + 7"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Faça suas próprias alterações</font></font></div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e30029"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+		Se você implementou parênteses no aplicativo calculadora, deve considerar a possibilidade de escrever um teste de unidade para isso também.
+	</font></font></p>
+
+      <p id="d24e30031"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+		É muito fácil escrever testes de unidade: na verdade, você só precisa dividir </font><font style="vertical-align: inherit;">chamadas </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">calc.add</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> quando quiser adicionar um operador, mas é recomendável adicionar números um dígito por vez, pelo menos em alguns testes, pois é assim que o aplicativo de calculadora real faz isso e pode haver um problema que só se manifesta ao fazê-lo dessa forma (ou talvez adicionar mais de um dígito por vez quebraria uma implementação que funcionaria na calculadora real, mas não é o caso de como a implementamos )
+	</font></font></p>
+
+    </div>
+
+  </div>
+
+  <p id="d24e30036"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Neste ponto, toda vez que você tentar construir seu aplicativo, esses testes serão executados. </font><font style="vertical-align: inherit;">Você também pode executar os testes usando o </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste de vibração</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> na linha de comando. </font><font style="vertical-align: inherit;">No entanto, provavelmente a melhor maneira de executar testes é usando o Visual Studio Code, que mostra um </font><font style="vertical-align: inherit;">botão </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Executar</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para cada teste, permitindo que você execute cada teste e obtenha os resultados mostrados em uma IU intuitiva. </font><font style="vertical-align: inherit;">O Android Studio também mostra um </font><font style="vertical-align: inherit;">botão de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">seta</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para a </font><span class="emph"><font style="vertical-align: inherit;">direita</font></span><font style="vertical-align: inherit;"> próximo ao número da linha para executar um teste, mas achei sua IU um pouco menos intuitiva e consistente. </font><font style="vertical-align: inherit;">No entanto, você pode se sentir diferente, especialmente se preferir a IU do Android Studio / IntelliJ em vez da IU do Visual Studio; </font><font style="vertical-align: inherit;">opte pelo que você preferir usar.
+
+
+
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Widget Flutter e teste de integração</font></font></h3>
+
+  <p id="d24e30059"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O teste de unidade foi simples e direto o suficiente, mas o teste de widget e integração precisa de mais atenção, já que depende da IU, que não é exatamente tão seca e simples quanto o código de processamento de cálculo.</font></font></p>
+
+  <p id="d24e30061"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cada pequena parte da lógica de baixo nível em nosso aplicativo pode estar correta, mas pode haver algo errado na IU ou na combinação de algumas das partes do código que já testamos. </font><font style="vertical-align: inherit;">É por isso que o teste de widget e o teste de integração existem. </font><font style="vertical-align: inherit;">É para testar se um único widget ou uma parte maior do aplicativo funciona corretamente.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Flutter Widget Testing</font></font></h4>
+
+  <p id="d24e30066"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Flutter fornece uma maneira de testar se os widgets funcionam corretamente e interagir programaticamente com os widgets em nosso aplicativo.</font></font></p>
+
+  <p id="d24e30075"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso pode ser muito difícil de imaginar se você não estiver acostumado a uma infraestrutura de teste semelhante, então aqui está um exemplo de como você pode testar se pressionar o botão 5 realmente fará com que o número 5 apareça na tela da calculadora após a importação de </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">main.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/widget_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculator / test / widget_test.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">①</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">testWidgets ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'5 imprensa test'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , (WidgetTester tester) async {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">②</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  aguardam tester.pumpWidget ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">novo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MyApp ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">③</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  esperar (find.text ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'5'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), findsOneWidget);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">④</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  tester.tap Await (find.text ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'5'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">⑤</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  aguarde tester.pump ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">⑥</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  esperar (find.text ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'5'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), findsNWidgets (2));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <dl class="calloutlist">
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">①</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30134"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      A </font><font style="vertical-align: inherit;">função </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">testWidgets</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é muito semelhante à </font><font style="vertical-align: inherit;">função de </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas com uma grande diferença: ela passa um </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">WidgetTester</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para seu retorno de chamada, e esse objeto é o que torna o teste de widget especial.
+	  
+	  
+    </font></font></p>
+
+    </dd>
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">②</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30156">
+      <span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bomba</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> significa </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">construir</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">renderizar</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tester.pumpWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> renderiza um widget para o qual temos uma definição.
+	  
+    </font></font></p>
+
+      <p id="d24e30175"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    	É importante ter em mente que, embora o </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pumpWidgets</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dê a impressão de que permite bombear qualquer tipo de widget, se você tiver um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Scaffold</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em seu widget, ele precisa ser empacotado em um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MaterialApp</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (ou na </font><font style="vertical-align: inherit;">classe </font><font style="vertical-align: inherit;">mais genérica </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">WidgetsApp</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que não depende das classes do Material Design) porque precisa ter um </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MediaQuery</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em seu escopo, e esse widget é fornecido pelas classes mencionadas.
+    </font></font></p>
+
+    </dd>
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">③</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30193"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      Esta é a primeira </font><font style="vertical-align: inherit;">chamada </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">esperada</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Quando construímos o aplicativo pela primeira vez, apenas um widget contendo a </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">5</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> string deve existir (o botão 5).
+	  
+    </font></font></p>
+
+      <p id="d24e30206">
+    	<span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">encontrar</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é uma constante. </font><font style="vertical-align: inherit;">Veremos seu uso com mais detalhes posteriormente nesta seção.
+		
+    </font></font></p>
+
+      <p id="d24e30216">
+    	<span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.text</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">localizador</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">findsOneWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter_test</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> -Desde </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Matcher</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> constante.
+    </font></font></p>
+
+      <p id="d24e30233"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+	
+	
+    
+	
+      Vamos listar todos </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Localizador</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Matcher</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s em mais detalhes nos próximos dois parágrafos após explicação deste código. </font><font style="vertical-align: inherit;">Tudo o que você precisa saber agora é que um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Matcher</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é usado para julgar os resultados entregues por um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Finder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que procura widgets com base em uma determinada característica.
+    </font></font></p>
+
+    </dd>
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">④</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30273"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      Isso é bastante autoexplicativo: tocamos nesse widget.
+	  
+    </font></font></p>
+
+    </dd>
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">⑤</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30281"><font style="vertical-align: inherit;"></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Durante o</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+      teste, os widgets do Flutter não são reconstruídos automaticamente quando </font><span class="cf methodname"><font style="vertical-align: inherit;">setState</font></span><font style="vertical-align: inherit;"> é chamado: para fazer isso, precisamos chamar </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tester.pump</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que renderiza novamente o próximo quadro que o aplicativo está esperando para renderizar.
+	  
+    </font></font></p>
+
+      <p id="d24e30294"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    	Há também outro método chamado </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tester.pumpAndSettle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que continua renderizando quadros até que não haja nenhuma nova renderização esperando para acontecer. </font><font style="vertical-align: inherit;">Isso é útil quando certas ações disparam uma animação que leva vários quadros para ser concluída.
+		
+    </font></font></p>
+
+    </dd>
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">⑥</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30305"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      É exatamente como a outra </font><font style="vertical-align: inherit;">verificação de </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.text</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas desta vez deve haver dois widgets com esse texto: um é o botão e o outro é a tela, que agora deve mostrar esse número.
+    </font></font></p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e30310"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como você pode ver, a interface é bastante flexível e intuitiva e é muito útil verificar se a IU realmente funciona corretamente.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todos os localizadores</font></font></strong></p>
+
+  <p id="d24e30315"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Vamos obter uma imagem maior do Flutter widget de teste: Existem várias maneiras de encontrar widgets usando o </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">achado</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> constante, que é uma coleção (de classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CommonFinders </font></font></span><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-075.html#FOOTNOTE-43" id="FNPTR-43"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[43]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) dos mais comumente usados </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Localizador de</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s:
+
+
+
+
+</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e30377"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.text (text)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que encontra </font><font style="vertical-align: inherit;">widgets de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que exibem uma string </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">igual</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ao seu </font><font style="vertical-align: inherit;">argumento de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e30391"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byIcon (icon)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que procura </font><font style="vertical-align: inherit;">widgets </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Icon</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que mostram um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">IconData</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (algo como </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Icons.not_interested</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) igual ao seu </font><font style="vertical-align: inherit;">argumento </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">icon</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e30408"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byKey (key)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que nos leva de volta para </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-029.html#sec.layout.key"><em><font style="vertical-align: inherit;">a chave</font></em></a><font style="vertical-align: inherit;"> : ele combina o widget que tem a </font><span class="cf class"><font style="vertical-align: inherit;">chave</font></span><font style="vertical-align: inherit;"> que você dá-lo como um argumento.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-029.html#sec.layout.key"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e30418"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byElementPredicate (predicado)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é muito flexível: o </font><font style="vertical-align: inherit;">argumento </font><font style="vertical-align: inherit;">do </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">predicado</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (do tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">WidgetPredicate</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) é simplesmente um retorno de chamada que recebe um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">widget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como seu argumento e, retornando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">verdadeiro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">falso</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , respectivamente, considera o widget que está sendo examinado como correspondente ou não corresponder aos requisitos a serem incluídos no resultado do </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Finder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que dá ao desenvolvedor significativamente mais liberdade para decidir as condições de correspondência do que os outros </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Finders</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e30445"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byWidget (widget)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é o mais específico dos </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Finder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s: ele corresponde apenas ao </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Widget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> fornecido como argumento.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e30455"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Existem outros </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Finder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> menos comuns </font><font style="vertical-align: inherit;">fornecidos pela </font><font style="vertical-align: inherit;">constante </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <ul>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byTooltip</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></li>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byElementType</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></li>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byType</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></li>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.widgetWithIcon</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></li>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.widgetWithText</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></li>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byDescendant</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+
+  </ul>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Widgets fora do palco</font></font></div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e30497"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+		Todos os </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Finder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s sobre os quais falamos permitem que você defina um </font><font style="vertical-align: inherit;">argumento </font><font style="vertical-align: inherit;">booleano </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">skipOffstage</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> nomeado </font><font style="vertical-align: inherit;">que, se definido como verdadeiro, irá ignorar quaisquer widgets contidos no </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Offstage</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> raramente usado </font><font style="vertical-align: inherit;">, que é uma classe que permite que você obtenha alguns widgets (set como o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Offstage</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> da </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">criança</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) ficar com alguém fora e ocupar o espaço sem ser mostrado na verdade.
+	</font></font></p>
+
+    </div>
+
+  </div>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todos os Matchers</font></font></strong></p>
+
+  <p id="d24e30517"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Além de </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">findNothing</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">findOneWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">findNWidgets (n)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , também há </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">achadosWidgets</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é o oposto de </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">findNothing</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (igual a </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">! FindNothing</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ).</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mais testes de calculadora</font></font></strong></p>
+
+  <p id="d24e30552"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Na verdade, vamos entrar em um exemplo mais completo e realista de widget testando nosso aplicativo de calculadora.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Verificando a grade</font></font></strong></p>
+
+  <p id="d24e30561"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A primeira parte do </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teste de 5 pressões</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode realmente ser transformada em algo muito útil: verificar se toda a grade está realmente sendo renderizada e se o usuário tem um botão para cada botão. </font><font style="vertical-align: inherit;">Os números, os botões de exclusão, o </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. </font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e todos os botões de operação, exceto o botão de divisão, contêm um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para mostrar seu uso. </font><font style="vertical-align: inherit;">Isso significa que podemos combiná-los usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.text</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/widget_test.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">layout / calculator / test / widget_test.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">testWidgets ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'teste da grelha existência'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , (WidgetTester tester) async {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      aguardam tester.pumpWidget ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">novo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MyApp ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">①</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  esperar (find.text ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'0'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), findsNWidgets (2));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">②</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> i = 1; i &lt;10; i ++) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">              esperar (find.text ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ i </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), findsOneWidget);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'+'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'-'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'x'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'&lt;-'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'C'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ] .forEach (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    (str) =&gt; esperar (find.text (str), achasOneWidget)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">③</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ); </font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo"><font style="vertical-align: inherit;"><span class="codeprefix"><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;">④</font></span></span></font><span class="codeprefix"><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  esperar (find.byElementPredicate ((elemento) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (! (element.widget </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">é</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de Imagem))</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retornar </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">falsa</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">outra </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      (element.widget </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Imagem) .image</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ==</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      AssetImage ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"icons / divide.png"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retornar </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">verdadeiro</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">else </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">falsa</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }), findOneWidget);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <dl class="calloutlist">
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">①</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30731"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      Deve haver dois widgets contendo a </font><font style="vertical-align: inherit;">string </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : a tela da calculadora no início e o botão zero.
+    </font></font></p>
+
+    </dd>
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">②</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30737"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      Os números de 1 a 10 podem ser encontrados simplesmente usando um </font><font style="vertical-align: inherit;">loop </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">for</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+    </font></font></p>
+
+    </dd>
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">③</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30743"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      Não </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">usamos</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> muito o </font><span class="cf methodname"><font style="vertical-align: inherit;">forEach</font></span><font style="vertical-align: inherit;"> neste livro, mas é muito útil: ele executa o mesmo retorno de chamada em cada membro de uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Iterable</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Nesse caso, é um bom substituto para um loop for iterando sobre a lista de símbolos ou apenas escrevendo a instrução para procurar cada símbolo separadamente.
+    </font></font></p>
+
+    </dd>
+
+    <dt><font style="vertical-align: inherit;"></font><span class="callout-number" style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">④</font></font></span><font style="vertical-align: inherit;"></font></dt>
+
+    <dd>
+
+      <p id="d24e30755"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      Não podemos usar </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.text</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para imagens, obviamente, e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode surgir como uma alternativa viável. </font><font style="vertical-align: inherit;">O problema com isso, porém, é que na verdade não funciona em nosso caso: ele procura uma </font><font style="vertical-align: inherit;">correspondência </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exata</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e não encontraria nossa imagem se tentássemos, pois o objeto resultante geralmente contém argumentos extras que controlam a posição do widget e outras propriedades que não definimos diretamente durante a criação do widget.
+    </font></font></p>
+
+      <p id="d24e30766"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      É aí que </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">find.byElementPredicate</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> vem em nosso socorro: podemos julgar a nós mesmos se o widget corresponde ao que queremos, o que significa que podemos nos concentrar apenas no que precisamos: precisamos que o widget em questão seja uma imagem e queremos que seja exibido </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">icons / divide.png</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dos ativos.
+    </font></font></p>
+
+      <p id="d24e30774"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      O que é passado para o encerramento de retorno de chamada é um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Elemento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (uma instância de um widget junto com algum contexto em sua posição na árvore de widgets, que não precisamos para o que estamos fazendo agora). </font><font style="vertical-align: inherit;">Podemos acessar o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Widget de</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> onde o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Element</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> foi gerado acessando sua </font><font style="vertical-align: inherit;">propriedade membro do </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">widget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , então é isso que estamos fazendo ao usar </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">element.widget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+    </font></font></p>
+
+      <p id="d24e30791"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      Se o widget não é uma instância de uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">imagem</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font><font style="vertical-align: inherit;">é para isso </font><font style="vertical-align: inherit;">que </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">serve</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , ele está verificando se o widget é uma instância de uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">imagem</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou uma subclasse), precisamos ignorá-lo (retornar </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">false</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para excluí-lo dos widgets encontrados) . </font><font style="vertical-align: inherit;">Se for, precisamos verificar se o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ImageProvider de</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> onde está tirando a imagem é realmente o </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">icons / divide.png</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dos ativos.
+    </font></font></p>
+
+      <p id="d24e30812"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+      Observe que o acesso a ativos em testes de unidade e widget só está disponível a partir da versão </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1.5</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do Flutter </font><font style="vertical-align: inherit;">.
+    </font></font></p>
+
+    </dd>
+
+  </dl>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Teste de integração de flutter</font></font></h4>
+
+  <p id="d24e30820"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+O teste de integração é um nível acima do teste de widget: para aplicativos móveis, é realizado em um emulador e tem como objetivo testar se grande parte da funcionalidade do aplicativo funciona corretamente. </font><font style="vertical-align: inherit;">O aplicativo de calculadora é realmente simples e não obtemos muito com o teste de integração quando comparado com o teste de widget, enquanto um aplicativo que requer teste de integração é o aplicativo de quadrinhos XKCD do capítulo anterior.</font></font></p>
+
+  <p id="d24e30835"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Antes de começarmos a executar os testes de integração nele, precisamos descobrir como também executar testes de unidade e testes de widget nele sem depender de uma conexão de rede com os servidores XKCD disponíveis e sem ser capaz de acessar o sistema de arquivos, como está o caso durante o teste de unidade e widget.</font></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-071_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

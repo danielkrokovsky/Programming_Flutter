@@ -1,0 +1,1437 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.calculator.calculation">Implement the Calculations</h2>
+
+  <p id="d24e13548">
+Now it’s time to make this really nice-looking calculator work. The way our calculator logic is going to work is not how expressions are usually parsed, but this way will show you how to parse and manipulate strings in Dart, and it will also show you how to do that using regular expressions. It’s not the simplest solution and it’s surely not the one with the lowest computational complexity, but it’s a good example and it is supposed to make you more confident when writing Dart code that operates on strings.</p>
+
+  <p id="d24e13554">The <span class="cf class">Calculation</span> class needs to handle a few basic operations:</p>
+
+  <ol>
+
+    <li>
+
+      <p id="d24e13561">Add a digit or operator.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e13564">Display the current string containing all of the digits and operators that have been added.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e13567">Compute the result of the current expression.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e13570">Delete a digit or operator.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e13573">Delete the entire expression.</p>
+
+    </li>
+
+  </ol>
+
+  <p id="d24e13575">Being able to display the current string can also be used for debugging insertion and deletion as it displays the current state of the calculation.</p>
+
+  <p id="d24e13577">The <span class="cf class">Calculation</span> class needs to be able to take inputs one character at a time and to compute the result of an expression considering mathematical operator precedence rules.</p>
+
+  <p id="d24e13582">
+
+
+To do that, we will implement the class in the following way: we will have a <span class="cf class">List</span> of <span class="cf class">String</span>s, each of which will be either an operator or a number to make parsing and computing results simpler.</p>
+
+  <p id="d24e13610">We will start implementing it by creating a file called <span class="cf filename">calculator.dart</span> inside the <span class="cf dir">lib</span> directory.</p>
+
+  <p id="d24e13618">At this point we can start defining our <span class="cf class">Calculation</span> and that data it needs inside <span class="cf filename">calculator.dart</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ Calculation {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  List&lt;​<strong class="kw">String</strong>​&gt; a = [];</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e13642">The first behavior we’ll define is adding a character to the current calculation.</p>
+
+  <p id="d24e13644">We will implement a method called <span class="cf methodname">add</span>, which will take as an argument a <span class="cf class">String</span> to be added to the calculation, after checking whether we add a new element to the <span class="cf ic">List</span> or not.</p>
+
+  <p id="d24e13655">If the <span class="cf class">String</span> we want to add is a digit and the previous <span class="cf class">String</span> in the <span class="cf class">List</span> is a number (it doesn’t contain an operator), we will append it to the last <span class="cf class">String</span> in the <span class="cf class">List</span>, otherwise it will have to be added as a new element in the <span class="cf class">List</span>.</p>
+
+  <p id="d24e13676">Also, if the <span class="cf class">List</span> is still empty, we will have to create a new element, unless the character we’re trying to add is an operator, in which case we won’t do anything at all because the expression wouldn’t make sense with an operator as the first element.</p>
+
+  <p id="d24e13681">To check whether a <span class="cf class">String</span> contains operators we will use a regular expression to shorten the creation of complex conditions and avoid repeating them.
+
+
+</p>
+
+  <h3>How to Use Regular Expressions in Dart</h3>
+
+  <p id="d24e13694">
+
+
+
+Regular expressions in Dart are achieved using the <span class="cf class">RegExp</span> class.</p>
+
+  <p id="d24e13718">Its constructor is used in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">RegExp regExp = RegExp(​<em class="string">"REGULAREXPRESSION"</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e13727">In our case, the regular expression to check if a string contains an operator is:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">final</strong>​ RegExp regExp = RegExp(​<em class="string">"[+</em>​​<em class="string">\\</em>​​<em class="string">-x÷]"</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e13743">and we can check that a string (called <span class="cf ic">string</span>) matches that regular expression by using:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">bool</strong>​ matches = regExp.hasMatch(string)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e13758">In the case of the regular expression we saw earlier, it will be <span class="cf ic">true</span> if the string contains an operator character, and <span class="cf ic">false</span> if it doesn’t.</p>
+
+  <h3>Implement add()</h3>
+
+  <p id="d24e13769">
+
+The first thing we will check is whether the <span class="cf class">List</span> is empty and only adding the character if it’s not an operator:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">add</strong>​(​<strong class="kw">String</strong>​ added) {</td>
+    </tr>
+
+  </table>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(a.isEmpty) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(!regExp.hasMatch(added)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e13827">If it’s not empty, we need to check whether the previous element was an operator.</p>
+
+  <p id="d24e13829">In that case, we need to do the same thing we did for the first element—we can’t add another operator or a dot, but we can add a digit and it has to go into a separate <span class="cf class">List</span> element:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(regExp.hasMatch(a.last)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(!RegExp(​<em class="string">"[+</em>​​<em class="string">\\</em>​​<em class="string">-x÷.]"</em>​).hasMatch(added)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e13874">If the previous conditions haven’t been met (and that means the previous element was a number) we can add anything, but we need to differentiate betweem operators and digits:</p>
+
+  <ul>
+
+    <li>An operator will have to go into its own separate <span class="cf class">List</span> element;</li>
+
+    <li>A digit will have to be appended to the current last <span class="cf class">List</span> element.</li>
+
+  </ul>
+
+  <p id="d24e13889">That can be implemented very simply:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(regExp.hasMatch(added)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(!RegExp(​<em class="string">"."</em>​).hasMatch(a.last)) a.last+=​<em class="string">".0"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.last+=added;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e13945">So the entire <span class="cf methodname">add</span> method, combining all of the possible conditions, is:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">add</strong>​(​<strong class="kw">String</strong>​ added) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a.isEmpty) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(!regExp.hasMatch(added)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(regExp.hasMatch(a.last)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(!RegExp(​<em class="string">"[+</em>​​<em class="string">\\</em>​​<em class="string">-x÷.]"</em>​).hasMatch(added)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(regExp.hasMatch(added)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">if</strong>​(!RegExp(​<em class="string">"."</em>​).hasMatch(a.last)) a.last+=​<em class="string">".0"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.last+=added;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Implement getString()</h3>
+
+  <p id="d24e14084">
+
+
+
+
+
+
+
+This is going to be the simplest method—it’s just going to display the concatenation of the strings in the <span class="cf class">List</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ ​<strong class="kw">getString</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ str = ​<em class="string">""</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  a.forEach((​<strong class="kw">String</strong>​ el) {str+=el;});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ str;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Implement Deletion</h3>
+
+  <p id="d24e14148">
+
+To delete everything we just need to reset the <span class="cf class">List</span> to its initial state:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">deleteAll</strong>​() =&gt; a = [];</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e14173">But deleting one character at a time is more complicated, as we’ll need to check multiple things:</p>
+
+  <ol>
+
+    <li>
+
+      <p id="d24e14177">Check if the <span class="cf class">List</span> is empty, in that case we’ll do nothing.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e14183">Check if the last element of the <span class="cf ic">List</span> is longer than one character, in that case we’ll delete the last character of that string.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e14189">If the last element is just one character, we’ll delete it completely.</p>
+
+    </li>
+
+  </ol>
+
+  <p id="d24e14191">Number 2 is a bit complicated: to delete the last character we actually need to assign to the last element a substring of itself with the last character deleted.</p>
+
+  <p id="d24e14193">
+To create substrings, we are going to use the <span class="cf ic">String.substring()</span> method, which is used in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ substr = string.substring(startIndex, length);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e14213">where <span class="cf ic">startIndex</span> is an integer representing the index at which the substring starts (relative to the string from which the substring is created) and <span class="cf ic">length</span> is the length of the substring.</p>
+
+  <p id="d24e14222">In this case, we need it to start from 0 and to have a length that is equal to the length of the original string with 1 subtracted to it.</p>
+
+  <p id="d24e14224">Combining all of that, the code for the <span class="cf ic">deleteOne</span> method is as follows:
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">deleteOne</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a.length &gt; 0) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(a.last.length &gt; 1) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.last = a.last.substring(0, a.last.length-1);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeLast();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Implement Result Calculation</h3>
+
+  <p id="d24e14297">At this point, all that’s left to do is to calculate the result of the expression.</p>
+
+  <p id="d24e14299">Before calculating the result, we’ll need to consider the case in which a user accidentally ends the expression with an operator (starting it with an operator is prevented by <span class="cf ic">add()</span>).</p>
+
+  <p id="d24e14304">We also need to check whether the string ends with a <span class="cf ic">.</span>, and that will require us to check whether a dot is left, a condition for which would be the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">a.last.lastIndexOf(​<em class="string">"."</em>​) == a.last.length-1</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e14328">If that condition is true, we need to take the substring with the last character removed.</p>
+
+  <p id="d24e14330">Since it might end with both an operator and a dot, we need to check twice separately:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​( regExp.hasMatch(a.last) )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  a.removeLast();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(a.last.lastIndexOf(​<em class="string">"."</em>​) == a.last.length-1)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  a.last = a.last.substring(0, a.length-1);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e14382">
+Now we need to parse the calculation and compute its result.</p>
+
+  <p id="d24e14391">The divisions we did in the rest of the methods are really useful: we just need to check each element in the <span class="cf ic">String</span> and, if it is an operator, we’ll substitute the block composed by it and the adjacent elements with the result of the operation.</p>
+
+  <p id="d24e14396">We will be implementing this using simple counter-based for loops because we need total control over which elements we’re parsing.</p>
+
+  <p id="d24e14398">Because of that, after we compute the result of each sub-calculation, we will decrease the counter by 1 so that the next iteration of the for loop will actually be the operator after the newly calculated result, as the following illustration shows:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/calculation.png" class="" id="d24e14400" src="images/WidgetLayout/Imagem-15.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e14401">As this example shows, the newly calculated number takes the place that was occupied by the number to the left of the
+operator and the next operator takes the place of the operator we just considered.</p>
+
+  <p id="d24e14403">Since the counter is currently at the index of the operator, we will have to decrement the loop’s counter so that, when it is incremented
+again in the next iteration, it is the same value it was in the previous iteration.</p>
+
+  <p id="d24e14405">Because of mathematical operator precedence rules, we will first check if the <span class="cf ic">List</span> contains multiplications or divisions:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">for</strong>​(​<strong class="kw">int</strong>​ i = 0; i &lt; a.length; i++) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"x"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) * double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  } ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"÷"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) / double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e14488">and then check for additions or subtractions:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">for</strong>​(​<strong class="kw">int</strong>​ i = 0; i &lt; a.length; i++) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"+"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) + double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  } ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"-"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) - double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e14569">At the end, the <span class="cf ic">List</span> should contain just one <span class="cf ic">String</span> containing the result of the whole expression.</p>
+
+  <p id="d24e14577">We’ll return that using:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">return</strong>​ ​<strong class="kw">double</strong>​.parse(a[0]);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e14591">The <span class="cf ic">getResult</span> method, combining all of these pieces, is:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">double</strong>​ ​<strong class="kw">getResult</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​( regExp.hasMatch(a.last) )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeLast();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a.last.lastIndexOf(​<em class="string">"."</em>​) == a.last.length-1)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.last = a.last.substring(0, a.length-1);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">for</strong>​(​<strong class="kw">int</strong>​ i = 0; i &lt; a.length; i++) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"x"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) * double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"÷"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) / double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">for</strong>​(​<strong class="kw">int</strong>​ i = 0; i &lt; a.length; i++) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"+"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) + double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"-"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) - double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a.length != 1) ​<strong class="kw">throw</strong>​ Error();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ ​<strong class="kw">double</strong>​.parse(a[0]);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3 id="sec.calculator.calculation.wrappingup">Wrapping Up the Calculation</h3>
+
+  <p id="d24e14842">The entire <span class="cf filename">calculator.dart</span> should be, at this point, the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/lib/calculator.dart">layout/calculator/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ Calculation {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  List&lt;​<strong class="kw">String</strong>​&gt; a = [];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ RegExp regExp = RegExp(​<em class="string">"[+</em>​​<em class="string">\\</em>​​<em class="string">-x÷]"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ add(​<strong class="kw">String</strong>​ added) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(a.isEmpty) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">if</strong>​(!regExp.hasMatch(added)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(regExp.hasMatch(a.last)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">if</strong>​(!RegExp(​<em class="string">"[+</em>​​<em class="string">\\</em>​​<em class="string">-x÷.]"</em>​).hasMatch(added)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">if</strong>​(regExp.hasMatch(added)) {</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">if</strong>​(!RegExp(​<em class="string">"."</em>​).hasMatch(a.last)) a.last+=​<em class="string">".0"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.add(added);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.last+=added;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ ​<strong class="kw">getString</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ str = ​<em class="string">""</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  a.forEach((​<strong class="kw">String</strong>​ el) {str+=el;});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ str;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">double</strong>​ ​<strong class="kw">getResult</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​( regExp.hasMatch(a.last) )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeLast();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a.last.lastIndexOf(​<em class="string">"."</em>​) == a.last.length-1)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.last = a.last.substring(0, a.length-1);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">for</strong>​(​<strong class="kw">int</strong>​ i = 0; i &lt; a.length; i++) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"x"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) * double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"÷"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) / double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">for</strong>​(​<strong class="kw">int</strong>​ i = 0; i &lt; a.length; i++) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"+"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) + double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"-"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) - double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a.length != 1) ​<strong class="kw">throw</strong>​ Error();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ ​<strong class="kw">double</strong>​.parse(a[0]);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ ​<strong class="kw">deleteOne</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(a.length &gt; 0) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">if</strong>​(a.last.length &gt; 1) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        a.last = a.last.substring(0, a.last.length-1);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        a.removeLast();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ deleteAll() =&gt; a = [];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e15347"> </p>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title">Make Your Own Changes</div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e15353">
+    We have seen quite a lot of Dart code so far, but have you also been writing your own? If you haven’t, here is a chance for you to make a very simple and slight improvement to our calculator app.
+  </p>
+
+      <p id="d24e15355">
+    The <span class="cf class">Calculation</span> properly handles operator precedence, but it doesn’t support parentheses. That’s something you should be able to add on your own at this point by using additional regular expressions to find opening and closing parentheses and then evaluate expressions within the parentheses first.
+  </p>
+
+    </div>
+
+  </div>
+
+  <p id="d24e15360"> </p>
+
+</body>
+
+</html>

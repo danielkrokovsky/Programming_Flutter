@@ -1,0 +1,193 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-021.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-021_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-021_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-021_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.layout.assets"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Adicione seus próprios ativos ao aplicativo</font></font></h2>
+
+  <p id="d24e5340"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O Flutter permite que os desenvolvedores enviem arquivos com aplicativos para, por exemplo, usar ícones personalizados em vez dos fornecidos pelo Flutter. </font><font style="vertical-align: inherit;">Você pode usar esse recurso com qualquer tipo de arquivo.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Onde colocar os arquivos</font></font></h3>
+
+  <p id="d24e5354"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Na raiz da árvore de origem do aplicativo (onde </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> reside), você criará um ou mais diretórios e dentro desses diretórios é onde você deve colocar os arquivos que deseja enviar com seu aplicativo.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Editando pubspec.yaml</font></font></h3>
+
+  <p id="d24e5366"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Dentro do </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , localize uma linha que comece com </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (se ainda não a tiver, basta adicioná-la ao final do arquivo) e, em seguida, indentada dentro dela, adicione outro ativo chamado, da seguinte maneira :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">...</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vibração:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ativos:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">...</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e5397"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dentro dele, adicione os diretórios dos quais deseja carregar ativos, precedidos por </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e5402"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, se você quisesse adicionar um diretório chamado </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ícones</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , isso seria parecido com:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vibração:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ativos:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    - </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ícones /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e5423"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para vários diretórios chamados, por exemplo, </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dir0</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dir1</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dir2</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , você escreveria algo assim:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vibração:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ativos:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    - </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dir0 /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    - </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dir1 /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    - </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dir2 /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando os Ativos</font></font></h3>
+
+  <p id="d24e5460"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Os ativos são usados ​​de maneiras diferentes, dependendo de quais dados você deseja carregar deles.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Carregando vários dados dos ativos</font></font></h3>
+
+  <p id="d24e5471"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Para carregar dados de um ativo baseado em texto, ele precisa fazer parte de um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , para que você possa acessar os dados usando os seguintes métodos:</font></font></p>
+
+  <ul>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AssetBundle.loadString</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é usado para carregar strings de ativos de texto.</font></font></li>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AssetBundle.load</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é usado para carregar bytes de um arquivo.</font></font></li>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AssetBundle.loadStructuredData</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é usado para carregar qualquer tipo de dado Dart de um arquivo.</font></font></li>
+
+  </ul>
+
+  <p id="d24e5496"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Todos estes retorno </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s, então você vai precisar usar as instalações descritas no </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-089.html#sec.dart.async"><em><font style="vertical-align: inherit;">Código assíncrona em Dart: O dardo: async biblioteca</font></em></a><font style="vertical-align: inherit;"> para obter o valor da cadeia.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-089.html#sec.dart.async"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h4 id="sec.layout.assets.bundle"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Onde você pode obter um AssetBundle</font></font></h4>
+
+  <p id="d24e5529"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> básico </font><span class="cf class"><font style="vertical-align: inherit;">obtido por</font></span><font style="vertical-align: inherit;"> todos os aplicativos Flutter é o </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">rootBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que contém todos os ativos que adicionamos ao </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e5544"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso significa que você pode carregar um arquivo de texto do </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">rootBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> diretamente da seguinte maneira:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">rootBundle.loadString ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"path / to / file.txt"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e5560"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Como alternativa, você pode usar o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DefaultAssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que na verdade é herdado do </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MaterialApp</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pai </font><font style="vertical-align: inherit;">e pode ser alterado no tempo de execução porque não é uma </font><font style="vertical-align: inherit;">variável </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">final</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como o </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">rootBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DefaultAssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é acessado usando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DefaultAssetBundle.of (contexto)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e5594"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">que usamos para o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tema</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no capítulo anterior. </font><font style="vertical-align: inherit;">Esta sintaxe será esclarecido quando descobrimos o poder total do </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InheritedWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-061.html#sec.networking.inheritedwidget"><em><font style="vertical-align: inherit;">InheritedWidgets</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-061.html#sec.networking.inheritedwidget"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e5604"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos carregar dados dele usando o de costume:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DefaultAssetBundle.of (contexto) .loadString ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"path / to / file.txt"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e5620"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+sintaxe, mas o recurso que caracteriza este tipo de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é que ele não precisa ser </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">necessariamente</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> o </font><span class="cf ic"><font style="vertical-align: inherit;">rootBundle</font></span><font style="vertical-align: inherit;"> (por padrão, o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DefaultAssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é apenas o </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">rootBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ): você pode criar sua própria classe que estende a </font><font style="vertical-align: inherit;">interface </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CachingAssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , por exemplo, e armazene em cache algumas strings que você acha que pode querer buscar várias vezes durante a execução do seu aplicativo ou substituí-lo por um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NetworkAssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que carrega os ativos pela rede.</font></font></p>
+
+  <p id="d24e5650"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você não pode tirar proveito de nenhuma dessas classes, no entanto, se você não sabe como usar um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InheritedWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> primeiro, então eu recomendo que você use o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">rootBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> diretamente ou o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DefaultAssetBundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e se preocupe apenas em substituir o pacote de ativos mais tarde, quando talvez você tenha certeza de que substituir o pacote de ativos é a melhor maneira de fazer o que você está tentando alcançar. </font><font style="vertical-align: inherit;">Se você realmente precisa saber como fazer isso agora, </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-061.html#sec.networking.inheritedwidget"><em><font style="vertical-align: inherit;">InheritedWidgets</font></em></a><font style="vertical-align: inherit;"> é outra referência para a seção sobre </font><span class="cf class"><font style="vertical-align: inherit;">InheritedWidget</font></span><font style="vertical-align: inherit;"> s.
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-061.html#sec.networking.inheritedwidget"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Imagens</font></font></h4>
+
+  <p id="d24e5675"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Para usar uma imagem nos ativos que você pode simplesmente usar o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Image.asset</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como descrito na </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-022.html#sec.layout.images.assets"><em><font style="vertical-align: inherit;">exibição de imagens da Assets</font></em></a><font style="vertical-align: inherit;"> .
+
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-022.html#sec.layout.images.assets"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-021_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

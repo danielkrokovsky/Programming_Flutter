@@ -1,0 +1,922 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.layout.row">Horizontal Layout: The Row</h2>
+
+  <p id="d24e8304">
+
+The <span class="cf ic">Row</span> lays out widgets side by side, and is very similar to a <span class="cf ic">Column</span>, with the difference being that the main axis and cross axis are the other way around.</p>
+
+  <h3 id="sec.layout.row.usage">How You Use It and What You Use It For</h3>
+
+  <p id="d24e8326">You can use a <span class="cf ic">Row</span> simply the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"This will be the left side"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"This will be the right side"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8351">The options are the same as the <span class="cf ic">Column</span>’s (with the cross axis becoming the vertical and the main axis becoming the horizontal) and you can find them in <a href="Capítulo-023.html#sec.layout.options">​<em>Layout Widget Options</em>​</a>.</p>
+
+  <h4 id="sec.layout.row.uses">Where You’ll Use the Row Together with Other Widgets</h4>
+
+  <p id="d24e8361">
+
+<span class="cf ic">Row</span>s and <span class="cf ic">Column</span>s make for great bonding widgets: with them you can make your complex widgets made of simple elements.</p>
+
+  <p id="d24e8386">
+For example, a simple social network post can be expressed with a <span class="cf ic">Column</span> with three elements: a Row showing the profile picture and the profile name, a big text in the middle, and at the bottom, a row showing the commands:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ProfilePicture(profileID),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(profileName),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(postText),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        LikeButton(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        CommentButton(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ShareButton()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8432">
+This combination of widgets, but also just a <span class="cf ic">Row</span> of widgets, is easily inserted inside a <span class="cf ic">ListView</span> or <span class="cf ic">GridView</span> which, to keep with the running example of a social network, could be a social network feed.</p>
+
+  <p id="d24e8454">This isn’t hard to do—we’ll start by making the respect the spaces and sizes needed for the different elements that compose it:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        CircleAvatar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          backgroundImage: ProfilePicture(profileID),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          padding: EdgeInsets.all(20),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          child: Text(profileName),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Align(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      alignment: FractionalOffset.centerLeft,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        padding: EdgeInsets.all(5),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Text(postText),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Divider(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        LikeButton(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        CommentButton(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ShareButton()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8530">And all that’s left to do to make this work is to replace the placeholder widgets with real widgets.</p>
+
+  <p id="d24e8532">For the profile picture we’ll use the same <span class="cf ic">NetworkImage("https://pragprog.com/favicon.png")</span> we used previously, whereas the like, comment, and share buttons will be simple <span class="cf ic">IconButton</span>s:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        CircleAvatar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          backgroundImage: NetworkImage(​<em class="string">"https://pragprog.com/favicon.png"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          padding: EdgeInsets.all(20),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          child: Text(​<em class="string">"Short poster"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Align(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      alignment: FractionalOffset.centerLeft,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        padding: EdgeInsets.all(5),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Text(​<em class="string">"This is a short post, but that doesn't really matter"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Divider(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          icon: Icon(Icons.thumb_up, color: Colors.redAccent),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          onPressed: () {},</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          icon: Icon(Icons.comment, color: Colors.greenAccent),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          onPressed: () {},</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          icon: Icon(Icons.share, color: Colors.blueAccent),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          onPressed: () {},</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8661">To create a complete view with a <span class="cf ic">ListView</span> of posts we should also store the post data separately in a <span class="cf ic">List</span>, since in a real app you’re never going to hard-code such data.</p>
+
+  <p id="d24e8669">To do that, we’ll start by creating a class to contain the post data:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ Post {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Post({​<strong class="kw">this</strong>​.profileName, ​<strong class="kw">this</strong>​.profilePicture, ​<strong class="kw">this</strong>​.postText});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ImageProvider profilePicture;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ profileName;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ postText;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8714">and a <span class="cf ic">List</span> of that class with some data:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">List&lt;Post&gt; posts = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Post(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    postText: ​<em class="string">"This is a short post, but that doesn't really matter"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    profileName: ​<em class="string">"Short poster"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    profilePicture: NetworkImage(​<em class="string">"https://pragprog.com/favicon.png"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Post(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    postText: ​<em class="string">"This is a longer post, which really shows how the"</em>​ +</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"widgets will naturally expand when there is more content to display.</em>​​<em class="string">\n</em>​​<em class="string">"</em>​ +</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"At this, point, this line of text is just here because we need to"</em>​ +</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"make this post so much bigger than the other one."</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    profileName: ​<em class="string">"Long poster"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    profilePicture: NetworkImage(​<em class="string">"https://pragprog.com/favicon.png"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">];</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8783">At this point, the resulting <span class="cf ic">ListView</span> is quite straightforward:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: 2,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (context, i) =&gt; Card(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            CircleAvatar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              backgroundImage: posts[i].profilePicture,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                padding: EdgeInsets.all(20),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                child: Text(posts[i].profileName,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                style: Theme.of(context).textTheme.subhead),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Align(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          alignment: FractionalOffset.centerLeft,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          child: Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                padding: EdgeInsets.all(5),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                child: Text(posts[i].postText,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                style: Theme.of(context).textTheme.body1),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Divider(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              icon: Icon(Icons.thumb_up, color: Colors.redAccent),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              onPressed: () {},</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              icon: Icon(Icons.comment, color: Colors.greenAccent),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              onPressed: () {},</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              icon: Icon(Icons.share, color: Colors.blueAccent),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              onPressed: () {},</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8945">producing the following result:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/socialposts.png" class="border " id="d24e8947" src="images/WidgetLayout/Imagem-84.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e8948">Nested <span class="cf ic">Row</span>s and <span class="cf ic">Column</span>s can also be used to create grids, as described in <a href="Capítulo-025.html#sec.layout.rowcolumngrid">​<em>Nested Rows and Columns</em>​</a>.
+
+
+
+
+
+</p>
+
+</body>
+
+</html>

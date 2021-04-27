@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e16643">What If We Try to Divide by 0?</h2>
+
+  <p id="d24e16646">
+
+
+We worried about the expression being malformed (syntax errors), but we didn’t worry about mathematical errors.</p>
+
+  <p id="d24e16658">When writing a calculator in most programming languages (especially if using integer arithmetic, which isn’t our case), making an app like ours (that doesn’t compute square root or trigonometric functions) leaves us exposed to one thing that could make it crash: dividing by 0.</p>
+
+  <p id="d24e16660">Dart, when using floating-point arithmetic like in our case, is smart enough to display the word <span class="emph">Infinity</span> instead of a result; this is nice because it doesn’t cause the app to crash, but some could argue that it isn’t really the correct answer in most cases: as the divisor approaches 0 the quotient approaches infinity, but division by zero in itself is impossible, so you might choose to display an error if you were making a calculator and were so inclined.</p>
+
+  <p id="d24e16665">If that is the case, you would need to add a condition to each calculation in <span class="cf methodname">Calculation.getResult</span> to check whether there is an attempt at division by 0, throw an exception and catch it in the calling method.</p>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title">
+		Throwing and Catching Exceptions
+	</div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e16673">
+		This section can be considered an anticipation of <a href="Capítulo-073.html#sec.testing.errors">​<em>Throwing and Catching Exceptions</em>​</a>, we are not going to cover the topic in detail and if you are not used to this kind of programming language feature, you should consider reading that first, and then reading this section.
+	</p>
+
+    </div>
+
+  </div>
+
+  <h3>Define the Exception</h3>
+
+  <p id="d24e16681">
+
+An exception in Dart is defined as a subclass of <span class="cf class">Exception</span>, in the following way:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator_error_if_divideby0/lib/calculator.dart">layout/calculator_error_if_divideby0/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ DivideByZeroException ​<strong class="kw">implements</strong>​ Exception {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Throw the Exception</h3>
+
+  <p id="d24e16710">
+
+That exception can be thrown by using:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">throw</strong>​ ​<strong class="kw">DivideByZeroException</strong>​();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e16730">In this specific case, inside the definition of <span class="cf methodname">Calculation.getResult</span> in <span class="cf filename">calculator.dart</span>, at the point where we handle divisions (where you find <span class="cf ic">else if(a[i] == "÷") {</span>), we’ll add:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator_error_if_divideby0/lib/calculator.dart">layout/calculator_error_if_divideby0/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(​<strong class="kw">double</strong>​.parse(a[i+1]) == 0)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">throw</strong>​ DivideByZeroException();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e16759">so the part of <span class="cf methodname">getResult</span> that handles divisions and multiplications becomes:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator_error_if_divideby0/lib/calculator.dart">layout/calculator_error_if_divideby0/lib/calculator.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">for</strong>​(​<strong class="kw">int</strong>​ i = 0; i &lt; a.length; i++) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"x"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) * double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  } ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(a[i] == ​<em class="string">"÷"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(​<strong class="kw">double</strong>​.parse(a[i+1]) == 0)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">throw</strong>​ DivideByZeroException();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a[i-1] = ​<em class="string">"</em>​​<em class="string">${double.parse(a[i-1]) / double.parse(a[i+1])}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    a.removeAt(i);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    i--;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Catch the Exception</h3>
+
+  <p id="d24e16863">
+
+Exceptions in Dart are caught using:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  code_that_might_generate_exceptions();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">} ​<strong class="kw">catch</strong>​(exception) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(​<em class="string">"</em>​​<em class="string">$exception</em>​​<em class="string">"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e16898">This code catches any kind of exception; if you wanted to catch only certain types of exceptions you would use:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  code_that_might_generate_exceptions();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">} on ExceptionClass ​<strong class="kw">catch</strong>​(exception) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(​<em class="string">"</em>​​<em class="string">$exception</em>​​<em class="string">"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e16924">And if you don’t need to use the value of the exception you would leave out the <span class="cf ic">catch(exception)</span> part:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  code_that_might_generate_exceptions();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">} on ExceptionClass {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(​<em class="string">"you did something bad"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e16946">In the specific case, the code that might generate exceptions is the <span class="cf ic">_str = _calculation.getResult().toString()</span> function call and assignment and we want to set <span class="cf ic">_str</span> to something like <span class="emph">You mustn’t divide by 0</span>.</p>
+
+  <p id="d24e16958">The <span class="cf methodname">getResult</span> method will therefore become:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator_error_if_divideby0/lib/main.dart">layout/calculator_error_if_divideby0/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">getResult</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      _str = _calculation.getResult().toString();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    on DivideByZeroException {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      _str = ​<em class="string">"You mustn't divide by 0"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">finally</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      _calculation = ​<strong class="kw">new</strong>​ Calculation();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17014">Adding a <span class="cf ic">finally</span> clause to reset the calculation regardless of whether or not the exception was thrown.
+
+</p>
+
+</body>
+
+</html>

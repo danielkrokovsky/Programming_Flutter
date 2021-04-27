@@ -1,0 +1,66 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-019.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-019_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-019_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-019_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e4679"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Apresentando Layout Widgets</font></font></h2>
+
+  <p id="d24e4682"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Existem vários widgets que você pode usar para fins de layout e alguns deles podem ser muito semelhantes.</font></font></p>
+
+  <p id="d24e4686"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Começando com os widgets necessários para o exemplo mostrado acima e explicado no próximo capítulo, estaremos obviamente citando as estruturas de layout visual vertical e horizontal simples:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e4690"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">coluna</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , descrito em detalhes na </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.column"><em><font style="vertical-align: inherit;">Coluna</font></em></a><font style="vertical-align: inherit;"> , o que permite empilhar os widgets verticalmente, como fizemos no Capítulo 1. Ele não deve ser confundido com o </font><span class="cf class"><font style="vertical-align: inherit;">Stack</font></span><font style="vertical-align: inherit;"> , que é realmente usado para widgets de exibição em cima dos outros.
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.column"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4707"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ListView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , descrito em detalhes no </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.listview"><em><font style="vertical-align: inherit;">ListView</font></em></a><font style="vertical-align: inherit;"> , que permite que você crie (potencialmente infinitas) listas de rolagem de widgets.
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.listview"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4719"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Row</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , descrito em detalhes na </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-024.html#sec.layout.row"><em><font style="vertical-align: inherit;">Horizontal Layout: The Row</font></em></a><font style="vertical-align: inherit;"> , que permite exibir lado de widgets a lado.
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-024.html#sec.layout.row"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4731"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , descrito em detalhes no </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-025.html#sec.layout.gridview"><em><font style="vertical-align: inherit;">GridView</font></em></a><font style="vertical-align: inherit;"> , que é usado para criar redes de rolagem, muito parecido com </font><span class="cf class"><font style="vertical-align: inherit;">ListView</font></span><font style="vertical-align: inherit;"> s’são usados para criar listas de rolagem mono-dimensionais.
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-025.html#sec.layout.gridview"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e4747"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Além disso, este capítulo irá cobrir o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Expanded</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> widget (em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-027.html#sec.layout.expanded"><em><font style="vertical-align: inherit;">preencher o espaço disponível na exibição usando Expandido</font></em></a><font style="vertical-align: inherit;"> ), que é usado para criar </font><span class="cf class"><font style="vertical-align: inherit;">colunas</font></span><font style="vertical-align: inherit;"> ou </font><span class="cf class"><font style="vertical-align: inherit;">fileiras</font></span><font style="vertical-align: inherit;"> crianças de diferentes tamanhos.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-027.html#sec.layout.expanded"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e4764"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Também vamos falar sobre </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sliver</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s (em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-028.html#sec.layout.slivers"><em><font style="vertical-align: inherit;">Mechas, Scrollables Personalizado e Bares Collapsable App</font></em></a><font style="vertical-align: inherit;"> ), que são usados para rolagem avançada, e a </font><span class="cf class"><font style="vertical-align: inherit;">chave</font></span><font style="vertical-align: inherit;"> (em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-029.html#sec.layout.key"><em><font style="vertical-align: inherit;">The Key</font></em></a><font style="vertical-align: inherit;"> ), o que eu disse para ignorar na anterior capítulo.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-028.html#sec.layout.slivers"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-029.html#sec.layout.key"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e4776"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No próximo capítulo, vamos combinam muitos dos widgets coberto aqui (mais sobre isso no Capítulo 3, </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-031.html#chp.calculator"><em><font style="vertical-align: inherit;">Construindo um Calculator App</font></em></a><font style="vertical-align: inherit;"> ).</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-031.html#chp.calculator"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e4780"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Então, vamos começar.
+</font></font></p>
+
+  <p id="d24e4783"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vamos começar com o simples e onipresente </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Preenchimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Container</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , como você vai usá-los juntamente com muitos outros widgets na construção de aplicativos, e depois vamos falar sobre como </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-021.html#sec.layout.assets"><em><font style="vertical-align: inherit;">adicionar seus próprios ativos para a App</font></em></a><font style="vertical-align: inherit;"> .
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-021.html#sec.layout.assets"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-019_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

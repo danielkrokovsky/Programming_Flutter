@@ -1,0 +1,599 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e27141">Adding Comic Selection by Number</h2>
+
+  <p id="d24e27144">
+It’s very easy to fetch comics by number, so it seems obvious that we should be able to let the user select comics using the comic number, especially because very often users want to go back to a comic they’ve seen on the Web.</p>
+
+  <p id="d24e27150">To do that, we’ll start by creating a page to select the comics, which will look like this:</p>
+
+  <div class="ss">
+
+    <img alt="images/Networking/select.png" class="border " id="d24e27152" src="images/Networking/Imagem-81.png" style="width: 30%"/>
+
+  </div>
+
+  <p id="d24e27153">Since it doesn’t need any parameters to work, we don’t need to specify the constructor, but we need to have a <span class="cf methodname">fetchComic</span> method that fetches by comic number, unlike the one we used for the <span class="cf class">HomePage</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ SelectionPage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">String</strong>​ n) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     await http.read(​<em class="string">'https://xkcd.com/</em>​​<em class="string">$n</em>​​<em class="string">/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e27202">The <span class="cf methodname">build</span> method will be more complex, using some Flutter features we’ve never seen before in this book:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     title: Text(​<em class="string">"Comic selection"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   body: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">     child: TextField(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       decoration: InputDecoration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         labelText: ​<em class="string">"Insert comic #"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">       keyboardType: TextInputType.number,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">       autofocus: ​<strong class="kw">true</strong>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       onSubmitted: (​<strong class="kw">String</strong>​ a) =&gt; Navigator.push(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">④</span>​</span></td>
+      <td class="codeline">           builder: (context) =&gt; FutureBuilder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             future: _fetchComic(a),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             builder: (context, snapshot) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               ​<strong class="kw">if</strong>​(snapshot.hasData) ​<strong class="kw">return</strong>​ ComicPage(snapshot.data);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               ​<strong class="kw">return</strong>​ CircularProgressIndicator();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e27310">
+      This is a <span class="cf class">TextField</span>, which is a widget that allows the user to input text.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e27316">
+      <span class="cf variable">keyboardType</span> is used to set the type of information the user is supposed to input (the framework will optimize the display and/or the type of keyboad shown to the user to suit this setting). It is of type <span class="cf class">TextInputType</span>, which can be one of the following:
+    </p>
+
+      <ul>
+
+        <li>
+          <span class="cf constant">TextInputType.text</span> (default) for regular single-line text.
+        </li>
+
+        <li>
+          <span class="cf constant">TextInputType.multiline</span> for multiple lines of text.
+        </li>
+
+        <li>
+          <span class="cf constant">TextInputType.number</span>, which is what we’re going to use, for numbers.
+        </li>
+
+        <li>
+          <span class="cf constant">TextInputType.datetime</span> for date and time.
+        </li>
+
+        <li>
+          <span class="cf constant">TextInputType.emailAddress</span> for email addresses.
+        </li>
+
+        <li>
+          <span class="cf constant">TextInputType.phone</span> for telephone numbers.
+        </li>
+
+      </ul>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e27362">
+      This argument makes the view automatically focus on the <span class="cf class">TextField</span>. This means the keypad will automatically open and any numbers typed on it will be sent to the <span class="cf class">TextField</span>, without requiring the user to tap on it first.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">④</span>​</dt>
+
+    <dd>
+
+      <p id="d24e27371">
+      We haven’t yet fetched the comic, which means we need to call the <span class="cf class">FutureBuilder</span> to fetch the comic and use the comic as an argument for the <span class="cf class">ComicPage</span>.
+	  
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e27388">Now we need to be able to reach that page from the home page.
+We’ll do this by using <span class="cf class">AppBar</span> <span class="cf ic">actions</span>, which are widgets we can show on the right side of the app bar. In this case, we’re going to use an <span class="cf class">IconButton</span>:
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">  actions: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      icon: Icon(Icons.looks_one),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">      tooltip: ​<em class="string">"Select Comics by Number"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">      onPressed: () =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Navigator.push(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            builder: (BuildContext context) =&gt; SelectionPage()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e27451">
+      This is where we are going to add a <span class="cf class">List</span> of widgets to show on the <span class="cf class">AppBar</span>. In this case it’s going to be just one <span class="cf class">IconButton</span>.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e27463">
+      The <span class="cf class">IconButton</span> also needs a tooltip to help the user understand what the button does. Further on in the book there is a screenshot of what it looks like.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e27475">
+      This is just like the <span class="cf class">ComicTile</span>’s <span class="cf variable">onpressed</span>.
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e27483">The updated home page, showing the overall new look of the app, looks like:
+</p>
+
+  <div class="ss">
+
+    <img alt="images/Networking/home2.png" class="border " id="d24e27486" src="images/Networking/Imagem-51.png" style="width: 30%"/>
+
+  </div>
+
+  <p id="d24e27487">and when the user keeps the button pressed the tooltip will look like:
+</p>
+
+  <div class="ss">
+
+    <img alt="images/Networking/home2tooltip.png" class="border " id="d24e27490" src="images/Networking/Imagem-52.png" style="width: 30%"/>
+
+  </div>
+
+  <h3>What If That Comic Doesn’t Exist?</h3>
+
+  <p id="d24e27494">
+The user could input any number that goes through their head in the <span class="cf class">SelectionPage</span>. While I don’t actively endorse abusing innocent app features this way, the user could choose to input a number that is bigger than the latest comic’s number, and we can’t just let the app crash or let the <span class="cf class">CircularProgressIndicator</span> loop forever because the user isn’t supposed to do that.</p>
+
+  <p id="d24e27506">
+
+
+We need to handle that situation, and for that we’ll use the <span class="cf class">AsyncSnapshot</span>’s <span class="cf variable">hasError</span> property: if it is <span class="cf constant">true</span>, it means an error occurred during the processing of the <span class="cf variable">future</span>. If it is true, we’ll show the user an <span class="cf class">ErrorPage</span>, which we’ll build later.</p>
+
+  <p id="d24e27538">
+Meanwhile, here’s the new <span class="cf variable">builder</span> for our <span class="cf class">FutureBuilder</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">builder: (context, snapshot) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(snapshot.hasError) ​<strong class="kw">return</strong>​ ErrorPage();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(snapshot.hasData) ​<strong class="kw">return</strong>​ ComicPage(snapshot.data);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ CircularProgressIndicator();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e27586">I said we were going to build a <span class="cf class">ComicPage</span> at some point. The moment has come to do that, so let’s do it! The <span class="cf class">ComicPage</span> needs to be just a simple <span class="cf class">StatelessWidget</span> and the usual <span class="cf class">Scaffold</span> and <span class="cf class">AppBar</span>. The <span class="cf variable">body</span> will be a <span class="cf class">Column</span> containing an icon and a <span class="cf class">Text</span> informing the user they have done something wrong:
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ ErrorPage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        title: Text(​<em class="string">"Error Page"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      body: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                Icon(Icons.not_interested),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  ​<em class="string">"The comics you have selected doesn't exist"</em>​+</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  ​<em class="string">"or isn't available"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title">Make Your Own Changes</div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e27679">
+    We have already seen quite a lot of Dart code, but have you been writing your own as well? If you haven’t, here is another chance (after the one in <a href="Capítulo-043.html#sec.calculator.calculation.wrappingup">​<em>Wrapping Up the Calculation</em>​</a>) for you to make a very simple and slight improvement to our XKCD app.
+  </p>
+
+      <p id="d24e27683">
+    The <span class="cf class">ErrorPage</span> we just wrote generically informs the user that we couldn’t get that comic. This can also be used any time we can’t fetch a comic (for example, if there is no Internet available and the cache was wiped).
+  </p>
+
+      <p id="d24e27688">
+    You can do this yourself very easily by adding a <span class="cf variable">snapshot.hasError</span> condition to each <span class="cf class">FutureBuilder</span>. You could go one step further and compare the comic number given to the <span class="cf class">SelectionPage</span> to the latest comic number and show a different error if the user accidentally gave a comic number that is bigger than the latest comic number.
+  </p>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>

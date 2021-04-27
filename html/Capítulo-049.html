@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e17035">An Introduction to Packages</h2>
+
+  <p id="d24e17038">
+
+Like many languages, Dart allows developers to share modular code, which can be used by other developers to easily get commonly needed functionality that would otherwise require a complicated solution.</p>
+
+  <p id="d24e17045">There are many generic Dart packages we can use to achieve functionality that is useful to both web applications and Flutter mobile apps, but there are also Flutter-specific packages, which use Flutter-specific features and only work with Flutter apps.</p>
+
+  <p id="d24e17047">
+
+Generally, packages are written in Dart and are very similar to other languages’ packages and libraries, but can communicate with device-specific Android/iOS code, which would make them <span class="emph">plugin packages</span>.</p>
+
+  <h3>Finding Packages: Using Dart Pub</h3>
+
+  <p id="d24e17062">
+
+You can find packages by going to the <span class="firstuseinline">Dart Pub</span> homepage<sup><a class="footnote" href="Capítulo-054.html#FOOTNOTE-27" id="FNPTR-27">[27]</a></sup> and searching in the “Flutter” and “All” categories.</p>
+
+  <p id="d24e17081">In the home page you will find the most commonly used packages, many of which are made by Google developers.
+Clicking on a package allows you to find usage information, how to install the package and a changelog.</p>
+
+  <h3>Installing Packages</h3>
+
+  <p id="d24e17086">
+Once you’ve found a package you think you might want, you need to install it.</p>
+
+  <p id="d24e17094">
+Dart packages get installed when they are specified as a dependency of an app, and you can do this by editing the <span class="cf filename">pubspec.yaml</span> file.</p>
+
+  <h4>The Simple Way</h4>
+
+  <p id="d24e17106">Installing a package is very easy: you just need to edit the <span class="emph">dependencies</span> section of the <span class="cf filename">pubspec.yaml</span> file and add the string from the <span class="emph">Installing</span> section of the package in Pub.
+The strings you find there look like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">packagename: ​<em class="string">^version</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17125">
+And need to be added in <span class="cf filename">pubspec.yaml</span>, indented on the same level as the <span class="cf ic">flutter:</span> line, after the lines that look like the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17155">
+The IDE plugins download the packages automatically when you edit the file, but you can make Flutter download or update the dependencies by running the following command:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ flutter packages get</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17167">
+
+All that’s left to do is to import the package in your Dart file by adding, at the top of the file, the following line:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:packagename/filename.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17188">The file name is the same as the package name in most cases, but it’s better to check on Pub, since it’s usually specified in the <span class="emph">README.md</span>, <span class="emph">Example</span>, or <span class="emph">Installing</span> sections. If you’re using the official IDE plugins the correct file name will also be suggested by the IDE.</p>
+
+  <p id="d24e17199"><span class="cf ic">import</span> also has more features, which are explained in <a href="Capítulo-094.html#sec.dart.import">​<em>Mastering import</em>​</a>.</p>
+
+  <p id="d24e17205">That’s all you need to know if the package developers are using semantic versioning correctly and you just want to get all of the updates for the package that won’t break your code, but there are cases in which simply copying and pasting from Pub to the dependencies isn’t ideal or doesn’t work at all.</p>
+
+  <h4>Specifying the Package Version Manually</h4>
+
+  <p id="d24e17210">
+Understanding how to specify dependencies manually could be useful, for example, when you want to update to the next version, even if you need to change your code.</p>
+
+  <p id="d24e17216">It could also be useful when you want a specific package version or always the latest package version, like would happen when you are the package developer.</p>
+
+  <p><strong>Caret Syntax</strong></p>
+
+  <p id="d24e17221">
+
+The line we saw before declares that the project is dependent on the latest version of the package from Pub that is declared to be compatible with the version specified.
+For example, <span class="cf ic">^0.1.0</span> means any version in the 0.1 group, and <span class="cf ic">^1.2.3</span> means any version greater than or equal to 1.2.3 and less than 2.0.0.
+This is the most common way to specify the package version, and it is called <span class="firstuseinline"> caret syntax </span>.</p>
+
+  <p><strong>Other Ways to Specify the Package Version</strong></p>
+
+  <p id="d24e17240">
+
+The package versions can also be specified using mathematical comparison operators (for example, <span class="cf ic">&gt;=0.5.9</span> will use any version starting from 0.5.9).</p>
+
+  <p id="d24e17254">These operators can also be combined (for example, you can use something like <span class="cf ic">&gt;=0.5.9 &lt;2.5.3</span>).</p>
+
+  <p id="d24e17259">You can also use just:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">packagename:</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17267">or:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">packagename: ​<em class="string">any</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17277">if you want Flutter to download the latest version it can find, with no restrictions.
+
+</p>
+
+  <h4 id="sec.packages.nopub">Fetching Packages from Locations Other Than Pub</h4>
+
+  <p id="d24e17285">The version isn’t the only thing that you can specify in the dependencies list: if you don’t want the package to be fetched from Pub, you can also specify where you want the package to be fetched from, which you might find useful, for example, when testing a new version that hasn’t yet been published or when using a package that isn’t on Pub at all.</p>
+
+  <p><strong>Fetching from Git</strong></p>
+
+  <p id="d24e17290">
+
+For example, you can fetch the package from a Git repository:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">packagename:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  git:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    url: ​<em class="string">git://github.com/username/packagename.git</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17320">If the package isn’t in the root of the Git repository, you can specify a path within the repository where the package is located:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">packagename:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  git:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    url: ​<em class="string">git://github.com/username/packagename.git</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    path: ​<em class="string">path/to/pkg</em>​</td>
+    </tr>
+
+  </table>
+
+  <p><strong>Fetching from a Local Path</strong></p>
+
+  <p id="d24e17350">
+You can also fetch the package from a path in your local development environment:
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">packagename:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  path: ​<em class="string">../packagename/</em>​</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

@@ -1,0 +1,1144 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e17374">Package Usage Example</h2>
+
+  <p id="d24e17377">
+
+Now that you know how to install packages, you’ll get to see packages in action.</p>
+
+  <h3>Getting Started</h3>
+
+  <p id="d24e17391">
+
+We are going to build a simple app that displays the phone’s battery and connectivity state using the <span class="emph">battery</span><sup><a class="footnote" href="Capítulo-054.html#FOOTNOTE-28" id="FNPTR-28">[28]</a></sup> and <span class="emph">connectivity</span><sup><a class="footnote" href="Capítulo-054.html#FOOTNOTE-29" id="FNPTR-29">[29]</a></sup> packages from Pub:</p>
+
+  <div class="ss">
+
+    <img alt="images/Packages/app.png" class="" id="d24e17412" src="images/Packages/Imagem-06.png" style="width: 30%"/>
+
+  </div>
+
+  <p id="d24e17413">
+To use those packages, we’ll start by adding the packages to our app’s dependencies, and you can do that by adding the following to the dependencies in <span class="cf filename">pubspec.yaml</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/pubspec.yaml">packages/battery_connectivity/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">connectivity: ​<em class="string">^0.3.1</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">battery: ​<em class="string">^0.2.2</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17436">
+
+And import the packages in our code by adding to the top of the main Dart file the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'dart:async'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/material.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:battery/battery.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:connectivity/connectivity.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17478">
+
+
+
+In addition to the packages we download from Pub, we also need Flutter’s standard Material Design API and Dart’s <span class="cf ic">async</span> library, which is needed to  properly handle the asynchronous nature of the packages we are using.</p>
+
+  <h3>The Main Function and Home Page Definition</h3>
+
+  <p id="d24e17509">The main function looks like any other main function that has been shown throughout this book:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() =&gt; runApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  MaterialApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    title: ​<em class="string">"Battery and connectivity status"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    theme: ThemeData(primarySwatch: Colors.green),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    home: HomePage(​<em class="string">"Dashboard"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17541">The home page will be a <span class="emph">Stateful</span> widget, since we want it to change when the battery or connectivity state changes:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ HomePage ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  HomePage(​<strong class="kw">this</strong>​.title);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ title;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  HomePageState createState() =&gt; HomePageState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Defining the Home Page’s State</h3>
+
+  <p id="d24e17580">Each battery and connectivity state is going to be shown in the form of a string (like <span class="cf ic">Mobile Data</span> or <span class="cf ic">Full</span>) and an icon, with each status being represented by a different color:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ HomePageState ​<strong class="kw">extends</strong>​ State&lt;HomePage&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ _connectionStatus = ​<em class="string">'Unknown'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  IconData _connectionIcon;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ _batteryStatus = ​<em class="string">'Unknown'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  IconData _batteryIcon;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Color _connectionColor = Colors.deepOrange;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Color _batteryColor = Colors.deepOrange;</td>
+    </tr>
+
+  </table>
+
+  <h4 id="sec.packages.streams">Getting the Battery and Connectivity Data: Asynchronous Programming Using Streams</h4>
+
+  <p id="d24e17630">
+
+Since the data we are going to be showing could change at any time, the packages allow the data to be used in the form of <span class="firstuseinline">Stream</span>s, which allow your code to listen for changes in the data and define the actions that need to be taken using the new data when it changes.</p>
+
+  <p id="d24e17642">In this case, we want to change the state of the widget by changing the strings and icons describing the connectivity and battery state.</p>
+
+  <p id="d24e17644">
+We can do that using the following code:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">StreamSubscription&lt;ConnectivityResult&gt; _connSub; </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">StreamSubscription&lt;BatteryState&gt; _battSub;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">initState</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">super</strong>​.initState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">  _connSub = Connectivity()                    </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            .onConnectivityChanged</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            .listen(( ConnectivityResult res) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">      ​<strong class="kw">switch</strong>​(res) {                            </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">case</strong>​ ConnectivityResult.mobile:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionStatus = ​<em class="string">'Mobile Data'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionIcon = Icons.sim_card;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionColor = Colors.red;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<strong class="kw">break</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">case</strong>​ ConnectivityResult.wifi:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionStatus = ​<em class="string">'Wi-Fi'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionIcon = Icons.wifi;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionColor = Colors.blue;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<strong class="kw">break</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">case</strong>​ ConnectivityResult.none:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionStatus = ​<em class="string">"No Connection"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionIcon = Icons.not_interested;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _connectionColor = Colors.black;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">④</span>​</span></td>
+      <td class="codeline">  _battSub = Battery()                            </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            .onBatteryStateChanged</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            .listen((BatteryState res) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">switch</strong>​(res) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<strong class="kw">case</strong>​ BatteryState.charging:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryStatus = ​<em class="string">'Charging'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryIcon = Icons.battery_charging_full;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryColor = Colors.blueAccent;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ​<strong class="kw">break</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<strong class="kw">case</strong>​ BatteryState.full:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryStatus = ​<em class="string">'Full'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryIcon = Icons.battery_full;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryColor = Colors.green;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ​<strong class="kw">break</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<strong class="kw">case</strong>​ BatteryState.discharging:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryStatus = ​<em class="string">'In Use'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryIcon = Icons.battery_alert;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _batteryColor = Colors.redAccent;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e17892">
+			These two lines are used to define the <span class="cf class">StreamSubscriptions</span> we’ll be using in our app.
+			<span class="firstuseinline">subscriptions</span> are used to run some code when the data returned by a Stream changes.
+		</p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e17901">
+			We are calling the <span class="cf class">Connectivity</span> constructor to get an object and listen on its member <span class="cf variable">onConnectivityChanged</span> <span class="cf class">Stream</span>, which, like all <span class="cf class">Stream</span>s, has a <span class="cf variable">listen</span> member function, which takes as a positional argument the callback function to be called when the connectivity changes, which will usually be a call to <span class="cf methodname">setState</span>, since in most apps a change in a <span class="cf class">Stream</span> means that the app’s UI needs to be updated.
+		</p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e17926">
+			In case you’re not familiar with it, the usage of a switch statement is explained in <a href="Capítulo-090.html#sec.dart.switch">​<em>Switch</em>​</a>.
+			In this instance, we’re using it to set different strings, icons, and colors for each connection and battery status.
+		</p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">④</span>​</dt>
+
+    <dd>
+
+      <p id="d24e17931">
+			This is the same as what we’ve seen for the connectivity status, but for the battery status.
+		</p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e17933">Since this code is doing a lot of different things, we’ll break this down and explain each part.</p>
+
+  <p><strong>Disposing of the StreamSubscriptions</strong></p>
+
+  <p id="d24e17938">For each subscription there needs to be an entry to the <span class="cf methodname">dispose</span> method to dispose of the subscription when it’s not needed anymore.
+<span class="cf class">StreamSubscription</span>s have a <span class="cf methodname">cancel</span> method, which does exactly that.
+Since <span class="cf class">State</span> classes need to override their superclass’ <span class="cf methodname">dispose</span> method (which is the method that runs when that <span class="cf class">State</span> isn’t needed anymore, which is when the <span class="cf class">StatefulWidget</span> isn’t being rendered anymore), they need to call <span class="cf methodname">super.dispose</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dispose() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">super</strong>​.dispose();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  _connSub.cancel();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  _battSub.cancel();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e17991">You can find out more about <span class="cf class">Stream</span>s in <a href="Capítulo-089.html#sec.dart.streams">​<em>Streams and StreamSubscriptions</em>​</a>.
+
+
+</p>
+
+  <h3>Defining the App’s UI</h3>
+
+  <p id="d24e18006">The <span class="cf methodname">build</span> method will be the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    backgroundColor: Theme.of(context).backgroundColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: Text(widget.title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    body: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      mainAxisAlignment: MainAxisAlignment.spaceAround,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Icon(_connectionIcon, color: _connectionColor, size: 50.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ​<em class="string">"Connection:</em>​​<em class="string">\n</em>​​<em class="string">$_connectionStatus</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              style: TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                color: _connectionColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                fontSize: 40.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Icon(_batteryIcon, color: _batteryColor, size: 50.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ​<em class="string">"Battery:</em>​​<em class="string">\n</em>​​<em class="string">$_batteryStatus</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              style: TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                color: _batteryColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                fontSize: 40.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18128">The app’s body is a <span class="cf class">Column</span>, with the <span class="cf ic">mainAxisAlignment</span> set to <span class="cf ic">MainAxisAlignment.spaceAround</span> so the widgets occcupy the entire body, instead of being stacked closely on top:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">body: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  mainAxisAlignment: MainAxisAlignment.spaceAround,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Icon(_connectionIcon, color: _connectionColor, size: 50.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<em class="string">"Connection:</em>​​<em class="string">\n</em>​​<em class="string">$_connectionStatus</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          style: TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            color: _connectionColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            fontSize: 40.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Icon(_batteryIcon, color: _batteryColor, size: 50.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<em class="string">"Battery:</em>​​<em class="string">\n</em>​​<em class="string">$_batteryStatus</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          style: TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            color: _batteryColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            fontSize: 40.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18225">The <span class="cf class">Column</span> contains two <span class="cf class">Row</span>s, one showing the connection state, and one showing the battery state.</p>
+
+  <h4>Showing the States</h4>
+
+  <p id="d24e18236">The connection state will be shown using a <span class="cf class">Row</span> to show both the string and the icon of the color we set when the state changes:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Icon(_connectionIcon, color: _connectionColor, size: 50.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"Connection:</em>​​<em class="string">\n</em>​​<em class="string">$_connectionStatus</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      style: TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        color: _connectionColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        fontSize: 40.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/battery_connectivity/lib/main.dart">packages/battery_connectivity/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Icon(_batteryIcon, color: _batteryColor, size: 50.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"Battery:</em>​​<em class="string">\n</em>​​<em class="string">$_batteryStatus</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      style: TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        color: _batteryColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        fontSize: 40.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18313">The result is that each status is represented by a different Icon and string of a different color for each battery status:</p>
+
+  <div class="ss">
+
+    <img alt="images/Packages/charging.png" class="" id="d24e18315" src="images/Packages/Imagem-21.png" style="width: 30%"/>
+
+  </div>
+
+  <div class="ss">
+
+    <img alt="images/Packages/full.png" class="" id="d24e18316" src="images/Packages/Imagem-42.png" style="width: 30%"/>
+
+  </div>
+
+  <div class="ss">
+
+    <img alt="images/Packages/inuse.png" class="" id="d24e18317" src="images/Packages/Imagem-60.png" style="width: 30%"/>
+
+  </div>
+
+  <p id="d24e18318">and for each connectivity status:</p>
+
+  <div class="ss">
+
+    <img alt="images/Packages/mobiledata.png" class="" id="d24e18321" src="images/Packages/Imagem-67.png" style="width: 30%"/>
+
+  </div>
+
+  <div class="ss">
+
+    <img alt="images/Packages/noconnection.png" class="" id="d24e18322" src="images/Packages/Imagem-70.png" style="width: 30%"/>
+
+  </div>
+
+  <div class="ss">
+
+    <img alt="images/Packages/wifi.png" class="" id="d24e18323" src="images/Packages/Imagem-98.png" style="width: 30%"/>
+
+  </div>
+
+</body>
+
+</html>

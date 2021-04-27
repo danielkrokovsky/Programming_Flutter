@@ -1,0 +1,711 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-077.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-077_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-077_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-077_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e35136"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O que é Firebase?</font></font></h2>
+
+  <p id="d24e35139"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A maneira tradicional de criar aplicativos da web e móveis é ter um front-end e um back-end. </font><font style="vertical-align: inherit;">O front-end é o que é construído usando ferramentas como Flutter, SDKs nativos específicos da plataforma, </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">React</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HTML</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e é executado em um dispositivo cliente do usuário, enquanto o back-end é executado em um servidor e é construído com ferramentas como </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PHP</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Spring</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Node.js</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e35156"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O Firebase visa substituir a maioria dos recursos executados no software do servidor por seus próprios serviços que se conectam diretamente aos aplicativos usando a própria API do Google em vez de usar solicitações HTTP padrão. </font><font style="vertical-align: inherit;">Os aplicativos criados com o Firebase geralmente são mais simples de configurar e menos complicados de manter. </font><font style="vertical-align: inherit;">Existe um plano gratuito (chamado </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Spark</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) que permite um número limitado de conexões e oferece apenas armazenamento e computação limitados, mas você não precisa de mais nada para completar as tarefas descritas neste capítulo.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Começando</font></font></h3>
+
+  <p id="d24e35164"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Vamos começar navegando até o Console do Firebase, </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-082.html#FOOTNOTE-46" id="FNPTR-46"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[46]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> fazendo login no Google e criando um novo projeto:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / Firebase / addProjectButton.png" class="border " id="d24e35175" src="./Capítulo-077_files/Imagem-04.png" style="width: 33%">
+
+  </div>
+
+  <p id="d24e35176"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">depois disso, você obterá a seguinte janela pop-up:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / Firebase / addProjectScreen.png" class="border " id="d24e35178" src="./Capítulo-077_files/Imagem-05.png" style="width: 55%">
+
+  </div>
+
+  <p id="d24e35179"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Escolha um nome de projeto (para este exemplo, usaremos </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ChatOnFire</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de agora em diante para todos os nomes de projeto / aplicativo) e os servidores mais próximos de sua localização no mundo. </font><font style="vertical-align: inherit;">Agora você precisa conectar seu aplicativo ao Firebase, e isso deve ser feito separadamente para a configuração do Android e iOS do aplicativo, seguindo as instruções fornecidas na tela, tendo em mente que você pode encontrar a configuração específica da plataforma para cada plataforma. O aplicativo é executado nos </font><font style="vertical-align: inherit;">diretórios </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">android</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ios</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> da árvore do seu aplicativo.</font></font></p>
+
+  <p id="d24e35190"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de concluir a configuração específica da plataforma, precisamos começar a conectar o Firebase ao Flutter, e há vários pacotes Flutter desenvolvidos pelo Google no Dart Pub que nos ajudam a construir aplicativos usando Flutter e Firebase.
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firebase para Flutter</font></font></h3>
+
+  <p id="d24e35196"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Depois de instalar o </font><font style="vertical-align: inherit;">pacote </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase_core </font></font></span><font style="vertical-align: inherit;"></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-082.html#FOOTNOTE-47" id="FNPTR-47"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[47]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (você conhece o procedimento, não há necessidade de mais explicações, lembre-se de executar os </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes flutter get</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> após a edição do </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), precisamos nos preocupar com os recursos específicos de que precisamos para nosso aplicativo. </font><font style="vertical-align: inherit;">Há uma lista completa dos pacotes Flutter Firebase na conta oficial do Flutter do GitHub. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-082.html#FOOTNOTE-48" id="FNPTR-48"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[48]</font></font></a></sup></p>
+
+  <p id="d24e35231"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vamos começar com a ferramenta Firebase mais comumente usada: o banco de dados Cloud Firestore.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O Firebase Cloud Firestore</font></font></h3>
+
+  <p id="d24e35236"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O Firebase Cloud Firestore é ideal para dados que estão sujeitos a adições frequentes e precisam ser acessados ​​em tempo real. </font><font style="vertical-align: inherit;">Isso significa que é perfeitamente adequado para a criação de um aplicativo de bate-papo.</font></font></p>
+
+  <p id="d24e35243"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para este exemplo, vá para Database -&gt; Regras do Console Firebase e mudar as regras para o seguinte para que nós não precisa se autenticar (vamos preocupar com isso </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-077.html#sec.firebase.authentication"><em><font style="vertical-align: inherit;">Authentication</font></em></a><font style="vertical-align: inherit;"> ) .:</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-077.html#sec.firebase.authentication"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">service cloud.firestore {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  corresponder / bancos de dados / {banco de dados} / documentos {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    corresponder / {document = **} {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      permitir ler, escrever;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35263"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O que é comumente referido em qualquer SQL DBMS como uma tabela é chamado de coleção no Cloud Firestore. </font><font style="vertical-align: inherit;">Vamos criar um. </font><font style="vertical-align: inherit;">Já que vamos construir um aplicativo de chat, criaremos um para armazenar as mensagens enviadas pelos usuários.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Criação de uma coleção</font></font></h4>
+
+  <p id="d24e35268"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Como nosso exemplo será uma sala de bate-papo pública simples, só precisamos armazenar três dados sobre a mensagem:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e35286"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Quem enviou a mensagem, que será uma string que inicialmente definiremos como </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Anônimo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para cada mensagem, mas será o ID do usuário do remetente (que é uma string) após implementarmos a autenticação.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e35292"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O próprio corpo da mensagem (outra string).</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e35295"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A data e hora em que a mensagem foi enviada, que pode ser definida para o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">carimbo de data / hora do</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> tipo de dados Firestore </font><font style="vertical-align: inherit;">, que é convertido em um </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DateTime</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no Dart.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e35303"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Então, vamos para Bancos de dados -&gt; Dados no Firebase console, clique no botão </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Adicionar coleção</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que solicitará que você insira um nome para a coleção. </font><font style="vertical-align: inherit;">Usaremos </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mensagens</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como o nome da coleção. </font><font style="vertical-align: inherit;">Depois disso, você será solicitado a inserir os dados do primeiro documento a ser adicionado à coleção.</font></font></p>
+
+  <p id="d24e35312"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O ID do documento não precisa ser nada em particular, portanto, você pode clicar no </font><font style="vertical-align: inherit;">botão </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ID</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> automático para que seja preenchido automaticamente por caracteres aleatórios; </font><font style="vertical-align: inherit;">Também precisamos adicionar todos os campos mencionados anteriormente, escolhendo os tipos apropriados e definindo um valor apropriado para cada campo a ser usado para a criação da primeira mensagem. </font><font style="vertical-align: inherit;">Para nosso exemplo, vamos definir os campos da seguinte maneira:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e35319"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> chamada </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">de</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para identificar o remetente, com </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Anonymous</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como o valor.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e35331"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> chamada </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">msg</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que será o corpo da mensagem, cujo valor você poderia definir simplesmente como </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hi</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , como um teste.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e35343"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">carimbo de data / hora</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> chamado </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">quando</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que você deve definir para a hora atual convertida para a hora UTC.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e35351"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Estamos usando a hora UTC para o </font><font style="vertical-align: inherit;">campo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">quando</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> porque queremos que a data e a hora estejam na hora local do usuário, portanto, mantemos a hora UTC no banco de dados e a convertemos para a hora local no aplicativo. </font><font style="vertical-align: inherit;">Teremos que ter isso em mente ao enviar mensagens do aplicativo porque nessa ocasião teremos que converter a hora local para UTC.
+
+
+</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Interagindo com o Cloud Firestore em aplicativos Flutter</font></font></h4>
+
+  <p id="d24e35364"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Para usar o Firestore em nosso aplicativo Flutter, aproveitaremos o </font><font style="vertical-align: inherit;">pacote </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cloud_firestore</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e35388"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vamos começar adicionando o </font><font style="vertical-align: inherit;">pacote </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cloud_firestore</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> às dependências em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/pubspec.yaml"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire / pubspec.yaml</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dependências:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  vibração:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    SDK: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vibração</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  firebase_core:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  cloud_firestore:</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35424"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e importando-o para </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">main.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: cloud_firestore / cloud_firestore.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35438"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Interagimos com o Cloud Firestore usando uma instância da </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firestore</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> criada usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firestore.instance</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Podemos acessar uma coleção com </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firestore.instance.collection ("collectionName")</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> onde </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">collectionName</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o nome da coleção que desejamos acessar. </font><font style="vertical-align: inherit;">O tipo de dados retornado por isso é </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CollectionReference</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e exploraremos como usá-los nesta seção.
+
+
+</font></font></p>
+
+  <p><strong id="sec.firebase.firestore.read"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Leitura do Cloud Firestore</font></font></strong></p>
+
+  <p id="d24e35468"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Se quisermos acessar um determinado documento diretamente, usamos:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CollectionReference.document (caminho)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35491"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">caminho do</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> método de consulta simples (onde) </font><font style="vertical-align: inherit;">é, na verdade, o ID do documento, que corresponde ao caminho que leva ao documento dentro da coleção. </font><font style="vertical-align: inherit;">Isso retorna uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentReference</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e, na verdade, não busca o documento. </font><font style="vertical-align: inherit;">Para buscá-lo, precisamos chamar </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentReference.get</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que retorna um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future &lt;DocumentSnapshot&gt;</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Depois de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aguardar</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou obter o </font><font style="vertical-align: inherit;">próprio </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentSnapshot</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , podemos acessar os dados contidos no documento acessando a </font><font style="vertical-align: inherit;">propriedade </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentSnapshot.data</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que contém um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dos dados contidos no documento.</font></font></p>
+
+  <p id="d24e35522"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, se tivéssemos o nome de uma coleção armazenada em uma variável chamada </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">collectionName</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e quiséssemos acessar o documento com o ID </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">docPath</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e, em particular, sua propriedade </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"myMember"</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e defini-la para a </font><font style="vertical-align: inherit;">variável de </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dados</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , precisaríamos escrever o seguinte :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Firestore = Firestore.instance;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dados (=</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  aguarde o firestore</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    .collection (collectionName)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    .document (docPath)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    .obter()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">) .data [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"MyMember"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ];</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35574"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Consultar um único documento é útil para alguns fins, mas o que realmente queremos em um aplicativo de bate-papo ao buscar mensagens é uma forma de acessar a lista de todos os documentos que foram armazenados na coleção.</font></font></p>
+
+  <p id="d24e35576"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para fazer isso, podemos usar o </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CollectionReference.getDocuments</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que retorna todos os documentos na coleção fornecida em um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas sua desvantagem é que precisamos buscá-lo novamente toda vez que quisermos atualizar a lista de mensagens, que realmente não combina com a natureza em tempo real das mensagens instantâneas.</font></font></p>
+
+  <p id="d24e35584"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O que queremos é obter as mensagens como um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que é alterado em tempo real para produzir a lista de todas as mensagens atualizadas em tempo real. </font><font style="vertical-align: inherit;">Isso é feito usando o </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CollectionReference.snapshots</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que significa que podemos usá-lo para obter um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fluxo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> das mensagens escrevendo:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firestore.instance.collection ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Mensagens"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) .snapshots ()</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p><strong id="sec.firebase.firestore.add"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Adicionar dados ao Cloud Firestore</font></font></strong></p>
+
+  <p id="d24e35615"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Podemos adicionar um documento a uma coleção Firestore usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CollectionReference.add (doc)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> onde </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">doc</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> atribuindo um valor para cada um dos campos do documento, como no exemplo a seguir, que envia uma mensagem anônima para ser armazenada na coleção:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firestore.instance.collection ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Mensagens"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) .add (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"de"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Anonymous"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"quando"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :. DateTime.now () toUtc (),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"msg"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Hi There From The App"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35684"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em um aplicativo real, precisamos autenticar usuários, então começaremos descobrindo como podemos autenticar usuários em nossos aplicativos Flutter usando o Firebase Authentication.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Exclusão ou alteração de dados do Cloud Firestore</font></font></strong></p>
+
+  <p id="d24e35690"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Dada uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentReference</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (o objeto que obtemos de </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Firestore.instance.collection (coleção) .document (document)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), podemos, além de obter os dados usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentReference.get</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como dissemos anteriormente, realizar algumas ações no documento:</font></font></p>
+
+  <ul>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Exclua-o usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentReference.delete</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Altere alguns campos passando um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentReference.updateData</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Defina o conteúdo do documento, criando-o se não existir, passando um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DocumentReference.setData</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+
+  </ul>
+
+  <p id="d24e35746"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todos esses métodos são executados de forma assíncrona, mas não retornam nada.
+
+
+
+</font></font></p>
+
+  <h3 id="sec.firebase.authentication"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Autenticação</font></font></h3>
+
+  <p id="d24e35758"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+A autenticação requer seu próprio </font><font style="vertical-align: inherit;">pacote </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase_auth </font></font></span><font style="vertical-align: inherit;"></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-082.html#FOOTNOTE-49" id="FNPTR-49"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[49]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e pode ser configurada no console do Flutter acessando Develop -&gt; Authentication -&gt; Sign-in method. </font><font style="vertical-align: inherit;">Em nosso exemplo, autenticaremos usuários usando seu endereço de e-mail e senha, o que é facilitado pelo Firebase e é representativo da maioria dos aplicativos. </font><font style="vertical-align: inherit;">Depois de selecioná-lo, você será avisado de que uma configuração mais específica da plataforma é necessária: especificamente, precisamos adicionar:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">implementação 'com.google.firebase: firebase-auth: 16.2.1'</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35786"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">às </font><font style="vertical-align: inherit;">dependências </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">build.gradle de</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> nível de </font><span class="cf filename"><font style="vertical-align: inherit;">aplicativo</font></span><font style="vertical-align: inherit;"> para Android e:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pod 'Firebase / Auth'</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35795"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ao </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podfile</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do iOS que </font><font style="vertical-align: inherit;">você deve ter na configuração do CocoaPods necessária para conectar o aplicativo iOS ao Firebase.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando o pacote firebase_auth</font></font></h4>
+
+  <p id="d24e35803"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vamos importar o </font><font style="vertical-align: inherit;">pacote </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase_auth</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que fornece uma interface intuitiva do Flutter para as ferramentas de autenticação do Firebase:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/pubspec.yaml"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire / pubspec.yaml</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase_auth: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">^ 0.6.2</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35816"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como sempre, precisamos importar o pacote </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase_auth</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em </font><span class="cf filename"><font style="vertical-align: inherit;">main.dart</font></span><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: firebase_auth / firebase_auth.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O FirebaseAuth</font></font></strong></p>
+
+  <p id="d24e35833"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+A autenticação Firebase é obtida usando uma instância da </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FirebaseAuth</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , obtida usando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> auth = FirebaseAuth.instance;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e35853"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois disso, podemos usar o </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">auth</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para lidar com a maioria das ações relacionadas à autenticação.</font></font></p>
+
+  <p id="d24e35858"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Entre eles, encontramos:</font></font></p>
+
+  <p id="d24e35864"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">createUserWithEmailAndPassword (e-mail, senha)</font></font></span></p>
+
+  <p id="d24e35867"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+que cria um usuário com o e-mail e a senha fornecidos e:</font></font></p>
+
+  <p id="d24e35873"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">signInWithEmailAndPassword (e-mail, senha)</font></font></span></p>
+
+  <p id="d24e35876"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">que conecta o usuário com o e-mail e a senha fornecidos.</font></font></p>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Os muitos métodos de autenticação disponíveis no Flutter</font></font></div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e35881"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+	
+		Existem muitos métodos de autenticação disponíveis para uso com o Firebase. </font><font style="vertical-align: inherit;">Aqui está uma lista dos mais comuns:
+	</font></font></p>
+
+      <ul>
+
+        <li>
+
+          <p id="d24e35890"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Autenticação por telefone, que depende de duas fases: execução de </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FirebaseAuth.instance.verifyPhoneNumber</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que usa métodos para serem executados quando o código é enviado, recuperado automaticamente ou ocorreu um problema durante a verificação. </font><font style="vertical-align: inherit;">Se for recuperado automaticamente, devemos considerar o usuário autenticado e seguir em frente. </font><font style="vertical-align: inherit;">Se não for, precisamos fornecer ao usuário uma maneira de inserir o código que recebeu via SMS e usar e usar um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AuthCredential</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para fazer login, conforme descrito nas </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">versões de pacote e biblioteca à parte</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que seguem esta barra lateral.
+		</font></font></p>
+
+        </li>
+
+        <li>
+
+          <p id="d24e35904"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Autenticação de login do Google, usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FirebaseAuth.instance.signInWithGoogle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+		</font></font></p>
+
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Versões de pacote e biblioteca</font></font></p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images / Side-icons / warning.png" class="" id="d24e35922" src="./Capítulo-077_files/Imagem-96.png" style="width: 100%">
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+  
+  	Os </font><font style="vertical-align: inherit;">pacotes </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterFire</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (como o Google gosta de chamar de pacotes Flutter relacionados ao Firebase), assim como a interface de teste, às vezes são incompatíveis com algumas versões do Flutter ou da API específica da plataforma (aquela que importamos na configuração Gradle / CocoaPods) ou não funcionam. </font><font style="vertical-align: inherit;">Além disso, eles tendem a ter alterações significativas de uma versão para outra, o que significa que o mesmo código tem uma grande alteração de não funcionar após um ou dois lançamentos principais.
+  </font></font></p>
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+  
+  
+  
+  	Para o nosso exemplo, eu usei </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase_auth</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> versão 0.6.x, porque essa era a única versão que consistenly trabalhou com a versão atual Flutter (1,5) e a versão API nativa. </font><font style="vertical-align: inherit;">Se, no futuro, você precisar usar uma versão mais recente devido a questões de segurança sobre as versões mais antigas ou qualquer outro motivo. </font><font style="vertical-align: inherit;">Uma coisa a ter em mente é que o pacote está lentamente mudando para o uso do </font><font style="vertical-align: inherit;">método </font><font style="vertical-align: inherit;">genérico </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">auth.signInWithCredential</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que leva como argumento posicional um </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AuthCredential</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+  </font></font></p>
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+  
+  	Um </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AuthCredential</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode ser gerado chamando o </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">getCredential</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de cada </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AuthProvider</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , fornecendo a cada um os argumentos necessários para realizar a autenticação.
+  </font></font></p>
+          <p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+  	Você pode ver todos os </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AuthProvider</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s disponíveis e os métodos que pode usar para obter </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AuthCredential</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s na </font><font style="vertical-align: inherit;">referência </font><font style="vertical-align: inherit;">oficial da </font><font style="vertical-align: inherit;">API </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase_auth</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-082.html#FOOTNOTE-50" id="FNPTR-50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[50]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Isso também é onde você deve olhar caso atualize a versão do pacote e tenha problemas em geral.
+  </font></font></p>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p><strong id="sec.firebase.firebaseuser"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O FirebaseUser</font></font></strong></p>
+
+  <p id="d24e36002"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O resultado final de um processo de autenticação é a geração de uma </font><font style="vertical-align: inherit;">variável </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FirebaseUser</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que também será armazenada. </font><font style="vertical-align: inherit;">Isso representa a conta do usuário e armazena as seguintes informações como propriedades:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e36013"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Seu </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">uid</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , uma string equivalente a uma ID de usuário numérica típica.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36019"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Seu número de </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">telefone</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e / ou </font><font style="vertical-align: inherit;">endereço de </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - </font><span class="cf variable"><font style="vertical-align: inherit;">mail</font></span><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36028"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Um </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">isEmailVerified</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para estabelecer se o endereço de e-mail de um usuário foi verificado, o que é útil ao fazer autenticação de e-mail e senha.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36034"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos definir </font><font style="vertical-align: inherit;">um </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">displayName</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e um </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">photoUrl</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> alterando essas propriedades diretamente.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e36042"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para fazer alterações nessas propriedades (por exemplo, para definir o nome de exibição), precisamos criar um </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">UserUpdateInfo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que terá todas essas propriedades. </font><font style="vertical-align: inherit;">Altere as propriedades que deseja alterar e, em seguida, execute </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">user.updateProfile (userUpdateInfo)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , onde </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">userUpdateInfo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">UserUpdateInfo que</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> contém as propriedades alteradas.</font></font></p>
+
+  <p id="d24e36056"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para alterar o endereço de e-mail do usuário, você pode usar </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">user.updateEmail (newEmail)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , enquanto para alterar a senha do usuário você pode usar </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">user.updatePassword (newPassword)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Você pode recarregar o perfil local para corresponder ao remoto usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">user.reload</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Lembre-se de que isso só terá efeito se você reatribuir a </font><font style="vertical-align: inherit;">variável de </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">usuário</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">auth.currentUser</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e36073"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">As ferramentas de autenticação do Firebase podem fazer muito: além de apenas criar e excluir contas, redefinir senhas e alterar endereços de e-mail, também permitem que você verifique os endereços de e-mail. </font><font style="vertical-align: inherit;">A verificação acontece chamando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">user.sendEmailVerification</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que envia um e-mail contendo um link de verificação para o usuário. </font><font style="vertical-align: inherit;">Quando o usuário clicar no link, o e-mail será considerado verificado.</font></font></p>
+
+  <p id="d24e36078"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A única diferença que isso faz para o próprio Firebase é que os usuários com endereços de e-mail verificados têm a </font><font style="vertical-align: inherit;">propriedade booleana </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">user.isEmailVerified</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> definida como </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">true em</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> vez de </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">false</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Você decide o que fazer com os usuários não verificados: fornecer todos os recursos, apenas alguns deles ou nenhum recurso.</font></font></p>
+
+  <p id="d24e36089"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você também pode decidir como será o e-mail enviado ao usuário: indo para Autenticação -&gt; Modelos, você pode escolher o nome do remetente, alguns aspectos do endereço de e-mail do remetente e todo o corpo do e-mail enviado ao usuário.
+</font></font></p>
+
+  <p><strong id="sec.firebase.loginsignup"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Escrevendo métodos de login e inscrição</font></font></strong></p>
+
+  <p id="d24e36095"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Essa é a teoria, aqui estão dois exemplos de como você pode usar esses métodos para escrever uma interface para a API Firebase Authentication para nosso aplicativo.</font></font></p>
+
+  <p id="d24e36097"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Este é o formato de um método de inscrição para autenticação de e-mail e senha:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt;FirebaseUser&gt; signUp (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e-mail, </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">corda</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> senha</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">) assíncrono =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  _auth.createUserWithEmailAndPassword (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    email: email,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    senha: senha</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e36125"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e é assim que poderíamos escrever um método de login</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">LogIn de &lt;FirebaseUser&gt; futuro (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e-mail, </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">corda</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> senha</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">) assíncrono =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  _auth.signInWithEmailAndPassword (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      email: email,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      senha: senha</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Verificar se o usuário está logado e obter informações sobre o usuário atual</font></font></strong></p>
+
+  <p id="d24e36158"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Corrida:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">auth.currentUser ();</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e36167"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+retornará (de forma assíncrona) o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FirebaseUser</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> atualmente conectado </font><font style="vertical-align: inherit;">.</font></font></p>
+
+  <p id="d24e36181"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se não tivermos feito o login ainda, ele retornará </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nulo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que significa que há uma maneira fácil de verificar se o login ocorreu.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Persistência de login no cache local</font></font></strong></p>
+
+  <p id="d24e36190"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+O Firebase preservará as informações de login no armazenamento local, o que significa que não precisamos nos preocupar com a persistência dos dados do usuário no dispositivo do usuário local, já que o Firebase cuidará disso para nós também.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sair</font></font></strong></p>
+
+  <p id="d24e36209"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Visto que os dados do usuário são mantidos pelo Firebase indefinidamente, para desconectar um usuário, você precisa executar:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">auth.signOut ();</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e36222"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">que é um método assíncrono que não retorna nada.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Combinando autenticação e acesso ao banco de dados</font></font></h3>
+
+  <p id="d24e36227"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O Firebase é ótimo: você só precisa autenticar o usuário e, em seguida, qualquer operação que tentar executar em um banco de dados Firebase será executada em nome desse usuário. </font><font style="vertical-align: inherit;">Você nem precisa pensar sobre isso: o Firebase faz isso sozinho e o Flutter oferece suporte perfeito. </font><font style="vertical-align: inherit;">Isso é o que nós estamos indo para aproveitar quando nós construímos nosso aplicativo de bate-papo na </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-081.html#sec.firebase.chat"><em><font style="vertical-align: inherit;">construção de Chat App</font></em></a><font style="vertical-align: inherit;"> .
+
+
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-081.html#sec.firebase.chat"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-077_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

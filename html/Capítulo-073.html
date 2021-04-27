@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.testing.errors">Throwing and Catching Exceptions</h2>
+
+  <p id="d24e34597">
+We already used exceptions in some of the previous chapters, but we’ll go through the Flutter implementation in more detail in this section.</p>
+
+  <p id="d24e34601">Exceptions are used in a piece of code as a way to signal that something’s gone wrong, the current function(or <a href="Capítulo-087.html#sec.dart.functions.closures">​<em>Anonymous Functions and Closures</em>​</a>)’s execution is interrupted and the calling function is supposed to deal with it by catching it.</p>
+
+  <h3>Throwing an Exception</h3>
+
+  <p id="d24e34608">
+
+In Dart exceptions are thrown using the <span class="cf keyword">throw</span> keyword (	in Python you’d call this raising an exception, in case you never got to see what the world looks like outside of Python). You can create your own exception by creating a class that <a href="Capítulo-092.html#sec.dart.implements">​<em>Writing a Class That implements an Interface</em>​</a> the <span class="cf class">Exception</span> class error:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyOwnPersonalException ​<strong class="kw">implements</strong>​ Exception {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  MyOwnPersonalException(​<strong class="kw">this</strong>​.myOwnPersonalMember);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ myOwnPersonalMember;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">double</strong>​ ​<strong class="kw">myPersonalDivision</strong>​(​<strong class="kw">double</strong>​ a, ​<strong class="kw">double</strong>​ b) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(b == 0) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">throw</strong>​ MyOwnPersonalException(​<em class="string">"Failed to divide a number by 0."</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ a/b;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Catching an Exception</h3>
+
+  <p id="d24e34692">
+
+Whenever we call a function or use an operation that may fail under certain circumstances we’re not checking for, we should be catching the exception:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">responsibleFunction</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ a, b;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  b = 0;</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">int</strong>​ d = myPersonalDivision(a, b);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">catch</strong>​(exception) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// Deal with the exception</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e34757">You can substitute <span class="cf keyword">exception</span> in <span class="cf keyword">catch</span>’s parentheses with whatever you want (it is usually just <span class="cf ic">e</span>). It contains the name of the exception that was thrown. You can print it to the debug console by using <span class="cf ic">print(exception)</span>. Additionally, you can pass a stack trace of the source of the error, which you can also print.</p>
+
+  <p id="d24e34771">For example, the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​.parse(​<em class="string">"Flutter"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">} ​<strong class="kw">catch</strong>​(e, stacktrace) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(e);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(stacktrace);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e34802">will trigger a <span class="cf class">FormatException</span> and print the following to the debug console:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">FormatException: Invalid radix-10 number (at character 1)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Flutter</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">^</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">#0  int._throwFormatException (dart:core/runtime/lib/integers_patch.dart:131:5)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">#1  int._parseRadix (dart:core/runtime/lib/integers_patch.dart:142:16)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">#2  int._parse (dart:core/runtime/lib/integers_patch.dart:100:12)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">#3  int.parse (dart:core/runtime/lib/integers_patch.dart:63:12)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">#4  main (file:///home/carmine/flutter/example_app/lib/main.dart:21:9)</td>
+    </tr>
+
+  </table>
+
+  <h4>on SomeException catch()</h4>
+
+  <p id="d24e34828">What if that called function had thrown another kind of exception, which didn’t have <span class="cf ic">myOwnPersonalMember</span> or maybe you needed to deal with different exceptions in different ways? That’s what <span class="cf keyword">on</span> is for.</p>
+
+  <p id="d24e34836">For example, let’s say we have a function that takes two numbers in a string format, parses them, and performs integer division on them. This means two different kinds exceptions can be thrown during its execution: a <span class="cf class">FormatException</span> if it can’t parse the numbers, or a <span class="cf class">IntegerDivisionByZeroException</span> exception if we try to divide by zero.</p>
+
+  <p id="d24e34844">Dart by default performs floating-point division and returns a <span class="cf ic">double</span> number. To perform integer division we need to use the <span class="cf ic">~/</span> operator instead of just <span class="cf ic">/</span>. This means the function definition will be the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ ​<strong class="kw">jsonDivide</strong>​(​<strong class="kw">String</strong>​ a, ​<strong class="kw">String</strong>​ b) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​.parse(a)~/​<strong class="kw">int</strong>​.parse(b);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e34884">Seen like that, it’s no wonder why a function like this is a good example: it is very short but it could throw two different kinds of exceptions: for example, calling it as <span class="cf methodname">jsonDivide("5", "0")</span> will return an <span class="cf class">IntegerDivisionByZeroException</span>, whereas calling it as <span class="cf methodname">jsonDivide("Flutter", "10")</span> will return a <span class="cf class">FormatException</span>. Let’s pretend we need to tell the user to correct the bad data they entered, so we need to handle each exception differently, which isn’t to hard to do in Dart:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  jsonDivide(firstString, secondString);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">on IntegerDivisionByZeroException {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// tell the user to not divide by 0</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">on FormatException {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// tell the user to insert valid numbers</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e34924">So that each of the two <span class="cf keyword">on</span> blocks will be executed only when the corresponding exception is thrown.</p>
+
+  <p id="d24e34929">An alternative syntax for <span class="cf keyword">on</span> blocks is <span class="cf ic">on ExceptionName catch(e) {}</span>, which will pass the exception to the block, just like what happens in regular <span class="cf keyword">catch</span> blocks.</p>
+
+  <p id="d24e34941">You can, optionally, add a <span class="cf keyword">catch</span> block after the <span class="cf keyword">on</span> blocks to handle any exceptions that aren’t handled by the <span class="cf keyword">on</span> blocks.</p>
+
+  <h3>Finally</h3>
+
+  <p id="d24e34955">
+When using a regular <span class="cf keyword">try</span>-<span class="cf keyword">catch</span> construct without throwing new exceptions in the process, the execution will continue by executing the instructions placed after the end of the <span class="cf keyword">catch</span> block, but if you are only using <span class="cf keyword">on</span> blocks instead of generic <span class="cf keyword">catch</span> blocks or you’re throwing new exceptions inside <span class="cf keyword">catch</span> blocks, the execution will be interrupted and those instructions won’t be executed. If, instead, you want to execute some instructions regardless of anything that happens in the <span class="cf keyword">try</span> block and in the <span class="cf keyword">catch</span> and <span class="cf keyword">on</span> block, you’d use a <span class="cf keyword">finally</span> block:
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// code that could fail</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">on SomeException {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// handle SomeExceptin</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">finally</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// code that will surely be executed</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

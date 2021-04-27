@@ -1,0 +1,264 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-100.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-100_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-100_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-100_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.appconfig.platspec"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Configuração específica da plataforma</font></font></h2>
+
+  <p id="d24e48411"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Nesta seção, veremos como alterar o nome do aplicativo e o ícone do iniciador de um aplicativo Flutter editando a configuração específica da plataforma.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Definir um nome de aplicativo personalizado</font></font></h3>
+
+  <p id="d24e48418"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O nome do pacote Dart (que também é o nome do aplicativo padrão) deve ser composto apenas de letras minúsculas e sublinhado, o que não é muito. </font><font style="vertical-align: inherit;">É por isso que vamos definir nosso próprio nome de aplicativo nos aprofundando na configuração específica da plataforma.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Configurando o nome do aplicativo Android</font></font></h4>
+
+  <p id="d24e48427"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O nome do aplicativo exibido no Android pode ser alterado alterando o </font><font style="vertical-align: inherit;">atributo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">android: label</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> da </font><font style="vertical-align: inherit;">tag </font><font style="vertical-align: inherit;">do </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aplicativo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AndroidManifest.xml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> localizado em </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">appdir / android / app / src / main</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Seria assim se estivéssemos configurando o </font><font style="vertical-align: inherit;">aplicativo </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Chat on Fire que</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> criamos no último capítulo do livro:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire2/android/app/src/main/AndroidManifest.xml"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire2 / android / app / src / main / AndroidManifest.xml</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&lt;aplicação</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    android: name = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"io.flutter.app.FlutterApplication"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    android: label = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"chat on Fire"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    android: icon = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"@ mipmap / ic_launcher"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Configurando o nome do aplicativo iOS</font></font></h4>
+
+  <p id="d24e48482"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O nome do aplicativo exibido no iOS geralmente é alterado abrindo o </font><font style="vertical-align: inherit;">projeto </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Runner.xcworkspace</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Xcode no </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ios</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no Xcode e alterando a </font><font style="vertical-align: inherit;">configuração de nível de projeto </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nome de exibição</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Como alternativa, adicione uma chave chamada </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CFBundleDisplayName</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> seguida por uma string ao </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Info.plist</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">diretório appdir / ios / Runner</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , como no exemplo a seguir:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire2/ios/Runner/Info.plist"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire2 / ios / Runner / Info.plist</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">K</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">y</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; CFBundleDisplayName &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ k</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">y</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Seqüência</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; Bate-papo on Fire &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Configurando o ícone do iniciador</font></font></h3>
+
+  <p id="d24e48539"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Qualquer aplicativo decente precisa de um ícone personalizado, e aplicativos Flutter certamente não fazem uma exceção a isso. </font><font style="vertical-align: inherit;">Existe uma ferramenta CLI no Pub chamada </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter_launcher_icons</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que simplifica isso, mas você pode optar por fazer isso manualmente. </font><font style="vertical-align: inherit;">Esta seção cobrirá ambos os casos.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando ícones do Flutter Launcher para alterar o ícone do Launcher</font></font></h4>
+
+  <p id="d24e48556"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+O pacote Ícones Iniciador vibração é o exemplo típico de uma embalagem que deve ser adicionado à </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dev_dependencies</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> secção em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire2/pubspec.yaml"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire2 / pubspec.yaml</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dev_dependencies:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  flutter_launcher_icons:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  flutter_test:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    SDK: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vibração</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e48602"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de fazer isso e executar:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes de $ flutter recebem</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e48610"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">é hora de configurar o pacote.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Um exemplo rápido e simples</font></font></strong></p>
+
+  <p id="d24e48615"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso pode ser feito em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou em um novo arquivo adicionando uma </font><font style="vertical-align: inherit;">seção </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter_icons</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire2/pubspec.yaml"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firebase / chatonfire2 / pubspec.yaml</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter_icons:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  image_path: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">icons / launcher_icon.png"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  android: true</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ios: verdadeiro</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e48648"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso é o que você usará na maioria das vezes: o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">image_path</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> será o caminho para a imagem que será usada para substituir a imagem do iniciador padrão para Android e iOS quando você executar:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Os pacotes $ flutter executam flutter_launcher_icons: main</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Escolhendo um caminho diferente para o arquivo de configuração</font></font></strong></p>
+
+  <p id="d24e48662"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Esse comando funcionará se a configuração estiver em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou em um arquivo que você criou chamado </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter_launcher_icons.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Se quiser usar um arquivo personalizado com um nome diferente, você pode usar a </font><font style="vertical-align: inherit;">opção </font></font><span class="cf commandoption"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-f</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> da seguinte maneira:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Os pacotes $ flutter executam flutter_launcher_icons: main -f filename.yaml</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando arquivos diferentes para Android e iOS</font></font></strong></p>
+
+  <p id="d24e48689"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Em vez de fornecer um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">image_path</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para Android e iOS, você pode escolher definir um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">image_path_android</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para Android e um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">image_path_ios</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para iOS. </font><font style="vertical-align: inherit;">Você pode querer fazer isso porque, ao contrário do Android, o iOS substituirá qualquer transparência por preto, o que significa que os ícones do aplicativo iOS devem preencher a imagem inteira e não ter bordas transparentes, ao contrário dos ícones do Android.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Alterar o ícone do iniciador manualmente</font></font></h4>
+
+  <p id="d24e48712"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em vez de usar o </font><font style="vertical-align: inherit;">pacote </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter_launcher_icons</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , você pode querer mudar o ícone do iniciador você mesmo. </font><font style="vertical-align: inherit;">Isso consome muito tempo para fazer 100% manualmente: para Android, você pode alterar o ícone do aplicativo fornecendo diferentes resoluções do ícone do iniciador para dispositivos com diferentes valores de densidade de pixel em </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">appdir / android / app / src / main / res / mipmap- * dpi</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (seguindo as diretrizes oficiais do desenvolvedor Android </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-100.html#FOOTNOTE-59" id="FNPTR-59"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[59]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ). </font><font style="vertical-align: inherit;">Um processo semelhante é necessário para os ícones do iOS para substituir aqueles no </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">appdir / ios / Runner / Assets.xcassets / Appicon.appiconset</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e48728"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma maneira de contornar isso é usando a </font><font style="vertical-align: inherit;">ferramenta de criação de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">recurso de imagem</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do Android Studio, </font><font style="vertical-align: inherit;">que irá gerar automaticamente diferentes resoluções do ícone, e abrindo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assets.xcassets</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">appdir / ios / Runner</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com Xcode e usando isso para substituir os ícones padrão.</font></font></p>
+
+  <p id="d24e48739"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Com isso, seu aplicativo deve estar pronto para distribuição a seus usuários, seja qual for o sistema operacional em que o telefone estiver funcionando.
+
+
+</font></font></p>
+
+  <div class="footnotes">
+
+    <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Notas de rodapé</font></font></h4>
+
+    <dl>
+
+      <dt class="footnote-number"><a href="http://localhost:8080/html/Cap%C3%ADtulo-098.html#FNPTR-56" id="FOOTNOTE-56"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[56]</font></font></a></dt>
+
+      <dd>
+
+        <p id="d24e47675"><a href="https://flutter.dev/docs/development/ui/widgets/cupertino"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://flutter.dev/docs/development/ui/widgets/cupertino</font></font></a></p>
+
+      </dd>
+
+      <dt class="footnote-number"><a href="http://localhost:8080/html/Cap%C3%ADtulo-098.html#FNPTR-57" id="FOOTNOTE-57"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[57]</font></font></a></dt>
+
+      <dd>
+
+        <p id="d24e48254"><a href="https://pub.dev/documentation/flutter_platform_widgets/latest/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://pub.dev/documentation/flutter_platform_widgets/latest/</font></font></a></p>
+
+      </dd>
+
+      <dt class="footnote-number"><a href="http://localhost:8080/html/Cap%C3%ADtulo-099.html#FNPTR-58" id="FOOTNOTE-58"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[58]</font></font></a></dt>
+
+      <dd>
+
+        <p id="d24e48391"><a href="https://semver.org/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://semver.org/</font></font></a></p>
+
+      </dd>
+
+      <dt class="footnote-number"><a href="http://localhost:8080/html/Cap%C3%ADtulo-100.html#FNPTR-59" id="FOOTNOTE-59"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[59]</font></font></a></dt>
+
+      <dd>
+
+        <p id="d24e48721"><a href="https://developer.android.com/guide/topics/resources/providing-resources"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://developer.android.com/guide/topics/resources/providing-resources</font></font></a></p>
+
+      </dd>
+
+    </dl>
+
+  </div>
+
+  <div class="copyright"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Copyright © 2020, The Pragmatic Bookshelf.</font></font></div>
+
+  <div class="backmatter-cover"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Obrigada!
+</font></font><p id="d24e51359"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+   Como você gostou deste livro? </font><font style="vertical-align: inherit;">Por favor nos informe. </font><font style="vertical-align: inherit;">Reserve um momento e envie um e-mail para support@pragprog.com com seus comentários. </font><font style="vertical-align: inherit;">Conte-nos sua história e você pode ganhar e-books grátis. </font><font style="vertical-align: inherit;">Use a linha de assunto “Comentários sobre o livro”.
+   </font></font></p>
+<p id="d24e51361"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+   Pronto para seu próximo grande livro Pragmatic Bookshelf? </font><font style="vertical-align: inherit;">Venha para </font></font><a href="https://pragprog.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://pragprog.com</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e use o código de cupom BUYANOTHER2020 para economizar 30% em seu próximo e-book.
+   </font></font></p>
+<p id="d24e51366"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+   Nulo onde for proibido, restrito ou indesejado. </font><font style="vertical-align: inherit;">Não use e-books perto da água. </font><font style="vertical-align: inherit;">Se a erupção persistir, consulte um médico. </font><font style="vertical-align: inherit;">Não se aplica ao e- </font><font style="vertical-align: inherit;">book </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">The Pragmatic Programmer</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> porque é mais antigo que a própria Pragmatic Bookshelf. </font><font style="vertical-align: inherit;">Os efeitos colaterais podem incluir maior conhecimento e habilidade, maior comercialização e profunda satisfação. </font><font style="vertical-align: inherit;">Aumente a dosagem regularmente.
+   </font></font></p>
+<p id="d24e51371"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+   E obrigado por seu apoio contínuo,
+   </font></font></p>
+<p id="d24e51373"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+   Andy Hunt, editor
+   </font></font></p><div class="ss"><img alt="images / Coupon.png" class="" id="d24e51375" src="./Capítulo-100_files/Imagem-30.png"></div></div><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-100_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

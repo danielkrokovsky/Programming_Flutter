@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.dart.import">Mastering import</h2>
+
+  <p id="d24e46728">
+
+
+
+The <span class="cf keyword">import</span> directive in Dart, as is the case in many other modern language, doesn’t only handle inclusion of external library files in the code like the good old C <span class="cf ic">#include</span>: it can do more than that to make our life easier when dealing with libraries and packages.</p>
+
+  <h3>The Basics</h3>
+
+  <p id="d24e46754">We’ll start with the basics: importing an entire file to the current namespace.</p>
+
+  <h4>Importing a Local File</h4>
+
+  <p id="d24e46759">
+
+You can import another local Dart file by using a relative path to it:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'filename.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <h4>Importing a Built-In Dart Library</h4>
+
+  <p id="d24e46778">
+
+
+You can import a built-in Dart library by prefacing the name of the library with <span class="cf ic">dart:</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'dart:async'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <h4>Importing from a Package</h4>
+
+  <p id="d24e46807">
+You can import a file from a package by using:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:packagename/filename.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e46822">Which can be used to import files from the Flutter SDK by using <span class="cf ic">flutter</span> as the package name:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/services.dart'</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e46835">This syntax can also be used to import files in the app’s <span class="cf dir">lib</span> directory by using the app’s package name as the package name.</p>
+
+  <h4>Using as to Import Under a Namespace</h4>
+
+  <p id="d24e46843">
+You can also <span class="cf ic">import</span> under a namespace, by using the following syntax:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'customlib.dart'</em>​ ​<strong class="kw">as</strong>​ MyCustomLib;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e46865">So that, for example, if there is a <span class="cf class">CustomLibraryClass</span> class defined in that file, you can access it by using <span class="cf ic">MyCustomLib.CustomLibraryClass</span> instead of just <span class="cf ic">CustomLibraryClass</span>.</p>
+
+  <p id="d24e46876">This allows you to import many libraries without cluttering your main namespace, keeping each library separated, without risking having multiple classes with the same name.</p>
+
+  <p id="d24e46878">Another great advantage comes when you go back to your code after a while: you will know exactly which library that class is from, without having to figure that out first.</p>
+
+  <h4>Using show to Only Import Some Parts of a File</h4>
+
+  <p id="d24e46883"><span class="cf ic">import</span> can also be used to only import some classes inside a file.</p>
+
+  <p id="d24e46887">
+For example, if you only need the <span class="cf class">CustomLibraryClass</span> from the <span class="cf ic">customlib.dart</span> file and don’t want to import other classes (maybe because they have the same name as other classes in your namespace and you don’t want to use <span class="cf ic">as</span> and deal with extra dot notation), which you can do with the following code:
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'customlib.dart'</em>​ ​<strong class="kw">show</strong>​ CustomLibraryClass;</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

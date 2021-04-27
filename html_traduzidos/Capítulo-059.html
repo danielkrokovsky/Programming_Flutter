@@ -1,0 +1,364 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-059.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-059_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-059_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-059_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e20226"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O pacote http</font></font></h2>
+
+  <p id="d24e20229"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+
+Para fazer solicitações GET, precisamos usar o </font><font style="vertical-align: inherit;">pacote </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Você pode encontrar o pacote http no Dart Pub. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-069.html#FOOTNOTE-36" id="FNPTR-36"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[36]</font></font></a></sup></p>
+
+  <p id="d24e20267"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Vamos começar criando um novo projeto de aplicativo Flutter usando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ flutter criar xkcd_app</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20279"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+e instalando o pacote HTTP adicionando o seguinte ao </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/pubspec.yaml"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / pubspec.yaml</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dependências:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  http: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">^ 0.12.0 + 1"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20308"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Execute os </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para baixar e instalar o pacote se você não estiver usando os plug-ins IDE (que farão isso automaticamente para você depois que você fizer alterações em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ).</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando o pacote http</font></font></h3>
+
+  <p id="d24e20323"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O pacote HTTP pode ser usado para fazer solicitações HTTP de todos os tipos. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-069.html#FOOTNOTE-37" id="FNPTR-37"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[37]</font></font></a></sup></p>
+
+  <p id="d24e20329"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Todos eles são assíncronos, o que significa que, por padrão, eles são executados em um thread separado sem afetar o resto da execução do aplicativo. </font><font style="vertical-align: inherit;">Você pode optar por fazer com que eles se comportem exatamente como funções síncronas se seu valor de retorno for vital para o andamento da execução do aplicativo.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código Assíncrono no Dart</font></font></h4>
+
+  <p id="d24e20343"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Há muitas maneiras de executar código assíncrono em Dart, esboçado no </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-089.html#sec.dart.async"><em><font style="vertical-align: inherit;">Código assíncrona em Dart: O dardo: async Biblioteca</font></em></a><font style="vertical-align: inherit;"> , mas o conceito básico já foi explicado no capítulo anterior: as chamadas para funções que retornam um </font><span class="cf class"><font style="vertical-align: inherit;">futuro</font></span><font style="vertical-align: inherit;"> (ou </font><span class="cf class"><font style="vertical-align: inherit;">fluxo</font></span><font style="vertical-align: inherit;"> , que não usaremos neste capítulo) e executadas em uma thread separada são chamadas de assíncronas.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-089.html#sec.dart.async"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e20377"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Podemos obter os dados retornados por uma função assíncrona usando uma </font><font style="vertical-align: inherit;">expressão </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">await</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var returnData = espera asyncFunction ();</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20390"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso só pode ser feito em </font><font style="vertical-align: inherit;">funções </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assíncronas</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e as funções </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assíncronas</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> precisam retornar </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s, de modo que a assincronia tende a se propagar para todos os métodos de chamada.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fazendo solicitações GET</font></font></h4>
+
+  <p id="d24e20404"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+Uma solicitação HTTP é feita usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.get</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é um </font><font style="vertical-align: inherit;">método </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assíncrono</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que retorna uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">resposta</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dentro de um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e20446"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Podemos desembrulhar a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">resposta</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> interna </font><font style="vertical-align: inherit;">usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">await</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> latestComicResponse = Await http.get ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"https://xkcd.com/info.0.json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20470"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e podemos obter o corpo da resposta como uma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> consultando seu </font><font style="vertical-align: inherit;">atributo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">body</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , como precisaremos fazer quando construir nosso aplicativo XKCD:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> latestComicString = latestComicResponse.body;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20489"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Também poderíamos fazer tudo em uma linha, colocando a </font><font style="vertical-align: inherit;">expressão </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">await</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> entre parênteses:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> latestComicString = (Await http.get ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"https://xkcd.com/info.0.json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .)) do corpo;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20510"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Os cabeçalhos HTTP podem ser definidos definindo os </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cabeçalhos</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> denominados argumentos para um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Map &lt;String, String&gt;</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , como no exemplo a seguir:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.get (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"http://example.com/exampleGet?testAttr= </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ val1 </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&amp; testAttr2 = </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ val2 </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  cabeçalhos: {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Aceitar"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"application / json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Aceitar-Charset"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"utf-8"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20563"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A Wikipedia possui uma lista abrangente de cabeçalhos HTTP padrão. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-069.html#FOOTNOTE-38" id="FNPTR-38"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[38]</font></font></a></sup></p>
+
+  <p id="d24e20569"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+A </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pacote também fornece </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.read ()</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.readBytes ()</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que são, respectivamente, assim como </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.get ()</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s' </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">do corpo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bodyBytes</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> atributos.</font></font></p>
+
+  <p id="d24e20599"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, você pode deixar de ligar para:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Corda</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> res = (Await http.get ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"http://example.com"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )) do corpo.;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20616"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para apenas:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Corda</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> res = Await http.read ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"http://example.com"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20631"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ou vá de:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Corda</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> res = (Await http.get ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"http://example.com"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )). BodyBytes;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20648"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para apenas:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Corda</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> res = Await http.readBytes ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"http://example.com"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20662"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No entanto, </font><span class="cf methodname"><font style="vertical-align: inherit;">tome</font></span><font style="vertical-align: inherit;"> cuidado, pois você perde outros atributos do </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Response</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (o tipo de dados que </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.get</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retorna), como:</font></font></p>
+
+  <ul>
+
+    <li><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cabeçalhos</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é necessário quando você precisa ler os cabeçalhos da resposta;</font></font></li>
+
+    <li><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">contentLength</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é o tamanho (em bytes) da resposta.
+
+
+
+
+</font></font></li>
+
+  </ul>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fazendo outras solicitações</font></font></h4>
+
+  <p id="d24e20693"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Outros tipos de solicitações HTTP também são suportados, e todos eles suportam a configuração de cabeçalhos da maneira que acabamos de ver e todos eles retornam </font><font style="vertical-align: inherit;">objetos </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&lt;Response&gt; do futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e20774"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma solicitação POST é feita usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.post</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , a URL da solicitação é fornecida como um argumento posicional e você pode definir o corpo da solicitação definindo o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">corpo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> nomeado como o argumento que desejar.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e20783"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma solicitação PUT é feita usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.put</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , a URL da solicitação é fornecida como um argumento posicional e você pode definir o corpo da solicitação definindo o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">corpo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> nomeado como o argumento que desejar.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e20792"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma solicitação DELETE é feita usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.delete</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , a URL da solicitação é fornecida como um argumento posicional.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e20798"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma solicitação PATCH é feita usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.patch</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , a URL da solicitação é fornecida como um argumento posicional e você pode definir o corpo da solicitação definindo o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">corpo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> nomeado como o argumento que desejar.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e20807"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma solicitação HEAD é feita usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http.head</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , a URL da solicitação é fornecida como um argumento posicional.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e20812"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sempre que for possível adicionar um </font><font style="vertical-align: inherit;">atributo de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">corpo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , também é possível adicionar um </font><font style="vertical-align: inherit;">atributo de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">codificação</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é do tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Econding</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e é usado para definir a codificação do corpo. </font><font style="vertical-align: inherit;">Algumas </font><font style="vertical-align: inherit;">subclasses de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">codificação</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> são </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AsciiCodec</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Utf8Codec</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Analisando o corpo de resposta JSON</font></font></h3>
+
+  <p id="d24e20839"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+
+O corpo da resposta HTTP é apenas uma string, portanto, não é útil a menos que seja analisado.</font></font></p>
+
+  <p id="d24e20880"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Analisá-lo manualmente seria extremamente demorado e inútil, uma vez que a </font><font style="vertical-align: inherit;">biblioteca integrada </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: convert</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> já fornece uma constante chamada </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é do tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JsonCodec</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que significa que expõe dois métodos:</font></font></p>
+
+  <ul>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json.encode (obj)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que converte o </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">obj</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em uma string JSON.</font></font></li>
+
+    <li><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json.decode (str)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que converte a </font><font style="vertical-align: inherit;">string </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">str</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> JSON em um objeto Dart.</font></font></li>
+
+  </ul>
+
+  <p id="d24e20908"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em nosso caso específico, queremos converter uma string JSON em </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Map &lt;String, dynamic&gt;</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que nos permite acessar cada um dos atributos do comic por nome, como veremos na próxima seção.</font></font></p>
+
+  <p id="d24e20913"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: convert</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , se tivéssemos armazenado anteriormente o corpo de resposta de uma chamada à API do XKCD para uma variável chamada </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">latestComicString</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , seríamos capazes de convertê-lo em um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> usando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Map &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; latestComic = json.decode (latestComicString);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e20937"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Portanto, o código que adicionaríamos ao nosso aplicativo se precisássemos armazenar o quadrinho mais recente em uma </font><font style="vertical-align: inherit;">variável de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é:
+
+
+
+
+
+
+
+
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Map &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; latestComic = json.decode (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  aguardam http.read ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"https://xkcd.com/info.0.json"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">);</font></font></td>
+    </tr>
+
+  </tbody></table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-059_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

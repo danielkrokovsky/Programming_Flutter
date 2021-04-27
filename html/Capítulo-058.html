@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e19819">The API</h2>
+
+  <p id="d24e19822">
+
+
+Since talking about actually creating a back end for your app would deviate significantly from the scope of this book, we’ll be using a simple HTTP API that requires no authentication: the popular comic site XKCD’s API.</p>
+
+  <h3>Why XKCD?</h3>
+
+  <p id="d24e19837">
+You are probably already familiar with the XKCD website: its comics are often shared in engineering and computer-related communities (especially software development ones), and the XKCD API is very simple to use and requires no authentication, which means you will be able to use the code examples in this chapter without having to update placeholder API keys with ones you get by signing up for the usage of the API like you would if the example was about an API that requires authentication.</p>
+
+  <h3>How the XKCD API Works</h3>
+
+  <p id="d24e19844">The XKCD API, like is the case for most HTTP end-points, sends JSON responses to simple GET requests.</p>
+
+  <h4>Getting Data About XKCD Comics</h4>
+
+  <p id="d24e19849">
+
+
+
+
+
+For example, sending a standard GET request to <span class="cf ic">https://xkcd.com/info.0.json</span> returns something like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">{</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"month"</em>​: ​<em class="string">"1"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"num"</em>​: 2097,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"link"</em>​: ​<em class="string">""</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"year"</em>​: ​<em class="string">"2019"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"news"</em>​: ​<em class="string">""</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"safe_title"</em>​: ​<em class="string">"Thor Tools"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"transcript"</em>​: ​<em class="string">""</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"alt"</em>​: ​<em class="string">"CORRECTION: After careful evaluation,"</em>​ ​<strong class="kw">+</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"we have determined that the"</em>​ ​<strong class="kw">+</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"axis label on this chart was printed backward."</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"img"</em>​: ​<em class="string">"https://imgs.xkcd.com/comics/thor_tools.png"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"title"</em>​: ​<em class="string">"Thor Tools"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"day"</em>​: ​<em class="string">"11"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19987">which describes the latest comic XKCD has published, and you can see the current result yourself by navigating to that page in the browser.</p>
+
+  <h4>The JSON Data</h4>
+
+  <p id="d24e19992">If you have never worked with JSON, it is just a way to describe an object from any object-oriented programming language (or, even more closely, a C-like struct) with a string: it is a single entity containing multiple fields, each one describing something different about the entity it’s describing.</p>
+
+  <p id="d24e19994">In this case, it’s the latest comic XKCD has published and the following information about it:</p>
+
+  <ul>
+
+    <li>Which month it was released on (1 for January).</li>
+
+    <li>The numerical ID for the comic (progressive, starting from 1 for the first ever XKCD comic).</li>
+
+    <li>The link clicking the comic image on the websites points to<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-33" id="FNPTR-33">[33]</a></sup> (usually empty).</li>
+
+    <li>The year the comic was published.</li>
+
+    <li>A usually empty <span class="emph">news</span> field.</li>
+
+    <li>The text-only title of the comic (the normal <span class="emph">title</span> might contain HTML tags).</li>
+
+    <li>A textual transcript (a description) of what’s happening in the comic image, which hasn’t been added to comics since number 1674.</li>
+
+    <li><span class="emph">alt</span> is an explanation of the joke or additional text meant to be viewed after seeing the comic image itself. It has been included in the official website in two ways: the desktop version displays it when the mouse hovers over the image, and the mobile version displays it when a button below the image is tapped.</li>
+
+    <li>The comic image itself.</li>
+
+    <li>The comic title, potentially containing HTML tags.</li>
+
+    <li>The day of the month on which the comic was published.</li>
+
+  </ul>
+
+  <p id="d24e20046">
+
+
+
+
+
+
+
+
+In Dart code, we can parse and decode the JSON data and store it in a Dart <span class="cf class">Map</span> using the <span class="cf ic">dart:convert</span> built-in Dart library, which provides the necessary <span class="cf methodname">json.decode(JSON)</span> method to convert a JSON <span class="cf class">String</span> to a Dart object, as well as a <span class="cf methodname">json.decode(var)</span> method (which we won’t use) that converts compatible Dart objects to JSON-formatted <span class="cf class">String</span>s.</p>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title"> How the Convert Library Works </div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e20110">
+		
+        
+		
+		
+        
+		The <span class="emph">dart:convert</span> library provides the <span class="cf constant">json</span> constant,<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-34" id="FNPTR-34">[34]</a></sup> which is of type <span class="cf class">JsonCodec</span>,<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-35" id="FNPTR-35">[35]</a></sup> which has two methods: <span class="cf methodname">json.decode</span>, which takes a <span class="cf class">String</span> as an argument and can return any Dart object, as its return type is <span class="cf class">dynamic</span>, meaning it could be anything.
+	</p>
+
+      <p id="d24e20171">
+		
+		The other method is <span class="cf methodname">json.encode</span>, which does the exact opposite: it takes any Dart <span class="cf class">Object</span> (again, it could be anything) and returns a <span class="cf class">String</span> that can be used—for example, as part of a POST request if that’s what we needed to do, and as we’ll do later in the book.
+	</p>
+
+    </div>
+
+  </div>
+
+  <h4>Getting Previous Comics</h4>
+
+  <p id="d24e20193">
+
+You can get the comics published prior to the current (and latest) one by sending a get request to <span class="cf ic">https://xkcd.com/num/info.0.json</span> where <span class="cf ic">num</span> is the comic number in chronological order (starting from 1); for example, you can get the first one by sending a GET request to <span class="cf ic">https://xkcd.com/1/info.0.json</span>.</p>
+
+  <p id="d24e20213">There is no way to get a list of the comics from the API, but we can make a list of comics in reverse chronological order (from the latest to the earliest) by simply fetching the latest comic, then using its ID number (let’s call it <span class="cf ic">latestNum</span>) to fetch the comics with numbers that go from <span class="cf ic">latestNum-1</span> to 1.
+
+
+</p>
+
+</body>
+
+</html>

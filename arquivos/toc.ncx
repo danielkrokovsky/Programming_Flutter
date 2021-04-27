@@ -1,0 +1,592 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" xmlns:redirect="http://xml.apache.org/xalan/redirect" version="2005-1"><head><meta name="dtb:uid" content="978-1-68050-695-2"/><meta name="dtb:depth" content="1"/><meta name="dtb:totalPageCount" content="0"/><meta name="dtb:maxPageNumber" content="0"/></head><docTitle><text>Programming Flutter</text></docTitle><navMap>
+  <navPoint id="navPoint-0" playOrder="1">
+    <navLabel>
+      <text>Programming Flutter</text>
+    </navLabel>
+    <content src="Capítulo-002.html"/>
+    <navPoint id="navPoint-1" playOrder="2">
+      <navLabel>
+        <text>About the Pragmatic Bookshelf</text>
+      </navLabel>
+      <content src="Capítulo-003.html"/>
+    </navPoint>
+    <navPoint id="navPoint-2" playOrder="3">
+      <navLabel>
+        <text>Table of Contents</text>
+      </navLabel>
+      <content src="Capítulo-004.html"/>
+    </navPoint>
+    <navPoint id="navPoint-3" playOrder="4">
+      <navLabel>
+        <text>Early Praise for Programming Flutter</text>
+      </navLabel>
+      <content src="Capítulo-005.html"/>
+    </navPoint>
+    <navPoint id="navPoint-4" playOrder="5">
+      <navLabel>
+        <text>Acknowledgments</text>
+      </navLabel>
+      <content src="Capítulo-006.html"/>
+    </navPoint>
+    <navPoint id="navPoint-5" playOrder="6">
+      <navLabel>
+        <text>Preface</text>
+      </navLabel>
+      <content src="Capítulo-007.html"/>
+      <navPoint id="navPoint-6" playOrder="7">
+        <navLabel>
+          <text>A Brief History of Flutter</text>
+        </navLabel>
+        <content src="Capítulo-008.html"/>
+      </navPoint>
+      <navPoint id="navPoint-7" playOrder="8">
+        <navLabel>
+          <text>Why Flutter Matters and What We’ll See in This Book</text>
+        </navLabel>
+        <content src="Capítulo-009.html"/>
+      </navPoint>
+      <navPoint id="navPoint-8" playOrder="9">
+        <navLabel>
+          <text>Don’t Know Dart? Don’t Worry About It</text>
+        </navLabel>
+        <content src="Capítulo-010.html"/>
+      </navPoint>
+      <navPoint id="navPoint-9" playOrder="10">
+        <navLabel>
+          <text>Installing the SDK and the IDE Plugins</text>
+        </navLabel>
+        <content src="Capítulo-011.html"/>
+      </navPoint>
+      <navPoint id="navPoint-10" playOrder="11">
+        <navLabel>
+          <text>Where We’re Going Next: Let’s Start Building A pps</text>
+        </navLabel>
+        <content src="Capítulo-012.html"/>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-11" playOrder="12">
+      <navLabel>
+        <text>Part 1: Getting Started with Flutter</text>
+      </navLabel>
+      <content src="Capítulo-013.html"/>
+      <navPoint id="navPoint-12" playOrder="13">
+        <navLabel>
+          <text>Chapter 1: Making Your First Flutter App</text>
+        </navLabel>
+        <content src="Capítulo-014.html"/>
+        <navPoint id="navPoint-13" playOrder="14">
+          <navLabel>
+            <text>Get Familiar with Dart Syntax and Flutter Clas ses</text>
+          </navLabel>
+          <content src="Capítulo-015.html"/>
+        </navPoint>
+        <navPoint id="navPoint-14" playOrder="15">
+          <navLabel>
+            <text>Give the App Your Personal Touch</text>
+          </navLabel>
+          <content src="Capítulo-016.html"/>
+        </navPoint>
+        <navPoint id="navPoint-15" playOrder="16">
+          <navLabel>
+            <text>Where We’re Going Next</text>
+          </navLabel>
+          <content src="Capítulo-017.html"/>
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-16" playOrder="17">
+        <navLabel>
+          <text>Chapter 2: Laying Out More Widgets</text>
+        </navLabel>
+        <content src="Capítulo-018.html"/>
+        <navPoint id="navPoint-17" playOrder="18">
+          <navLabel>
+            <text>Introducing Layout Widgets</text>
+          </navLabel>
+          <content src="Capítulo-019.html"/>
+        </navPoint>
+        <navPoint id="navPoint-18" playOrder="19">
+          <navLabel>
+            <text>Contain and Add Padding to Widgets Using Invis ible Layout Widgets</text>
+          </navLabel>
+          <content src="Capítulo-020.html"/>
+        </navPoint>
+        <navPoint id="navPoint-19" playOrder="20">
+          <navLabel>
+            <text>Add Your Own Assets to the App</text>
+          </navLabel>
+          <content src="Capítulo-021.html"/>
+        </navPoint>
+        <navPoint id="navPoint-20" playOrder="21">
+          <navLabel>
+            <text>Displaying Images</text>
+          </navLabel>
+          <content src="Capítulo-022.html"/>
+        </navPoint>
+        <navPoint id="navPoint-21" playOrder="22">
+          <navLabel>
+            <text>Vertical Layout</text>
+          </navLabel>
+          <content src="Capítulo-023.html"/>
+        </navPoint>
+        <navPoint id="navPoint-22" playOrder="23">
+          <navLabel>
+            <text>Horizontal Layout: The Row</text>
+          </navLabel>
+          <content src="Capítulo-024.html"/>
+        </navPoint>
+        <navPoint id="navPoint-23" playOrder="24">
+          <navLabel>
+            <text>Making Grids</text>
+          </navLabel>
+          <content src="Capítulo-025.html"/>
+        </navPoint>
+        <navPoint id="navPoint-24" playOrder="25">
+          <navLabel>
+            <text>The Card</text>
+          </navLabel>
+          <content src="Capítulo-026.html"/>
+        </navPoint>
+        <navPoint id="navPoint-25" playOrder="26">
+          <navLabel>
+            <text>Fill the Space Available in the Vie w Using Expanded</text>
+          </navLabel>
+          <content src="Capítulo-027.html"/>
+        </navPoint>
+        <navPoint id="navPoint-26" playOrder="27">
+          <navLabel>
+            <text>Slivers, Custom Scrollables, and Col lapsable App Bars</text>
+          </navLabel>
+          <content src="Capítulo-028.html"/>
+        </navPoint>
+        <navPoint id="navPoint-27" playOrder="28">
+          <navLabel>
+            <text>The Key</text>
+          </navLabel>
+          <content src="Capítulo-029.html"/>
+        </navPoint>
+        <navPoint id="navPoint-28" playOrder="29">
+          <navLabel>
+            <text>Where We’re Going Next</text>
+          </navLabel>
+          <content src="Capítulo-030.html"/>
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-29" playOrder="30">
+        <navLabel>
+          <text>Chapter 3: Building a Calculator App</text>
+        </navLabel>
+        <content src="Capítulo-031.html"/>
+        <navPoint id="navPoint-30" playOrder="31">
+          <navLabel>
+            <text>Importing Basic Dependencies</text>
+          </navLabel>
+          <content src="Capítulo-032.html"/>
+        </navPoint>
+        <navPoint id="navPoint-31" playOrder="32">
+          <navLabel>
+            <text>Writing main</text>
+          </navLabel>
+          <content src="Capítulo-033.html"/>
+        </navPoint>
+        <navPoint id="navPoint-32" playOrder="33">
+          <navLabel>
+            <text>The Calculator’s Home Page</text>
+          </navLabel>
+          <content src="Capítulo-034.html"/>
+        </navPoint>
+        <navPoint id="navPoint-33" playOrder="34">
+          <navLabel>
+            <text>How the App Will Be Structured</text>
+          </navLabel>
+          <content src="Capítulo-035.html"/>
+        </navPoint>
+        <navPoint id="navPoint-34" playOrder="35">
+          <navLabel>
+            <text>Implement the Basic Layout</text>
+          </navLabel>
+          <content src="Capítulo-036.html"/>
+        </navPoint>
+        <navPoint id="navPoint-35" playOrder="36">
+          <navLabel>
+            <text>Let’s Give the Calculator a S creen</text>
+          </navLabel>
+          <content src="Capítulo-037.html"/>
+        </navPoint>
+        <navPoint id="navPoint-36" playOrder="37">
+          <navLabel>
+            <text>Add the Deletion Row</text>
+          </navLabel>
+          <content src="Capítulo-038.html"/>
+        </navPoint>
+        <navPoint id="navPoint-37" playOrder="38">
+          <navLabel>
+            <text>The Third Row</text>
+          </navLabel>
+          <content src="Capítulo-039.html"/>
+        </navPoint>
+        <navPoint id="navPoint-38" playOrder="39">
+          <navLabel>
+            <text>Why a GridView Wouldn’t Work</text>
+          </navLabel>
+          <content src="Capítulo-040.html"/>
+        </navPoint>
+        <navPoint id="navPoint-39" playOrder="40">
+          <navLabel>
+            <text>Make the App Look and Work Righ t with Expanded</text>
+          </navLabel>
+          <content src="Capítulo-041.html"/>
+        </navPoint>
+        <navPoint id="navPoint-40" playOrder="41">
+          <navLabel>
+            <text>The Finished Layout</text>
+          </navLabel>
+          <content src="Capítulo-042.html"/>
+        </navPoint>
+        <navPoint id="navPoint-41" playOrder="42">
+          <navLabel>
+            <text>Implement the Calculations</text>
+          </navLabel>
+          <content src="Capítulo-043.html"/>
+        </navPoint>
+        <navPoint id="navPoint-42" playOrder="43">
+          <navLabel>
+            <text>Use the Calculation Inside the App</text>
+          </navLabel>
+          <content src="Capítulo-044.html"/>
+        </navPoint>
+        <navPoint id="navPoint-43" playOrder="44">
+          <navLabel>
+            <text>Wrapping Up the Calculator</text>
+          </navLabel>
+          <content src="Capítulo-045.html"/>
+        </navPoint>
+        <navPoint id="navPoint-44" playOrder="45">
+          <navLabel>
+            <text>What If We Try to Divide by 0?</text>
+          </navLabel>
+          <content src="Capítulo-046.html"/>
+        </navPoint>
+        <navPoint id="navPoint-45" playOrder="46">
+          <navLabel>
+            <text>Where We’re Going Next</text>
+          </navLabel>
+          <content src="Capítulo-047.html"/>
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-46" playOrder="47">
+        <navLabel>
+          <text>Chapter 4: Beyond the Standard Library: Plugins and Packages</text>
+        </navLabel>
+        <content src="Capítulo-048.html"/>
+        <navPoint id="navPoint-47" playOrder="48">
+          <navLabel>
+            <text>An Introduction to Packages</text>
+          </navLabel>
+          <content src="Capítulo-049.html"/>
+        </navPoint>
+        <navPoint id="navPoint-48" playOrder="49">
+          <navLabel>
+            <text>Package Usage Example</text>
+          </navLabel>
+          <content src="Capítulo-050.html"/>
+        </navPoint>
+        <navPoint id="navPoint-49" playOrder="50">
+          <navLabel>
+            <text>Making Your Own Packages</text>
+          </navLabel>
+          <content src="Capítulo-051.html"/>
+        </navPoint>
+        <navPoint id="navPoint-50" playOrder="51">
+          <navLabel>
+            <text>Publishing a Package to Pub</text>
+          </navLabel>
+          <content src="Capítulo-052.html"/>
+        </navPoint>
+        <navPoint id="navPoint-51" playOrder="52">
+          <navLabel>
+            <text>Packages for Windows, macOS, and Linux</text>
+          </navLabel>
+          <content src="Capítulo-053.html"/>
+        </navPoint>
+        <navPoint id="navPoint-52" playOrder="53">
+          <navLabel>
+            <text>Where We’re Going Next</text>
+          </navLabel>
+          <content src="Capítulo-054.html"/>
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-54" playOrder="54">
+      <navLabel>
+        <text>Part 2: Doing More with Flutter</text>
+      </navLabel>
+      <content src="Capítulo-056.html"/>
+      <navPoint id="navPoint-55" playOrder="55">
+        <navLabel>
+          <text>Chapter 5: Network and Storage I/O and Navigation</text>
+        </navLabel>
+        <content src="Capítulo-057.html"/>
+        <navPoint id="navPoint-56" playOrder="56">
+          <navLabel>
+            <text>The API</text>
+          </navLabel>
+          <content src="Capítulo-058.html"/>
+        </navPoint>
+        <navPoint id="navPoint-57" playOrder="57">
+          <navLabel>
+            <text>The http Package</text>
+          </navLabel>
+          <content src="Capítulo-059.html"/>
+        </navPoint>
+        <navPoint id="navPoint-58" playOrder="58">
+          <navLabel>
+            <text>Writing Methods to Fetch Comics</text>
+          </navLabel>
+          <content src="Capítulo-060.html"/>
+        </navPoint>
+        <navPoint id="navPoint-59" playOrder="59">
+          <navLabel>
+            <text>What You Need to Build the UI : Navigation and the InheritedWidget</text>
+          </navLabel>
+          <content src="Capítulo-061.html"/>
+        </navPoint>
+        <navPoint id="navPoint-60" playOrder="60">
+          <navLabel>
+            <text>Build the App’s Basic UI</text>
+          </navLabel>
+          <content src="Capítulo-062.html"/>
+        </navPoint>
+        <navPoint id="navPoint-61" playOrder="61">
+          <navLabel>
+            <text>Building the Comic Page</text>
+          </navLabel>
+          <content src="Capítulo-063.html"/>
+        </navPoint>
+        <navPoint id="navPoint-62" playOrder="62">
+          <navLabel>
+            <text>Using the CircularProgressIndic ator</text>
+          </navLabel>
+          <content src="Capítulo-064.html"/>
+        </navPoint>
+        <navPoint id="navPoint-63" playOrder="63">
+          <navLabel>
+            <text>Making Everything Faster by Cach ing to Local Storage</text>
+          </navLabel>
+          <content src="Capítulo-065.html"/>
+        </navPoint>
+        <navPoint id="navPoint-64" playOrder="64">
+          <navLabel>
+            <text>Allowing the User to Click the Image and Go t o the Website: The url_launcher Package</text>
+          </navLabel>
+          <content src="Capítulo-066.html"/>
+        </navPoint>
+        <navPoint id="navPoint-65" playOrder="65">
+          <navLabel>
+            <text>Adding Comic Selection by Number</text>
+          </navLabel>
+          <content src="Capítulo-067.html"/>
+        </navPoint>
+        <navPoint id="navPoint-66" playOrder="66">
+          <navLabel>
+            <text>Permanent Data I/O in Flutter: Adding “Starre d” Comics</text>
+          </navLabel>
+          <content src="Capítulo-068.html"/>
+        </navPoint>
+        <navPoint id="navPoint-67" playOrder="67">
+          <navLabel>
+            <text>Where We’re Going Next</text>
+          </navLabel>
+          <content src="Capítulo-069.html"/>
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-68" playOrder="68">
+        <navLabel>
+          <text>Chapter 6: Testing and Debugging Flutter Apps</text>
+        </navLabel>
+        <content src="Capítulo-070.html"/>
+        <navPoint id="navPoint-69" playOrder="69">
+          <navLabel>
+            <text>Testing</text>
+          </navLabel>
+          <content src="Capítulo-071.html"/>
+        </navPoint>
+        <navPoint id="navPoint-70" playOrder="70">
+          <navLabel>
+            <text>Testing the XKCD App: Using Mock Objects</text>
+          </navLabel>
+          <content src="Capítulo-072.html"/>
+        </navPoint>
+        <navPoint id="navPoint-71" playOrder="71">
+          <navLabel>
+            <text>Throwing and Catching Exceptions</text>
+          </navLabel>
+          <content src="Capítulo-073.html"/>
+        </navPoint>
+        <navPoint id="navPoint-72" playOrder="72">
+          <navLabel>
+            <text>Assert Statements</text>
+          </navLabel>
+          <content src="Capítulo-074.html"/>
+        </navPoint>
+        <navPoint id="navPoint-73" playOrder="73">
+          <navLabel>
+            <text>Where We’re Going Next</text>
+          </navLabel>
+          <content src="Capítulo-075.html"/>
+        </navPoint>
+      </navPoint>
+      <navPoint id="navPoint-74" playOrder="74">
+        <navLabel>
+          <text>Chapter 7: Build a Chat App Using Firebase</text>
+        </navLabel>
+        <content src="Capítulo-076.html"/>
+        <navPoint id="navPoint-75" playOrder="75">
+          <navLabel>
+            <text>What Is Firebase?</text>
+          </navLabel>
+          <content src="Capítulo-077.html"/>
+        </navPoint>
+        <navPoint id="navPoint-76" playOrder="76">
+          <navLabel>
+            <text>Animations and Transistions</text>
+          </navLabel>
+          <content src="Capítulo-078.html"/>
+        </navPoint>
+        <navPoint id="navPoint-77" playOrder="77">
+          <navLabel>
+            <text>Custom Shapes and Drawing in Flutter Apps Usi ng Painters</text>
+          </navLabel>
+          <content src="Capítulo-079.html"/>
+        </navPoint>
+        <navPoint id="navPoint-78" playOrder="78">
+          <navLabel>
+            <text>The StreamBuilder</text>
+          </navLabel>
+          <content src="Capítulo-080.html"/>
+        </navPoint>
+        <navPoint id="navPoint-79" playOrder="79">
+          <navLabel>
+            <text>Building the Chat App</text>
+          </navLabel>
+          <content src="Capítulo-081.html"/>
+        </navPoint>
+        <navPoint id="navPoint-80" playOrder="80">
+          <navLabel>
+            <text>Where You’re Going Next</text>
+          </navLabel>
+          <content src="Capítulo-082.html"/>
+        </navPoint>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-82" playOrder="81">
+      <navLabel>
+        <text>Appendix 1: Introduction to Dart</text>
+      </navLabel>
+      <content src="Capítulo-084.html"/>
+      <navPoint id="navPoint-83" playOrder="82">
+        <navLabel>
+          <text>Comments in Dart</text>
+        </navLabel>
+        <content src="Capítulo-085.html"/>
+      </navPoint>
+      <navPoint id="navPoint-84" playOrder="83">
+        <navLabel>
+          <text>Variables and Conditions</text>
+        </navLabel>
+        <content src="Capítulo-086.html"/>
+      </navPoint>
+      <navPoint id="navPoint-85" playOrder="84">
+        <navLabel>
+          <text>Functions</text>
+        </navLabel>
+        <content src="Capítulo-087.html"/>
+      </navPoint>
+      <navPoint id="navPoint-86" playOrder="85">
+        <navLabel>
+          <text>main</text>
+        </navLabel>
+        <content src="Capítulo-088.html"/>
+      </navPoint>
+      <navPoint id="navPoint-87" playOrder="86">
+        <navLabel>
+          <text>Asynchronous Code in Dart: The dart:asyn c Library</text>
+        </navLabel>
+        <content src="Capítulo-089.html"/>
+      </navPoint>
+      <navPoint id="navPoint-88" playOrder="87">
+        <navLabel>
+          <text>Conditional Constructs and Expres sions</text>
+        </navLabel>
+        <content src="Capítulo-090.html"/>
+      </navPoint>
+      <navPoint id="navPoint-89" playOrder="88">
+        <navLabel>
+          <text>Loops: while, do while, and for</text>
+        </navLabel>
+        <content src="Capítulo-091.html"/>
+      </navPoint>
+      <navPoint id="navPoint-90" playOrder="89">
+        <navLabel>
+          <text>Classes</text>
+        </navLabel>
+        <content src="Capítulo-092.html"/>
+      </navPoint>
+      <navPoint id="navPoint-91" playOrder="90">
+        <navLabel>
+          <text>Typedef and Callbacks</text>
+        </navLabel>
+        <content src="Capítulo-093.html"/>
+      </navPoint>
+      <navPoint id="navPoint-92" playOrder="91">
+        <navLabel>
+          <text>Mastering import</text>
+        </navLabel>
+        <content src="Capítulo-094.html"/>
+      </navPoint>
+      <navPoint id="navPoint-93" playOrder="92">
+        <navLabel>
+          <text>Conversion Between Native Jav a/Apple and Dart Data Types</text>
+        </navLabel>
+        <content src="Capítulo-095.html"/>
+      </navPoint>
+      <navPoint id="navPoint-94" playOrder="93">
+        <navLabel>
+          <text>Where You’re Going Next</text>
+        </navLabel>
+        <content src="Capítulo-096.html"/>
+      </navPoint>
+    </navPoint>
+    <navPoint id="navPoint-95" playOrder="94">
+      <navLabel>
+        <text>Appendix 2: Apple-Like Look and Additional App Configuration</text>
+      </navLabel>
+      <content src="Capítulo-097.html"/>
+      <navPoint id="navPoint-96" playOrder="95">
+        <navLabel>
+          <text>Cupertino Widgets</text>
+        </navLabel>
+        <content src="Capítulo-098.html"/>
+      </navPoint>
+      <navPoint id="navPoint-97" playOrder="96">
+        <navLabel>
+          <text>pubspec.yaml</text>
+        </navLabel>
+        <content src="Capítulo-099.html"/>
+      </navPoint>
+      <navPoint id="navPoint-98" playOrder="97">
+        <navLabel>
+          <text>Platform-Specific Setup</text>
+        </navLabel>
+        <content src="Capítulo-100.html"/>
+      </navPoint>
+      <navPoint id="navPoint-99" playOrder="98">
+        <navLabel>
+          <text>You May Be Interested In…</text>
+        </navLabel>
+        <content src="Capítulo-101.html"/>
+      </navPoint>
+    </navPoint>
+  </navPoint>
+
+</navMap></ncx>

@@ -1,0 +1,729 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.dart.async">Asynchronous Code in Dart: The dart:async Library</h2>
+
+  <p id="d24e44137">
+
+
+
+
+At some point during your Dart development process, you might need to call a method without affecting the execution of your code, or call a library method that has been declared as an <span class="cf ic">async</span> method.</p>
+
+  <p id="d24e44168">That’s when you realize the necessity for asynchronous code and the <span class="cf ic">dart:async</span> built-in Dart library, which allows <span class="cf ic">async</span> functions to return either a <span class="cf class">Future</span> or a <span class="cf class">Stream</span>.</p>
+
+  <h3>The <span class="cf class">Future</span></h3>
+
+  <p id="d24e44187">
+
+The <span class="cf class">Future</span> is the most basic object type related to asynchronous methods—it is the return type of all <span class="cf ic">async</span> functions, including <span class="cf ic">void</span> ones:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;​<strong class="kw">void</strong>​&gt; doSomethingThatTakesLong() async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// do something</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">callingSyncFunction</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  doSomethingThatTakesLong();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">/* the code won't wait for the function to</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * finish its execution and it will carry on</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * in its regular order, executing</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * the next instruction</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   */</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e44252">If you need to wait for the function to stop executing (perhaps because you need the returned value), you need to choose between using <span class="cf keyword">await</span> or <span class="cf methodname">.then</span>.</p>
+
+  <h4>await</h4>
+
+  <p id="d24e44263">
+<span class="cf keyword">await</span> is useful when you actually need to wait for an async function to finish its execution, often because you need its return value. It converts a <span class="cf class">Future</span> into the value returned by the function by waiting for the code that returned the future to finish its execution:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;​<strong class="kw">int</strong>​&gt; getValue() async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ 5;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;​<strong class="kw">int</strong>​&gt; callingFunction() async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ n = await getValue();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ n+5;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h4>then(), catchError(), and whenComplete()</h4>
+
+  <p id="d24e44310">
+If there are some actions you want to take when the <span class="cf class">Future</span> returns a value, but it doesn’t affect the rest of the current code block’s execution or its return value, you can use the <span class="cf class">Future</span>’s <span class="cf methodname">.then</span> method, which allows you to add a callback function to be called with the <span class="cf class">Future</span>’s return value when it is available:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;​<strong class="kw">int</strong>​&gt; getValue() async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ 5;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  getValue().then((n) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">assert</strong>​(n == 5);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">/* something else that</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * won't wait for getValue</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * to return to execute</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   */</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e44379">
+
+What if there’s a runtime error in the execution of the future? That’s when we use <span class="cf methodname">catchError</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">printValue</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  getValue()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    .then(print)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    .catchError((err) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="comment">// handle error</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e44422">
+You can add a <span class="cf methodname">whenComplete</span> call (a lot like a <span class="cf keyword">finally</span> block) for code that needs to be executed regardless of anything that happens.
+
+</p>
+
+  <h3 id="sec.dart.streams">Streams and StreamSubscriptions</h3>
+
+  <p id="d24e44440">
+
+There are certain kinds of data that are subject to frequent change, like the battery and connectivity status we saw in Chapter 4, <a href="Capítulo-048.html#chp.packages">​<em> Beyond the Standard Library: Plugins and Packages </em>​</a> or the documents in the Firebase Cloud Firestore we saw in Chapter 7, <a href="Capítulo-076.html#chp.firebase">​<em> Build a Chat App Using Firebase </em>​</a>. For this kind of data, we use special asynchronous methods that <span class="cf keyword">yield</span> different values at different times or many different values at once.</p>
+
+  <h4>Creating a Stream</h4>
+
+  <p id="d24e44463">
+The most basic way to create a <span class="cf class">Stream</span> is to return multiple values from an asynchronous generator function (<span class="cf ic">async*</span>) using the <span class="cf keyword">yield</span> keyword.</p>
+
+  <p><strong>yielding Values from a Generator Function</strong></p>
+
+  <p id="d24e44481">A function that generates a <span class="cf class">Stream</span> looks something like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Stream&lt;​<strong class="kw">String</strong>​&gt; myStream() async* {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ returnValues = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"This is The First String You'll See"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"After 2 Seconds You'll See This"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"Then This"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">for</strong>​ (​<strong class="kw">int</strong>​ i = 0; i &lt; 3; i++) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await Future.delayed(Duration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      seconds: 2</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    yield returnValues[i];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e44538">
+<span class="cf methodname">Future.delayed</span> allows you to define a <span class="cf class">Future</span> that can be used to pause execution (by waiting for it to be done) for a specified amount of time.</p>
+
+  <p id="d24e44551"><span class="cf keyword">yield</span> is just like <span class="cf keyword">return</span>, but it doesn’t move the execution outside the asynchronous generator function: it yields a value to the calling function and then resumes execution inside the generator function, allowing it to yield another value later.</p>
+
+  <p><strong>Using a StreamController</strong></p>
+
+  <p id="d24e44561">
+A <span class="cf class">StreamController</span> is a more advanced way of generating <span class="cf class">Stream</span>s: it allows you to generate a <span class="cf class">Stream</span> with a regular synchronous function and in more complex scenarios in which <span class="cf keyword">yield</span> just doesn’t cut it.</p>
+
+  <p id="d24e44579">Once you define a <span class="cf class">StreamController</span> variable in a function, you can use <span class="cf methodname">StreamController.add</span> anywhere within the function (perhaps in a callback) and have an effect similar to <span class="cf keyword">yield</span>. Another very important <span class="cf class">StreamController</span> method is <span class="cf methodname">StreamController.close</span>, which causes listening functions to stop listening to the <span class="cf class">Stream</span>.</p>
+
+  <p id="d24e44600">The <span class="cf class">StreamController</span> has two constructors: <span class="cf methodname">StreamController</span> (which is the default) and <span class="cf methodname">StreamController.broadcast</span>.</p>
+
+  <p id="d24e44611">The <span class="cf methodname">StreamController</span> constructor, which is used for streams that are only supposed to have one listener, takes four callback functions as arguments:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e44618"><span class="cf methodname">onListen</span>, which is fired when a listener starts listening for objects and should trigger the start of the yielding of values to avoid creating memory leaks by firing events that no listener is listening to, causing Dart to buffer them, using up memory for events that may never be listened to anywhere.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44623"><span class="cf methodname">onPause</span>, which is fired when the listener requests the <span class="cf class">Stream</span> to temporarily not yield anything using <span class="cf methodname">StreamSubscription.pause</span>, for the same reason <span class="cf methodname">onListen</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44637"><span class="cf methodname">onResume</span>, which is fired when the listener requests the <span class="cf class">Stream</span> to resume the yielding of values after a pause by calling <span class="cf methodname">StreamSubscription.resume</span>, it should be obvious at this point that this function should cause the stream to resume firing events.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44648"><span class="cf methodname">onCancel</span>, which is fired when the listener cancels its subscription by calling <span class="cf methodname">StreamSubscription.cancel</span> and is supposed to make the <span class="cf class">Stream</span> stop trying to yield values.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e44658">The <span class="cf methodname">StreamController.broadcast</span> constructor, which is used for <span class="emph">broadcast streams</span>, can be listened to by multiple listeners. It takes only <span class="cf methodname">onListen</span> and <span class="cf methodname">onCancel</span> as arguments.
+</p>
+
+  <h4>Using a Stream</h4>
+
+  <p id="d24e44676">
+We’ve seen the basics of how to use <span class="cf class">Stream</span>s in <a href="Capítulo-050.html#sec.packages.streams">​<em>Getting the Battery and Connectivity Data: Asynchronous Programming Using Streams</em>​</a>. That example followed this structure:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyWidget ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyState ​<strong class="kw">extends</strong>​ State&lt;MyWidget&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  StreamSubscription&lt;Type&gt; _streamSub;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ initState() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    _streamSub = stream.listen(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      (Type res) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<em class="comment">// do something with the response, setState()</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  dispose() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    _streamSub.cancel();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e44776">In that case, the <span class="cf ic">stream</span> was provided directly by a library, and we used <span class="cf methodname">setState</span> to update some variables when new data was available and rebuild the widget.</p>
+
+  <p id="d24e44784">All of that is inefficient if the <span class="cf class">StatefulWidget</span> that is rebuilt every time the stream changes isn’t just the part that’s showing the data from that <span class="cf class">Stream</span>.
+</p>
+
+  <h4>The StreamBuilder</h4>
+
+  <p id="d24e44796">
+Building a separate <span class="cf class">StatefulWidget</span> for that isn’t necessary because, just like the <span class="cf class">FutureBuilder</span> exists to build UI elements based on the results of <span class="cf class">Future</span>, the <span class="cf class">StreamBuilder</span> is the Flutter widget that builds its contents based on the data returned by a <span class="cf class">Stream</span>.</p>
+
+  <p id="d24e44818">The <span class="cf class">StreamBuilder</span>’s constructor requires, just like the <span class="cf class">FutureBuilder</span>, a data type and two arguments, but with a few differences.</p>
+
+  <p id="d24e44826">The basic structure of a <span class="cf class">StreamBuilder</span> widget is the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">StreamBuilder&lt;Type&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  stream: stream,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  builder: (context, snapshot) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(snapshot.hasData)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="comment">// display snapshot.data</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">else</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="comment">// display an error or some indication that the data is loading</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e44863">
+One of the differences between the <span class="cf class">StreamBuilder</span> and the <span class="cf class">FutureBuilder</span> lies in the <span class="cf variable">snapshot.connectionState</span> value. When working with a <span class="cf class">Future</span> in a <span class="cf class">FutureBuilder</span>, it could only assume the following values:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e44886"><span class="cf constant">ConnectionState.none</span> if the <span class="cf variable">future</span> argument is set to <span class="cf constant">null</span> (not set at all).</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44897"><span class="cf constant">ConnectionState.waiting</span> if the <span class="cf class">FutureBuilder</span> is waiting for the <span class="cf variable">future</span> to return a value.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44908"><span class="cf constant">ConnectionState.none</span> if the <span class="cf variable">future</span> has returned a value, meaning <span class="cf variable">snapshot.hasData</span> is <span class="cf constant">true</span>.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e44921">
+This is why we only used <span class="cf variable">snapshot.hasData</span> and not <span class="cf variable">snapshot.connectionState</span> when working with <span class="cf class">Future</span>s and <span class="cf class">FutureBuilder</span>s. When working with <span class="cf class">Stream</span>s, though, there’s more to it—the connection state could also be <span class="cf constant">ConnectionState.active</span>, meaning that the <span class="cf class">Stream</span> has already returned a value, but it hasn’t terminated, meaning it could return another value at any time.</p>
+
+  <p id="d24e44949">
+
+<span class="cf variable">snapshot.hasError</span> and the <span class="cf variable">snapshot.error</span> exist for both in case you need to handle errors.
+</p>
+
+  <h4>The await for Loop</h4>
+
+  <p id="d24e44970">
+The <span class="cf class">Stream</span> can be interacted with in an alternative way to using the <span class="cf methodname">listen</span> method: the <span class="cf keyword">await for</span> loop.</p>
+
+  <p id="d24e44985">It’s just like a <span class="cf keyword">for</span>-<span class="cf keyword">in</span> loop but, instead of iterating over known values in a list, it waits for new values returned by the stream and only terminates when the stream terminates:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">await ​<strong class="kw">for</strong>​(​<strong class="kw">var</strong>​ value ​<strong class="kw">in</strong>​ stream) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// do something with the value</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e45012">For example, we can print to the console the strings returned by the <span class="cf methodname">myStream</span> function we defined earlier as soon as it <span class="cf keyword">yield</span>s them with the following loop:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">await ​<strong class="kw">for</strong>​(​<strong class="kw">var</strong>​ res ​<strong class="kw">in</strong>​ myStream()) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(res);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e45037">Instead of printing results the <span class="cf keyword">await for</span> can be used, for example, to take an existing <span class="cf class">Stream</span>, change the data or use it as an argument for some other function, and then <span class="cf keyword">yield</span> a changed value, creating a new <span class="cf class">Stream</span>.</p>
+
+  <h4>Error Handling Within Streams</h4>
+
+  <p id="d24e45054">
+
+
+
+When using a <span class="cf class">StreamBuilder</span>, the <span class="cf ic">snapshot</span> you get in the <span class="cf ic">builder</span> has the same <span class="cf ic">snapshot.hasError</span> and <span class="cf ic">snapshot.error</span> you get with <span class="cf class">FutureBuilder</span>s so you can use those if you need to handle errors within a <span class="cf class">FutureBuilder</span> or a <span class="cf class">StreamBuilder</span></p>
+
+  <p id="d24e45099">
+The <span class="cf methodname">listen</span> method optionally takes two more callbacks as arguments:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e45110"><span class="cf variable">onError</span>, which is run when there is an error is thrown by the asynchronous function that generates the <span class="cf class">Stream</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e45118"><span class="cf variable">onDone</span>, which is run when the <span class="cf class">Stream</span> terminates.
+
+
+
+</p>
+
+    </li>
+
+  </ul>
+
+</body>
+
+</html>

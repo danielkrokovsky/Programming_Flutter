@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.layout.assets">Add Your Own Assets to the App</h2>
+
+  <p id="d24e5340">
+
+Flutter allows developers to ship files with apps to, for example, use custom icons instead of the ones provided by Flutter.
+You can use this feature with any kind of file.</p>
+
+  <h3>Where to Put the Files</h3>
+
+  <p id="d24e5354">
+In the root of the app’s source tree (where <span class="cf filename">pubspec.yaml</span> resides) you’ll create one or more directories and inside those directories is where you should put the files you want to ship with your app.</p>
+
+  <h3>Editing pubspec.yaml</h3>
+
+  <p id="d24e5366">
+Inside <span class="cf filename">pubspec.yaml</span>, locate a line that starts with <span class="cf ic">flutter</span> (if you don’t have it yet, just add it at the end of the file) and, after that, indented inside it, add another called assets, in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">...</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  assets:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">...</strong>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5397">Inside it, add the directories you want to load assets from, prefaced with <span class="cf ic">- </span>.</p>
+
+  <p id="d24e5402">For example, if you wanted to add a directory called <span class="cf dir">icons</span>, that would look like:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  assets:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    - ​<em class="string">icons/</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5423">For multiple directories called, for example, <span class="cf dir">dir0</span>, <span class="cf dir">dir1</span>, and <span class="cf dir">dir2</span>, you would write something like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  assets:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    - ​<em class="string">dir0/</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    - ​<em class="string">dir1/</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    - ​<em class="string">dir2/</em>​</td>
+    </tr>
+
+  </table>
+
+  <h3>Using the Assets</h3>
+
+  <p id="d24e5460">
+
+Assets are used in different ways depending on what data you want to load from them.</p>
+
+  <h3>Loading Various Data from the Assets</h3>
+
+  <p id="d24e5471">
+To load data from a text-based asset, it needs to be part of an <span class="cf class">AssetBundle</span>, so that you can access the data using the following methods:</p>
+
+  <ul>
+
+    <li><span class="cf methodname">AssetBundle.loadString</span>, which is used to load strings from text assets.</li>
+
+    <li><span class="cf methodname">AssetBundle.load</span>, which is used to load bytes from a file.</li>
+
+    <li><span class="cf methodname">AssetBundle.loadStructuredData</span>, which is used to load any Dart type of data from a file.</li>
+
+  </ul>
+
+  <p id="d24e5496">
+
+
+
+All of these return <span class="cf class">Future</span>s, so you’ll need to use the facilities described in <a href="Capítulo-089.html#sec.dart.async">​<em>Asynchronous Code in Dart: The dart:async Library</em>​</a> to get the value of the string.</p>
+
+  <h4 id="sec.layout.assets.bundle">Where You Can Get an AssetBundle</h4>
+
+  <p id="d24e5529">
+The basic <span class="cf class">AssetBundle</span> all Flutter apps get is the <span class="cf variable">rootBundle</span>, which contains all of the assets we added to <span class="cf filename">pubspec.yaml</span>.</p>
+
+  <p id="d24e5544">This means you can load a text file off the <span class="cf variable">rootBundle</span> directly in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">rootBundle.loadString(​<em class="string">"path/to/file.txt"</em>​)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5560">
+
+Alternatively, you can use the <span class="cf class">DefaultAssetBundle</span>, which is actually inherited from the parent <span class="cf class">MaterialApp</span> and can be changed at runtime because it isn’t a <span class="cf ic">final</span> variable like the <span class="cf variable">rootBundle</span>. The <span class="cf class">DefaultAssetBundle</span> is accessed using the:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">DefaultAssetBundle.of(context)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5594">we used for the <span class="cf class">Theme</span> in the previous chapter. This syntax will be clarified when we discover the full power of the <span class="cf class">InheritedWidget</span> in <a href="Capítulo-061.html#sec.networking.inheritedwidget">​<em>InheritedWidgets</em>​</a>.</p>
+
+  <p id="d24e5604">We can load data from it by using the usual:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">DefaultAssetBundle.of(context).loadString(​<em class="string">"path/to/file.txt"</em>​)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5620">
+
+syntax, but the characterizing feature of this kind of <span class="cf class">AssetBundle</span> is that it doesn’t necessarily have to be the <span class="cf ic">rootBundle</span> (by default the <span class="cf class">DefaultAssetBundle</span> is just the <span class="cf variable">rootBundle</span>): you can create your own class that extends the <span class="cf class">CachingAssetBundle</span> interface, for example, and cache some strings you think you might want to fetch multiple times during your app’s execution or replace it with a <span class="cf class">NetworkAssetBundle</span> that loads the assets over the network.</p>
+
+  <p id="d24e5650">
+You can’t take advantage of either of those classes, though, if you don’t know how to use an <span class="cf class">InheritedWidget</span> first so I recommend you stick to using either the <span class="cf ic">rootBundle</span> directly or the <span class="cf class">DefaultAssetBundle</span> and only worry about replacing the asset bundle later, when perhaps you’re sure replacing the asset bundle is the best way to do what you’re trying to achieve. If you really need to know how to do that now, <a href="Capítulo-061.html#sec.networking.inheritedwidget">​<em>InheritedWidgets</em>​</a> is another reference to the section on <span class="cf class">InheritedWidget</span>s.
+</p>
+
+  <h4>Images</h4>
+
+  <p id="d24e5675">
+
+To use an image in the assets you can simply use the <span class="cf ic">Image.asset</span> as described in <a href="Capítulo-022.html#sec.layout.images.assets">​<em>Displaying Images from the Assets</em>​</a>.
+
+</p>
+
+</body>
+
+</html>

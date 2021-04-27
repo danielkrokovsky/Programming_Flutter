@@ -1,0 +1,463 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-025.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-025_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-025_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-025_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e8970"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fazendo grades</font></font></h2>
+
+  <p id="d24e8973"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Dependendo do que você precisa para alcançar com a sua aplicação, uma grade pode ser formado de duas maneiras diferentes: usando o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou aninhados </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Row</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Coluna</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s.</font></font></p>
+
+  <h3 id="sec.layout.gridview"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">The GridView</font></font></h3>
+
+  <p id="d24e8998"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é para grades o que </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ListView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é para layout vertical, e é útil para grades semelhantes às vistas em aplicativos de fotos: grades longas e roláveis ​​de um número variável de elementos de tamanho fixo. </font><font style="vertical-align: inherit;">Muito parecido com um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ListView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , ele pode ser criado usando vários construtores. </font><font style="vertical-align: inherit;">O construtor padrão será discutido na seção </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-028.html#sec.layout.slivers"><em><font style="vertical-align: inherit;">Mechas, Scrollables Personalizado e Bares Collapsable App</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-028.html#sec.layout.slivers"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Grades com uma contagem fixa do eixo cruzado</font></font></h4>
+
+  <p id="d24e9014"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O </font><font style="vertical-align: inherit;">construtor </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.count</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> usa uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font><span class="cf class"><font style="vertical-align: inherit;">widgets </font></span></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filhos</font></font></span> <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font><span class="cf ic"><font style="vertical-align: inherit;">crossAxisCount</font></span><font style="vertical-align: inherit;"> como os argumentos básicos para construir a grade, como no exemplo a seguir:</font></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf ic"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.count (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  crossAxisCount: 3,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  crossAxisSpacing: 50.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  mainAxisSpacing: 100.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  preenchimento: EdgeInsets.all (20.0),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  crianças: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">              .mapa(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                (n) =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                  Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ N </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                    style: Theme.of (context) .textTheme.display1,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                  ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">              ).listar(),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e9094"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">que produz:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / WidgetLayout / GridView.count.png" class="border " id="fig.layout.gridviewcount" src="./Capítulo-025_files/Imagem-44.png" style="width: 30%">
+
+  </div>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Grades com extensão máxima do eixo cruzado por widget</font></font></h4>
+
+  <p id="d24e9100"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O </font><font style="vertical-align: inherit;">construtor </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.extent</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pega uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font><span class="cf class"><font style="vertical-align: inherit;">widgets </font></span></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filhos</font></font></span> <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e o </font><span class="cf ic"><font style="vertical-align: inherit;">maxCrossAxisExtent</font></span><font style="vertical-align: inherit;"> , que é a quantidade máxima de pixels que cada filho pode ocupar no eixo cruzado. </font><font style="vertical-align: inherit;">Quanto maior for o </font><span class="cf ic"><font style="vertical-align: inherit;">maxCrossAxisExtent</font></span><font style="vertical-align: inherit;"> , maior será cada bloco.</font></font><span class="cf class"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf ic"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font><span class="cf ic"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e9125"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, o seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.extent (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  maxCrossAxisExtent: 50.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  crossAxisSpacing: 50.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  mainAxisSpacing: 100.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  preenchimento: EdgeInsets.all (20.0),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  crianças: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">              .mapa(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                (n) =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                  Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ N </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                    style: Theme.of (context) .textTheme.display1,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">                  ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">              ).listar(),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e9186"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">produz, em uma tela de 2880 x 1440 560 dpi com escalonamento padrão do Android, a seguinte grade:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / WidgetLayout / Gridview.extent50.png" class="border " id="fig.layout.gridviewextent" src="./Capítulo-025_files/Imagem-45.png" style="width: 30%">
+
+  </div>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Grades construídas usando funções de construtor</font></font></h4>
+
+  <p id="d24e9192"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.builder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> construtor que utiliza um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">itemBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para construir as crianças e um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">gridDelegate</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para o tamanho ea posição dos widgets, como o exemplo a seguir, que produz a mesma grade como o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.count</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> exemplo ( </font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-025.html#fig.layout.gridviewcount"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aqui</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ):</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.builder (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  preenchimento: EdgeInsets.all (20.0),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  itemCount: 15,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    crossAxisCount: 3,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    crossAxisSpacing: 50.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    mainAxisSpacing: 100.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  itemBuilder: (contexto, i) =&gt; Text ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {i + 1} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e9252"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Delegados grade tem (invulgarmente longa) nomes como </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SliverGridDelegateWithFixedCrossAxisCount</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SliverGridDelegateWithMaxCrossAxisExtent</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para obter, respectivamente, os </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.count</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.extent</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> propriedades. </font><font style="vertical-align: inherit;">Eles consideram as propriedades relacionadas ao layout da grade como argumentos nomeados.</font></font></p>
+
+  <p id="d24e9266"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você queria replicar exatamente o comportamento do </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.extent</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> mostrado </font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-025.html#fig.layout.gridviewextent"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aqui</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> você escreveria o seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GridView.builder (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  preenchimento: EdgeInsets.all (20.0),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  itemCount: 15,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    maxCrossAxisExtent: 50.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    crossAxisSpacing: 50.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    mainAxisSpacing: 100.0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  itemBuilder: (contexto, i) =&gt; Text ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {i + 1} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">As propriedades do GridView</font></font></h4>
+
+  <p id="d24e9315"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Outras propriedades da grade são:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e9319"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">childAspectRatio</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é a proporção entre o eixo cruzado e o tamanho do eixo principal de cada um dos </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filhos</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> da grade </font><font style="vertical-align: inherit;">.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e9327"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ShrinkWrap</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é o mesmo que o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ListView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ‘s (em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.listview.usage"><em><font style="vertical-align: inherit;">como usá-lo</font></em></a><font style="vertical-align: inherit;"> ).</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.listview.usage"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e9338"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">scrollDirection</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que define a direção ao longo da qual a grade rola (que também serve como eixo principal da grade).
+
+</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <h3 id="sec.layout.rowcolumngrid"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Linhas e colunas aninhadas</font></font></h3>
+
+  <p id="d24e9348"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Se, em vez disso, você precisar criar uma grade não rolável (talvez menor) de um número fixo de widgets, você usaria uma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">coluna</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">linhas</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e9384"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma grade 2x2 simples seria implementada da seguinte maneira:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Coluna(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  filhos: &lt;Widget&gt; [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Fileira(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      filhos: &lt;Widget&gt; [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        Texto (topLeftString),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        Texto (topRightString),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ],</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Fileira(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      filhos: &lt;Widget&gt; [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        Texto (bottomLeftString),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        Texto (bottomRightString),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ],</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ],</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-025_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

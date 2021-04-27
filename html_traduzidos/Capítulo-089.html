@@ -1,0 +1,728 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-089.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-089_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-089_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-089_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.dart.async"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código assíncrono no Dart: The dart: biblioteca assíncrona</font></font></h2>
+
+  <p id="d24e44137"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+Em algum ponto durante o processo de desenvolvimento do Dart, você pode precisar chamar um método sem afetar a execução do seu código ou chamar um método de biblioteca que foi declarado como um </font><font style="vertical-align: inherit;">método </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assíncrono</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e44168"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">É quando você percebe a necessidade de código assíncrono e da </font><font style="vertical-align: inherit;">biblioteca Dart integrada </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: async</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que permite que </font><font style="vertical-align: inherit;">funções </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assíncronas</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retornem um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">futuro</font></font></span></h3>
+
+  <p id="d24e44187"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o tipo de objeto mais básico relacionado a métodos assíncronos - é o tipo de retorno de todas as </font><font style="vertical-align: inherit;">funções </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assíncronas</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , incluindo </font><font style="vertical-align: inherit;">aquelas </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nulas</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> doSomethingThatTakesLong () assíncrona&gt; {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// fazer alguma coisa</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">callingSyncFunction</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  doSomethingThatTakesLong ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ * O código não vai esperar para a função</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Terminar a sua execução e vai continuar</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Em sua ordem regular, executando</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * A próxima instrução</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e44252"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você precisa esperar para a função de parar a execução (talvez porque você precisa do valor retornado), você precisa escolher entre usar </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aguardam</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.then</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aguardam</font></font></h4>
+
+  <p id="d24e44263">
+<span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">await</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é útil quando você realmente precisa esperar que uma função assíncrona termine sua execução, geralmente porque você precisa de seu valor de retorno. </font><font style="vertical-align: inherit;">Ele converte um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no valor retornado pela função, esperando que o código que retornou o futuro termine sua execução:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; getValue () assíncrona {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retornar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 5;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; callingFunction () assíncrona {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n = Await getValue ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">regresso</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n + 5;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">then (), catchError () e whenComplete ()</font></font></h4>
+
+  <p id="d24e44310"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Se houver algumas ações que você deseja realizar quando o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retornar um valor, mas não afetar o resto da execução do bloco de código atual ou seu valor de retorno, você pode usar o </font><font style="vertical-align: inherit;">método </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 's </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.then</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que permite que você adicione uma função de retorno de chamada a ser chamada com o </font><font style="vertical-align: inherit;">valor de retorno </font><font style="vertical-align: inherit;">do </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> quando estiver disponível:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; getValue () assíncrona {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retornar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 5;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">principal</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  getValue (). then ((n) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (n == 5);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ * Outra coisa que</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Não vai esperar por getValue</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Para voltar a executar</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e44379"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+E se houver um erro de tempo de execução na execução do futuro? </font><font style="vertical-align: inherit;">É quando usamos </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">catchError</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">printValue</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Obter valor()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    .então (imprimir)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    .catchError ((err) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// erro punho</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e44422"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você pode adicionar uma </font><font style="vertical-align: inherit;">chamada </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">whenComplete</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (semelhante a um </font><font style="vertical-align: inherit;">bloco </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">finally</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) para código que precisa ser executado independentemente de tudo o que acontece.
+
+</font></font></p>
+
+  <h3 id="sec.dart.streams"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Streams e StreamSubscriptions</font></font></h3>
+
+  <p id="d24e44440"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Existem certos tipos de dados que estão sujeitas a mudanças frequentes, como o vimos bateria e conectividade estado no Capítulo 4, </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-048.html#chp.packages"><em><font style="vertical-align: inherit;">Além da biblioteca padrão: plugins e pacotes</font></em></a><font style="vertical-align: inherit;"> ou os documentos no Firebase Nuvem Firestore que vimos no Capítulo 7, </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-076.html#chp.firebase"><em><font style="vertical-align: inherit;">construir um bate-papo App Usando Firebase</font></em></a><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Para esse tipo de dados, usamos métodos assíncronos especiais que </font><span class="cf keyword"><font style="vertical-align: inherit;">geram</font></span><font style="vertical-align: inherit;"> valores diferentes em momentos diferentes ou muitos valores diferentes ao mesmo tempo.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-048.html#chp.packages"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-076.html#chp.firebase"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><span class="cf keyword"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Criação de um fluxo</font></font></h4>
+
+  <p id="d24e44463"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+A maneira mais básica de criar um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é retornar vários valores de uma função geradora assíncrona ( </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assíncrona *</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) usando a </font><font style="vertical-align: inherit;">palavra-chave </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">yield</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">produzindo valores de uma função geradora</font></font></strong></p>
+
+  <p id="d24e44481"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma função que gera um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream se</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> parece com isto:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fluxo &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">string</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; myStream () assíncrona * {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> returnValues = [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Esta é a primeira corda você verá"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Após 2 segundos, você verá este"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Então este"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> i = 0; i &lt;3; i ++) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    aguardar Future.delayed (Duração (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      segundos: 2</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    rendimento returnValues ​​[i];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e44538">
+<span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future.delayed</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> permite definir um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que pode ser usado para pausar a execução (esperando que seja feito) por um período de tempo especificado.</font></font></p>
+
+  <p id="d24e44551"><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">yield</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é como </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">return</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas não move a execução para fora da função geradora assíncrona: ele retorna um valor para a função de chamada e então retoma a execução dentro da função geradora, permitindo que ela retorne outro valor mais tarde.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando um StreamController</font></font></strong></p>
+
+  <p id="d24e44561"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é uma forma mais avançada de gerar </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s: ele permite que você gere um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com uma função síncrona regular e em cenários mais complexos nos quais o </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">rendimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> simplesmente não é suficiente.</font></font></p>
+
+  <p id="d24e44579"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de definir uma </font><font style="vertical-align: inherit;">variável </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em uma função, você pode usar </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController.add em</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> qualquer lugar dentro da função (talvez em um retorno de chamada) e ter um efeito semelhante ao </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">rendimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Outro </font><font style="vertical-align: inherit;">método </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> muito importante </font><font style="vertical-align: inherit;">é </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController.close</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que faz com que as funções de escuta parem de escutar o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e44600"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> tem dois construtores: </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (que é o padrão) e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController.broadcast</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e44611"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">construtor </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é usado para fluxos que deveriam ter apenas um ouvinte, recebe quatro funções de retorno de chamada como argumentos:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e44618"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onListen</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é disparado quando um ouvinte começa a escutar objetos e deve acionar o início da produção de valores para evitar a criação de vazamentos de memória, disparando eventos que nenhum ouvinte está ouvindo, fazendo com que o Dart os armazene em buffer, usando memória para eventos que podem nunca ser ouvido em qualquer lugar.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44623"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onPause</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é disparado quando o ouvinte solicita que o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> temporariamente não produza nada usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamSubscription.pause</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , pelo mesmo motivo </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onListen</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44637"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onResume</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é disparado quando o ouvinte solicita que o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retome a produção de valores após uma pausa chamando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamSubscription.resume</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , deve ser óbvio neste ponto que essa função deve fazer com que o stream retome os eventos de disparo.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44648"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onCancel</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é disparado quando o ouvinte cancela sua assinatura chamando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamSubscription.cancel</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e deve fazer o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> parar de tentar gerar valores.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e44658"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">construtor </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamController.broadcast</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é usado para </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">streams de transmissão</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , pode ser ouvido por vários ouvintes. </font><font style="vertical-align: inherit;">Leva apenas </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onListen</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onCancel</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como argumentos.
+</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando um Stream</font></font></h4>
+
+  <p id="d24e44676"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Nós vimos as noções básicas de como usar </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Corrente</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-050.html#sec.packages.streams"><em><font style="vertical-align: inherit;">obter os dados da bateria e conectividade: Programação Asynchronous Usando Streams</font></em></a><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Esse exemplo seguiu esta estrutura:</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-050.html#sec.packages.streams"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MyWidget </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatefulWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// ...</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MyState </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Estado &lt;MyWidget&gt; {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// ...</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  StreamSubscription &lt;Type&gt; _streamSub;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> initState () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// ...</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    _streamSub = stream.listen (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      (Digite res) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// fazer alguma coisa com a resposta, setState ()</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Construção de widget (contexto BuildContext) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// ...</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  dispose () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// ...</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    _streamSub.cancel ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e44776"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nesse caso, o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fluxo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> foi fornecido diretamente por uma biblioteca e usamos </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">setState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para atualizar algumas variáveis ​​quando novos dados estavam disponíveis e reconstruir o widget.</font></font></p>
+
+  <p id="d24e44784"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tudo isso é ineficiente se o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StatefulWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que é reconstruído toda vez que o fluxo muda não é apenas a parte que mostra os dados desse </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fluxo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O StreamBuilder</font></font></h4>
+
+  <p id="d24e44796"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Construir um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StatefulWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> separado </font><font style="vertical-align: inherit;">para isso não é necessário porque, assim como o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FutureBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> existe para construir elementos de IU com base nos resultados de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o widget Flutter que constrói seu conteúdo com base nos dados retornados por um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e44818"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">construtor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do </font><span class="cf class"><font style="vertical-align: inherit;">StreamBuilder</font></span><font style="vertical-align: inherit;"> requer, assim como o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FutureBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , um tipo de dados e dois argumentos, mas com algumas diferenças.</font></font></p>
+
+  <p id="d24e44826"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A estrutura básica de um </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é a seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamBuilder &lt;Type&gt; {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  stream: stream,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  construtor: (contexto, instantâneo) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (snapshot.hasData)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// snapshot.data exibição</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mais</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// exibir um erro ou alguma indicação de que os dados são carregamento</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e44863"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Uma das diferenças entre </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FutureBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> está no </font><font style="vertical-align: inherit;">valor </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">snapshot.connectionState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Ao trabalhar com um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FutureBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , ele só poderia assumir os seguintes valores:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e44886"><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ConnectionState.none</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> se o </font><font style="vertical-align: inherit;">argumento </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> for definido como </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nulo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (nem um pouco definido).</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44897"><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ConnectionState.waiting</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> se o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FutureBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> estiver esperando o </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retornar um valor.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e44908"><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ConnectionState.none</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> se o </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retornou um valor, o que significa que </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">snapshot.hasData</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">verdadeiro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e44921"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+É por isso que nós só usamos </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">snapshot.hasData</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e não </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">snapshot.connectionState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> quando se trabalha com </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Futuro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FutureBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s. </font><font style="vertical-align: inherit;">Ao trabalhar com </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s, porém, há mais do que isso - o estado da conexão também pode ser </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ConnectionState.active</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que significa que o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> já retornou um valor, mas não foi encerrado, o que significa que pode retornar outro valor a qualquer momento.</font></font></p>
+
+  <p id="d24e44949">
+
+<span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">snapshot.hasError</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">snapshot.error</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> existem para ambos, caso você precise lidar com erros.
+</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A espera por Loop</font></font></h4>
+
+  <p id="d24e44970"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode ser interagido de uma maneira alternativa ao uso do </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">listen</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : o </font><font style="vertical-align: inherit;">loop </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">await for</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e44985"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">É como um </font><font style="vertical-align: inherit;">loop </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">for</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">in</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas, em vez de iterar sobre os valores conhecidos em uma lista, ele espera por novos valores retornados pelo fluxo e só termina quando o fluxo termina:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aguardam </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> valor </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">em</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> corrente) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// fazer alguma coisa com o valor</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e45012"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, podemos imprimir no console as strings retornadas pela </font><font style="vertical-align: inherit;">função </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">myStream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que definimos anteriormente, assim que ela as </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">produzir</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com o seguinte loop:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">aguardam </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> res </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">em</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> myStream ()) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  imprimir (res);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e45037"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em vez de imprimir resultados, o </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">await for</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode ser usado, por exemplo, para pegar um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> existente </font><font style="vertical-align: inherit;">, alterar os dados ou usá-lo como um argumento para alguma outra função e, em seguida, </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">produzir</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> um valor alterado, criando um novo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tratamento de erros em streams</font></font></h4>
+
+  <p id="d24e45054"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Ao usar um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">instantâneo que</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> você obtém no </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">construtor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> tem o mesmo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">snapshot.hasError</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">snapshot.error que</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> você obtém com </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FutureBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s, então você pode usá-los se precisar lidar com erros dentro de um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FutureBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StreamBuilder</font></font></span></p>
+
+  <p id="d24e45099"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">listen</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> opcionalmente leva mais dois retornos de chamada como argumentos:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e45110"><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onError</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é executado quando há um erro lançado pela função assíncrona que gera o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e45118"><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onDone</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é executado quando o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Stream</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> termina.
+
+
+
+</font></font></p>
+
+    </li>
+
+  </ul><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-089_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

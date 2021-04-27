@@ -1,0 +1,1942 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e2792">Give the App Your Personal Touch</h2>
+
+  <p id="d24e2795">Now let’s modify what we’ve seen. We’ll change the app color to be green, add a red reset button to reset the counter to 0, make the app display the string “None” instead of the counter when the counter is at 0 and change the <span class="cf ic">appBar</span>’s title text. In doing this, we’ll get a feel for how to make simple changes, and also an introduction to more complex Flutter syntax.</p>
+
+  <p id="d24e2800">The result will look like this:</p>
+
+  <table class="simpletable ">
+
+    <tbody>
+
+      <tr class="tr ">
+        <td style="width: 50%; ">
+          <img alt="images/FirstApp/None.png" class="border " id="d24e2808" src="images/FirstApp/Imagem-71.png" style="width: 70%"/>
+        </td>
+        <td style="width: 50%; ">
+          <img alt="images/FirstApp/15scaled.png" class="border " id="d24e2812" src="images/FirstApp/Imagem-01.png" style="width: 70%"/>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <h3>Change the App’s Primary Color</h3>
+
+  <p id="d24e2818">
+
+
+We’ll start editing our app with the simplest change:  changing the color to green. This is as simple as changing the following few lines in <span class="cf class">MyApp</span>’s <span class="cf ic">build</span> method:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">theme: ThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  primarySwatch: Colors.blue,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2853">Go ahead and change <span class="cf ic">Colors.blue</span> to <span class="cf ic">Colors.green</span> so that those lines instead read as follows:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart">firstapp/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">theme: ThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  primarySwatch: Colors.green,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <h3>Make the Counter Display “None” Instead of 0</h3>
+
+  <p id="d24e2875">
+
+Now, let’s change the counter text in the middle so that it displays “None” instead of 0.</p>
+
+  <p id="d24e2886">To do this, we’ll add a <span class="cf ic">_displayedString</span> variable to <span class="cf class">_MyHomePageState</span>, below the counter’s declaration.</p>
+
+  <p id="d24e2894">Locate the following line:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ _counter = 0;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2902">and, below it, add:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ _displayedString;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2910">After we’ve done that, we need to set this variable to “None” if the counter is 0 and to a string representation of the counter if that isn’t the case. We’re going to need a conditional.</p>
+
+  <h4>Use Conditionals in Flutter</h4>
+
+  <p id="d24e2915">
+To do this every time the counter is increased (which we do using a call to <span class="cf ic">setState</span> that triggers a re-render that calls the <span class="cf ic">build</span> method), this needs to be part of <span class="cf class">_MyHomePageState</span>’s <span class="cf ic">build</span> method. So, just above:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">return</strong>​ ​<strong class="kw">new</strong>​ ​<strong class="kw">Scaffold</strong>​(</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2943">add:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart">firstapp/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(_counter == 0) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  _displayedString = ​<em class="string">"None"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">} ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  _displayedString = _counter.toString();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2968">
+
+This is a simple <span class="cf ic">if-else</span> construct and, like in many other languages, it could also be expressed in a braceless way as:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(_counter == 0) _displayedString = ​<em class="string">"None"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">else</strong>​              _displayedString = _counter.toString();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2999">or, with a conditional expression, as:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">_displayedString = _counter == 0 ? ​<em class="string">"None"</em>​ : ​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3016">You can find more information about conditional constructs and expressions in <a href="Capítulo-090.html#sec.dart.conditionals">​<em>Conditional Constructs and Expressions</em>​</a>.</p>
+
+  <h3>Set the Counter Text</h3>
+
+  <p id="d24e3023">Now we need to replace the counter with the string we’ve just generated.</p>
+
+  <h4>Use String Literals in Dart</h4>
+
+  <p id="d24e3028">
+At the moment, the code we’re using to generate the <span class="cf class">Text</span> widget for the counter looks like this:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3061">You might have noticed the syntax currently used to display the counter to the user:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3072">
+
+The single quotes (unlike in C, C++, and Java, single and double quotes are the same in Dart)  enclose a string literal, and inside this string literal is a variable name (<span class="cf ic">_counter</span>) preceded by a dollar sign.
+</p>
+
+  <h4>Use String Interpolation</h4>
+
+  <p id="d24e3090">
+In this case, this is an alternative to the syntax we used earlier to convert an integer to a string (<span class="cf ic">_counter.toString()</span>).</p>
+
+  <p id="d24e3097">
+
+This is how string literals work in Dart: they are enclosed in single or double quotes. And we can include variables in string literals by preceding the variable name with a dollar sign.</p>
+
+  <p id="d24e3108">
+
+If we need to use string interpolation with an expression or dot notation (for example, to use member variables of objects or display results of expressions), we need to enclose the variable name in braces. We’ll need to do this shortly  for the app title.</p>
+
+  <p id="d24e3119">You can find more information about string literals and string interpolation in <a href="Capítulo-086.html#sec.dart.strings">​<em>Characters and Strings</em>​</a>.</p>
+
+  <p id="d24e3123">Back to our example. Since we now want to display a string, we can replace:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3134">to be just:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">displayedString</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3141">since we don’t need to use string literals.
+</p>
+
+  <h3>Change the App’s Title</h3>
+
+  <p id="d24e3147">
+
+To change the appBar’s title to “An app that can count to <span class="cf ic">[0, 1, 2, 3…]</span>”  we need to use string interpolation.</p>
+
+  <p id="d24e3161">We will use a fixed string defined in the app’s constructor and a variable part, which will be created inside the build method.</p>
+
+  <p id="d24e3163">The fixed part is the title we give to <span class="cf class">MyHomePage</span>’s constructor (and which then becomes <span class="cf ic">widget.title</span>), which will be “An app that can count to”:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  home: MyHomePage(title: ​<em class="string">'Flutter Demo Home Page'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3180">will have to become:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart">firstapp/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  home: MyHomePage(title: ​<em class="string">'An app that can count to'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3191">Now we need to edit <span class="cf class">_MyHomePageState</span>’s <span class="cf ic">build</span> method again, since that’s what gets called every time the app’s state changes, and that’s where the variable part of the string will have to be generated.</p>
+
+  <p id="d24e3199">To do what I just described, locate the following lines:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(widget.title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3213">and change:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">widget.title</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3221">to:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">'</em>​​<em class="string">${widget.title}</em>​​<em class="string"> </em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3236">so that those lines now instead read as follows:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart">firstapp/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(​<em class="string">'</em>​​<em class="string">${widget.title}</em>​​<em class="string"> </em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3258">As you can see, we’ve done the opposite of what we did to the counter, and we had to use braces for <span class="cf ic">widget.title</span> because dot notation was needed to access a member variable.
+</p>
+
+  <h3>Add a Reset Button</h3>
+
+  <p id="d24e3267">The last thing we need to do to get to the app in the screenshots shown earlier is to add the reset button.</p>
+
+  <p id="d24e3269">
+Before we add the button itself, let’s define a simple method that changes the state and resets the counter to 0.</p>
+
+  <h4>Use <span class="cf ic">setState()</span> to Reset the Counter</h4>
+
+  <p id="d24e3279">
+Inside <span class="cf ic">_MyHomePageState</span>’s definition, below <span class="cf ic">_incrementCounter()</span>’s definition, add the following code:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart">firstapp/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">_resetCounter</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3308">This is very similar to <span class="cf ic">_incrementCounter()</span> but, instead of incrementing the counter, we set it to 0.</p>
+
+  <h4>Make the Reset Button</h4>
+
+  <p id="d24e3316">Now that we’ve defined a method that resets the counter and triggers a re-render, we need to create a button to call that function. So before we do that, we need to know how we do that with Flutter.</p>
+
+  <p><strong>Buttons in Flutter: The FlatButton and the IconButton</strong></p>
+
+  <p id="d24e3321">
+
+
+If we want to quickly create a button in Flutter we can choose between a <span class="cf class">FlatButton</span> or an <span class="cf class">IconButton</span>.</p>
+
+  <p id="d24e3343">The <span class="cf class">FlatButton</span> is ideal when you want a button that displays text: it has a <span class="cf ic">child</span> attribute that is usually a <span class="cf class">Text</span> widget, but you have the option to set it to anything.</p>
+
+  <p id="d24e3354">The reason why the <span class="cf class">FlatButton</span> is used mostly for text buttons is that using an <span class="cf class">IconButton</span> exists specifically for the creation of icon-based buttons, by allowing the developer to specify an <span class="cf class">Icon</span> object as its <span class="cf ic">icon</span> attribute, with the button only consisting of the icon and a small amount of padding.</p>
+
+  <p id="d24e3368">One of the attributes that show the difference in focus is that the <span class="cf class">FlatButton</span>’s <span class="cf ic">color</span> attribute controls the color of the button itself (the background to its content), whereas the <span class="cf class">IconButton</span>’s <span class="cf ic">color</span> attribute control’s the icon’s color.</p>
+
+  <p id="d24e3382">
+A <span class="cf class">RaisedButton</span> also exists, but it is just a slightly different looking <span class="cf class">FlatButton</span>.</p>
+
+  <p><strong>Implement the Reset Button</strong></p>
+
+  <p id="d24e3397">
+For this example we’ll make a <span class="cf class">FlatButton</span>.</p>
+
+  <p id="d24e3406">To add the button, locate the following lines in <span class="cf class">_MyHomePageState</span>’s <span class="cf ic">build</span> method:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">'You have pushed the button this many times:'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">],</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3453">and add, inside the square brackets, the following to the list of widgets:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart">firstapp/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">FlatButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onPressed: _resetCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  color: Colors.red,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"Reset counter"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    style: Theme.of(context).textTheme.button,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3488">First of all, the action we want to perform is to fire the <span class="cf ic">_resetCounter</span> function, so we set that as the <span class="cf ic">onPressed</span> attribute.</p>
+
+  <p id="d24e3496">The <span class="cf class">FlatButton</span>’s <span class="cf ic">color</span> attribute should not be confused with the CSS attribute that goes by the same name: as I described earlier, it changes the button’s background color, not the text color, which we’ll leave black.</p>
+
+  <p id="d24e3504">The <span class="cf ic">child</span> attribute is just a text string with the built-in button text theme.</p>
+
+  <p id="d24e3510">The final code is:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_oldfab/lib/main.dart">firstapp_oldfab/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/material.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() =&gt; runApp(MyApp());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyApp ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ MaterialApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     title: ​<em class="string">'Flutter Demo'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     theme: ThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       primarySwatch: Colors.green,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     home: MyHomePage(title: ​<em class="string">'An app that can count to'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyHomePage ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> MyHomePage({Key key, ​<strong class="kw">this</strong>​.title}) : ​<strong class="kw">super</strong>​(key: key);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ title;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> _MyHomePageState createState() =&gt; _MyHomePageState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ _MyHomePageState ​<strong class="kw">extends</strong>​ State&lt;MyHomePage&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">int</strong>​ _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">String</strong>​ _displayedString;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">void</strong>​ _incrementCounter() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _counter++;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">void</strong>​ _resetCounter() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">if</strong>​(_counter == 0) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _displayedString = ​<em class="string">"None"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _displayedString = _counter.toString();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       title: Text(​<em class="string">'</em>​​<em class="string">${widget.title}</em>​​<em class="string"> </em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     body: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<em class="string">'You have pushed the button this many times:'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             _displayedString,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           FlatButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             onPressed: _resetCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             color: Colors.red,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               ​<em class="string">"Reset counter"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               style: Theme.of(context).textTheme.button,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       tooltip: ​<em class="string">'Increment'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       child: Icon(Icons.add),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3802">Now, build and run or reload the app and the result will be the same as the screenshots we saw earlier.
+
+</p>
+
+  <h3>Make a Custom Widget: Our Own Button</h3>
+
+  <p id="d24e3811">
+
+That <span class="cf class">FloatingActionButton</span> is a default button class and it looks like a default button: it is the same as the one used in various other apps and you’ve probably seen it many times before.</p>
+
+  <p id="d24e3825">What if, instead of using that default-looking button, we wanted to use a custom-made button to make it look exactly like we want?</p>
+
+  <h4>The Button We’ll Create</h4>
+
+  <p id="d24e3830">Let’s say we want to make a text button with rounded corners and a nice ink splash effect when we tap it, like the one in these pictures:</p>
+
+  <div class="ss">
+
+    <img alt="images/FirstApp/btn1.png" class="border " id="d24e3832" src="images/FirstApp/Imagem-10.png" style="width: 38%"/>
+
+  </div>
+
+  <div class="ss">
+
+    <img alt="images/FirstApp/btn3.png" class="border " id="d24e3833" src="images/FirstApp/Imagem-12.png" style="width: 38%"/>
+
+  </div>
+
+  <div class="ss">
+
+    <img alt="images/FirstApp/btn2.png" class="border " id="d24e3834" src="images/FirstApp/Imagem-11.png" style="width: 38%"/>
+
+  </div>
+
+  <h4>Split Dart Code into Separate Files</h4>
+
+  <p id="d24e3838">
+First, let’s create a new Dart file called <span class="cf filename">OurButton.dart</span> inside the <span class="cf dir">lib</span> directory and define our own <span class="cf class">StatelessWidget</span> called <span class="cf class">OurButton</span>, which will be a custom <span class="cf class">RawMaterialButton</span>.
+In the new file, we’ll import the basic Flutter API we need and define our class:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/material.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ OurButton ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h4>Define a Custom Widget</h4>
+
+  <p id="d24e3888">
+
+
+Now, inside <span class="cf class">OurButton</span>’s curly braces, we’ll define the constructor arguments and we’ll set them as “required”, since we need all of them and we will be setting all of them in our code:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/OurButton.dart">firstapp/lib/OurButton.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">OurButton({</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Key key,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @required ​<strong class="kw">this</strong>​.text,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @required ​<strong class="kw">this</strong>​.textColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @required ​<strong class="kw">this</strong>​.backgroundColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @required ​<strong class="kw">this</strong>​.splashColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @required ​<strong class="kw">this</strong>​.onPressed</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}) : ​<strong class="kw">super</strong>​(key: key);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3955">For each of these arguments we need a variable to store them, like we do in the following lines:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/OurButton.dart">firstapp/lib/OurButton.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ text;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">final</strong>​ Color textColor, backgroundColor, splashColor;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">final</strong>​ VoidCallback onPressed;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e3974">Now, like for all widgets, we need a build method which, in this case, will be:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/OurButton.dart">firstapp/lib/OurButton.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ RawMaterialButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    onPressed: onPressed,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    fillColor: backgroundColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    splashColor: splashColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    padding: ButtonTheme.of(context).padding,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      text,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      style: TextStyle(color: textColor),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    shape: StadiumBorder(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e4019">
+The button we’re making is a <span class="cf class">RawMaterialButton</span>, which is a bare-bones button class that allows us to customize much more of its appearance than a simpler <span class="cf class">FlatButton</span>.</p>
+
+  <p id="d24e4032">More specifically, the arguments we’re passing to its constructor are:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e4036"><span class="cf ic">onPressed</span>, which is the same as the other <span class="cf ic">onPressed</span> attributes we’ve seen, and we assign <span class="cf class">OurButton</span>’s <span class="cf ic">onPressed</span> attribute to it.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4050"><span class="cf ic">fillColor</span>, which is the same as the <span class="cf ic">color</span> attribute we saw used for the <span class="cf class">FlatButton</span> earlier in the chapter: it’s the button’s background color, which will be set to <span class="cf class">OurButton</span>’s <span class="cf ic">backgroundColor</span> attribute, to show how our custom button’s attribute names can be different when compared to those of the widget we are basing it on.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4067"><span class="cf ic">splashColor</span> is the color used for the inksplash effect and we use the <span class="cf ic">padding</span> argument to give a normal (default) amount of padding to our button.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4075"><span class="cf ic">child</span> is simply a <span class="cf class">Text</span>, using the color specified in <span class="cf class">OurButton</span>’s arguments as the text color.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4086"><span class="cf ic">shape</span> is the button’s shape, and we’re using a <span class="cf class">StadiumBorder()</span> to give our button the rounded corners we wanted.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e4093">The entire <span class="cf filename">OurButton.dart</span> source code is:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/OurButton.dart">firstapp/lib/OurButton.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/material.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ OurButton ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> OurButton({</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   Key key,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   @required ​<strong class="kw">this</strong>​.text,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   @required ​<strong class="kw">this</strong>​.textColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   @required ​<strong class="kw">this</strong>​.backgroundColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   @required ​<strong class="kw">this</strong>​.splashColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   @required ​<strong class="kw">this</strong>​.onPressed</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }) : ​<strong class="kw">super</strong>​(key: key);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ text;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ Color textColor, backgroundColor, splashColor;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ VoidCallback onPressed;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ RawMaterialButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     onPressed: onPressed,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     fillColor: backgroundColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     splashColor: splashColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     padding: ButtonTheme.of(context).padding,</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       text,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       style: TextStyle(color: textColor),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     shape: StadiumBorder(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Use the Custom Button in Our App</h3>
+
+  <p id="d24e4228">
+
+To use our custom button in the <span class="cf filename">main.dart</span> file we need to import the file we just created by inserting, at the top of the file, the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'OurButton.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e4251">and, in <span class="cf class">_MyHomePageState</span>’s build method, replace:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  tooltip: ​<em class="string">'Increment'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Icon(Icons.add),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e4274">with:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart">firstapp/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">floatingActionButton: OurButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  text: ​<em class="string">'Make the counter </em>​​<em class="string">${_counter+1}</em>​​<em class="string">'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  textColor: Colors.white,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  backgroundColor: Theme.of(context).primaryColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  splashColor: Theme.of(context).primaryColorLight,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e4314">Among the arguments we’re passing there is a string with the expression <span class="cf ic">_counter+1</span>, which requires curly braces around it.</p>
+
+  <p id="d24e4320">After that, we’re done!</p>
+
+  <p id="d24e4322">The full <span class="cf filename">main.dart</span> source code is:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart">firstapp/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/material.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'OurButton.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() =&gt; runApp(MyApp());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyApp ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ MaterialApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     title: ​<em class="string">'Flutter Demo'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     theme: ThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       primarySwatch: Colors.green,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     home: MyHomePage(title: ​<em class="string">'An app that can count to'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyHomePage ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> MyHomePage({Key key, ​<strong class="kw">this</strong>​.title}) : ​<strong class="kw">super</strong>​(key: key);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ title;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> _MyHomePageState createState() =&gt; _MyHomePageState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ _MyHomePageState ​<strong class="kw">extends</strong>​ State&lt;MyHomePage&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">int</strong>​ _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">String</strong>​ _displayedString;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">void</strong>​ _incrementCounter() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _counter++;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">void</strong>​ _resetCounter() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">if</strong>​(_counter == 0) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _displayedString = ​<em class="string">"None"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _displayedString = _counter.toString();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       title: Text(​<em class="string">'</em>​​<em class="string">${widget.title}</em>​​<em class="string"> </em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     body: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<em class="string">'You have pushed the button this many times:'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             _displayedString,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           FlatButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             onPressed: _resetCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             color: Colors.red,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               ​<em class="string">"Reset counter"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               style: Theme.of(context).textTheme.button,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     floatingActionButton: OurButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       text: ​<em class="string">'Make the counter </em>​​<em class="string">${_counter+1}</em>​​<em class="string">'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       textColor: Colors.white,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       backgroundColor: Theme.of(context).primaryColor,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       splashColor: Theme.of(context).primaryColorLight,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

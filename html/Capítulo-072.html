@@ -1,0 +1,3523 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e30840">Testing the XKCD App: Using Mock Objects</h2>
+
+  <p id="d24e30843">
+
+
+Testing the XKCD app presents a challenge: the app relies on external variables: an Internet connection needs to be present and the app needs to be able to connect to the XKCD servers (which need to be up) to work. The issue with that is that we may need to only test a small part of our app (especially during unit testing) without needing to interface with anything else, and we need to mock files since we can’t access them anyway. To do this, developers usually resort to building <span class="emph">mock objects</span>, which are objects that simulate the features provided by the external interface while not requiring that interface.</p>
+
+  <p id="d24e30860">Building mock objects isn’t language or framework specific, but Google has developed a Flutter package that allows developers to simplify the creation of mock objects: the Mockito library.</p>
+
+  <h3>The Mockito Library</h3>
+
+  <p id="d24e30865">
+
+The Google-developed <span class="emph">mockito</span> package on Pub<sup><a class="footnote" href="Capítulo-075.html#FOOTNOTE-44" id="FNPTR-44">[44]</a></sup> allows you to write classes that reproduce a behavior you choose by using the <span class="cf methodname">when</span> function.</p>
+
+  <h4>Writing a Mock Object</h4>
+
+  <p id="d24e30896">
+
+As an example, let’s write a replacement for the <span class="cf constant">http</span> constant we use in the XKCD app to make requests so that we can test the <span class="cf methodname">getLatestNumber</span> and <span class="cf methodname">fetchComic</span> methods. It is an object of the class <span class="cf class">Client</span>, so we write an empty class that <span class="cf ic">extends</span> (<a href="Capítulo-092.html#sec.dart.extends">​<em>extends</em>​</a>) <span class="cf class">Mock</span> and <span class="cf ic">implements</span> (<a href="Capítulo-092.html#sec.dart.implements">​<em>Writing a Class That implements an Interface</em>​</a>) <span class="cf class">Client</span>’s members:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/test/unit_test.dart">testing/xkcd_app/test/unit_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:http/http.dart'</em>​ ​<strong class="kw">as</strong>​ http;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MockHTTPClient ​<strong class="kw">extends</strong>​ Mock ​<strong class="kw">implements</strong>​ http.Client {}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e30962">Let’s define two comics we can return:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/test/unit_test.dart">testing/xkcd_app/test/unit_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">const</strong>​ comics = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">  {</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​month​<em class="string">": "",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​​<strong class="kw">num</strong>​​<em class="string">": 1,</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​link​<em class="string">": "",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​year​<em class="string">": "",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​news​<em class="string">": "",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​safe_title​<em class="string">": "</em>​The First Comic​<em class="string">",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​transcript​<em class="string">": "",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​alt​<em class="string">": "</em>​first comic alt-text​<em class="string">",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">    "</em>​img​<em class="string">": "</em>​https:​<em class="comment">//example.com/1.png",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"title"</em>​: ​<em class="string">"The First Comic"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"day"</em>​: ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">""",</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">  """</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"month"</em>​: ​<em class="string">""</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"num"</em>​: 2,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"link"</em>​: ​<em class="string">""</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"year"</em>​: ​<em class="string">""</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"news"</em>​: ​<em class="string">""</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"safe_title"</em>​: ​<em class="string">"The Second Comic"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"transcript"</em>​: ​<em class="string">""</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"alt"</em>​: ​<em class="string">"second comic alt-text"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"img"</em>​: ​<em class="string">"https://example.com/2.png"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"title"</em>​: ​<em class="string">"The Second Comic"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"day"</em>​: ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">];</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e31161">At this point we need to think about the calls we make to <span class="cf methodname">http.read</span>. The first of them is <span class="cf ic">http.read(’https://xkcd.com/info.0.json’)</span>, which is supposed to return a <span class="cf class">String</span> containing the comic in a JSON format, so we’ll return the second comic:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">when(mockHttp.read(​<em class="string">'https://xkcd.com/info.0.json'</em>​)).thenReturn(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  comics[1]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e31189">The same also needs to apply for <span class="cf ic">/$num/info.0.json</span>, so we also need the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">when(mockHttp.read(​<em class="string">'https://xkcd.com/2/info.0.json'</em>​)).thenReturn(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  comics[1]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e31212">We need to be ready to return comic number 1 since that’s going to be fetched at some point and we need to be ready for that:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">when(mockHttp.read(​<em class="string">'https://xkcd.com/1/info.0.json'</em>​)).thenReturn(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  comics[0]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e31231">We also need to worry about when <span class="cf methodname">http.readBytes()</span> gets called to fetch an image. The issue with that is that it should return an <span class="cf class">Uint8List</span>, which is a list of 8-bit integers (each of them is a byte). To create an <span class="cf class">Uint8List</span> we need first import the <span class="cf ic">dart:typed_data</span> library. The simplest way to create an <span class="cf class">Uint8List</span> is by calling the <span class="cf methodname">Uint8.fromList(list)</span> and passing it a list literal.</p>
+
+  <p id="d24e31252">After that, we need to worry about what to return. In this case, we don’t really care that the data actually represents an image, since we don’t need to render it, we just need it to be something we can predict—in this case, the list will be just the comic number:
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">when(mockHttp.readBytes(​<em class="string">'https://example.com/1.png'</em>​)).thenReturn(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Uint8List.fromList([1])</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">when(mockHttp.readBytes(​<em class="string">'https://example.com/2.png'</em>​)).thenReturn(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Uint8List.fromList([2])</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p><strong>File Mock Object</strong></p>
+
+  <p id="d24e31299">We need to also create mock objects for files and images.</p>
+
+  <p id="d24e31301">In this case, even though we are calling the classes directly in the app, we need to implement file objects to pass to the functions. An example will be given when we see <a href="#sec.testing.latestcomic">​<em>Testing <span class="cf methodname">getLatestComicNumber</span></em>​</a>.
+
+</p>
+
+  <h4>Using the Mock Object</h4>
+
+  <p id="d24e31311">
+We need to make changes to the functions that use the objects we created mock objects for so that they can be passed the mock object and use it instead of the real object they currently use.</p>
+
+  <p id="d24e31317">This means that the <span class="cf methodname">getLatestComicNumber</span> function you see in the following code needs to instead take the <span class="cf class">Client</span> and custom <span class="cf class">File</span> as a parameter:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;​<strong class="kw">int</strong>​&gt; getLatestComicNumber() async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ file = File(​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/latestComicNumber.txt'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ n = 1;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    n = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await http.read(​<em class="string">'https://xkcd.com/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )[​<em class="string">"num"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.exists().then(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      (exists) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">if</strong>​(!exists) file.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        file.writeAsString(​<em class="string">'</em>​​<em class="string">$n</em>​​<em class="string">'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">catch</strong>​(e) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      file.existsSync() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      file.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      n = ​<strong class="kw">int</strong>​.parse(file.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e31465">The updated code should look as follows:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/lib/main.dart">testing/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;​<strong class="kw">int</strong>​&gt; getLatestComicNumber</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">({http.Client httpClient, File latestComicNFile}) async</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">{</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(httpClient == ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    httpClient = http.Client();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(latestComicNFile == ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    latestComicNFile = File(​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/latestComicNumber.txt'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ n = 1;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    n = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await httpClient.read(​<em class="string">'https://xkcd.com/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )[​<em class="string">"num"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    latestComicNFile.exists().then(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      (exists) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">if</strong>​(!exists) latestComicNFile.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        latestComicNFile.writeAsString(​<em class="string">'</em>​​<em class="string">$n</em>​​<em class="string">'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">catch</strong>​(e) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNFile.existsSync() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNFile.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      n = ​<strong class="kw">int</strong>​.parse(latestComicNFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e31635">This method works just like the older one when no additional named arguments are provided (they would be equal to <span class="cf ic">null</span>, triggering the fallback <span class="cf ic">if</span> clauses), which would happen during normal app use. If they are provided, though, they are used in place of the real file and HTTP client.</p>
+
+  <p id="d24e31646">Obviously <span class="cf methodname">fetchComic</span> also needs to change. Let’s start with the <span class="cf class">SelectionPage</span>’s, which was the following in the original app:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">String</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   await comicFile.exists() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comicFile.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comicFile.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">final</strong>​ comic = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     await http.read(​<em class="string">'https://xkcd.com/</em>​​<em class="string">$n</em>​​<em class="string">/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   File(​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     .writeAsBytesSync(await http.readBytes(comic[​<em class="string">"img"</em>​]));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comic[​<em class="string">"img"</em>​] = ​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comicFile.writeAsString(json.encode(comic));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e31812">and needs to become the following to allow for testing by using the clients and files given as arguments if they are given and reverting back to the default when they aren’t (in normal app usage) just like we did for <span class="cf methodname">getLatestComicNumber</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/lib/main.dart">testing/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; fetchComic</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ n,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    http.Client httpClient,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File comicFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File imageFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">String</strong>​ imagePath</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">) async</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">{</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Directory dir;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(httpClient == ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    httpClient = http.Client();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(comicFile == ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(imageFile == ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(dir == ​<strong class="kw">null</strong>​) dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    imagePath = ​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    imageFile = File(imagePath);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await comicFile.exists() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ comic = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await httpClient.read(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<em class="string">'https://xkcd.com/</em>​​<em class="string">$n</em>​​<em class="string">/info.0.json'</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    imageFile.writeAsBytesSync(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await httpClient.readBytes(comic[​<em class="string">"img"</em>​])</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comic[​<em class="string">"img"</em>​] = imagePath;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.writeAsString(json.encode(comic));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e32042">The <span class="cf class">StarredPage</span>’s <span class="cf methodname">_fetchComic</span> is the same as the <span class="cf class">SelectionPage</span>’s, so the same changes apply to it.</p>
+
+  <p id="d24e32053">The <span class="cf class">HomeScreen</span>’s <span class="cf methodname">_fetchComic</span> needs similar changes (it’s just like the other, but this time we first worry about finding out the comic number by subtracting the <span class="cf ic">n</span> argument to the latest comic number):</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/lib/main.dart">testing/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; fetchComic</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ n,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    http.Client httpClient,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File comicFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File imageFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">String</strong>​ imagePath</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">) async</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">{</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ comicNumber = latestComic-n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Directory dir;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(httpClient == ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    httpClient = http.Client();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(comicFile == ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$comicNumber</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(imageFile == ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(dir == ​<strong class="kw">null</strong>​) dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    imagePath = ​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$comicNumber</em>​​<em class="string">.png'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    imageFile = File(imagePath);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await comicFile.exists() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ comic = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await httpClient.read(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<em class="string">'https://xkcd.com/</em>​​<em class="string">$comicNumber</em>​​<em class="string">/info.0.json'</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    imageFile.writeAsBytesSync(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await httpClient.readBytes(comic[​<em class="string">"img"</em>​])</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comic[​<em class="string">"img"</em>​] = imagePath;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.writeAsString(json.encode(comic));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e32293">By making the additional arguments that allow us to provide mock objects optional we can call those methods inside the app without being forced to pass the extra arguments and we keep the function as close to the original as possible while allowing for the usage of mock objects.
+
+
+
+</p>
+
+  <h3>Writing the Tests</h3>
+
+  <p id="d24e32305">We have made the necessary changes and now we need to write the tests for the XKCD app.</p>
+
+  <h3>XKCD App Unit Tests</h3>
+
+  <p id="d24e32310">
+
+
+We need to test whether the app correctly fetches the latest comic number which, in this case, is <span class="emph">2</span>. We also need to test whether both <span class="cf methodname">_fetchComic</span> method run as expected.</p>
+
+  <p id="d24e32330">Let’s start by adding the mock classes we defined earlier and importing everything we need</p>
+
+  <p id="d24e32332">The last thing we need outside <span class="cf methodname">main</span> is the list of comic data strings, while all of the calls to <span class="cf methodname">when</span> go inside the <span class="cf methodname">main</span> function definition.</p>
+
+  <h4 id="sec.testing.latestcomic">Testing <span class="cf methodname">getLatestComicNumber</span></h4>
+
+  <p id="d24e32348">Let’s start by writing a test for <span class="cf methodname">getLatestComicNumber</span>: for it we’ll need to define the mock objects for the latest comic number file and for the http client.</p>
+
+  <p id="d24e32353">We need to define behavior for both asynchronous and synchronous calls, since we need the test to work with a different implementation too:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/test/unit_test.dart">testing/xkcd_app/test/unit_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">test(​<em class="string">"get latest comic number test"</em>​, () async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ latestComicNumberFile = MyFile();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ latestComicNumberExists = ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ latestComicNumberString;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ mockHttp = MockHTTPClient();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">  when(mockHttp.read(​<em class="string">'https://xkcd.com/info.0.json'</em>​)).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) =&gt; Future.value(comics[1])</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">  when(latestComicNumberFile.createSync()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNumberExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">④</span>​</span></td>
+      <td class="codeline">  when(latestComicNumberFile.create()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNumberExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ Future.value(latestComicNumberFile);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑤</span>​</span></td>
+      <td class="codeline">  when(latestComicNumberFile.writeAsStringSync(​<em class="string">"2"</em>​)).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNumberExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNumberString = ​<em class="string">"2"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑥</span>​</span></td>
+      <td class="codeline">  when(latestComicNumberFile.writeAsString(​<em class="string">"2"</em>​)).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNumberExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNumberString = ​<em class="string">"2"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ Future.value(latestComicNumberFile);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑦</span>​</span></td>
+      <td class="codeline">  when(latestComicNumberFile.existsSync()).thenReturn(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    latestComicNumberExists</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑧</span>​</span></td>
+      <td class="codeline">  when(latestComicNumberFile.exists()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Future.value(latestComicNumberExists)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑨</span>​</span></td>
+      <td class="codeline">  when(latestComicNumberFile.readAsStringSync()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="comment">// if we try to read from a file that doesn't exist we've made a mistake</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">assert</strong>​(latestComicNumberExists, ​<strong class="kw">true</strong>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ ​<em class="string">"2"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑩</span>​</span></td>
+      <td class="codeline">  when(latestComicNumberFile.readAsString()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">assert</strong>​(latestComicNumberExists, ​<strong class="kw">true</strong>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ Future.value(latestComicNumberString);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑪</span>​</span></td>
+      <td class="codeline">  expect(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await getLatestComicNumber(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      httpClient: mockHttp,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicNFile: latestComicNumberFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    2</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32641">
+      This is where we declare the mock objects and some data they operate on: a mock <span class="cf class">File</span> that uses a <span class="cf keyword">bool</span> to keep track of whether it has been created and a <span class="cf class">String</span> to simulate the storage of a string. We also declare a mock HTTP client.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32653">
+      This is the first of our <span class="cf methodname">when</span> calls and it’s the only one for the mock HTTP client: it returns our fake latest comic when we try to access it.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32661">
+      Now we need to define the <span class="cf variable">latestComicNumberFile</span>’s behavior: we’ll start with the synchronous method to create the file, which will change the <span class="cf variable">latestComicNumberExists</span> boolean to true. This is going to be important when we try to read from the file or run the <span class="cf methodname">exists</span> or <span class="cf methodname">existsSync</span> methods.
+    </p>
+
+      <p id="d24e32675">
+      In the parentheses we used <span class="cf variable">_</span>, which is meant to be used for unused arguments (it may be used in <span class="cf keyword">catch</span> blocks as well). If we had chosen to use that argument and give it a name instead, it would be an <span class="cf class">Invocation</span>.
+    </p>
+
+      <p id="d24e32686">
+      An invocation has a few properties that are interesting to us: </p>
+
+      <ul>
+
+        <li>
+
+          <p id="d24e32690"> <span class="cf variable">namedArguments</span>, which is a <span class="cf class">Map</span> of the named arguments supplied by the caller;</p>
+
+        </li>
+
+        <li>
+
+          <p id="d24e32699"> <span class="cf variable">positionalArguments</span>, which is a <span class="cf class">List</span> of the positional arguments supplied by the caller.</p>
+
+        </li>
+
+      </ul>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">④</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32708">
+      We are doing the same thing for the asynchronous method to create files, which is supposed to return the file (in a <span class="cf class">Future</span>, since it is an <span class="cf keyword">async</span> method).
+	  
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑤</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32722">
+      At some point <span class="cf methodname">getLatestComicNumber</span> is supposed to try to write the number 2 to a file. We’ll simulate writing it by storing it in <span class="cf variable">latestComicNumberString</span>. We also simulate creating the file at the same time, just like what the real methods to write to files do.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑥</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32731">
+      This is just like the previous one, but asynchronous. We return the file for the same reason we return it in <span class="cf methodname">create</span>.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑦</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32737">
+      <span class="cf methodname">getLatestComicNumber</span> checks whether the file exists at some point, so we need to be able to implement that method too.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑧</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32743">
+      Having mock objects that implement methods that may be used in the method we’re trying to test even if they aren’t used allows the mock object to be used without change for more tests and it makes it so we don’t have to change the test if at some point we change the functions used in the method we’re testing. In this case, we implement both asynchronous and synchronous methods even when we only use one of them.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑨</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32746">
+      This simulates reading from a file. We have an assertion that interrupts execution if we try to read from a file we haven’t yet created (either by running <span class="cf methodname">create</span> or by writing to it.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑩</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32752">
+      The asynchronous version of the previous method.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑪</span>​</dt>
+
+    <dd>
+
+      <p id="d24e32755">
+      Finally we get to <span class="cf methodname">expect</span>, passing the mock HTTP client and file and expecting it to return <span class="emph">2</span>.
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <h4>Testing Fetching the Latest Comic</h4>
+
+  <p id="d24e32766">The <span class="cf methodname">fetchComic</span> method has an important feature: it isn’t actually defined as <span class="cf methodname">fetchComic</span> but, instead, it’s called <span class="cf methodname">_fetchComic</span>, which makes it private: it’s only accessible within the class itself. It’s good practice to define all class members as private if they aren’t supposed to be accessed from outside the class, but we need to call it directly to perform unit tests on it. This means we need to change its definition from:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; fetchComic</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ n,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    http.Client httpClient,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File comicFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File imageFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">String</strong>​ imagePath</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">) async</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">{</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e32816">to:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/lib/main.dart">testing/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; fetchComic</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ n,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    http.Client httpClient,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File comicFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File imageFile,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">String</strong>​ imagePath</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">) async</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">{</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e32857">This also means that we need to change any call to <span class="cf methodname">_fetchComic</span> to calls to <span class="cf methodname">fetchComic</span>. In this case, it is just one and it is set as the <span class="cf variable">future</span> argument of the <span class="cf class">FutureBuilder</span> in the <span class="cf methodname">build</span> method.</p>
+
+  <p id="d24e32874">Given that we also need to test the <span class="cf class">SelectionPage</span>’s and the <span class="cf class">HomeScreen</span>’s <span class="cf methodname">fetchComic</span>, the same changes need to be made to those classes. The <span class="cf class">StarredPage</span>’s <span class="cf methodname">fetchComic</span> is called only inside <span class="cf methodname">_retrieveSavedComics</span> and the <span class="cf class">HomeScreen</span>’s is set as the <span class="cf variable">future</span> of a <span class="cf class">FutureBuilder</span> inside the <span class="cf methodname">build</span> method.</p>
+
+  <p><strong>Testing fetchComic</strong></p>
+
+  <p id="d24e32910">This is the code to test the <span class="cf class">SelectionPage</span> <span class="cf methodname">fetchComic</span>’s ability to fetch comic number 2:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/test/unit_test.dart">testing/xkcd_app/test/unit_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">test(​<em class="string">"SelectionPage fetchComic latest"</em>​, () async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ latestComicFile = MyFile();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ latestComicExists = ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ latestComicString;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ latestImageFile = MyFile();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Uint8List latestImageData;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ latestImageExists = ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ mockHttp = MockHTTPClient();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(mockHttp.read(​<em class="string">'https://xkcd.com/2/info.0.json'</em>​)).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) =&gt; Future.value(comics[1])</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(mockHttp.readBytes(​<em class="string">"https://example.com/2.png"</em>​)).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) =&gt; Future.value(Uint8List.fromList([2]))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestComicFile.createSync()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestComicFile.create()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ Future.value(latestComicFile);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestComicFile.writeAsStringSync(comics[1])).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicString = comics[1];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestComicFile.writeAsString(comics[1])).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestComicString = comics[1];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ Future.value(latestComicFile);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestComicFile.existsSync()).thenReturn(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    latestComicExists</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestComicFile.exists()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Future.value(latestComicExists)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestComicFile.readAsStringSync()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="comment">/*</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">       * if we try to read from a file that doesn't</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">       * exist it's because we've made a mistake</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">       */</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">assert</strong>​(latestComicExists, ​<strong class="kw">true</strong>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ latestComicString;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestImageFile.readAsBytes()).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">assert</strong>​(latestImageExists, ​<strong class="kw">true</strong>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ Future.value(latestImageData);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    latestImageFile.writeAsBytesSync(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Uint8List.fromList([1])</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestImageExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestImageData = Uint8List.fromList([1]);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  when(latestComicFile.writeAsString(comics[1])).thenAnswer(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (_) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestImageExists = ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      latestImageData = Uint8List.fromList([1]);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ Future.value(latestImageFile);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ selPage = SelectionPage();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  expect(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await selPage.fetchComic(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"2"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      httpClient: mockHttp,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comicFile: File(​<em class="string">"latestComicFole"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      imageFile: File(​<em class="string">"latestComicFile"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      imagePath: ​<em class="string">"https://example.com/2.png"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    json.decode(comics[1])</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e33331">It’s nothing new: we use Mockito to define expected behavior for all functions that may be called by the <span class="cf methodname">fetchComic</span> method to fetch the comic: reading and writing from image and comic files and performing HTTP requests.</p>
+
+  <p id="d24e33336">Defining new tests for other <span class="cf methodname">fetchComic</span> methods only requires changes for the <span class="cf class">HomeScreen</span>: it needs an integer for the comic number, which is a number that starts from 0 and can be, at most, 1 less than the latest comic number.</p>
+
+  <p><strong>Grouping Together Tests</strong></p>
+
+  <p id="d24e33347">Multiple tests can be grouped together using the <span class="cf methodname">group</span> method, which works exactly like <span class="cf methodname">test</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">group(​<em class="string">"group name"</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test(​<em class="string">"first test in group"</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// First test in group</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test(​<em class="string">"second test in group"</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// Second test in group</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// any other tests you want to add</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e33390">For example, we can group all tests that involve <span class="cf methodname">fetchComic</span> methods, or maybe we can group together all tests that fetch a specific comic if you decide to structure tests differently. Inside <span class="cf ic">group</span>s we can, for example, define variables and mock objects that are needed for more than one test, so that they are accessible by all tests in a group but not outside of the group, but you need to keep in mind that the <span class="cf ic">group</span>’s callback closure can’t be <span class="cf ic">async</span>.</p>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title">More Unit Tests: Comic Starring</div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e33407">
+    Testing comic starring in the <span class="cf class">StarredPage</span> doesn’t introduce particularly challenging situations, except for the fact that the <span class="cf methodname">retrieveSavedComics</span> method calls <span class="cf methodname">fetchComic</span>, which means that the mock objects need to be passed first to <span class="cf methodname">retrieveSavedComics</span> which will, in turn, pass it to <span class="cf methodname">fetchComic</span>.
+  </p>
+
+      <p id="d24e33424">
+    The overall structure of the test should be the following: the <span class="cf methodname">addToStarred</span> method (in the <span class="cf class">ComicPage</span>) should be called on the same file that will then be used by <span class="cf methodname">retrieveStarredComics</span> to get the starred comics list. The main difference between this test and the <span class="cf methodname">fetchComic</span> test is that this one needs two mock text files: one of them needs to contain the comic file, whereas the other one will store the list of saved comics numbers, so it needs to predict the data it will be asked to store, just like we did earlier for the comic and latest number files.
+  </p>
+
+      <p id="d24e33438">
+    Writing these tests as someone who is trying to understand Flutter will also help you understand the inner workings of our app in more detail and test your own understanding of it. If you can’t write a test for it, you probably don’t understand how it’s working and that means you need to try to first understand how the app works.
+  </p>
+
+    </div>
+
+  </div>
+
+  <h3>A Few Words on Widget Testing More Complicated Apps</h3>
+
+  <p id="d24e33443">
+
+
+
+
+
+We have already covered widget testing in the section about testing the calculator, so we won’t have examples of widget tests for the XKCD apps, which would be redundant.</p>
+
+  <p id="d24e33463">Widget testing the XKCD app involves testing whether or not the UI actually works, so we don’t actually need to be necessarily design mock objects that perfectly emulate the behavior of the network or file system: we just need to know the UI we need exists and is correctly interacting with our app’s backbone.</p>
+
+  <p id="d24e33467">Widget tests rely on mock objects to work, so reducing the scope of these tests to just testing whether the widgets call the functions they are supposed to call is all that should be done in widget tests: doing anything more than that will only make the tests more complicated and make the integration tests partially redundant.</p>
+
+  <h4>Verifying Whether a Method Has Been Called: Mockito’s verify</h4>
+
+  <p id="d24e33472">
+
+Mockito includes a function to verify whether or not a method has been called, making it possible to reduce the scope of tests to only verifying whether methods get called instead of necessarily checking whether a given method returns a given value.
+For example, if you want the test to fail if <span class="cf methodname">myObj.runMethod()</span> hasn’t been called, you’d add:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">verify(myObj.runMethod());</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e33499">If you replaced <span class="cf ic">verify</span> with <span class="cf ic">verifyNever</span> you’d have the opposite effect.</p>
+
+  <p id="d24e33507">You can also specify the amount of times a method should get called:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">verify(myObj.runMethod()).called(5);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e33519">requires the method to have been called 5 times and:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">verify(myObj.runMethod()).called(greaterThan(4));</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e33532">requires it to have been called <span class="emph">at least</span> 5 times.</p>
+
+  <p id="d24e33537">Calling <span class="cf ic">verify(myObj.runMethod()).called(0)</span> will fail. You have to use <span class="cf ic">verifyNever(myObj.runMethod())</span> for that.
+
+
+
+
+</p>
+
+  <h3>XKCD App Integration Test</h3>
+
+  <p id="d24e33558">
+
+
+
+Integration tests are just like widget tests, but they are run on a real device or emulator by using the <span class="cf ic">flutter_driver</span> package.</p>
+
+  <h4>Modifying the App: Using a TextEditingController</h4>
+
+  <p id="d24e33583">Integration testing requires us to make modifications to the app. One of the main modifications is the addition of keys to any widgets we want to be interacting with, especially if they don’t contain text or we need to check the text they contain.</p>
+
+  <p><strong>Meeting an Old Friend Again: The Need for a Key</strong></p>
+
+  <p id="d24e33588">
+
+
+That is because widget testing and integration testing <span class="cf class">Finder</span>s are very similar, but not the same: integration testing uses <span class="cf class">SerializableFinders</span>, which are a lot fewer, and only allow us the following operations:
+
+
+
+
+</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e33637"><span class="cf methodname">find.byValueKey(value)</span>, which finds object with <span class="cf class">Key</span>s or <span class="cf class">ValueKey</span>s attached to them that are generated using that <span class="cf ic">value</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e33651"><span class="cf methodname">find.text(text)</span>, which finds <span class="cf class">Text</span> widgets containing the given <span class="cf ic">text</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e33662"><span class="cf methodname">find.byType(tyoe)</span>, which finds widgets of the given <span class="cf ic">type</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e33670"><span class="cf methodname">find.byTooltip(tooltip)</span>, which finds widget showing the given <span class="cf ic">tooltip</span> when long-pressed.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e33678"><span class="cf methodname">find.pageBack</span>, which finds the button to go to the previous page.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e33682">This means the best way to find widgets with features that don’t conform to any of the others, we have to equip the widget with a key and use <span class="cf methodname">find.byValueKey</span> to find it.</p>
+
+  <p id="d24e33687">The reason why they are so few is because integration tests shouldn’t have access to the app’s resources or the Flutter UI framework’s widgets and classes in general.</p>
+
+  <p><strong>Adding a Button to Submit the TextField’s Input</strong></p>
+
+  <p id="d24e33692">Additionally, we need to make a change to the <span class="cf class">SelectionPage</span>: at the moment the user can only sumbit using the number using the submit button on the on-screen keyboard or the <span class="keystroke">Enter</span> key on a physical keyboard. This is, unfortunately, not supported by Flutter’s integration testing infrastructure (at the time of writing), which means we have to create a <span class="cf class">TextEditingController</span> and a separate <span class="cf class">FlatButton</span> to submit the <span class="cf class">TextField</span>’s contents.</p>
+
+  <p><strong>Defining a TextEditingController</strong></p>
+
+  <p id="d24e33712">
+A <span class="cf class">TextEditingController</span> is a class that stores the data inserted in a <span class="cf class">TextField</span> or a similar widget and makes it possible to access that data from outside the <span class="cf ic">onSubmitted</span> callback we give to the <span class="cf class">TextField</span> itself, allowing us to create a button that opens the comic the user asked for, and giving us something to tap to do that when performing integration tests.</p>
+
+  <p id="d24e33735">Let’s declare a <span class="cf class">TextEditingController</span> as a private member variable of the <span class="cf class">SelectionPage</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/lib/main.dart">testing/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">final</strong>​ TextEditingController _controller = TextEditingController();</td>
+    </tr>
+
+  </table>
+
+  <p><strong>Using the TextEditingController</strong></p>
+
+  <p id="d24e33752">Let’s pass it as the <span class="cf variable">controller</span> argument to the <span class="cf class">TextField</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/lib/main.dart">testing/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">TextField(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> controller: _controller,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> decoration: InputDecoration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   labelText: ​<em class="string">"Insert comic #"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ),</td>
+    </tr>
+
+  </table>
+
+  <p><strong>Adding the FlatButton</strong></p>
+
+  <p id="d24e33778">We now need to turn the <span class="cf class">Center</span> widget in the <span class="cf variable">body</span> of the <span class="cf class">Scaffold</span> into a <span class="cf class">Column</span>, which will also require changing the <span class="cf variable">child</span> argument to <span class="cf variable">children</span>, which needs to be a <span class="cf class">List</span> literal (we need to enclose the <span class="cf class">TextField</span> definition in square brackets, in which we’ll also add the <span class="cf class">FlatButton</span>).</p>
+
+  <p id="d24e33808">The <span class="cf class">FlatButton</span> we’re going to add needs a <span class="cf variable">key</span> to be used in integration testing, and it needs to perform the same actions performed by the <span class="cf class">TextField</span>’s <span class="cf variable">onSubmit</span>, but by taking the number of the comic requested by the user from <span class="cf ic">_controller.text</span>. The entire <span class="cf variable">body</span> of the <span class="cf class">Scaffold</span> ends up being the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/lib/main.dart">testing/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">body: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    TextField(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     controller: _controller,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     decoration: InputDecoration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       labelText: ​<em class="string">"Insert comic #"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     keyboardType: TextInputType.number,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     autofocus: ​<strong class="kw">true</strong>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     onSubmitted: (​<strong class="kw">String</strong>​ a) =&gt; Navigator.push(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         builder: (context) =&gt; FutureBuilder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           future: fetchComic(a),</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           builder: (context, snapshot) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<strong class="kw">if</strong>​(snapshot.hasError)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               ​<strong class="kw">return</strong>​ ErrorPage();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<strong class="kw">if</strong>​(snapshot.hasData)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               ​<strong class="kw">return</strong>​ ComicPage(snapshot.data);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<strong class="kw">return</strong>​ CircularProgressIndicator();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     key: Key(​<em class="string">"insert comic"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   FlatButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     key: Key(​<em class="string">"submit comic"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     child: Text(​<em class="string">"Open"</em>​.toUpperCase()),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     onPressed: () =&gt; Navigator.push(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         builder: (context) =&gt; FutureBuilder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           future: fetchComic(_controller.text),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           builder: (context, snapshot) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<strong class="kw">if</strong>​(snapshot.hasError)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               ​<strong class="kw">return</strong>​ ErrorPage();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<strong class="kw">if</strong>​(snapshot.hasData)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">               ​<strong class="kw">return</strong>​ ComicPage(snapshot.data);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<strong class="kw">return</strong>​ CircularProgressIndicator();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <h4>Using the flutter_driver to Test the Selection Page</h4>
+
+  <p id="d24e34023">Integration testing requires a package called <span class="cf ic">flutter_driver</span>. The entire <span class="cf filename">pubspec.yaml</span> file containing all of the dependencies required to test Flutter apps (along with the other dependencies we need to run the XKCD app) is the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/pubspec.yaml">testing/xkcd_app/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">name: ​<em class="string">xkcd_app</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">description: ​<em class="string">An app to display XKCD comics.</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  http: ​<em class="string">"</em>​​<em class="string">^0.12.0+1"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  path_provider:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  url_launcher: ​<em class="string">^5.0.2</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dev_dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter_driver:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  mockito:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  uses-material-design: true</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e34123">To use it, let’s create a new directory in the root of our app’s source tree called <span class="cf filename">test_driver</span>. Inside it, we need to create a file that will run the app with the Flutter driver extensions enabled, and another that will connect to that running app and perform some tests on it.</p>
+
+  <p id="d24e34128">As an example, we’re going to explore how we can interact with the <span class="cf class">SelectionPage</span> and see what it’s possible to do with the Flutter integration testing framework.</p>
+
+  <p><strong>Creating a selectionpage.dart File</strong></p>
+
+  <p id="d24e34136">Let’s start by creating a file that enables the Flutter driver extensions:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/test_driver/selectionpage.dart">testing/xkcd_app/test_driver/selectionpage.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter_driver/driver_extension.dart'</em>​; </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:xkcd_app/main.dart'</em>​ ​<strong class="kw">as</strong>​ app;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/material.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">  enableFlutterDriverExtension(); </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">  runApp( </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    MaterialApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      home: app.SelectionPage(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34193">
+      <span class="emph">package:flutter_driver/driver_extension.dart</span> is the part of <span class="emph">flutter_driver</span> that allows us to enable <span class="emph">driver extensions</span>, which need to be enabled when running an app we want to run integration tests on.
+    </p>
+
+      <p id="d24e34204">
+      We also need to import the app’s <span class="cf filename">main.dart</span> because we need to be able to run the app and we need to import Flutter’s Material Design library because we only want to run the <span class="cf class">SelectionPage</span> in this case so we need access to <span class="cf methodname">runApp</span> and the <span class="cf class">MaterialApp</span> class.
+	  
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34224">
+      <span class="cf methodname">enableFlutterDriverExtension</span> actually enables the driver extensions. This function is contained in <span class="emph">package:flutter_driver/driver_extension.dart</span>.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34233">
+      We want to test the selection page, so we run it just like we run regular app home screens when we build Flutter apps, but selecting the <span class="cf class">SelectionPage</span> instead.
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e34241">This is the only file that will have access to your app or to Flutter’s UI classes at all. The actual test file mustn’t import any of that.</p>
+
+  <p><strong>Creating a selectionpage_test.dart File</strong></p>
+
+  <p id="d24e34246">This file name needs to be the same as the previous one, but with <span class="emph">_test</span> added to the name before the <span class="emph">.dart</span> extension. In this case, it has to be called <span class="cf filename">selectionpage_test.dart</span>.</p>
+
+  <p id="d24e34257">This test will be very simple and will simply try to open a comic and check whether it is correctly opened by the app:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/testing/xkcd_app/test_driver/selectionpage_test.dart">testing/xkcd_app/test_driver/selectionpage_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter_driver/flutter_driver.dart'</em>​; </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:test/test.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  group(​<em class="string">'Selection Page'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">    FlutterDriver driver; </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    SerializableFinder appBarText = find.byValueKey(​<em class="string">"AppBar text"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">    setUpAll(() async { </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      driver = await FlutterDriver.connect();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">④</span>​</span></td>
+      <td class="codeline">    tearDownAll(() async { </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">if</strong>​ (driver != ​<strong class="kw">null</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        driver.close();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑤</span>​</span></td>
+      <td class="codeline">    test(​<em class="string">'Verify Page is Loaded'</em>​, () async { </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await driver.waitFor(appBarText);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      expect(await driver.getText(appBarText), ​<em class="string">"Comic selection"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑥</span>​</span></td>
+      <td class="codeline">    test(​<em class="string">'Open Comic'</em>​, () async { </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await driver.tap(find.byValueKey(​<em class="string">"insert comic"</em>​));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await driver.enterText(​<em class="string">"1"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await driver.tap(find.byValueKey(​<em class="string">"submit comic"</em>​));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await driver.waitFor(find.text(​<em class="string">"#1"</em>​));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      expect(await driver.getText(appBarText), ​<em class="string">"#1"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34415">
+      Here we need to import the main <span class="cf filename">flutter_driver.dart</span> file, along with the regular test package.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34421">
+      Let’s define some of the variables we are going to use more than once: the <span class="cf class">FlutterDriver</span> we’re going to use to interact with the running Flutter app, and the <span class="cf class">SerializableFinder</span> looking for a <span class="cf class">Key</span> created with the string <span class="emph">AppBar text</span>, that you should add to every <span class="cf class">AppBar</span> <span class="cf class">Text</span> widget in the app.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34443">
+      This section is used to connect to the running app when starting the test.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">④</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34446">
+      Here we disconnect from the app when testing is over.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑤</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34449">
+      This first test is very simple: we wait for the page to load and then we check that the <span class="cf class">AppBar</span> text is correct (so that we know that the app has loaded the right page).
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑥</span>​</dt>
+
+    <dd>
+
+      <p id="d24e34455">
+      This test is more important: we find the <span class="cf class">TextField</span> to insert the comic, we tap it (to select it, just in case), we enter the text <span class="emph">1</span>, we press the newly created <span class="emph">submit</span> button, wait for the comic page to load, and check that comic number 1 has actually been loaded (the <span class="cf class">AppBar</span> <span class="cf class">Text</span> should be <span class="emph">#1</span>).
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e34476">
+To start the test, run the following command with an emulator or device connected:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter drive --target=test_driver/selectionpage.dart</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e34489">and you’ll see the app open and do everything you asked it to do automatically. In the command line, you’ll get the confirmation that all tests have passed.
+
+</p>
+
+  <h3>Testing More</h3>
+
+  <p id="d24e34497">
+In our integration testing example, we are only testing the <span class="cf class">SelectionPage</span>. That’s because it allows us to combine many interesting <span class="cf ic">flutter_driver</span> features and it doesn’t require repeating the same instructions many times, which would not be very interesting for an example that aims to help you learn new things.</p>
+
+  <p id="d24e34509">We haven’t done integration testing on the calculator app, but it may be used to test executing calculation using the keypad, testing both the <span class="cf class">Calculation</span> and the UI, and that is simply a combination of tests we have already done: it is useful on a real app, but you already know how to do that. That’s what integration testing is for, just like the test we wrote for our XKCD app: it tests both the UI and the logic.</p>
+
+  <p id="d24e34514">Testing the codebase is essential and should be done as much as possible. When writing your own apps, it’s important you design and write all three kinds of tests for every aspect of the app: our XKCD app needs tests for the <span class="cf class">HomeScreen</span>, for the <span class="cf class">ComicPage</span>, perhaps testing whether the <span class="cf class">ErrorPage</span> is shown when it’s needed. Additionally, more unit tests and widget tests for the basic UI elements are useful (for example, testing the <span class="cf class">AppBar</span> controls on the <span class="cf class">HomeScreen</span>).
+
+</p>
+
+  <p id="d24e34535">Code examples of those test cases look a lot like the previous ones, and thus I have not reproduced them here; however, you need to keep in mind the importance of testing.</p>
+
+  <h3>When We Have to Mock and When We Don’t</h3>
+
+  <p id="d24e34540">
+Testing using mock objects can be repetitive and feels like an useless exercise in pedantry and correctness, often begging the question: <span class="emph">is this really necessary?</span></p>
+
+  <p id="d24e34550">Testing software looks like an easy task when no mocking is involved: we just run a method and check whether it returns the correct value, or we simulate user interaction and check whether the app behaves correctly: it’s simple, intuitive, and doesn’t involve writing too many lines of code for simple things.</p>
+
+  <p id="d24e34552">Writing mock objects isn’t as simple and straight-forward: we need to consider every single interaction of the app with the outside world and simulate the response of the outside world: it is, in many respects, a chore and it seems to detract from time that could be spent developing a new feature, without actually achieving anything new.</p>
+
+  <p id="d24e34554">The problem with mocking is that it’s not just about protecting from unpredictable outside variables: it is about making the tests actually work. Even though the test will actually work correctly if we don’t mock the HTTP client (even though we won’t really be able to test the app’s functionality based on its result), any attempt to call the functions provided by <span class="cf ic">path_provider</span> to access the paths where to store app files will result in exceptions being thrown.</p>
+
+  <p id="d24e34559">If we want to know whether the <span class="cf methodname">fetchComic</span> method works, we can’t just make the part that works with files optional: it’s integral to the correct functioning of the app and that means we need to test it. The best way to test it in tests not run inside an emulator is by mocking files, so that’s what we do.</p>
+
+  <p id="d24e34564">This use case, as we’ve seen, may be made easier by just using real files on the physical machine that runs the tests: just running the <span class="cf methodname">File</span> constructor will create a file on the machine you’re using to run the tests, and that’s a way to make testing easier, but not really too predictable or controlled, since it relies on the local machine’s file system, which may be inaccessible in case the test is run on a server that doesn’t allow the code to have write access to the file system.</p>
+
+  <p id="d24e34569">
+Also, an important feature that absolutely requires mock objects even in integration tests is authentication: an app that requires authentication to work makes testing impossible unless tests takes advantage of mocking to overcome the issue of authenticathing.
+</p>
+
+  <h4>Mockito Versus Do-It-Yourself Mock Objects</h4>
+
+  <p id="d24e34579">
+
+Mockito doesn’t always make it easier to create mock objects: on the contrary, sometimes you might find it easier to just write a class that implements the methods you need. You can make them work by defining those classes as subclasses (<a href="Capítulo-092.html#sec.dart.extends">​<em>extends</em>​</a>) or as classes that implement (<a href="Capítulo-092.html#sec.dart.implements">​<em>Writing a Class That implements an Interface</em>​</a>) the interface you want to mock.</p>
+
+</body>
+
+</html>

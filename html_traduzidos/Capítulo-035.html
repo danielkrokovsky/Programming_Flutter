@@ -1,0 +1,69 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-035.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-035_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-035_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-035_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e10765"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como o aplicativo será estruturado</font></font></h2>
+
+  <p id="d24e10768"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Estaremos usando um arquivo separado com uma </font><font style="vertical-align: inherit;">classe de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cálculo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> separada </font><font style="vertical-align: inherit;">para realmente realizar cálculos - implementando, adicionando e excluindo números e operadores e expressões de computação.</font></font></p>
+
+  <p id="d24e10773"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vamos preocupar com isso em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-043.html#sec.calculator.calculation"><em><font style="vertical-align: inherit;">Implementar os cálculos</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-043.html#sec.calculator.calculation"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Layout</font></font></h3>
+
+  <p id="d24e10780"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O layout básico do aplicativo será o seguinte:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / WidgetLayout / calclayout.png" class="" id="d24e10791" src="./Capítulo-035_files/Imagem-13.png" style="width: 27%">
+
+  </div>
+
+  <p id="d24e10792"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">É uma calculadora simples e pode ser implementada usando as seguintes estruturas de layout Flutter:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / WidgetLayout / calcstructure.png" class="" id="fig.layout.calcstructure" src="./Capítulo-035_files/Imagem-14.png">
+
+  </div>
+
+  <p id="d24e10795"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Representar aplicativos Flutter como árvores é uma maneira muito eficaz de visualizar o layout de um aplicativo Flutter.</font></font></p>
+
+  <p id="d24e10797"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nesse caso, a estrutura principal do aplicativo será uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">coluna</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com três filhos:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e10804"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A tela da calculadora, que será um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cartão</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com algum </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e10813"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">linha</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> contendo o botão que exclui a expressão inteira e o botão que exclui um caractere por vez, que serão alguns </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e10822"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">linha</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para o resto dos botões da calculadora, que contém dois </font><font style="vertical-align: inherit;">widgets de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">coluna</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : uma para as três colunas contendo os números (que é composta por quatro </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">linhas</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de quatro botões cada), e uma para a coluna que contém os botões do operador.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e10833"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para tornar a aparência de layout e trabalhar melhor, nós estaremos fazendo expansivo (sem trocadilhos) o uso da </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Expandido</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas isso virá mais tarde em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-041.html#sec.calculator.expanded"><em><font style="vertical-align: inherit;">fazer a App estudar e trabalhar direito com Expandido</font></em></a><font style="vertical-align: inherit;"> .
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-041.html#sec.calculator.expanded"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-035_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

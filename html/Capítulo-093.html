@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.dart.typedef">Typedef and Callbacks</h2>
+
+  <p id="d24e46582">
+
+
+
+
+<span class="cf keyword">typedef</span> is what is used to create callback types like <span class="cf class">VoidCallback</span>, which is a <span class="cf ic">void</span> callback type for functions that don’t require arguments. A callback is a kind of <span class="emph">closure</span> that is provided as an argument to a function to be called when some conditions are met. A closure is a function that is defined a lot like a variable. The <span class="cf class">VoidCallback</span> type is a special kind of <span class="cf class">Function</span> that takes no arguments and has a <span class="cf ic">void</span> return type and it can be defined in the following way using <span class="cf keyword">typedef</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">typedef</strong>​ VoidCallback = ​<strong class="kw">void</strong>​ Function();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e46639">If you wanted to define a callback of a different type that takes some sort of arguments, you’d write the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">typedef</strong>​ IntFunctionCallback = ​<strong class="kw">int</strong>​ Function(​<strong class="kw">int</strong>​ n);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e46653">or the following very common mathematical definition of a real function of a real variable:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">typedef</strong>​ RealFunctionOfARealVariable = ​<strong class="kw">double</strong>​ Function(​<strong class="kw">double</strong>​ n);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e46667">
+
+
+Definitions can be type-independent (this kind of syntax can be used with anything in Dart):</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">typedef</strong>​ OneArgumentCallback&lt;T&gt; = T Function(T a);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e46688">After defining such a type or just using the generic <span class="cf class">Function</span> type, we can create functions just like we create variables. For example, if we wanted to recreate in Dart equivalent the <span class="emph">f(x) = e<sup>x</sup></span> exponential function (where <span class="cf constant">e</span> is Euler’s number, better known in some countries as Napier’s number), we would write the following, using <span class="cf methodname">pow</span> and <span class="cf constant">e</span> from <span class="cf ic">dart:math</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">RealFunctionOfARealVariable f = (x) =&gt; pow(e, x);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(f(2) == pow(e, 2));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(f(1) &gt; 2.71 &amp;&amp; f(1) &lt; 2.72);</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

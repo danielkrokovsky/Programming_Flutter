@@ -1,0 +1,965 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e18324">Making Your Own Packages</h2>
+
+  <p id="d24e18327">
+
+
+
+Now that you know how to use a package, you might want to know how to make your own package and how you can write platform-specific code to be used inside a Flutter app.</p>
+
+  <h3>Creating the Package</h3>
+
+  <p id="d24e18339">
+Making a package is a lot like making an app.</p>
+
+  <p id="d24e18345">If you’re using Android Studio, you just need to use File -&gt; New -&gt; New Flutter Project.</p>
+
+  <p id="d24e18347">If you only need to use multi-platform Dart code for your package, choose the Flutter Package option, if you also need to add iOS(Objective-C/Swift) or Android(Java/Kotlin) code, choose Flutter Plugin.</p>
+
+  <p id="d24e18349">Interaction between Dart code and platform-specific code is described in <a href="#sec.packages.makingplugins">​<em>Integrating Native Code: Making Plugin Packages</em>​</a>.</p>
+
+  <p id="d24e18353">
+If you’re using the command line, run this command:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter create --template=package packagename</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18363">If you want to create a plugin, replace the word <span class="emph">package</span> with <span class="emph">plugin</span>.</p>
+
+  <h3>Package Development</h3>
+
+  <p id="d24e18374">Creating a normal Dart-only package is as simple as editing and creating Dart files in the <span class="cf dir">lib</span> folder, defining the functions and classes that you want your package to provide, and then publishing it, as explained in <a href="Capítulo-052.html#sec.packages.publishing">​<em>Publishing a Package to Pub</em>​</a>.
+</p>
+
+  <h3 id="sec.packages.makingplugins">Integrating Native Code: Making Plugin Packages</h3>
+
+  <p id="d24e18385">
+
+The situation becomes more complicated when you want your package to communicate with platform-specific code, since you’ll need to join together three different codebases written in three different languages.</p>
+
+  <p id="d24e18396">Many native Android/iOS features are available using packages from Pub, but you might need to use a feature that isn’t available in Flutter and that isn’t supplied by any package, so you’ll need to write your own platform-specific code to access that feature.</p>
+
+  <p id="d24e18398">Although this chapter is about packages, the information in <a href="#sec.packages.platformchannels">​<em>Connecting Flutter and Platform-Specific Code Together Using Platform Channels</em>​</a> is also useful if you just want to connect Android and iOS code to just one app, without creating a package.</p>
+
+  <h4>Creating a Plugin Package</h4>
+
+  <p id="d24e18405">
+You can create a plugin package using the following command:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter create --template=plugin packagename</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18415">This will let you use use Java for Android-specific code and Objective-C for iOS code but, especially in the iOS world, those languages are losing ground to Kotlin (for Android) and Swift (for iOS).
+Flutter actually also provides a template for those languages too, and if you want to use both Swift and Kotlin, you need to run this command instead:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter create --template=plugin -a kotlin -i swift packagename</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18421">As we’ve just seen, you can use <span class="cf commandname">flutter</span>’s <span class="cf commandoption">-a</span> option to specify the language to use for Android code and <span class="cf commandoption">-i</span> to specify the language for iOS code.
+</p>
+
+  <h4 id="sec.packages.platformchannels">Connecting Flutter and Platform-Specific Code Together Using Platform Channels</h4>
+
+  <p id="d24e18436">
+
+We’ll write the interface for our package in Dart, but we’ll need to connect it to the platform-specific code, and you can do that using platform channels.</p>
+
+  <p id="d24e18445">Platform channels aren’t exclusive to packages: we can also use them with apps.</p>
+
+  <p id="d24e18448">The Flutter code calls methods for the platform-specific code to execute through a platform channel, the platform-specific code listens on the channel, receives the method call, performs the actions it needs to perform, and returns a response.</p>
+
+  <p><strong>How Platform Channels Work</strong></p>
+
+  <p id="d24e18453">
+To connect to our platform-specific code we’ll use the <span class="cf class">MethodChannel</span> class, which is Flutter’s side of the interface between Flutter and platform-specific code.</p>
+
+  <p id="d24e18462">We pass the channel name to its constructor, which is a unique <span class="cf class">String</span> identifier for the channel in the entire app.</p>
+
+  <p id="d24e18467">Since it has to be unique for the entire app, the channel name is usually prefixed by a domain name.</p>
+
+  <p id="d24e18469">The channel works the following way: the Dart code invokes methods on the channel, the platform-specific code listens on the channel, waiting for a method call, which is dealt with by a method call handler, which sends the result back to the Dart code.</p>
+
+  <p id="d24e18471">
+The response is received by the Dart code in the form of a <span class="cf class">Future</span>.</p>
+
+  <p><strong>Implementing the Flutter Interface in Dart</strong></p>
+
+  <p id="d24e18483">
+An example of a basic Flutter interface that can interact with platform-specific code is the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/lib/plugin_example.dart">packages/making_plugins/lib/plugin_example.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'dart:async'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/services.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ PluginExample {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">static</strong>​ ​<strong class="kw">const</strong>​ _platformChannel =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      MethodChannel(​<em class="string">'example.com/plugin_example'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">static</strong>​ Future&lt;type&gt; exampleMethod async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ await _platformChannel.invokeMethod(​<em class="string">'runExampleMethod'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18543">
+
+
+
+We can access platform channels using the <span class="emph">services</span> library, and we also need to use the async library to handle the <span class="cf class">Future</span>, so the following lines need to be placed at the top of your Dart file:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/lib/plugin_example.dart">packages/making_plugins/lib/plugin_example.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'dart:async'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/services.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18590">Then we define the class that will contain our code and we start by defining the channel we’re going use, which will be <span class="cf ic">example.com/plugin_example</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/lib/plugin_example.dart">packages/making_plugins/lib/plugin_example.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">static</strong>​ ​<strong class="kw">const</strong>​ _platformChannel =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    MethodChannel(​<em class="string">'example.com/plugin_example'</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18609">This string could be anything: you can prefix it with a real domain, a fake domain, or by no domain at all, but you should prefix it with a real domain if possible to make sure this doesn’t clash with any other plugin’s channel name. In this regard, it is very similar to Java package names, except the domain prefix is optional in this case.</p>
+
+  <p id="d24e18612">After you’ve chosen the channel name, implement the actual interface for the package:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/lib/plugin_example.dart">packages/making_plugins/lib/plugin_example.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">static</strong>​ Future&lt;type&gt; exampleMethod async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ await _platformChannel.invokeMethod(​<em class="string">'runExampleMethod'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18633">where in <span class="cf ic">Future</span> you would replace <span class="cf ic">type</span> with the type that you want the function to return.</p>
+
+  <p id="d24e18641">For more information on what data types in Java and Swift correspond to the Dart data types, see the table <a href="Capítulo-095.html#sec.dart.types.conversion">​<em>Conversion Between Native Java/Apple and Dart Data Types</em>​</a>.</p>
+
+  <p id="d24e18647">This is what will actually be called by the users of your package, and the only thing to bear in mind is that the way you call platform-specific code is by invoking methods using <span class="cf ic">platformChannel.invokeMethod(METHOD_NAME)</span>.</p>
+
+  <p id="d24e18652">Obviously for such a simple package you could skip defining the <span class="cf ic">platformChannel</span> variable and just use <span class="cf ic">MethodChannel(CHANNEL_NAME).invokeMethod(METHOD_NAME)</span>, but that would not make the code much shorter and could be a really bad way to do things long term, so stick with declaring the channel beforehand like we showed in the example.
+
+</p>
+
+  <p><strong>Implementing the Android Interface in Java</strong></p>
+
+  <p id="d24e18666">
+
+In the <span class="cf dir">android</span> directory there will be a source tree that looks just like an app’s source tree, with the only difference being the actual content of the files.</p>
+
+  <p id="d24e18680">An Android-specific Java plugin implementation looks like the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java">packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">package</strong>​ com.example.pluginexample;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<strong class="kw">io.flutter.plugin.common.MethodChannel</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<strong class="kw">io.flutter.plugin.common.MethodChannel.MethodCallHandler</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<strong class="kw">io.flutter.plugin.common.MethodChannel.Result</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<strong class="kw">io.flutter.plugin.common.MethodCall</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<strong class="kw">io.flutter.plugin.common.PluginRegistry.Registrar</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">public</strong>​ ​<strong class="kw">class</strong>​ PluginExample ​<strong class="kw">implements</strong>​ MethodCallHandler {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">public</strong>​ ​<strong class="kw">static</strong>​ ​<strong class="kw">void</strong>​ ​<strong class="kw">registerWith</strong>​(Registrar registrar) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ MethodChannel channel =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">new</strong>​ ​<strong class="kw">MethodChannel</strong>​(registrar.messenger(), ​<em class="string">"example.com/plugin_example"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    channel.setMethodCallHandler(​<strong class="kw">new</strong>​ PluginExample());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @Override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">public</strong>​ ​<strong class="kw">void</strong>​ ​<strong class="kw">onMethodCall</strong>​(MethodCall call, Result result) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​ (call.method.equals(​<em class="string">"runExampleMethod"</em>​)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      result.success(DATA_TO_RESPOND_WITH);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      result.notImplemented();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18836">Specifically, the Java file will be a class which implements the <span class="cf ic">MethodCallHandler</span> trait, and we’ll need to define two methods for it: a <span class="cf methodname">registerWith</span> method, where we’ll define what channel to listen on, and an <span class="cf methodname">onMethodCall</span> which gets called when a method is called on the channel:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java">packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">public</strong>​ ​<strong class="kw">class</strong>​ PluginExample ​<strong class="kw">implements</strong>​ MethodCallHandler {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">public</strong>​ ​<strong class="kw">static</strong>​ ​<strong class="kw">void</strong>​ ​<strong class="kw">registerWith</strong>​(Registrar registrar) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ MethodChannel channel =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">new</strong>​ ​<strong class="kw">MethodChannel</strong>​(registrar.messenger(), ​<em class="string">"example.com/plugin_example"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    channel.setMethodCallHandler(​<strong class="kw">new</strong>​ PluginExample());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @Override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">public</strong>​ ​<strong class="kw">void</strong>​ ​<strong class="kw">onMethodCall</strong>​(MethodCall call, Result result) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​ (call.method.equals(​<em class="string">"runExampleMethod"</em>​)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      result.success(DATA_TO_RESPOND_WITH);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      result.notImplemented();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e18953">Let’s start dissecting the code by looking at <span class="cf methodname">registerWith</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java">packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">public</strong>​ ​<strong class="kw">static</strong>​ ​<strong class="kw">void</strong>​ ​<strong class="kw">registerWith</strong>​(Registrar registrar) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ MethodChannel channel =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">new</strong>​ ​<strong class="kw">MethodChannel</strong>​(registrar.messenger(), ​<em class="string">"example.com/plugin_example"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  channel.setMethodCallHandler(​<strong class="kw">new</strong>​ PluginExample());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19002">This method is comparable to <span class="cf methodname">initState</span> in Flutter widgets: here you would add any action that has to be performed once and is necessary for the functionality of the package, including setting the class as the method call handler for the channel the plugin operates on.</p>
+
+  <p id="d24e19008">More specifically, when a method is invoked, <span class="cf methodname">onMethodCall</span> gets called, with two arguments: one describing the call and another providing an interface to return a result.</p>
+
+  <p id="d24e19013"><span class="cf methodname">onMethodCall</span> could be defined in the following way:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java">packages/making_plugins/android/src/main/java/com/example/pluginexample/PluginExamplePlugin.java</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@Override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">public</strong>​ ​<strong class="kw">void</strong>​ ​<strong class="kw">onMethodCall</strong>​(MethodCall call, Result result) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​ (call.method.equals(​<em class="string">"runExampleMethod"</em>​)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    result.success(DATA_TO_RESPOND_WITH);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    result.notImplemented();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19064">Since a plugin might call different methods on the same channel, the <span class="cf ic">call</span> argument provides information about the method call, more specifically:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e19071"><span class="cf ic">call.method</span>, which is the name of the method that is being called, in this case this would be <span class="cf ic">"runExampleMethod"</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e19079"><span class="cf ic">call.arguments</span>, which contains the arguments supplied by the caller code (if there are any), this topic is explained in greater detail in <a href="#sec.packages.platformchannels.arguments">​<em>Adding arguments to Method Calls</em>​</a>.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e19086">The result is returned using the <span class="cf ic">result</span> argument: running <span class="cf methodname">result.success(DATA)</span> will return DATA to the calling code, whereas running <span class="cf methodname">result.notImplemented</span> will tell the calling code that there the method that was called has not been implemented in the platform-specific code.
+
+</p>
+
+  <p><strong>Implementing the iOS Interface in Swift</strong></p>
+
+  <p id="d24e19103">
+
+When you create a Swift plugin project, in the <span class="cf dir">ios/Classes</span> folder, you will find a Swift file where you will write the iOS-specific code:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift">packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<strong class="kw">Flutter</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<strong class="kw">UIKit</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">public</strong>​ ​<strong class="kw">class</strong>​ ​<strong class="kw">PluginExample</strong>​: ​<strong class="kw">NSObject</strong>​, ​<strong class="kw">FlutterPlugin</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">public</strong>​ ​<strong class="kw">static</strong>​ ​<strong class="kw">func</strong>​ ​<strong class="kw">register</strong>​(with registrar: ​<strong class="kw">FlutterPluginRegistrar</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">let</strong>​ channel =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">FlutterMethodChannel</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                name: ​<em class="string">"example.com/plugin_swift"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                binaryMessenger: registrar.​<strong class="kw">messenger</strong>​()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">let</strong>​ handler = ​<strong class="kw">PluginExample</strong>​()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    registrar.​<strong class="kw">addMethodCallDelegate</strong>​(handler, channel: channel)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">public</strong>​ ​<strong class="kw">func</strong>​ ​<strong class="kw">handle</strong>​(call: ​<strong class="kw">FlutterMethodCall</strong>​, result: ​<strong class="kw">@escaping</strong>​ ​<strong class="kw">FlutterResult</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(call.method == ​<em class="string">"runExampleMethod"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">result</strong>​(​<strong class="kw">DATA</strong>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19274">Instead of having a <span class="cf class">MethodChannel</span> and a <span class="cf class">MethodCall</span>, you’ll use a <span class="cf class">FlutterMethodChannel</span> and a <span class="cf class">FlutterMethodCall</span>, but most of the same principles apply.</p>
+
+  <p id="d24e19288">Registering is slightly different:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift">packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">public</strong>​ ​<strong class="kw">static</strong>​ ​<strong class="kw">func</strong>​ ​<strong class="kw">register</strong>​(with registrar: ​<strong class="kw">FlutterPluginRegistrar</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">let</strong>​ channel =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">FlutterMethodChannel</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              name: ​<em class="string">"example.com/plugin_swift"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              binaryMessenger: registrar.​<strong class="kw">messenger</strong>​()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">let</strong>​ handler = ​<strong class="kw">PluginExample</strong>​()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  registrar.​<strong class="kw">addMethodCallDelegate</strong>​(handler, channel: channel)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19364">The <span class="cf class">FlutterMethodChannel</span> constructor arguments are named and not positional and you can set the method handler by using the <span class="cf class">FlutterPluginRegistrar</span>’s <span class="cf methodname">addMethodCallDelegate</span> method, passing the handler class as a positional argument and the channel as a named argument:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift">packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">registrar.​<strong class="kw">addMethodCallDelegate</strong>​(handler, channel: channel)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19386"><span class="cf ic">onMethodCall</span> becomes <span class="cf methodname">handle</span> and instead of using <span class="cf methodname">result.success</span> to return data it is just <span class="cf methodname">result</span>, with the rest of the differences being down to variations in syntax between Java and Swift:
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift">packages/making_plugins/ios/Classes/SwiftPluginExamplePlugin.swift</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">public</strong>​ ​<strong class="kw">func</strong>​ ​<strong class="kw">handle</strong>​(call: ​<strong class="kw">FlutterMethodCall</strong>​, result: ​<strong class="kw">@escaping</strong>​ ​<strong class="kw">FlutterResult</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(call.method == ​<em class="string">"runExampleMethod"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">result</strong>​(​<strong class="kw">DATA</strong>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p><strong id="sec.packages.platformchannels.arguments">Adding arguments to Method Calls</strong></p>
+
+  <p id="d24e19453">
+Getting a value from a platform-specific API is useful, but sometimes you need to pass arguments to the called code, and you can do that by passing another argument to <span class="cf methodname">invokeMethod</span>.</p>
+
+  <p id="d24e19462">The arguments will then be available in Android’s <span class="cf class">MethodCall</span> and iOS’s <span class="cf class">FlutterMethodCall</span> in <span class="cf ic">call.arguments</span>.</p>
+
+  <p id="d24e19473">Its type is <span class="cf ic">dynamic</span> in Dart, <span class="cf class">Object</span> in Java, and <span class="cf ic">id</span> in Objective-C, meaning it could be anything.</p>
+
+  <p id="d24e19484">For example, let’s pass an integer number and multiply it by 10 to see how it’s done.</p>
+
+  <p id="d24e19486">The Dart interface is fairly simple:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">static</strong>​ Future&lt;​<strong class="kw">int</strong>​&gt; multiplyBy10(​<strong class="kw">int</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ await platformChannel.invokeMethod(​<em class="string">'multiplyBy10'</em>​, n);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19513">
+In the Android code, after casting the type of the arguments to <span class="cf ic">int</span>, it’s as simple as returning the number multiplied by 10:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(call.method.equals(​<em class="string">"multiplyBy10"</em>​)) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    result.success(((​<strong class="kw">int</strong>​) call.arguments)*10);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19551">
+For the iOS code, in <span class="cf ic">call.arguments</span> you’ll get an <span class="cf ic">NSNumber NumberWithInt</span>, so it takes a few extra steps to achieve this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(call.method == ​<em class="string">"multiplyBy10"</em>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<strong class="kw">let</strong>​ arg = call.arguments ​<strong class="kw">as!</strong>​ ​<strong class="kw">NSNumber</strong>​ ​<strong class="kw">NumberWithInt</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">result</strong>​(​<strong class="kw">NSNumber</strong>​(value: arg.integerValue * 10))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19601">Given that the <span class="cf ic">NSNumber</span> contains the actual number in the <span class="cf ic">integerValue</span> member, that’s what we need to multiply by 10. After we’ve done that, we convert it back to an NSNumber and send it back to the calling code.
+For more information about the type conversions between Dart and platform-specific code, the section <a href="Capítulo-095.html#sec.dart.types.conversion">​<em>Conversion Between Native Java/Apple and Dart Data Types</em>​</a> lists the most important ones.
+
+</p>
+
+  <h3>Using the Package in an App Without Publishing to Pub</h3>
+
+  <p id="d24e19617">
+Let’s suppose you have a directory structure that looks like the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter_stuff</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">├── app</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">│   ├── lib</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">│   │   └── main.dart</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">│   └── pubspec.yaml</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">└── packagename</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ├── lib</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    │   └── packagename.dart</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    └── pubspec.yaml</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19644">and you want the app in the <span class="cf dir">app</span> directory to use the package in the <span class="cf dir">packagename</span> directory.</p>
+
+  <p id="d24e19652">As we explained in <a href="Capítulo-049.html#sec.packages.nopub">​<em>Fetching Packages from Locations Other Than Pub</em>​</a>, you can just add:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">packagename:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  path: ​<em class="string">../packagename/</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19669">to the dependencies in <span class="cf filename">pubspec.yaml</span> and add:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:packagename/packagename.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e19684">to <span class="cf dir">app/lib</span><span class="cf filename">main.dart</span> and you will be able to access the package just like you would if you had used Pub.</p>
+
+</body>
+
+</html>

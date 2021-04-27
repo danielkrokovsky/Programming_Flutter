@@ -1,0 +1,530 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-020.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-020_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-020_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-020_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e4794"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Contém e adiciona preenchimento a widgets usando widgets de layout invisíveis</font></font></h2>
+
+  <p id="d24e4797"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Alguns widgets não têm o objetivo de adicionar conteúdo visível ao seu aplicativo, mas simplesmente são usados ​​para mover outros widgets dentro do espaço disponível ou alterar a forma e o tamanho de um widget para fazer o aplicativo parecer exatamente como você deseja.</font></font></p>
+
+  <p id="d24e4799"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todos eles operam em um </font><font style="vertical-align: inherit;">widget </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filho</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e você pode usá-los para alterar a forma e o tamanho desse widget ou para separar o widget de outros widgets.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Adicionar preenchimento a um widget</font></font></h3>
+
+  <p id="d24e4807"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Pode haver casos em que um widget em seu aplicativo deve (ou deveria) estar a uma certa distância de todos ou de alguns outros widgets - por exemplo, se o widget tiver que ser separado de outros widgets em uma lista ou grade, ou se existem vários pequenos widgets usados ​​para interação próximos uns dos outros, ou talvez apenas porque fica melhor com algum espaço vazio.</font></font></p>
+
+  <p id="d24e4820"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O espaço que fica vazio é chamado de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">preenchimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e geralmente é definido em termos da quantidade de pixels para cada direção que são deixados vazios.</font></font></p>
+
+  <p id="d24e4825"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você pode adicionar preenchimento na parte externa de um widget envolvendo-o dentro de um </font><font style="vertical-align: inherit;">widget de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">preenchimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e4830"><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O preenchimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> aceita um </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filho</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e a </font><font style="vertical-align: inherit;">opção de </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">preenchimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como argumentos nomeados, portanto, você pode criar um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com preenchimento de 20 px da seguinte maneira:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Preenchimento(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  preenchimento: EdgeInsets.all (20.0),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  criança: Texto ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Exemplo de texto"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e4859"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A </font><font style="vertical-align: inherit;">opção de </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">preenchimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> usa um objeto do tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsetsGeometry</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , sobre o qual aprenderemos na próxima seção.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsetsGeometry e EdgeInsets: Definindo a quantidade e a posição do preenchimento</font></font></h4>
+
+  <p id="d24e4870"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Você pode gerar objetos do tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsetsGeometry</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> usando os seguintes construtores da classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e4889"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets.all (paddingAmount)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , em que </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">paddingAmount</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um </font><font style="vertical-align: inherit;">valor </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo que</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> especifica a quantidade de preenchimento, que adiciona preenchimento em todo o conteúdo.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4902"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets.symmetric (vertical: paddingAmountVertical, horizontal: paddingAmountHorizontal)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , onde ambos os argumentos são opcionais e especificam a quantidade de preenchimento para cada lado no respectivo eixo.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4907"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets.only (top: paddingAmountTop, bottom: paddingAmountBottom, left: paddingAmountLeft, right: paddingAmountRight)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , onde todos os quatro argumentos são opcionais e especificam a quantidade de preenchimento para o respectivo lado do conteúdo.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e4911"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Existem outros construtores para </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (como </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets.fromWindowPadding</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets.fromLTRB</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), mas eles não são realmente muito úteis com </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Padding</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e4925"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsetsDirectional.only</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsetsDirectional.fromSTEB</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> também existem e são como </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets.only</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsets.fromLTRB</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas usam </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">início</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">topo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fundo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fim em</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> relação à direção em que o texto é escrito e são úteis quando o preenchimento deve altere se o texto vai da esquerda para a direita (como ao escrever um texto no alfabeto latino) ou da direita para a esquerda (como ao escrever um texto no alfabeto árabe ou hebraico).
+
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O Container e a BoxDecoration</font></font></h3>
+
+  <p id="d24e4957"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Container</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um widget de contenção genérico e tem vários usos, dependendo das opções que decidirmos definir:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e4975"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos escolher restringir a </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">criança</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a uma </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">largura</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">altura</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> definidas </font><font style="vertical-align: inherit;">.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4987"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos escolher adicionar uma cor de fundo a um widget ou conjunto de widgets.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4990"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos adicionar </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">preenchimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a um widget.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4996"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos fazer o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Container</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em uma forma diferente de quadrado ou retangular usando </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxDecoration</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5005"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos fazer tudo ou alguns deles ao mesmo tempo.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e5007"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, podemos criar um texto branco com um fundo azul e 20 pixels de preenchimento entre as bordas e o texto, tudo limitado a um retângulo de 200x50 com o seguinte código:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Recipiente(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  cor: Colors.blue,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  preenchimento: EdgeInsets.all (20.0),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  largura: 200,0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  altura: 50,0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  criança: Texto ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Prova"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , estilo: textstyle (cor: Colors.white)),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxDecoration</font></font></h4>
+
+  <p id="d24e5040">
+
+<span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxDecoration</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , em vez disso, é usado para determinar os </font><font style="vertical-align: inherit;">recursos </font><font style="vertical-align: inherit;">do </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">contêiner</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e5059"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você pode atribuí-lo ao </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">recipiente</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">decoração</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> opção e que você pode estar interessado nos seguintes opções:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e5069"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">padding</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que usa </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EdgeInsetsGeometry</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e é igual a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Padding </font></font></span><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.padding</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5082"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">forma</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que pode ser </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxShape.circle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxShape.rectangle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5093"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">imagem</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">gradiente</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que são usados ​​para especificar o fundo, uma vez que o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxDecoration</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> não é realmente usado apenas para a forma e, se você decidir usar o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Container.decoration</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , você precisa mover argumentos como </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxDecoration</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> construtor de.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5117"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">borderRadius</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que, quando definido para uma caixa em forma de retângulo, cria bordas arredondadas do conjunto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BorderRadius</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que pode ser definido como o mesmo para todas as bordas usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BorderRadius.circular (raio)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (onde </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">raio</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um </font><font style="vertical-align: inherit;">número </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ).</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e5133"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando o seguinte </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Container</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxDecoration</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Recipiente(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  largura: 300,0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  altura: 300,0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  decoração: BoxDecoration (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    forma: BoxShape.circle,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    cor: Colors.black,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  filho:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Centro(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      filho: Texto (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Texto de teste"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        style: TextStyle (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          cor: Colors.yellowAccent,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          fontSize: 30</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e5192"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você pode fazer um círculo com texto amarelo assim:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / WidgetLayout / oneball.png" class="border " id="d24e5194" src="./Capítulo-020_files/Imagem-72.png" style="width: 30%">
+
+  </div>
+
+  <p id="d24e5195"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E, só para mostrar como eles podem trabalhar em qualquer lugar, você pode ter dois em uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">coluna</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (explicado um pouco mais tarde em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.column"><em><font style="vertical-align: inherit;">O coluna</font></em></a><font style="vertical-align: inherit;"> ) da seguinte forma (ver também a </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-020.html#fig.twoballs"><font style="vertical-align: inherit;">figura</font></a><font style="vertical-align: inherit;"> ):</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.column"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-020.html#fig.twoballs"><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Coluna(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  mainAxisAlignment: MainAxisAlignment.spaceEvenly,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  crianças: [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Recipiente(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      largura: 300,0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      altura: 300,0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      decoração: BoxDecoration (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        forma: BoxShape.circle,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        cor: Colors.black,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      criança: Centro (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        filho: Texto (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"O primeiro texto"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          style: TextStyle (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">            cor: Colors.yellowAccent,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">            fontSize: 30</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Recipiente(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      largura: 300,0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      altura: 300,0,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      decoração: BoxDecoration (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        forma: BoxShape.circle,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        cor: Colors.black,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      criança: Centro (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        filho: Texto (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"O segundo texto"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          style: TextStyle (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">            color: Colors.lightBlueAccent,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">            fontSize: 30</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ],</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <div id="fig.twoballs">
+
+    <div>
+
+      <img alt="images / WidgetLayout / twoballs.png" class="border " id="d24e5317" src="./Capítulo-020_files/Imagem-93.png" style="width: 28%">
+
+    </div>
+
+  </div>
+
+  <p id="d24e5319"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Exemplos mais detalhada do uso de um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Container</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BoxDecoration</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode ser encontrado em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.round"><em><font style="vertical-align: inherit;">Fazer Rodada Widgets</font></em></a><font style="vertical-align: inherit;"> .
+
+
+
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.round"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-020_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

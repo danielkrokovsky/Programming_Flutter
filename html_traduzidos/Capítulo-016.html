@@ -1,0 +1,1940 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-016.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-016_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-016_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-016_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e2792"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dê ao aplicativo seu toque pessoal</font></font></h2>
+
+  <p id="d24e2795"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora vamos modificar o que vimos. </font><font style="vertical-align: inherit;">Vamos mudar a cor do aplicativo para verde, adicionar um botão redefinir vermelho para redefinir o contador para 0, fazer o aplicativo exibir a string "Nenhum" em vez do contador quando o contador estiver em 0 e alterar o </font><font style="vertical-align: inherit;">texto do título </font><font style="vertical-align: inherit;">do </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">appBar</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Fazendo isso, teremos uma ideia de como fazer alterações simples e também uma introdução à sintaxe mais complexa do Flutter.</font></font></p>
+
+  <p id="d24e2800"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O resultado será assim:</font></font></p>
+
+  <table class="simpletable ">
+
+    <tbody>
+
+      <tr class="tr ">
+        <td style="width: 50%; ">
+          <img alt="images / FirstApp / None.png" class="border " id="d24e2808" src="./Capítulo-016_files/Imagem-71.png" style="width: 70%">
+        </td>
+        <td style="width: 50%; ">
+          <img alt="images / FirstApp / 15scaled.png" class="border " id="d24e2812" src="./Capítulo-016_files/Imagem-01.png" style="width: 70%">
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Alterar a cor primária do aplicativo</font></font></h3>
+
+  <p id="d24e2818"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Começaremos editando nosso aplicativo com a alteração mais simples: mudar a cor para verde. </font><font style="vertical-align: inherit;">Esta é tão simples como mudar os seguintes algumas linhas no </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Meu_apl</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ‘s </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">compilação</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> método:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp_starting / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tema: ThemeData (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  primarySwatch: Colors.blue,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e2853"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vá em frente e mudar </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Colors.blue</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Colors.green</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para que essas linhas, em vez ter a seguinte redacção:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tema: ThemeData (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  primarySwatch: Colors.green,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Faça o contador exibir “Nenhum” em vez de 0</font></font></h3>
+
+  <p id="d24e2875"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Agora, vamos alterar o texto do contador no meio para que exiba “Nenhum” em vez de 0.</font></font></p>
+
+  <p id="d24e2886"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para fazer isso, adicionaremos uma </font><font style="vertical-align: inherit;">variável </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_displayedString</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_MyHomePageState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , abaixo da declaração do contador.</font></font></p>
+
+  <p id="d24e2894"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Localize a seguinte linha:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _counter = 0;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e2902"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e, abaixo, adicione:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _displayedString;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e2910"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de fazer isso, precisamos definir essa variável para “Nenhum” se o contador for 0 e para uma representação de string do contador se esse não for o caso. </font><font style="vertical-align: inherit;">Vamos precisar de uma condicional.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Use condicionais na flutuação</font></font></h4>
+
+  <p id="d24e2915"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Para fazer isso cada vez que o contador é aumentado (que nós usando uma chamada para </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">setState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que desencadeia uma re-render que chama a </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">construção</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de método), isso precisa ser parte de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_MyHomePageState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">construção</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> método. </font><font style="vertical-align: inherit;">Então, logo acima:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">voltar </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">novo </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">andaime</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e2943"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">adicionar:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (_counter == 0) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  _displayedString = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Nenhum"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">} </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  _displayedString = _counter.toString ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e2968"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Esta é uma </font><font style="vertical-align: inherit;">construção </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">if-else</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> simples </font><font style="vertical-align: inherit;">e, como em muitas outras linguagens, também pode ser expressa de uma forma sem braçadeiras como:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (_counter == 0) _displayedString = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Nenhum"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mais</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _displayedString = _counter.toString ();</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e2999"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ou, com uma expressão condicional, como:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_displayedString = _counter == 0? </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Nenhum"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ _counter </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3016"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você pode encontrar mais informações sobre construções condicionais e expressões em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-090.html#sec.dart.conditionals"><em><font style="vertical-align: inherit;">condicionais Constrói e Expressões</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-090.html#sec.dart.conditionals"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Definir o texto do contador</font></font></h3>
+
+  <p id="d24e3023"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora precisamos substituir o contador pela string que acabamos de gerar.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Use Literais de String no Dart</font></font></h4>
+
+  <p id="d24e3028"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+No momento, o código que estamos usando para gerar o </font><font style="vertical-align: inherit;">widget de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para o contador se parece com este:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp_starting / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ _Counter </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  style: Theme.of (context) .textTheme.display1,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3061"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você deve ter notado a sintaxe usada atualmente para exibir o contador para o usuário:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ _Counter </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3072"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+As aspas simples (ao contrário de C, C ++ e Java, aspas simples e duplas são iguais no Dart) encerram um literal de string e dentro desse literal de string está um nome de variável ( </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_counter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) precedido por um cifrão.
+</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usar interpolação de string</font></font></h4>
+
+  <p id="d24e3090"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Neste caso, esta é uma alternativa à sintaxe que usamos anteriormente para converter um inteiro em uma string ( </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_counter.toString ()</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ).</font></font></p>
+
+  <p id="d24e3097"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+É assim que os literais de string funcionam no Dart: eles são colocados entre aspas simples ou duplas. </font><font style="vertical-align: inherit;">E podemos incluir variáveis ​​em literais de string precedendo o nome da variável com um cifrão.</font></font></p>
+
+  <p id="d24e3108"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Se precisarmos usar interpolação de string com uma expressão ou notação de ponto (por exemplo, para usar variáveis ​​de membro de objetos ou exibir resultados de expressões), precisamos colocar o nome da variável entre colchetes. </font><font style="vertical-align: inherit;">Precisamos fazer isso em breve para o título do aplicativo.</font></font></p>
+
+  <p id="d24e3119"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você pode encontrar mais informações sobre strings literais e interpolação de string em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-086.html#sec.dart.strings"><em><font style="vertical-align: inherit;">Personagens e Cordas</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-086.html#sec.dart.strings"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e3123"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">De volta ao nosso exemplo. </font><font style="vertical-align: inherit;">Como agora queremos exibir uma string, podemos substituir:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ _Counter </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3134"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ser apenas:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">displayString</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3141"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">já que não precisamos usar literais de string.
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Alterar o título do aplicativo</font></font></h3>
+
+  <p id="d24e3147"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Para alterar o título do appBar para “Um aplicativo que pode contar até </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[0, 1, 2, 3 ...]</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ”, precisamos usar a interpolação de string.</font></font></p>
+
+  <p id="d24e3161"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usaremos uma string fixa definida no construtor do aplicativo e uma parte variável, que será criada dentro do método de construção.</font></font></p>
+
+  <p id="d24e3163"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A parte fixa é o título que damos ao </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">construtor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font><span class="cf class"><font style="vertical-align: inherit;">MyHomePage</font></span><font style="vertical-align: inherit;"> (e que então se torna </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">widget.title</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), que será “Um aplicativo que pode contar para”:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp_starting / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  casa: MinhaHomePage (título: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Flutter Demonstração Página'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3180"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">terá que se tornar:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  casa: MinhaHomePage (título: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Um aplicativo que pode contar para'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3191"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora precisamos editar </font><font style="vertical-align: inherit;">o </font><font style="vertical-align: inherit;">método de </font><span class="cf ic"><font style="vertical-align: inherit;">construção de </font></span></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_MyHomePageState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> novamente, já que é isso que é chamado toda vez que o estado do aplicativo muda, e é aí que a parte variável da string terá que ser gerada.</font></font><span class="cf ic"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e3199"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para fazer o que acabei de descrever, localize as seguintes linhas:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp_starting / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">appBar: AppBar (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  título: Texto (widget.title),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3213"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e mudar:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">widget.title</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3221"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {Widget.title} </font></font></em><font style="vertical-align: inherit;"><em class="string"><font style="vertical-align: inherit;">$ _counter </font></em><em class="string"><font style="vertical-align: inherit;">'</font></em></font><em class="string"> </em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3236"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">de modo que essas linhas agora leiam o seguinte:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">appBar: AppBar (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Título: Texto ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {widget.title} </font></font></em><font style="vertical-align: inherit;"><em class="string"><font style="vertical-align: inherit;">$ _counter </font></em><em class="string"><font style="vertical-align: inherit;">'</font></em><font style="vertical-align: inherit;"> ),</font></font><em class="string"> </em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3258"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como você pode ver, fizemos o oposto do que fizemos com o contador e tivemos que usar </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">colchetes</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para </font><span class="cf ic"><font style="vertical-align: inherit;">widget.title</font></span><font style="vertical-align: inherit;"> porque a notação de ponto foi necessária para acessar uma variável de membro.
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Adicionar um botão de reinicialização</font></font></h3>
+
+  <p id="d24e3267"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A última coisa que precisamos fazer para chegar ao aplicativo nas capturas de tela mostradas anteriormente é adicionar o botão de reinicialização.</font></font></p>
+
+  <p id="d24e3269"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Antes de adicionar o botão em si, vamos definir um método simples que altera o estado e redefine o contador para 0.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Use </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">setState ()</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para reiniciar o contador</font></font></h4>
+
+  <p id="d24e3279"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Dentro </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_MyHomePageState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ‘definição s, abaixo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_incrementCounter ()</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 'definição s, adicione o seguinte código:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_resetCounter</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  setState (() {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    _contador = 0;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3308"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso é muito semelhante a </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_incrementCounter ()</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas, em vez de incrementar o contador, o definimos como 0.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Faça o botão de reset</font></font></h4>
+
+  <p id="d24e3316"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora que definimos um método que redefine o contador e dispara uma nova renderização, precisamos criar um botão para chamar essa função. </font><font style="vertical-align: inherit;">Portanto, antes de fazermos isso, precisamos saber como fazemos isso com o Flutter.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Botões no Flutter: o FlatButton e o IconButton</font></font></strong></p>
+
+  <p id="d24e3321"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Se quisermos criar rapidamente um botão no Flutter, podemos escolher entre um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">IconButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e3343"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é ideal quando você deseja um botão que exibe texto: ele tem um </font><font style="vertical-align: inherit;">atributo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filho</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que geralmente é um </font><font style="vertical-align: inherit;">widget de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas você tem a opção de defini-lo como qualquer coisa.</font></font></p>
+
+  <p id="d24e3354"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A razão pela qual </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é usado principalmente para botões de texto é que o uso de um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">IconButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> existe especificamente para a criação de botões baseados em ícones, permitindo ao desenvolvedor especificar um </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Icon</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como seu </font><font style="vertical-align: inherit;">atributo de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ícone</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , com o botão consistindo apenas no ícone e uma pequena quantidade de preenchimento.</font></font></p>
+
+  <p id="d24e3368"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Um dos atributos que mostram a diferença de foco é que o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ‘s </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> controles de atributos a cor do botão em si (o fundo ao seu conteúdo), enquanto o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">IconButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ‘s </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> controle de atributo é a cor do ícone.</font></font></p>
+
+  <p id="d24e3382"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">RaisedButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> também existe, mas é apenas um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ligeiramente diferente </font><font style="vertical-align: inherit;">.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Implemente o botão de reinicialização</font></font></strong></p>
+
+  <p id="d24e3397"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Para este exemplo, faremos um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e3406"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para adicionar o botão, localize as seguintes linhas no </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_MyHomePageState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">construção</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> método:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp_starting / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filhos: &lt;Widget&gt; [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Você apertou o botão isso muitas vezes:'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ _Counter </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    style: Theme.of (context) .textTheme.display1,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">],</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3453"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e adicione, dentro dos colchetes, o seguinte à lista de widgets:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  onPressed: _resetCounter,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  color: Colors.red,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  filho: Texto (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Repor contador"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    style: Theme.of (context) .textTheme.button,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3488"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em primeiro lugar, a ação que queremos realizar é disparar a </font><font style="vertical-align: inherit;">função </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_resetCounter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , então definimos isso como o </font><font style="vertical-align: inherit;">atributo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onPressed</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e3496"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ‘s </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> atributo não deve ser confundido com o atributo CSS que vai pelo mesmo nome: como eu descrevi anteriormente, ele muda de cor de fundo do botão, não a cor do texto, o que vamos deixar preto.</font></font></p>
+
+  <p id="d24e3504"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">atributo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filho</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é apenas uma string de texto com o tema de texto do botão embutido.</font></font></p>
+
+  <p id="d24e3510"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O código final é:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_oldfab/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp_oldfab / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: vibração / material.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">principal</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () =&gt; ExecutarAplicação (MyApp ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Meu_apl </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatelessWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Construção de widget (contexto BuildContext) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MaterialApp (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     Título: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Flutter Demo'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     tema: ThemeData (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       primarySwatch: Colors.green,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     casa: MinhaHomePage (título: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Um aplicativo que pode contar para'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MinhaHomePage </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatefulWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MinhaHomePage ({key Key, </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .title}): </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Super</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (tecla: chave);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cadeia</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> título;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _MyHomePageState createState () =&gt; _MyHomePageState ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _MyHomePageState </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Estado &lt;MinhaHomePage&gt; {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _counter = 0;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _displayedString;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _incrementCounter () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   setState (() {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     _counter ++;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _resetCounter () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   setState (() {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     _contador = 0;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Construção de widget (contexto BuildContext) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (_counter == 0) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     _displayedString = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Nenhum"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   } </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     _displayedString = _counter.toString ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> andaime (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     appBar: AppBar (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       Título: Texto ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {widget.title} </font></font></em><font style="vertical-align: inherit;"><em class="string"><font style="vertical-align: inherit;">$ _counter </font></em><em class="string"><font style="vertical-align: inherit;">'</font></em><font style="vertical-align: inherit;"> ),</font></font><em class="string"> </em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     corpo: Centro (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       filho: coluna (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">         mainAxisAlignment: MainAxisAlignment.center,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">         filhos: &lt;Widget&gt; [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Você apertou o botão isso muitas vezes:'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             _displayedString,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             style: Theme.of (context) .textTheme.display1,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           FlatButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             onPressed: _resetCounter,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             color: Colors.red,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             filho: Texto (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Repor contador"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">               style: Theme.of (context) .textTheme.button,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">         ],</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     floatingActionButton: FloatingActionButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       onPressed: _incrementCounter,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       Dica: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Incremento'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       filho: Ícone (Icons.add),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3802"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora, construa e execute ou recarregue o aplicativo e o resultado será o mesmo que as imagens que vimos anteriormente.
+
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Faça um widget personalizado: nosso próprio botão</font></font></h3>
+
+  <p id="d24e3811"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Esse </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FloatingActionButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é uma classe de botão padrão e se parece com um botão padrão: é o mesmo usado em vários outros aplicativos e provavelmente você já viu isso muitas vezes antes.</font></font></p>
+
+  <p id="d24e3825"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E se, em vez de usar aquele botão de aparência padrão, quiséssemos usar um botão feito sob medida para torná-lo exatamente como queremos?</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O botão que vamos criar</font></font></h4>
+
+  <p id="d24e3830"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Digamos que queremos fazer um botão de texto com cantos arredondados e um bom efeito de respingo de tinta quando tocamos nele, como o que está nestas fotos:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / FirstApp / btn1.png" class="border " id="d24e3832" src="./Capítulo-016_files/Imagem-10.png" style="width: 38%">
+
+  </div>
+
+  <div class="ss">
+
+    <img alt="images / FirstApp / btn3.png" class="border " id="d24e3833" src="./Capítulo-016_files/Imagem-12.png" style="width: 38%">
+
+  </div>
+
+  <div class="ss">
+
+    <img alt="images / FirstApp / btn2.png" class="border " id="d24e3834" src="./Capítulo-016_files/Imagem-11.png" style="width: 38%">
+
+  </div>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dividir o código do Dart em arquivos separados</font></font></h4>
+
+  <p id="d24e3838"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Primeiro, vamos criar um novo arquivo Dart chamado </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OurButton.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dentro do </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">lib</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e definir nosso próprio </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StatelessWidget</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> chamado </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OurButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que será um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">RawMaterialButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> personalizado </font><font style="vertical-align: inherit;">. </font><font style="vertical-align: inherit;">No novo arquivo, vamos importar a API básica do Flutter de que precisamos e definir nossa classe:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: vibração / material.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> OurButton </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatelessWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Definir um widget personalizado</font></font></h4>
+
+  <p id="d24e3888"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Agora, dentro </font><font style="vertical-align: inherit;">das chaves de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OurButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , definiremos os argumentos do construtor e os definiremos como "obrigatórios", já que precisamos de todos eles e definiremos todos eles em nosso código:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/OurButton.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / OurButton.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OurButton ({</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Chave chave,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .text,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .textColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .backgroundColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .splashColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .onPressed</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}): </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Super</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (tecla: chave);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3955"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para cada um desses argumentos, precisamos de uma variável para armazená-los, como fazemos nas seguintes linhas:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/OurButton.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / OurButton.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">última </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">seqüência</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de texto;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">última</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Cor textColor, backgroundColor, splashColor;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> VoidCallback onPressed;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e3974"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora, como para todos os widgets, precisamos de um método de construção que, neste caso, será:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/OurButton.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / OurButton.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Widget </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">de construção</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (contexto BuildContext) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> RawMaterialButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    onPressed: onPressed,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    fillColor: backgroundColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    splashColor: splashColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    padding: ButtonTheme.of (context) .padding,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    filho: Texto (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      texto,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      style: TextStyle (color: textColor),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    forma: StadiumBorder (),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e4019"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O botão que estamos criando é </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">RawMaterialButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , uma classe de botão </font><span class="cf class"><font style="vertical-align: inherit;">básica</font></span><font style="vertical-align: inherit;"> que nos permite personalizar muito mais sua aparência do que um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> mais simples </font><font style="vertical-align: inherit;">.</font></font></p>
+
+  <p id="d24e4032"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mais especificamente, os argumentos que estamos passando para seu construtor são:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e4036"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onPressed</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é o mesmo que os outros </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onPressed</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> atributos que vimos, e nós atribuímos </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OurButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ‘s </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onPressed</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> atributo a ele.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4050"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fillColor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é o mesmo que o </font><font style="vertical-align: inherit;">atributo de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que vimos usado para o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlatButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> anteriormente neste capítulo: é a cor de fundo do botão, que será definida para </font><font style="vertical-align: inherit;">o </font><font style="vertical-align: inherit;">atributo </font><span class="cf ic"><font style="vertical-align: inherit;">backgroundColor de </font></span></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OurButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , para mostrar como os nomes de atributo de nosso botão personalizado podem ser diferentes quando em comparação com os do widget em que o baseamos.</font></font><span class="cf ic"><font style="vertical-align: inherit;"></font></span><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4067"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">splashColor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é a cor usada para o efeito inksplash e usamos o </font><font style="vertical-align: inherit;">argumento </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">padding</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para fornecer uma quantidade normal (padrão) de preenchimento ao nosso botão.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4075"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filho</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é simplesmente um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , usando a cor especificada nos </font><font style="vertical-align: inherit;">argumentos de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OurButton</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como a cor do texto.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4086"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">forma</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é a </font><span class="cf ic"><font style="vertical-align: inherit;">forma</font></span><font style="vertical-align: inherit;"> do botão, e estamos usando um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StadiumBorder ()</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para dar ao nosso botão os cantos arredondados que desejamos.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e4093"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todo o </font><font style="vertical-align: inherit;">código-fonte </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OurButton.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/OurButton.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / OurButton.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: vibração / material.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> OurButton </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatelessWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> OurButton ({</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   Chave chave,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .text,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .textColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .backgroundColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .splashColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   @required </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .onPressed</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}): </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Super</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (tecla: chave);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">última </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">seqüência</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de texto;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">última</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Cor textColor, backgroundColor, splashColor;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> VoidCallback onPressed;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Construção de widget (contexto BuildContext) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> RawMaterialButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     onPressed: onPressed,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     fillColor: backgroundColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     splashColor: splashColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     padding: ButtonTheme.of (context) .padding,</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     filho: Texto (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       texto,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       style: TextStyle (color: textColor),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     forma: StadiumBorder (),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Use o botão personalizado em nosso aplicativo</font></font></h3>
+
+  <p id="d24e4228"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Para usar nosso botão personalizado no </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">main.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , precisamos importar o arquivo que acabamos de criar inserindo, na parte superior do arquivo, o seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'OurButton.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e4251"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e, no </font><font style="vertical-align: inherit;">método de construção de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_MyHomePageState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , substitua:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp_starting / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">floatingActionButton: FloatingActionButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  onPressed: _incrementCounter,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Dica: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Incremento'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  filho: Ícone (Icons.add),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e4274"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">com:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">floatingActionButton: OurButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  texto: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Faça o contador </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {_ marcador + 1} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  textColor: Colors.white,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  backgroundColor: Theme.of (context) .primaryColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  splashColor: Theme.of (context) .primaryColorLight,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  onPressed: _incrementCounter,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e4314"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Entre os argumentos que estamos passando, há uma string com a expressão </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_counter + 1</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que requer chaves ao redor dela.</font></font></p>
+
+  <p id="d24e4320"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois disso, terminamos!</font></font></p>
+
+  <p id="d24e4322"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">código-fonte </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">main.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> completo </font><font style="vertical-align: inherit;">é:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">firstapp / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: vibração / material.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'OurButton.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">principal</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () =&gt; ExecutarAplicação (MyApp ());</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Meu_apl </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatelessWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> @sobrepor</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Widget </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">de construção</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (contexto BuildContext) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MaterialApp (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     Título: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Flutter Demo'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     tema: ThemeData (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       primarySwatch: Colors.green,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     casa: MinhaHomePage (título: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Um aplicativo que pode contar para'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MinhaHomePage </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatefulWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MinhaHomePage ({key Key, </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">este</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .title}): </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Super</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (tecla: chave);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">definitiva </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cadeia</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> título;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _MyHomePageState createState () =&gt; _MyHomePageState ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _MyHomePageState </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Estado &lt;MinhaHomePage&gt; {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _counter = 0;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _displayedString;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _incrementCounter () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   setState (() {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     _counter ++;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _resetCounter () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   setState (() {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     _contador = 0;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Construção de widget (contexto BuildContext) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (_counter == 0) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     _displayedString = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Nenhum"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   } </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Else</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     _displayedString = _counter.toString ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> andaime (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     appBar: AppBar (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       Título: Texto ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">' </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {widget.title} </font></font></em><font style="vertical-align: inherit;"><em class="string"><font style="vertical-align: inherit;">$ _counter </font></em><em class="string"><font style="vertical-align: inherit;">'</font></em><font style="vertical-align: inherit;"> ),</font></font><em class="string"> </em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     corpo: Centro (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       filho: coluna (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">         mainAxisAlignment: MainAxisAlignment.center,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">         filhos: &lt;Widget&gt; [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Você apertou o botão isso muitas vezes:'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           ),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          Texto(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             _displayedString,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             style: Theme.of (context) .textTheme.display1,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           FlatButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             onPressed: _resetCounter,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             color: Colors.red,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             filho: Texto (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Repor contador"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">               style: Theme.of (context) .textTheme.button,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">             ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">           ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">         ],</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     floatingActionButton: OurButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       texto: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Faça o contador </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {_ marcador + 1} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       textColor: Colors.white,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       backgroundColor: Theme.of (context) .primaryColor,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       splashColor: Theme.of (context) .primaryColorLight,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">       onPressed: _incrementCounter,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">     ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-016_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

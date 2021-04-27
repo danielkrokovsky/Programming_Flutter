@@ -1,0 +1,1166 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e47028">Cupertino Widgets</h2>
+
+  <p id="d24e47031">
+
+Before we venture out of Flutter Dart code too much, there is one thing you might have noticed in <span class="cf filename">pubspec.yaml</span>: the dependency on <span class="cf ic">cupertino_icons</span>. We have actually never used what is contained in it in the body of the book, because it doesn’t really allow you to do anything you couldn’t do before in Flutter apps: it contains icons to be used by widgets that look like native Apple widgets and can be used instead of the Material Design widgets.
+
+</p>
+
+  <p id="d24e47055">This means you have the following two choices regarding the look of your app:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e47060">Make your app look the same on Android and iOS by either using the Material widgets or the Cupertino widgets.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e47063">Make your app look like other apps built for each platform by using Material widgets on Android and Cupertino widgets on iOS.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e47065">Obviously you could choose to show your iOS users the Material widgets and the Android users the Cupertino widgets, but that’s probably not the smartest choice for most people.</p>
+
+  <h3>The Counter Increase App with Cupertino Widgets</h3>
+
+  <p id="d24e47070">
+
+As a way to get an idea of how to use Cupertino widgets, we’re going to rewrite the counter app that Flutter itself gives as an example of basic Flutter UI that we saw in the first chapter, this time using Cupertino widgets instead of Material widgets.</p>
+
+  <h4>What We’re Going to Build</h4>
+
+  <p id="d24e47082">It will look like the following screenshots, keeping in mind that floating action buttons aren’t part of regular Apple Design:</p>
+
+  <div>
+
+    <div>
+
+      <img alt="images/Cupertino/counterapp.png" class="border " id="d24e47085" src="images/Cupertino/Imagem-29.png" style="width: 38%"/>
+
+    </div>
+
+  </div>
+
+  <p id="d24e47087">The alternative would have been to add it to the right of the title in the navigation bar (the Apple app bar), but doing it this way allows us to look at more of the Flutter Cupertino widgets.</p>
+
+  <h4>Importing the Cupertino Library</h4>
+
+  <p id="d24e47092">
+Let’s start by changing the imports, we only need to import the Cupertino Flutter library, given that we won’t be using any Material widgets:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/cupertino/counter_cupertino/lib/main.dart">cupertino/counter_cupertino/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/cupertino.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <h4>From MaterialApp to CupertinoApp</h4>
+
+  <p id="d24e47110">
+
+
+The <span class="cf class">MaterialApp</span> is the next thing that needs to change, to become a <span class="cf class">CupertinoApp</span>. The name isn’t the only thing that needs to change: the <span class="cf ic">theme</span> needs to be of class <span class="cf class">CupertinoThemeData</span> and not just <span class="cf class">ThemeData</span>. The <span class="cf class">CupertinoThemeData</span> takes a <span class="cf ic">primaryColor</span> instead of a <span class="cf ic">primarySwatch</span>, and it needs to one of the <span class="cf class">CupertinoColors</span>, which aren’t the regular colors you use with Material apps: <span class="cf ic">Colors.blue</span> will become <span class="cf ic">CupertinoColors.activeBlue</span>, which is the default color.</p>
+
+  <p><strong>Material-Based Cupertino Theme Data</strong></p>
+
+  <p id="d24e47164">
+Given that you’re probably going to build apps for both Android and iOS using both Material and Cupertino widgets, you might want to create one <span class="cf class">ThemeData</span> for the Material Design app and derive the styling of the Cupertino version from that Material Design theme. This can be done using <span class="cf methodname">MaterialBasedCupertinoThemeData(materialTheme: themeData)</span>, which takes as a named argument called <span class="cf ic">materialTheme</span> the <span class="cf class">ThemeData</span> we want to derive the new <span class="cf class">CupertinoThemeData</span> from.</p>
+
+  <p><strong>Our CupertinoApp</strong></p>
+
+  <p id="d24e47188">Because of that, the <span class="cf ic">theme</span> argument could be skipped entirely unless you want your app to have a dark background that is supposed to be with an <span class="cf ic">activeOrange</span> primary color. We’re going to stick with a regular light theme with a blue primary color, providing the same arguments that were used in the original Material example to keep the example as close to the original as possible:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/cupertino/counter_cupertino/lib/main.dart">cupertino/counter_cupertino/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyApp ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ CupertinoApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: ​<em class="string">'Flutter Demo'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      theme: CupertinoThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        primaryColor: CupertinoColors.activeBlue,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      home: MyHomePage(title: ​<em class="string">'Flutter Demo Home Page'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h4>Unchanged Widgets</h4>
+
+  <p id="d24e47243"><span class="cf class">StatefulWidget</span>s, <span class="cf class">StatelessWidget</span>s and <span class="cf class">State</span>s are all the same as with Material apps, and the same goes for <span class="cf class">Row</span>s, <span class="cf class">Column</span>, <span class="cf class">Container</span>s and <span class="cf class">Center</span> widgets, as well as simple widgets like <span class="cf class">Icon</span>s (even though the <span class="cf class">IconData</span> used for them should be taken from the <span class="cf ic">CupertinoIcons</span> instead of taking it from the <span class="cf ic">Icons</span>) and <span class="cf class">Text</span>.</p>
+
+  <h4>The Scaffold and App Bar</h4>
+
+  <p id="d24e47284">
+
+
+Before getting to them, though, the <span class="cf class">Scaffold</span> needs to switch to a <span class="cf class">CupertinoPageScaffold</span> (there is a <span class="cf class">CupertinoTabScaffold</span> for scaffolds that have bottom navigation, there’s no <span class="cf class">CupertinoScaffold</span>), which (as I anticipated earlier) takes a <span class="cf class">CupertinoNavigationBar</span> as the <span class="cf ic">navigationBar</span> argument instead of taking an <span class="cf class">AppBar</span> as the <span class="cf ic">appBar</span> argument as we did with Material apps. Additionally, the <span class="cf class">CupertinoNavigationBar</span> takes three peculiarly named arguments: <span class="cf ic">leading</span>, <span class="cf ic">middle</span> and <span class="cf ic">trailing</span> for widgets to place in the navigation bar. Usually the left side is reserved for a back button, the right side for an important action and the middle is where we should put the title of the page:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/cupertino/counter_cupertino/lib/main.dart">cupertino/counter_cupertino/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">return</strong>​ ​<strong class="kw">CupertinoPageScaffold</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  navigationBar: CupertinoNavigationBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    middle: Text(widget.title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+  </table>
+
+  <h4>The CupertinoButton</h4>
+
+  <p id="d24e47359">
+The button to increase the counter will be a - <span class="emph">you guessed it</span> - <span class="cf class">CupertinoButton</span>. It takes a <span class="cf ic">child</span> widget for which we can use a simple <span class="cf class">Row</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/cupertino/counter_cupertino/lib/main.dart">cupertino/counter_cupertino/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">CupertinoButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Icon(CupertinoIcons.add_circled_solid),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Text(​<em class="string">"Increase"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e47408"><span class="cf ic">CupertinoIcons.add</span> is the <span class="cf ic">+</span> icon that should be used when it appears alone, <span class="cf ic">CupertinoIcons.add_circled</span> has a circle around it and <span class="cf ic">CupertinoIcons.circled_solid</span> is what’s in the screenshot you saw earlier.</p>
+
+  <h4>Wrapping Up</h4>
+
+  <p id="d24e47424">The full code, including the things that are the same as the app we saw in the first chapter, is the following:
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/cupertino/counter_cupertino/lib/main.dart">cupertino/counter_cupertino/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/cupertino.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() =&gt; runApp(MyApp());</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyApp ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ CupertinoApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: ​<em class="string">'Flutter Demo'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      theme: CupertinoThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        primaryColor: CupertinoColors.activeBlue,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      home: MyHomePage(title: ​<em class="string">'Flutter Demo Home Page'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyHomePage ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  MyHomePage({Key key, ​<strong class="kw">this</strong>​.title}) : ​<strong class="kw">super</strong>​(key: key);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ title;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  _MyHomePageState createState() =&gt; _MyHomePageState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ _MyHomePageState ​<strong class="kw">extends</strong>​ State&lt;MyHomePage&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ _incrementCounter() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      _counter++;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ CupertinoPageScaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      navigationBar: CupertinoNavigationBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        middle: Text(widget.title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          crossAxisAlignment: CrossAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ​<em class="string">'You have pushed the button this many times:'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              style: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            CupertinoButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              child: Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  Icon(CupertinoIcons.add_circled_solid),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  Text(​<em class="string">"Increase"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Other Cupertino Widgets</h3>
+
+  <p id="d24e47672">This is meant to be just a quick introduction to how to build iOS-style UIs and is meant as a starting platform, not as a comprehensive guide, so we will only be talking about the most important Cupertino widgets. You can find more of them in detail in a dedicated section of Flutter’s official website.<sup><a class="footnote" href="Capítulo-100.html#FOOTNOTE-56" id="FNPTR-56">[56]</a></sup></p>
+
+  <h4>Cupertino Navigation</h4>
+
+  <p id="d24e47681">
+
+Before talking about some of the UI elements that need to be converted to Cupertino widgets, we’ll see how to implement navigation using Cupertino widgets. There are a few differences between Material Design and iOS layouts that need to be clarified: the drawer side navigation menu is a typical Material Design element, so it doesn’t have a Cupertino equivalent and navigation is handled using either a bottom tab bar or simple push/pop navigation.</p>
+
+  <p><strong>Tab-Based Navigation Using the CupertinoTabScaffold</strong></p>
+
+  <p id="d24e47695">
+Let’s talk about something we briefly mentioned in the previous section: the <span class="cf class">CupertinoTabScaffold</span>. This widget isn’t actually necessary to have tab-based navigation (since the<span class="cf class">CupertinoTabBar</span> can be used to call <span class="cf methodname">setState</span> and render different data based on the selected tab), but it makes it very easy.</p>
+
+  <p id="d24e47710">It takes two arguments:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e47714">The <span class="cf ic">tabBar</span>, which has to be set to a <span class="cf class">CupertinoTabBar</span> with the needed <span class="cf ic">items</span> list of <span class="cf class">BottomNavigationBarItem</span>s.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e47729">The <span class="cf ic">tabBuilder</span> which, given the <span class="cf ic">context</span> and the <span class="cf ic">int</span> index, has to return the content of the tab corresponding to that index, usually returning a <span class="cf class">CupertinoTabView</span> that gives each tab its own navigation history and state, containing a <span class="cf class">CupertinoPageScaffold</span> for the content of the tab.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e47746">An example of how to do that is the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ HomePage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ data = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"Train"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      CupertinoIcons.train_style_one</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    },</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"Search"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      CupertinoIcons.search</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    },</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"Share"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      CupertinoIcons.share</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(context) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    CupertinoTabScaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      tabBar: CupertinoTabBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        items: data.map(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          (el) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            BottomNavigationBarItem(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              title: Text(el.first),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              icon: Icon(el.last)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ).toList(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      tabBuilder: (context, i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        CupertinoTabView(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          builder: (context) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            CupertinoPageScaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              navigationBar: CupertinoNavigationBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                middle: Text(data[i].first),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              child: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                child: Icon(data[i].last, size: 80.0)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e47878">which produces the following view when opened:</p>
+
+  <div class="ss">
+
+    <img alt="images/Cupertino/tabnav1.png" class="border " id="d24e47880" src="images/Cupertino/Imagem-88.png" style="width: 37%"/>
+
+  </div>
+
+  <p id="d24e47881">and it gives us a chance to notice the iOS Share icon, which is very different from the Material Share icon, when tapping on the third tab:
+</p>
+
+  <div class="ss">
+
+    <img alt="images/Cupertino/tabnav2.png" class="border " id="d24e47884" src="images/Cupertino/Imagem-89.png" style="width: 37%"/>
+
+  </div>
+
+  <p><strong>Push/Pop Navigation with the CupertinoPageRoute</strong></p>
+
+  <p id="d24e47888">
+
+The <span class="cf class">Navigator</span> itself works just like in Material apps, but we need to replace the <span class="cf class">MaterialPageRoute</span> with the <span class="cf class">CupertinoPageRoute</span>, but not necessarily. The <span class="cf class">MaterialPageRoute</span> actually adapts to the native animations typically used for transitioning between pages (vertical on Android, horizontal on iOS), but it is contained in <span class="cf ic">material.dart</span>. In case you want to use the iOS animation (<span class="cf class">CupertinoPageTransition</span>) on Android or you don’t want to use widgets from <span class="cf ic">material.dart</span> because the current file only imports <span class="cf ic">cupertino.dart</span>, you can use the <span class="cf class">CupertinoPageRoute</span> just like you use the <span class="cf class">MaterialPageRoute</span>, by passing it to <span class="cf methodname">Navigator.push</span> or similar methods, passing to the <span class="cf class">CupertinoPageRoute</span> constructor the usual <span class="cf ic">context</span> and a <span class="cf ic">builder</span> callback.</p>
+
+  <p id="d24e47943">After pushing a page, the <span class="cf ic">leading</span> widget of the navigation bar (if present) will be a button that allows the user to go back to the previous page.
+
+</p>
+
+  <div class="ss">
+
+    <img alt="images/Cupertino/backbutton.png" class="border " id="d24e47951" src="images/Cupertino/Imagem-08.png" style="width: 30%"/>
+
+  </div>
+
+  <h4>Replacement for Some UI Elements</h4>
+
+  <p id="d24e47955">
+
+There are a few UI elements that are worthy or being discussed as replacements for Material widgets we’ve seen during the course of this book.</p>
+
+  <p><strong>CupertinoTextField</strong></p>
+
+  <p id="d24e47967">
+One of the widgets that needs to be changed is the <span class="cf class">TextField</span>, and it doesn’t only require a name change, unlike some other Cupertino widgets: the <span class="cf class">CupertinoTextField</span>’s <span class="cf ic">decoration</span> is of type <span class="cf class">BoxDecoration</span>  (the same we used with the <span class="cf class">Container</span>) and not <span class="cf class">InputDecoration</span>. The <span class="cf class">InputDecoration</span> is what we used to provide a <span class="cf ic">labelText</span>, which now is an argument of the <span class="cf class">CupertinoTextField</span> itself called <span class="cf ic">placeholder</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">TextField(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  controller: _controller,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  decoration: InputDecoration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    labelText: ​<em class="string">"Description"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onSubmitted: (val) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// do something with value</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e48029">will become:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">CupertinoTextField(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  controller: _controller,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  placeholder: ​<em class="string">"Description"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onSubmitted: (val) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// do something with value</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p><strong>CupertinoActivityIndicator</strong></p>
+
+  <p id="d24e48054">
+The replacement for the <span class="cf class">CircularProgressIndicator</span> is the <span class="cf class">CupertinoActivityIndicator</span>, which looks like this:</p>
+
+  <div class="ss">
+
+    <img alt="images/Cupertino/activityindicator.png" class="border " id="d24e48066" src="images/Cupertino/Imagem-03.png" style="width: 30%"/>
+
+  </div>
+
+  <p><strong>CupertinoAlertDialog</strong></p>
+
+  <p id="d24e48070">
+The Cupertino library provides the <span class="cf class">CupertinoAlertDialog</span> to be launched with <span class="cf methodname">showCupertinoDialog</span> as a replacement for the Material <span class="cf class">AlertDialog</span> that is launched using <span class="cf methodname">showDialog</span>.</p>
+
+  <p id="d24e48088">The <span class="cf class">CupertinoAlertDialog</span> takes three arguments: the <span class="cf ic">title</span> widget (presumably some <span class="cf class">Text</span>, the <span class="cf ic">content</span> widget and a list of widgets (presumably buttons) called <span class="cf ic">actions</span> to show at the bottom of the dialog:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">CupertinoAlertDialog(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(​<em class="string">"Dialog title"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  content: Text(​<em class="string">"Content of the dialog, usually longer than the title"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  actions: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    CupertinoButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Text(​<em class="string">"Action 1"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      onPressed: () {}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    CupertinoButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Text(​<em class="string">"Action 2"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      onPressed: () {}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e48148">It will look like this when launched with <span class="cf methodname">showCupertinoDialog(context: context, builder: (_) =&gt; CupertinoAlertDialog(...))</span>:
+
+</p>
+
+  <div class="ss">
+
+    <img alt="images/Cupertino/dialog.png" class="" id="d24e48156" src="images/Cupertino/Imagem-34.png" style="width: 42%"/>
+
+  </div>
+
+  <h3>Automatically Switching Between Cupertino and Material</h3>
+
+  <p id="d24e48160">
+
+
+If we want our app to be able to change what it displays based on what OS it runs on, we need to be able to know what platform we’re running on from the Dart code. This is possible thanks to the <span class="cf class">Platform</span> class in the <span class="cf ic">dart:io</span> library, which can be used in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(Platform.isIOS) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// render Cupertino widgets</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">} ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// render Material widgets</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e48206">It also provides <span class="cf ic">Platform.isAndroid</span>, <span class="cf ic">Platform.isFuchsia</span>, <span class="cf ic">Platform.isMacOS</span>, <span class="cf ic">Platform.isWindows</span> and <span class="cf ic">Platform.isLinux</span>, but you probably won’t need the latter three given that at the time of writing Flutter on the desktop won’t work for most apps.</p>
+
+  <p id="d24e48223">The easiest way to take advantage of that is to have different UI trees for different platforms, but it isn’t really the most elegant solution. That’s why many Flutter developers choose to implement generic classes that have factory methods to render different widgets for different platforms.</p>
+
+  <h4>The Flutter Platform Widgets Package</h4>
+
+  <p id="d24e48228">
+The implementation of that, though, can be repetitive and it is suited to the creation of a library, which does indeed exist: the <span class="cf ic">flutter_platform_widgets</span> package. This package provides classes like <span class="cf class">PlatformApp</span>, <span class="cf class">PlatformScaffold</span>, <span class="cf class">PlatformAppBar</span>, <span class="cf class">PlatformButton</span> and <span class="cf class">PlatformPageRoute</span> (full list and usage available on the package’s API reference<sup><a class="footnote" href="Capítulo-100.html#FOOTNOTE-57" id="FNPTR-57">[57]</a></sup>) that will automatically use the Material or Cupertino equivalents on each platform.</p>
+
+  <p id="d24e48258">
+It also provides a generic <span class="cf class">PlatformWidget</span> that takes an <span class="cf ic">ios</span> and an <span class="cf ic">android</span> argument that you can use for widgets not provided by the library with a dedicated class or if the choice of widgets made by the authors of the library isn’t what you want or need for your app.
+
+
+
+
+</p>
+
+</body>
+
+</html>

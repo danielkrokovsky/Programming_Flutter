@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.layout.key">The Key</h2>
+
+  <p id="d24e10348">
+
+
+
+The Key is used to uniquely identify a widget and it is used by the framework to update the elements that actually need to be updated.</p>
+
+  <p id="d24e10360">You usually won’t be using keys, since the framework will take care of them by itself, but you can use them to have greater control of widget state and updates.</p>
+
+  <p id="d24e10362">In addition to that, there are widgets that explicitly ask for a key, like the <span class="cf class">Dismissible</span>s we encountered in <a href="Capítulo-023.html#sec.layout.dismissible">​<em>Dismissible ListTiles</em>​</a>.</p>
+
+  <h3>Many Keys for the Same Keyhole</h3>
+
+  <p id="d24e10372">There are many kinds of <span class="cf class">Key</span>s, and some are actually more useful than the plain <span class="cf ic">Key</span> constructor, which takes as a named argument a <span class="cf class">String</span> that must be unique within the widget’s parent.</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ExampleWidget(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  key: Key(​<em class="string">"example"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e10394"><span class="cf ic">GlobalKey</span>s also exist and, because of their global scope, they have to be absolutely unique.</p>
+
+  <p id="d24e10398"><span class="cf ic">GlobalKey</span>s allow for widgets to be moved to be a child of a completely different parent while preserving its state.</p>
+
+  <p id="d24e10402">There also are <span class="cf ic">LocalKey</span>s, which have the same scope as the normal <span class="cf ic">Key</span>s, but have a few different constructors:</p>
+
+  <ul>
+
+    <li>The <span class="cf ic">ValueKey</span>, which takes a value of any type, not just a <span class="cf ic">String</span>.</li>
+
+    <li>The <span class="cf ic">UniqueKey</span>, which takes no value at all and is always unique (what we used in <a href="Capítulo-023.html#sec.layout.dismissible">​<em>Dismissible ListTiles</em>​</a>).</li>
+
+  </ul>
+
+  <h3>Using Keys</h3>
+
+  <p id="d24e10431">Most of the time, you don’t need to use <span class="cf class">Key</span>s; they only become necessary when widgets require you to set a <span class="cf class">Key</span>, as happened when we talked about the <span class="cf class">Dismissible</span> in <a href="Capítulo-023.html#sec.layout.dismissible">​<em>Dismissible ListTiles</em>​</a>.
+</p>
+
+</body>
+
+</html>

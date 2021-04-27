@@ -1,0 +1,122 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-094.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-094_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-094_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-094_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.dart.import"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Importação de masterização</font></font></h2>
+
+  <p id="d24e46728"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+A </font><font style="vertical-align: inherit;">diretiva </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">import</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no Dart, como é o caso em muitas outras linguagens modernas, não trata apenas da inclusão de arquivos de biblioteca externos no código como o bom e velho C </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">#include</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : ela pode fazer mais do que isso para tornar nossa vida mais fácil ao lidar com com bibliotecas e pacotes.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O básico</font></font></h3>
+
+  <p id="d24e46754"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Começaremos com o básico: importar um arquivo inteiro para o namespace atual.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Importando um arquivo local</font></font></h4>
+
+  <p id="d24e46759"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Você pode importar outro arquivo Dart local usando um caminho relativo para ele:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'filename.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Importando uma Biblioteca Dart Integrada</font></font></h4>
+
+  <p id="d24e46778"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Você pode importar uma biblioteca Dart integrada precedendo o nome da biblioteca com </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ::</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'dardo: async'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Importando de um pacote</font></font></h4>
+
+  <p id="d24e46807"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você pode importar um arquivo de um pacote usando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: packagename / filename.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e46822"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Que pode ser usado para importar arquivos do Flutter SDK usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como o nome do pacote:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: vibração / services.dart'</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e46835"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Essa sintaxe também pode ser usada para importar arquivos no </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">lib</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do aplicativo usando o nome do pacote do aplicativo como o nome do pacote.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando como para importar em um namespace</font></font></h4>
+
+  <p id="d24e46843"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você também pode </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importar</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em um namespace, usando a seguinte sintaxe:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'customlib.dart' </font></font></em><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MyCustomLib;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e46865"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para que, por exemplo, se houver uma </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CustomLibraryClass</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> definida nesse arquivo, você pode acessá-la usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MyCustomLib.CustomLibraryClass em</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> vez de apenas </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CustomLibraryClass</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e46876"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso permite que você importe muitas bibliotecas sem sobrecarregar seu namespace principal, mantendo cada biblioteca separada, sem correr o risco de ter várias classes com o mesmo nome.</font></font></p>
+
+  <p id="d24e46878"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Outra grande vantagem vem quando você volta ao seu código depois de um tempo: você saberá exatamente de qual biblioteca aquela classe é, sem ter que descobrir isso primeiro.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando show para importar apenas algumas partes de um arquivo</font></font></h4>
+
+  <p id="d24e46883"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">import</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> também pode ser usado para importar apenas algumas classes dentro de um arquivo.</font></font></p>
+
+  <p id="d24e46887"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Por exemplo, se você só precisa da </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CustomLibraryClass</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">customlib.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e não deseja importar outras classes (talvez porque elas têm o mesmo nome de outras classes em seu namespace e você não deseja usar </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e lidar com notação de ponto extra), que você pode fazer com o seguinte código:
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'customlib.dart' </font></font></em><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mostrar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> CustomLibraryClass;</font></font></td>
+    </tr>
+
+  </tbody></table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-094_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

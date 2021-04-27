@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.layout.slivers">Slivers, Custom Scrollables, and Collapsable App Bars</h2>
+
+  <p id="d24e10092">We’ve already covered most of what you need to know about scrollable widgets like <span class="cf ic">ListView</span>s and <span class="cf ic">GridView</span>s, but this section is going to be a deeper dive into the sea of <span class="cf ic">Scrollable</span>, <span class="cf ic">ScrollView</span>s, <span class="cf ic">SliverList</span>s, and other lower level, more customizable widgets.
+You’ll also learn how to make the app bar collapsable when the user scrolls down.</p>
+
+  <h3>How Flutter Determines How Far to Scroll</h3>
+
+  <p id="d24e10112">
+Flutter actually simulates scrolling using a <span class="cf class">Simulation</span> widget, which simulates the movement of a point to which some forces are being applied in one-dimensional space, and the state of the simulation is used to determine scrolling position.
+These forces are changed depending on the desired scrolling behavior. This is set using the <span class="cf class">ScrollPhysics</span> class, which you can use for the <span class="cf ic">physics</span> option.</p>
+
+  <h4>primary in a ScrollView</h4>
+
+  <p id="d24e10130">
+<span class="cf ic">primary</span> is a boolean option that can be set for <span class="cf class">ScrollView</span>s.
+If it is set to <span class="cf ic">false</span>, the view will only scroll if there are enough children to require scrolling.</p>
+
+  <h3>Make a Collapsable App Bar</h3>
+
+  <p id="d24e10148">A common sight in scrollable apps is a collapsable app bar: it is especially visible in web browsers and, in another variant, in some profile pages of chat apps.</p>
+
+  <p id="d24e10151">Usually it consists in the appbar disappearing when the user scrolls down and reappearing when the user scrolls up, usually even if the user doesn’t scroll up to the top of the scrollable view.</p>
+
+  <p id="d24e10153">
+
+It can be implemented using a <span class="cf class">CustomScrollView</span> that contains a <span class="cf class">SliverAppBar</span> and a <span class="cf class">SliverList</span> (or, alternatively, a <span class="cf class">SliverGrid</span>).</p>
+
+  <p id="d24e10176">
+A <span class="cf class">SliverList</span> is actually just a <span class="cf class">ListView</span> that uses a <span class="cf class">SliverChildDelegate</span> to generate its children like you would with <span class="cf methodname">ListView.builder</span>, but with an important twist: it is meant to be used as part of a <span class="cf class">CustomScrollView</span>, which is a particular kind of widget that is used to create a custom scrollable widget using slivers like the <span class="cf class">SliverList</span> and <span class="cf class">SliverAppBar</span>.</p>
+
+  <p id="d24e10204">To build an app with a collapsable app bar you need a normal <span class="cf class">MaterialApp</span> with a <span class="cf class">Scaffold</span>.</p>
+
+  <p id="d24e10212">The difference is that you won’t be adding an <span class="cf class">AppBar</span> to the <span class="cf class">Scaffold</span> but just using its <span class="cf ic">body</span> option and assigning it to a <span class="cf class">CustomScrollView</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    body: CustomScrollView(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      slivers: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        SliverAppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          title: Text(​<em class="string">"A collapsable AppBar"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        SliverList(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          delegate: SliverChildBuilderDelegate(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            (context, i) =&gt; ListTile(title: Text(​<em class="string">"</em>​​<em class="string">$i</em>​​<em class="string">"</em>​),),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e10279">This doesn’t actually do what we want, though: the app bar only reappears when the user scrolls to the top of the list, but that isn’t the desired behavior, so we need to set the <span class="cf class">SliverAppBar</span>’s <span class="cf ic">floating</span> option to <span class="cf ic">true</span> so that it reappears when the user scrolls up from anywhere in the list:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">SliverAppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(​<em class="string">"A collapsable AppBar"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  floating: ​<strong class="kw">true</strong>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e10307">But this isn’t even completely the desired behavior: we want the <span class="cf class">SliverAppBar</span> to appear even if we partially scroll up, so we also need to set <span class="cf ic">snap</span> to <span class="cf ic">true</span> (which only affects anything if <span class="cf ic">floating</span> is also set to <span class="cf ic">true</span>):</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">SliverAppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(​<em class="string">"A collapsable AppBar"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  floating: ​<strong class="kw">true</strong>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  snap: ​<strong class="kw">true</strong>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

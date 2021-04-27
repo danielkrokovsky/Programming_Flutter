@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.dart.functions">Functions</h2>
+
+  <p id="d24e43742">
+
+
+Dart supports top-level functions, meaning you can define functions outside any class definition that can be called from anywhere in the code.</p>
+
+  <p id="d24e43756">A Dart function is defined in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">returnType ​<strong class="kw">functionName</strong>​(parameters) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  blockOfInstructions;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ returnValue;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43774">where:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e43778"><span class="cf ic">returnType</span> is the data type, see the section <a href="Capítulo-095.html#sec.dart.types.conversion">​<em>Conversion Between Native Java/Apple and Dart Data Types</em>​</a>, the function will return.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e43785">The parameters, explained in the next paragraph, which will be the data the function will use to do what it needs to do. Parameters are variables and their value is set using function call arguments. If you are not familiar with functions and function calls, the example that follows is designed to give a real, working example of a few functions that take advantage of other functions.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e43788">In the curly braces is where you add the block of instructions (one or more lines) which, if the function has any return type other than <span class="cf ic">void</span>, includes a <span class="cf ic">return</span> instruction, which is used to return a value to the calling code.
+
+</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e43807">For example, the following function is very simple:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">double</strong>​ ​<strong class="kw">square</strong>​(​<strong class="kw">double</strong>​ n) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ n*n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43830">
+
+but it can be used inside a function to calculate gravitational attraction, which is slightly more complex, with more parameters:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">// We'll see how to set all of those arguments soon</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">double</strong>​ ​<strong class="kw">calculateGravitationalAttraction</strong>​(​<strong class="kw">double</strong>​ mass1, ​<strong class="kw">double</strong>​ mass2, ​<strong class="kw">double</strong>​ distance)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">{</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">const</strong>​ G = 6.67e-11;  ​<em class="comment">// universal gravitation constant</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">/*</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * Calling the square function using distance as</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * the only argument (n will be equal to</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * the value in the distance variable)</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * and saving the return value</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * to the squaredDistance variable</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   */</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">const</strong>​ squaredDistance = square(distance);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ G*mass1*mass2/squaredDistance;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43906">and it, in turn, can be used to calculate, for example, the force of attraction between the earth and the sun, potentially wrapped inside another function:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">double</strong>​ ​<strong class="kw">calculateSunEarthAttraction</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">const</strong>​ earthMass = 5.97e24; ​<em class="comment">// mass of the Earth</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">const</strong>​ sunMass = 1.99e30;  ​<em class="comment">// mass of the Sun</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">const</strong>​ dist = 1.496e8; ​<em class="comment">// distance between the Earth and the Sun</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">/*</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * Calling the calculateGravitationalAttraction</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * function setting the arguments one by one</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * in the order of the parameters in the</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * function's definition and returning</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * its return value to any other function</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * that needs the value of the force of</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   * attraction between the Sun and the Earth</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">   */</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ calculateGravitationalAttraction(earthMass, sunMass, dist);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3 id="sec.dart.function.parameters">Function Parameters</h3>
+
+  <p id="d24e43977">Up until now, we have only used positional parameters: you define them like variables, one after another, and you set the arguments in the same way, following the same order.
+
+</p>
+
+  <p id="d24e43982">
+
+
+
+Now, though, you need to know about <span class="emph">named</span> parameters, which allow the calling function to set the arguments in a different order (or even for just some of the parameters) by specifying a name for each parameter.
+
+If you wrap the parameters in curly braces, you’ll make them <span class="emph">named</span> and <span class="emph">optional</span>, like in the following example:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">double</strong>​ ​<strong class="kw">calculateSunPlanetAttraction</strong>​({})</td>
+    </tr>
+
+  </table>
+
+  <h3>The Arrow</h3>
+
+  <p id="d24e44027">
+
+
+If the function will be simply composed of one instruction, you can use the arrow notation, so that:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ ​<strong class="kw">square</strong>​(​<strong class="kw">int</strong>​ n) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ n*n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e44062">becomes:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ ​<strong class="kw">square</strong>​(​<strong class="kw">int</strong>​ n) =&gt; n*n;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e44076">usually written, especially when the expression is longer, as:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ ​<strong class="kw">square</strong>​(​<strong class="kw">int</strong>​ n) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  n*n;</td>
+    </tr>
+
+  </table>
+
+  <h3 id="sec.dart.functions.closures">Anonymous Functions and Closures</h3>
+
+  <p id="d24e44095">
+
+Closures are what we use to define callbacks. They are functions defined as variables or, more specifically, variables of type <span class="cf class">Function</span> or <a href="Capítulo-093.html#sec.dart.typedef">​<em>Typedef and Callbacks</em>​</a>.
+
+</p>
+
+</body>
+
+</html>

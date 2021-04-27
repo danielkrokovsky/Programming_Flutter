@@ -1,0 +1,466 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e8970">Making Grids</h2>
+
+  <p id="d24e8973">
+
+Depending on what you need to achieve with your app, a grid can be formed in two different ways: using the <span class="cf class">GridView</span> or nested <span class="cf class">Row</span>s and <span class="cf class">Column</span>s.</p>
+
+  <h3 id="sec.layout.gridview">The GridView</h3>
+
+  <p id="d24e8998">The <span class="cf class">GridView</span> is to grids what the <span class="cf class">ListView</span> is to vertical layout, and it is useful for grids similar to the ones seen in photo apps: long, scrollable grids of a variable number of fixed-size elements.
+A lot like a <span class="cf class">ListView</span>, it can be created using multiple constructors.
+The default constructor will be discussed in the section <a href="Capítulo-028.html#sec.layout.slivers">​<em>Slivers, Custom Scrollables, and Collapsable App Bars</em>​</a>.</p>
+
+  <h4>Grids with a Fixed Cross-Axis Count</h4>
+
+  <p id="d24e9014">
+The <span class="cf methodname">GridView.count</span> constructor takes a <span class="cf class">List</span> of <span class="cf ic">children</span> <span class="cf class">Widget</span>s and the <span class="cf ic">crossAxisCount</span> as the basic arguments to build the grid, like in the following example:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">GridView.count(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  crossAxisCount: 3,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  crossAxisSpacing: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  mainAxisSpacing: 100.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  padding: EdgeInsets.all(20.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              .map(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                (n) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    ​<em class="string">"</em>​​<em class="string">$n</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ).toList(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e9094">which produces:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/GridView.count.png" class="border " id="fig.layout.gridviewcount" src="images/WidgetLayout/Imagem-44.png" style="width: 30%"/>
+
+  </div>
+
+  <h4>Grids with a Maximum Per-Widget Cross-Axis Extent</h4>
+
+  <p id="d24e9100">
+The <span class="cf ic">GridView.extent</span> constructor takes a <span class="cf class">List</span> of <span class="cf ic">children</span> <span class="cf class">Widget</span>s and the <span class="cf ic">maxCrossAxisExtent</span>, which is the maximum amount of pixels each child can take up on the cross-axis. The bigger the <span class="cf ic">maxCrossAxisExtent</span> is, the bigger each tile is going to be.</p>
+
+  <p id="d24e9125">For example, the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">GridView.extent(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  maxCrossAxisExtent: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  crossAxisSpacing: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  mainAxisSpacing: 100.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  padding: EdgeInsets.all(20.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              .map(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                (n) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    ​<em class="string">"</em>​​<em class="string">$n</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ).toList(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e9186">produces, on a 2880x1440 560dpi screen with default Android scaling, the following grid:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/Gridview.extent50.png" class="border " id="fig.layout.gridviewextent" src="images/WidgetLayout/Imagem-45.png" style="width: 30%"/>
+
+  </div>
+
+  <h4>Grids Built Using Builder Functions</h4>
+
+  <p id="d24e9192">
+The <span class="cf ic">GridView.builder</span> constructor which uses  an <span class="cf ic">itemBuilder</span> to build the children and a <span class="cf ic">gridDelegate</span> for the size and position of the widgets, like the following example, which produces the same grid as the <span class="cf ic">GridView.count</span> example (<a href="#fig.layout.gridviewcount">​here​</a>):</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">GridView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  padding: EdgeInsets.all(20.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: 15,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    crossAxisCount: 3,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    crossAxisSpacing: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    mainAxisSpacing: 100.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (context, i) =&gt; Text(​<em class="string">"</em>​​<em class="string">${i+1}</em>​​<em class="string">"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e9252">Grid delegates have (unusually long) names such as <span class="cf class">SliverGridDelegateWithFixedCrossAxisCount</span> and <span class="cf class">SliverGridDelegateWithMaxCrossAxisExtent</span> to get, respectively, the <span class="cf ic">GridView.count</span> and <span class="cf ic">GridView.extent</span> properties. They take grid layout-related properties as named arguments.</p>
+
+  <p id="d24e9266">If you wanted to exactly replicate the behavior of the <span class="cf ic">GridView.extent</span> shown <a href="#fig.layout.gridviewextent">​here​</a> you would write the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">GridView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  padding: EdgeInsets.all(20.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: 15,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    maxCrossAxisExtent: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    crossAxisSpacing: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    mainAxisSpacing: 100.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (context, i) =&gt; Text(​<em class="string">"</em>​​<em class="string">${i+1}</em>​​<em class="string">"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <h4>The GridView’s Properties</h4>
+
+  <p id="d24e9315">Other grid properties are:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e9319"><span class="cf ic">childAspectRatio</span>, which is the ratio between cross-axis and main axis size of each of the grid’s <span class="cf ic">children</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e9327"><span class="cf ic">shrinkWrap</span>, which is the same as the <span class="cf ic">ListView</span>’s (in <a href="Capítulo-023.html#sec.layout.listview.usage">​<em>How You Use It</em>​</a>).</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e9338"><span class="cf ic">scrollDirection</span>, which sets the direction along which the grid scrolls (which also serves as the main axis of the grid).
+
+</p>
+
+    </li>
+
+  </ul>
+
+  <h3 id="sec.layout.rowcolumngrid">Nested Rows and Columns</h3>
+
+  <p id="d24e9348">
+
+
+If, instead, you need to create a (perhaps smaller) non-scrollable grid of a fixed number of widgets you would use a <span class="cf ic">Column</span> of <span class="cf ic">Row</span>s.</p>
+
+  <p id="d24e9384">A simple 2x2 grid would be implemented in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(topLeftString),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(topRightString),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(bottomLeftString),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(bottomRightString),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

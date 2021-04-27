@@ -1,0 +1,1473 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e27700">Permanent Data I/O in Flutter: Adding “Starred” Comics</h2>
+
+  <p id="d24e27703">
+
+
+
+
+Up until now we have only used the temporary cache directory, but if we want to add a feature that allows the user to save some comics to local storage permanently as a way to keep their favorite comics always available to them. To do that, we need to have access to a permanent local storage facility.</p>
+
+  <p id="d24e27725">That is available to us in the form of application documents directory, which is where an app is supposed to save data that should be kept until the user consciously deletes it.</p>
+
+  <p id="d24e27727">We can get the path of the application documents directory using <span class="cf methodname">getApplicationDocumentsDirectory</span>, and we can use it in the same way we use the cache directory we got through <span class="cf methodname">getTemporaryDirectory</span>: we use <span class="cf ic">getApplicationDocumentsDirectory().path</span> as part of the path we give to the <span class="cf class">File</span>’s constructor.</p>
+
+  <p id="d24e27743">Let’s get to implementing this feature, starting with adding a star-shaped button in the app bar in the home page to access previously saved comics and one in the comic page to save comics.</p>
+
+  <p id="d24e27745">But even before we do any of that, we need to turn the <span class="cf class">ComicPage</span> into a <span class="cf class">StatefulWidget</span> if we want the view to reflect the change in the comic’s state triggered by the user’s action. This means we need to do two things: change the definition of the <span class="cf class">ComicPage</span> to be a subclass of <span class="cf class">StatefulWidget</span> and turn what was up until now the <span class="cf class">ComicPage</span> into a <span class="cf ic">State&lt;ComicPage&gt;</span> definition, inside which the same <span class="cf methodname">build</span> method will reside:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ ComicPage ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ComicPage(​<strong class="kw">this</strong>​.comic);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt; comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  _ComicPageState createState() =&gt; _ComicPageState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ _ComicPageState ​<strong class="kw">extends</strong>​ State&lt;ComicPage&gt; {</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// return Scaffold(...)</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e27829">The next step is to decide what kind of file we should use for storing the starred comics. We have used two different kind of files until now:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e27833">A JSON-encoded text file to store the comic data and a simple text file to store the latest comic number.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e27836">A binary file to save the image data.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e27838">The choices have been dictated by the nature of the data we needed to save: images are binary data, whereas we get the comics in a textual JSON format, meaning they can easily be saved in that format to local storage. A single number can be stored as binary data or text-based data without too many differences.</p>
+
+  <p id="d24e27841">The starred comics will be a list of numbers, and there are advantages and disadvantages to each approach:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e27845">Saving in a binary format (using <span class="cf methodname">writeAsBytes</span>) is simpler to implement and requires less computing overhead, but will generate files that are not readable by the user, but more efficient on storage.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e27851">Saving it in a JSON list makes it possible for the user to read and edit the file directly, but results in a less efficient use of computing power and storage space.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e27853">We are going to use binary format in this case since that seems to be the optimal solution for this problem. We’ll start by implementing an <span class="cf methodname">_addToStarred</span> in the <span class="cf class">ComicPageState</span> to add a comic to the starred comics list:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">_addToStarred</strong>​(​<strong class="kw">int</strong>​ ​<strong class="kw">num</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ file = File(​<em class="string">"</em>​​<em class="string">$docsDir</em>​​<em class="string">/starred"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  List&lt;​<strong class="kw">int</strong>​&gt; savedComics = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.readAsStringSync()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ).cast&lt;​<strong class="kw">int</strong>​&gt;();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(isStarred) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    savedComics.remove(​<strong class="kw">num</strong>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    savedComics.add(​<strong class="kw">num</strong>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  file.writeAsStringSync(json.encode(savedComics));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e27950">which depends on the existence of <span class="cf variable">isStarred</span> as a <span class="cf class">ComicPage</span> member variable:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">bool</strong>​ isStarred;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e27965">We need to determine whether or not the comic is starred when we load the <span class="cf class">ComicPage</span> for the first time, since we will be changing that variable’s value whenever the user taps on the star button. Since we can’t have an <span class="cf ic">async</span> <span class="cf methodname">initState</span>, we’ll use <span class="cf methodname">.then</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">initState</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">super</strong>​.initState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  getApplicationDocumentsDirectory().then(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (dir) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      docsDir = dir.path;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">var</strong>​ file = File(​<em class="string">"</em>​​<em class="string">$docsDir</em>​​<em class="string">/starred"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">if</strong>​(!file.existsSync()) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        file.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        file.writeAsStringSync(​<em class="string">"[]"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        isStarred = ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        setState((){isStarred = _isStarred(widget.comic[​<em class="string">"num"</em>​]);});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e28070">This depends on an <span class="cf methodname">onStarred</span> method that finds out if the comic have been starred by opening the file containing the starred comic numbers, casting it from a <span class="cf class">List</span> of <span class="cf class">dynamic</span> (which is a data type that can contain anything) to a <span class="cf class">List</span> of integers and checking whether the comic number is contained in the list:
+
+
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">bool</strong>​ ​<strong class="kw">_isStarred</strong>​(​<strong class="kw">int</strong>​ ​<strong class="kw">num</strong>​) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ file = File(​<em class="string">"</em>​​<em class="string">$docsDir</em>​​<em class="string">/starred"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  List&lt;​<strong class="kw">int</strong>​&gt; savedComics = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.readAsStringSync()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ).cast&lt;​<strong class="kw">int</strong>​&gt;();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(savedComics.indexOf(​<strong class="kw">num</strong>​) != -1)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Adding the AppBar Action to the Comic Path</h3>
+
+  <p id="d24e28176">
+Now we need to implement a way to add each comic to the starred. The way we’ll do it in this case is by showing a star-shaped icon in the app bar that, when tapped, calls the <span class="cf methodname">_addToStarred</span> method on the current comic, adding it to the starred comics list.
+To do that, we’ll add yet another <span class="cf class">AppBar</span> <span class="cf variable">action</span> to our app in the <span class="cf class">ComicPage</span>’s <span class="cf methodname">build</span> method:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">actions: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   icon: isStarred == ​<strong class="kw">true</strong>​ ?</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     Icon(Icons.star) :</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     Icon(Icons.star_border),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   tooltip: ​<em class="string">"Star Comic"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   onPressed: () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _addToStarred(widget.comic[​<em class="string">"num"</em>​]);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       isStarred = !isStarred;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">],</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e28248">This is what our new ComicPage looks like:</p>
+
+  <div class="ss">
+
+    <img alt="images/Networking/ComicPageNonFavorite.png" class="border " id="d24e28250" src="images/Networking/Imagem-28.png" style="width: 30%"/>
+
+  </div>
+
+  <p id="d24e28251">and what its app bar will look like if the current comic has been starred:
+</p>
+
+  <div class="ss">
+
+    <img alt="images/Networking/ComicPageFavorite.png" class="border " id="d24e28254" src="images/Networking/Imagem-27.png" style="width: 40%"/>
+
+  </div>
+
+  <h3>Implementing a Starred Comics List</h3>
+
+  <p id="d24e28258">We need a way for the user to find all of the comics they add to their favorite comics, and we’ll be doing that by creating a new widget: a new page in our app that will be just like the <span class="cf class">HomeScreen</span>, but only showing starred comics.</p>
+
+  <p id="d24e28263">Let’s define yet another widget and a <span class="cf methodname">fetchComic</span> just like the one in the <span class="cf class">SelectionPage</span> (one that fetches by comic number):</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ StarredPage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  StarredPage();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">String</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await comicFile.exists() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comicFile.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comicFile.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">final</strong>​ comic = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        await http.read(​<em class="string">'https://xkcd.com/</em>​​<em class="string">$n</em>​​<em class="string">/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      File(​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        .writeAsBytesSync(await http.readBytes(comic[​<em class="string">"img"</em>​]));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comic[​<em class="string">"img"</em>​] = ​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comicFile.writeAsString(json.encode(comic));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e28444">While we’re at it, let’s also write a method to retrieve all of the saved comics and return a <span class="cf class">List</span> containing all of the data, taking advantage of the <span class="cf methodname">_fetchComic</span> method we just wrote:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;List&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt;&gt; _retrieveSavedComics() async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">  Directory docsDir = await getApplicationDocumentsDirectory(); </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  File file = File(​<em class="string">"</em>​​<em class="string">${docsDir.path}</em>​​<em class="string">/starred"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  List&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; comics = [];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(!file.existsSync()) { </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.writeAsStringSync(​<em class="string">"[]"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">    json.decode(file.readAsStringSync()).forEach( </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      (n) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        comics.add(await _fetchComic(n.toString()))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ comics;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e28545">
+      Here we define the needed variables and fetch the application documents directory and use it to define the file which we wil be operating on.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e28548">
+      We need to check whether the starred comics file exists; if it doesn’t, we just create the file and end up returning an empty list (we’ll work with that later when we build the UI for the starred comics page).
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e28551">
+      If the file exists, we fetch all of the comics listed in the file and return them.
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e28553">Now we’ll <span class="cf ic">build</span> the UI for the <span class="cf class">StarredPage</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/starredPageUI.dart">networking/xkcd_app/lib/starredPageUI.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ comics = _retrieveSavedComics();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        title: Text(​<em class="string">"Browse your Favorite Comics"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      body: FutureBuilder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        future: comics,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        builder: (context, snapshot) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">          snapshot.hasData &amp;&amp; snapshot.data.isNotEmpty ?</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            itemCount: snapshot.data.length,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            itemBuilder: (context, i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ComicTile(comic: snapshot.data[i],),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">          :</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              Icon(Icons.not_interested),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              Text(​<em class="string">"""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">                You haven't starred any comics yet.</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">                Check back after you have found something worthy of being here.</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">              """</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e28672">
+      The <span class="cf methodname">build</span> method will be called just once, so adding this call anywhere wouldn’t change anything, but this is how you’re supposed to do it: put the call returning a <span class="cf class">Future</span> anywhere it will be called just once and then use the value returned by that call as the <span class="cf class">FutureBuilder</span> constructor’s <span class="cf variable">future</span> argument.
+	  
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e28692">
+      We need to check whether there are any starred comics. If there are any, we’ll show a <span class="cf class">ListView</span> of <span class="cf class">ComicTiles</span> as we do in the home page.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e28701">
+      If there are no starred comics, we’ll just show a notice to the user. We are using multi-line strings as explained in the Dart appendix to this book (<a href="Capítulo-086.html#sec.dart.strings">​<em>Characters and Strings</em>​</a>).
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e28705">The entire <span class="cf class">StarredPage</span> code we’ve seen is combined into the following class definition:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ StarredPage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  StarredPage();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">String</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await comicFile.exists() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comicFile.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comicFile.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">final</strong>​ comic = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        await http.read(​<em class="string">'https://xkcd.com/</em>​​<em class="string">$n</em>​​<em class="string">/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      );</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File(​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      .writeAsBytesSync(await http.readBytes(comic[​<em class="string">"img"</em>​]));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comic[​<em class="string">"img"</em>​] = ​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.writeAsString(json.encode(comic));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;List&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt;&gt; _retrieveSavedComics() async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Directory docsDir = await getApplicationDocumentsDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  File file = File(​<em class="string">"</em>​​<em class="string">${docsDir.path}</em>​​<em class="string">/starred"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  List&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; comics = [];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(!file.existsSync()) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.writeAsStringSync(​<em class="string">"[]"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  } ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    json.decode(file.readAsStringSync()).forEach(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      (n) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        comics.add(await _fetchComic(n.toString()))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ comics;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ comics = _retrieveSavedComics();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        title: Text(​<em class="string">"Browse your Favorite Comics"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      body:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      FutureBuilder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        future: comics,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        builder: (context, snapshot) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          snapshot.hasData &amp;&amp; snapshot.data.isNotEmpty ?</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            itemCount: snapshot.data.length,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            itemBuilder: (context, i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ComicTile(comic: snapshot.data[i],),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          :</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              Icon(Icons.not_interested),</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                Text(​<em class="string">"""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">                  You haven't starred any comics yet.</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">                  Check back after you have found something worthy of being here.</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">                """</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29084">This is what our starred comics’ list will look like:</p>
+
+  <div class="ss">
+
+    <img alt="images/Networking/FavoritePage.png" class="border " id="d24e29086" src="images/Networking/Imagem-41.png" style="width: 38%"/>
+
+  </div>
+
+  <h4>Adding a Link to the HomeScreen’s App Bar</h4>
+
+  <p id="d24e29090">
+Now we need the user to be able to reach this page from the rest of the app. We’ll make this possible by adding an <span class="cf class">AppBar</span> action to the <span class="cf class">HomeScreen</span>. This will be very similar to previous app bar actions we added earlier: when the user taps on the icon we show the user the <span class="cf class">StarredPage</span> on top of the current view:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">IconButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> icon: Icon(Icons.star),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> tooltip: ​<em class="string">"Browse Starred Comics"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> onPressed: () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   Navigator.push(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       builder: (BuildContext context) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         StarredPage()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29146">This is what the <span class="cf class">HomeScreen</span>’s app bar will look like:
+
+</p>
+
+  <div class="ss">
+
+    <img alt="images/Networking/HomeScreenFavorite.png" class="border " id="d24e29154" src="images/Networking/Imagem-53.png" style="width: 40%"/>
+
+  </div>
+
+</body>
+
+</html>

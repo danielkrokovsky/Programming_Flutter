@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.appconfig.platspec">Platform-Specific Setup</h2>
+
+  <p id="d24e48411">
+In this section we’ll see how to change the app name and launcher icon of a Flutter app by editing the platform-specific configuration.</p>
+
+  <h3>Setting a Custom App Name</h3>
+
+  <p id="d24e48418">
+The Dart package name (which is also the default app name) has to be composed of just lowercase letters and underscore, which isn’t really much. That’s why we are going to set our own app name by digging into the platform-specific configuration.</p>
+
+  <h4>Setting the Android App Name</h4>
+
+  <p id="d24e48427">
+
+The app name displayed on Android can be changed by changing the <span class="cf ic">android:label</span> attribute of the <span class="cf ic">application</span> tag in the <span class="cf filename">AndroidManifest.xml</span> file found in <span class="cf dir">appdir/android/app/src/main</span>. This is what it would look like if we were configuring the <span class="emph">Chat on Fire</span> app we built in the last chapter of the book:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire2/android/app/src/main/AndroidManifest.xml">firebase/chatonfire2/android/app/src/main/AndroidManifest.xml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">&lt;application</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    android:name=​<em class="string">"io.flutter.app.FlutterApplication"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    android:label=​<em class="string">"Chat on Fire"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    android:icon=​<em class="string">"@mipmap/ic_launcher"</em>​&gt;</td>
+    </tr>
+
+  </table>
+
+  <h4>Setting the iOS App Name</h4>
+
+  <p id="d24e48482">
+
+The app name displayed on iOS is usually changed by opening the <span class="cf dir">Runner.xcworkspace</span> Xcode project in the <span class="cf dir">ios</span> directory in Xcode and changing the <span class="emph">Display name</span> project-level setting. Alternatively, add a key called <span class="emph">CFBundleDisplayName</span> followed by a string to the <span class="cf filename">Info.plist</span> file in the <span class="cf dir">appdir/ios/Runner</span> directory, like in the following example:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire2/ios/Runner/Info.plist">firebase/chatonfire2/ios/Runner/Info.plist</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">&lt;​<strong class="kw">k</strong>​e​<strong class="kw">y</strong>​&gt;CFBundleDisplayName&lt;​<strong class="kw">/k</strong>​e​<strong class="kw">y</strong>​&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">&lt;​<strong class="kw">string</strong>​&gt;Chat on Fire&lt;​<strong class="kw">/string</strong>​&gt;</td>
+    </tr>
+
+  </table>
+
+  <h3>Setting the Launcher Icon</h3>
+
+  <p id="d24e48539">
+
+
+Any decent app needs a custom icon, and Flutter apps certainly don’t make for an exception to that. There is a CLI tool on Pub called <span class="cf ic">flutter_launcher_icons</span> that simplifies this, but you may choose to do that manually. This section will cover both cases.</p>
+
+  <h4>Using Flutter Launcher Icons to Change the Launcher Icon</h4>
+
+  <p id="d24e48556">
+
+
+The Flutter Launcher Icons package is the typical example of a package that should be added to the <span class="cf ic">dev_dependencies</span> section in <span class="cf filename">pubspec.yaml</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire2/pubspec.yaml">firebase/chatonfire2/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dev_dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter_launcher_icons:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter_test:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e48602">After doing that and running:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ flutter packages get</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e48610">it’s time to configure the package.</p>
+
+  <p><strong>A Quick and Simple Example</strong></p>
+
+  <p id="d24e48615">This can be done either in <span class="cf filename">pubspec.yaml</span> or in a new file by adding a <span class="cf ic">flutter_icons</span> section:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire2/pubspec.yaml">firebase/chatonfire2/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter_icons:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  image_path: ​<em class="string">"</em>​​<em class="string">icons/launcher_icon.png"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  android: true</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ios: true</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e48648">This is what you’ll use most of the time: the <span class="cf ic">image_path</span> will be the path to the image that will be used to overwrite the default launcher image for both Android and iOS when you run:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ flutter packages run flutter_launcher_icons:main</td>
+    </tr>
+
+  </table>
+
+  <p><strong>Choosing a Different Path for the Configuration File</strong></p>
+
+  <p id="d24e48662">
+That command will work if the configuration is either in <span class="cf filename">pubspec.yaml</span> or in a file you create called <span class="cf filename">flutter_launcher_icons.yaml</span>. If you want to use a custom file with a different name you can use the <span class="cf commandoption">-f</span> option in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ flutter packages run flutter_launcher_icons:main -f filename.yaml</td>
+    </tr>
+
+  </table>
+
+  <p><strong>Using Different Files for Android and iOS</strong></p>
+
+  <p id="d24e48689">
+
+Instead of providing one <span class="cf ic">image_path</span> for both Android and iOS, you might choose to set an <span class="cf ic">image_path_android</span> for Android and an <span class="cf ic">image_path_ios</span> for iOS. You might want to do that because, unlike Android, iOS will replace any transparency with black, meaning that iOS app icons have to fill the entire image and not have transparent borders, unlike Android icons.</p>
+
+  <h4>Changing the Launcher Icon Manually</h4>
+
+  <p id="d24e48712">Instead of using the <span class="cf ic">flutter_launcher_icons</span> package, you might want to change the launcher icon yourself. This is very time-consuming to do 100% manually: for Android, you can change the app icon by providing different resolutions of the launcher icon for devices with different pixel density values in the <span class="cf dir">appdir/android/app/src/main/res/mipmap-*dpi</span> (following the official Android Developer guidelines<sup><a class="footnote" href="#FOOTNOTE-59" id="FNPTR-59">[59]</a></sup>). A similar process is required for iOS icons to replace the ones in the <span class="cf dir">appdir/ios/Runner/Assets.xcassets/Appicon.appiconset</span>.</p>
+
+  <p id="d24e48728">A way to bypass some of that is by using Android Studio’s <span class="emph">Image Asset</span> creation tool that will automatically generate different resolutions of the icon, and by opening <span class="cf filename">Assets.xcassets</span> in <span class="cf dir">appdir/ios/Runner</span> with Xcode and using that to replace the default icons.</p>
+
+  <p id="d24e48739">With that, your app should be ready for distribution to your users, whatever operating system their phone runs on.
+
+
+</p>
+
+  <div class="footnotes">
+
+    <h4>Footnotes</h4>
+
+    <dl>
+
+      <dt class="footnote-number"><a href="Capítulo-098.html#FNPTR-56" id="FOOTNOTE-56">[56]</a></dt>
+
+      <dd>
+
+        <p id="d24e47675"><a href="https://flutter.dev/docs/development/ui/widgets/cupertino">https://flutter.dev/docs/development/ui/widgets/cupertino</a></p>
+
+      </dd>
+
+      <dt class="footnote-number"><a href="Capítulo-098.html#FNPTR-57" id="FOOTNOTE-57">[57]</a></dt>
+
+      <dd>
+
+        <p id="d24e48254"><a href="https://pub.dev/documentation/flutter_platform_widgets/latest/">https://pub.dev/documentation/flutter_platform_widgets/latest/</a></p>
+
+      </dd>
+
+      <dt class="footnote-number"><a href="Capítulo-099.html#FNPTR-58" id="FOOTNOTE-58">[58]</a></dt>
+
+      <dd>
+
+        <p id="d24e48391"><a href="https://semver.org/">https://semver.org/</a></p>
+
+      </dd>
+
+      <dt class="footnote-number"><a href="#FNPTR-59" id="FOOTNOTE-59">[59]</a></dt>
+
+      <dd>
+
+        <p id="d24e48721"><a href="https://developer.android.com/guide/topics/resources/providing-resources">https://developer.android.com/guide/topics/resources/providing-resources</a></p>
+
+      </dd>
+
+    </dl>
+
+  </div>
+
+  <div class="copyright">Copyright © 2020, The Pragmatic Bookshelf.</div>
+
+  <div class="backmatter-cover">Thank you!
+<p id="d24e51359">
+   How did you enjoy this book? Please let us know. Take a moment and email us at support@pragprog.com with your feedback. Tell us your story and you could win free ebooks. Please use the subject line “Book Feedback.”
+   </p>
+<p id="d24e51361">
+   Ready for your next great Pragmatic Bookshelf book? Come on over to <a href="https://pragprog.com">https://pragprog.com</a> and use the coupon code BUYANOTHER2020 to save 30% on your next ebook.
+   </p>
+<p id="d24e51366">
+   Void where prohibited, restricted, or otherwise unwelcome. Do not use ebooks near water. If rash persists, see a doctor. Doesn’t apply to <span class="emph">The Pragmatic Programmer</span> ebook because it’s older than the Pragmatic Bookshelf itself. Side effects may include increased knowledge and skill, increased marketability, and deep satisfaction. Increase dosage regularly.
+   </p>
+<p id="d24e51371">
+   And thank you for your continued support,
+   </p>
+<p id="d24e51373">
+   Andy Hunt, Publisher
+   </p><div class="ss"><img alt="images/Coupon.png" class="" id="d24e51375" src="images/Imagem-30.png"/></div></div>
+
+</body>
+
+</html>

@@ -1,0 +1,1200 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e36823">Custom Shapes and Drawing in Flutter Apps Using Painters</h2>
+
+  <p id="d24e36826">
+
+
+
+With <span class="cf class">Canvas</span> and <span class="cf class">Paint</span> we can change the look of a certain widget. That is done using a <span class="cf class">CustomPainter</span>, which is a class that allows us to draw lines and shapes on a virtual <span class="cf class">Canvas</span>.</p>
+
+  <h3>CustomPaint</h3>
+
+  <p id="d24e36852">
+<span class="cf class">CustomPaint</span> is the widget that allows us to insert the custom shapes we’ll create using a <span class="cf class">CustomPainter</span> into the widget tree. It takes two arguments: a <span class="cf class">CustomPainter</span> as the named <span class="cf variable">painter</span> and a <span class="cf variable">child</span> widget, which will be the widget on which the effect will be applied.
+For example, if we wanted to paint a Flutter logo widget using a custom painter we’ll create called <span class="cf class">LogoPainter</span>, we’d insert the following into the widget tree:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">CustomPaint(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  painter: LogoPainter(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: FlutterLogo(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <h3>Creating a <span class="cf class">CustomPainter</span></h3>
+
+  <p id="d24e36892">
+The <span class="cf variable">painter</span> needs to be a subclass of the <span class="cf class">CustomPainter</span> widget we have to define ourselves by overriding the <span class="cf methodname">paint</span> and <span class="cf methodname">shouldRepaint</span> methods.</p>
+
+  <h4>The paint Method</h4>
+
+  <p id="d24e36913">
+The <span class="cf methodname">paint</span> method takes two arguments: a <span class="cf class">Canvas</span> and a <span class="cf class">Size</span>.</p>
+
+  <p id="d24e36928">
+The <span class="cf class">Canvas</span> is the object on which we will perform drawing operations, such as:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e36941">Drawing lines, using <span class="cf methodname">canvas.drawLine(point1, point2, paint)</span>, where the points are represented by <span class="cf class">Offset</span>s (that we’ll discuss later) and <span class="cf ic">paint</span> is of type <span class="cf class">Paint</span> and decides the color and appearance of the line and will be discussed later.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36956">Drawing circles using <span class="cf methodname">canvas.drawCircle(center, radius, paint)</span>, where <span class="cf ic">center</span> is an <span class="cf class">Offset</span>, <span class="cf ic">radius</span> is a <span class="cf ic">double</span> and <span class="cf ic">paint</span> is a <span class="cf class">Paint</span> object.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36981">Inserting an <span class="cf class">Image</span> using <span class="cf methodname">canvas.drawImage(image, point, paint)</span>, where <span class="cf ic">image</span> is the <span class="cf ic">dart:ui</span> library’s <span class="cf class">Image</span> class, about which there will be a sidebar at the end of this section.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36999">Drawing rectangles, using <span class="cf methodname">canvas.drawRect(rect, paint)</span>, where <span class="cf ic">rect</span> is of class <span class="cf class">Rect</span>, about which we’re going to talk later in this section;</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e37011">Drawing ellipses using <span class="cf methodname">canvas.drawOval(rect, paint)</span>, where the arguments are the same as the rectangle’s, but will result in an oval being drawn instead of a rectangle.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e37016">
+The <span class="cf class">Offset</span> class is used to represent a point in the absolute virtual plane of the app screen by using two <span class="cf ic">double</span> numbers (for example (<span class="cf ic">Offset(0.0, 0.0)</span> is the origin of the virtual plane). You can choose offsets relative to various properties of the <span class="cf class">Paint</span> widget using the properties and methods that are passed along with the <span class="cf class">Canvas</span> to the <span class="cf methodname">paint</span> method as part of the <span class="cf class">Size</span> widget, as described in the official API reference.<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-52" id="FNPTR-52">[52]</a></sup> Most of the time, you’re going to use <span class="cf class">Offset</span> like vectors to define shapes relative to some other points using <span class="cf class">Size</span> as we’ll see later.</p>
+
+  <p id="d24e37055">
+The <span class="cf class">Paint</span> class is used to define styling features (such as the color or the width) of the lines and shapes drawn on the canvas. The main ones are color and painting style: <span class="cf variable">paint.color</span> can be set to any color (for example <span class="cf ic">Colors.green</span>) and <span class="cf variable">paint.style</span> can be set to either <span class="cf ic">PaintingStyle.fill</span> or <span class="cf ic">PaintingStyle.stroke</span>, where the first one fills the shape with paint, whereas the second one only draws the edge. If you choose the latter, you may set <span class="cf variable">paint.strokeWidth</span> to any <span class="cf ic">double</span> value.</p>
+
+  <p id="d24e37086">
+The <span class="cf class">Rect</span> class is used to describe a rectangle in the plane. It is created from either two points (using the <span class="cf methodname">Rect.fromPoints(point1, point2)</span> constructor), which will generate the smallest possible rectangle that encloses the two points, from the left and right X coordinates and top and bottom and top Y coordinates (using <span class="cf methodname">Rect.fromLTRB(left, top, right, bottom)</span>, where the arguments are all <span class="cf ic">double</span> values), or from a couple of edges, width and height (using <span class="cf methodname">Rect.fromLTWH(left, top, width, height)</span>, the arguments are all <span class="cf ic">double</span> values just like with the previous constructor). <span class="cf methodname">Rect.fromCircle(center, radius)</span>, with the same arguments as <span class="cf methodname">Canvas.drawCircle</span>, is used to get a square from a circle.</p>
+
+  <p id="d24e37117">
+The <span class="cf class">Size</span> is used to generate <span class="cf class">Offset</span> based on the size and positioning of the <span class="cf class">CustomPaint</span>’s <span class="cf ic">child</span>. This can be done using methods such as <span class="cf methodname">Size.center(offset)</span>, which will return an <span class="cf class">Offset</span> that is obtained by considering the center of the widget we’re painting as the origin of the plane and considering. Another way to see that is as the point obtained from the translation of the center of the widget by the vector <span class="cf ic">offset</span>. Other methods, such as <span class="cf methodname">Size.bottomRight(offset)</span> can be used if you need to draw a point relative to other points of the widget.
+</p>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title">Using ui.Image</div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e37152">
+  
+  
+  
+  
+    The image passed to <span class="cf methodname">drawImage</span> isn’t a regular Flutter <span class="cf class">Image</span> widget: it’s the <span class="cf class">Image</span> class found in the <span class="cf keyword">dart:ui</span> library.<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-53" id="FNPTR-53">[53]</a></sup>
+  </p>
+
+      <p id="d24e37196">
+    An <span class="cf class">ui.Image</span> (usually referred to with the ‘ui.‘ prefix in documentation because ‘dart:ui‘ is typically imported ‘as ui‘ to differentiate it from the Flutter <span class="cf class">Image</span> widget) is obtained as the ‘image‘ property of an <span class="cf class">ui.FrameInfo</span> object.
+  </p>
+
+      <p id="d24e37207">
+  
+    A <span class="cf class">FrameInfo</span> can be obtained by running (and <span class="cf keyword">await</span>ing) <span class="cf class">ui.Codec</span>’s <span class="cf methodname">getNextFrame</span> method. Finally, an <span class="cf class">ui.Codec</span> can be obtained using ‘dart:ui‘’s <span class="cf methodname">instantiateImageCodec</span> function. This data can be obtained from an image file by using <span class="cf keyword">dart:io</span>’s regular <span class="cf methodname">File.readBytes</span> method.
+  </p>
+
+    </div>
+
+  </div>
+
+  <h4>The shouldRepaint Method</h4>
+
+  <p id="d24e37242">
+The <span class="cf methodname">shouldRepaint</span> method has to be implemented, and it’s an important optimization factor when talking about complex and resource-intensive <span class="cf class">CustomPainter</span>s.</p>
+
+  <p id="d24e37256">It returns a boolean value that tells the framework whether or not the widget needs to be repainted. It is called whenever a <span class="cf class">CustomPaint</span> object attempts to get painted with a new instance of a <span class="cf class">CustomPainter</span> class. This method gets the old custom painter instance as an argument, so you can compare it with the new one to decide whether anything worthy of a re-render has changed.</p>
+
+  <p id="d24e37264">In our case, we’re just going to return <span class="cf ic">false</span> because the same object never gets called with different <span class="cf class">CustomPainter</span>s. For performance reasons, you should start with that and, if there are problems, try to make it more and more common that <span class="cf methodname">shouldRepaint</span> returns <span class="cf ic">true</span> until all issues are fixed and the widgets get painted according to how you want them to be painted.</p>
+
+  <h4>An Example of a CustomPainter</h4>
+
+  <p id="d24e37281"><span class="cf class">CustomPainter</span>s allow a great degree of customization, so they are best described with an example to show you how to put together the basic concepts we talked about, so that you can get an idea of how it’s done, keeping in mind that only the official API reference<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-54" id="FNPTR-54">[54]</a></sup> can comprehensively list all of the possible transformations and shapes available:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ LogoPainter ​<strong class="kw">extends</strong>​ CustomPainter {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ paint(Canvas canvas, Size size) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ greenPaint = Paint()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ..style = PaintingStyle.fill</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ..color = Colors.green;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ redPaint = Paint()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ..style = PaintingStyle.fill</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ..color = Colors.red;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ whitePaint = Paint()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ..style = PaintingStyle.fill</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ..color = Colors.white;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawColor(Colors.blue, BlendMode.color);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawOval(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Rect.fromPoints(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.topLeft(Offset(-40, -100)),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.bottomRight(Offset(15, 10))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      greenPaint</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawOval(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Rect.fromPoints(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.topLeft(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Offset(-15, -10)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.bottomRight(Offset(40, 100))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      redPaint</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawCircle(size.center(Offset(0, 0)), 40.0, whitePaint);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">bool</strong>​ shouldRepaint(CustomPainter old) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e37467">This example takes advantage of cascade notation (covered in <a href="Capítulo-092.html#sec.dart.classes.cascadeNotation">​<em>Cascade Notation</em>​</a>), which is a way to call multiple methods on an object or alter some of its properties without having to repeat the name of the object by returning the altered object and not the result of the method (<span class="cf ic">whitePaint..</span><span class="cf ic">color=Colors.white</span> returns <span class="cf variable">whitePaint</span>, meaning we can add another two dots with another instruction, and it will be executed on the <span class="cf variable">whitePaint</span> object).</p>
+
+  <p id="d24e37484">It results in the following being drawn when painting a <span class="cf class">FlutterLogo</span>:
+</p>
+
+  <div class="ss">
+
+    <img alt="images/Firebase/custompaint.png" class="border " id="d24e37490" src="images/Firebase/Imagem-32.png" style="width: 42%"/>
+
+  </div>
+
+  <h3>Hero Animations Combined with CustomPaint</h3>
+
+  <p id="d24e37494">
+
+The combination of these canvas painting abilities with hero animation could make for interesting user interaction animation in Flutter apps: let’s imagine having two widgets similar to the one we’ve seen in the previous section, but in different colors and that serve as links to different views or different versions of the same view.</p>
+
+  <p id="d24e37501">Let’s start by defining the painters: a red, green and white one just like the previous one:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ GreenWhiteRedPainter ​<strong class="kw">extends</strong>​ CustomPainter {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ paint(Canvas canvas, Size size) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ greenPaint = Paint();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    greenPaint.style =PaintingStyle.fill;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    greenPaint.color = Colors.green;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ redPaint = Paint();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    redPaint.style =PaintingStyle.fill;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    redPaint.color = Colors.red;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ whitePaint = Paint();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    whitePaint.style =PaintingStyle.fill;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    whitePaint.color = Colors.white;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawColor(Colors.blue, BlendMode.color);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawOval(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Rect.fromPoints(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.topLeft(Offset(-40, -100)),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.bottomRight(Offset(15, 10))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      greenPaint</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawOval(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Rect.fromPoints(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.topLeft(Offset(-15, -10)),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.bottomRight(Offset(40, 100))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      redPaint</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawCircle(size.center(Offset(0, 0)), 40.0, whitePaint);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">bool</strong>​ shouldRepaint(CustomPainter old) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e37679">and a blue and white one:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ BlueWhiteBluePainter ​<strong class="kw">extends</strong>​ CustomPainter {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ paint(Canvas canvas, Size size) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ bluePaint = Paint();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    bluePaint.style =PaintingStyle.fill;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    bluePaint.color = Colors.blue;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">var</strong>​ whitePaint = Paint();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    whitePaint.style =PaintingStyle.fill;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    whitePaint.color = Colors.white;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawColor(Colors.blue, BlendMode.color);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawOval(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Rect.fromPoints(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.topLeft(Offset(-40, -100)),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.bottomRight(Offset(15, 10))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      bluePaint</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawOval(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Rect.fromPoints(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.topLeft(Offset(-15, -10)),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        size.bottomRight(Offset(40, 100))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      bluePaint</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    canvas.drawCircle(size.center(Offset(0, 0)), 40.0, whitePaint);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">bool</strong>​ shouldRepaint(CustomPainter old) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e37836">We’ll use them in an app for two different widgets in a <span class="cf class">Row</span> that will each pass themselves to a second view:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ FirstPage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ widgets = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Hero(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      tag: ​<em class="string">"Blue White Red"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: CustomPaint(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        painter: BlueWhiteBluePainter(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Text(​<em class="string">"1"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Hero(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      tag: ​<em class="string">"Green White Red"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: CustomPaint(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        painter: GreenWhiteRedPainter(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Text(​<em class="string">"2"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      body:Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child:Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          mainAxisAlignment: MainAxisAlignment.spaceEvenly,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Hero(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              tag: ​<em class="string">"Green White Red"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              child: CustomPaint(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                painter: BlueWhiteBluePainter(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                child: GestureDetector(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  child: Text(​<em class="string">"1"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  onTap: () =&gt; Navigator.pushReplacement(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                      builder: (context) =&gt; SecondPage(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                        widgets[0]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                      )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            Hero(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              tag: ​<em class="string">"Blue White Red"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              child: CustomPaint(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                painter: GreenWhiteRedPainter(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                child: GestureDetector(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  child: Text(​<em class="string">"2"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  onTap: () =&gt; Navigator.pushReplacement(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                      builder: (context) =&gt; SecondPage(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                        widgets[1]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                      )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e38018">that other view shows the widget in the top left corner of the screen, as a way to show what choice has been made and provides a way to go back:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ SecondPage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  SecondPage(​<strong class="kw">this</strong>​.topLeft);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ Widget topLeft;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      body: Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        padding: EdgeInsets.only(left: 50.0, top: 150.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: topLeft,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Icon(Icons.looks_one),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        onPressed: () =&gt; Navigator.pushReplacement(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            builder: (context) =&gt; FirstPage()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e38091">The first view will look like this:</p>
+
+  <div class="ss">
+
+    <img alt="images/Firebase/heropainthome.png" class="border " id="d24e38093" src="images/Firebase/Imagem-49.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e38094">When clicking the number 1 the view will animate to show the following:</p>
+
+  <div class="ss">
+
+    <img alt="images/Firebase/heropaint1.png" class="border " id="d24e38096" src="images/Firebase/Imagem-47.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e38097">and when clciking the number 2 the view will animate to show the following:</p>
+
+  <div class="ss">
+
+    <img alt="images/Firebase/heropaint2.png" class="border " id="d24e38099" src="images/Firebase/Imagem-48.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e38100">Clicking the floating action button in the second page will animate to the initial page with both buttons.
+</p>
+
+</body>
+
+</html>

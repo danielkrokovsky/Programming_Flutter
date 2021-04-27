@@ -1,0 +1,335 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-087.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-087_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-087_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-087_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.dart.functions"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Funções</font></font></h2>
+
+  <p id="d24e43742"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+O Dart oferece suporte a funções de nível superior, o que significa que você pode definir funções fora de qualquer definição de classe que pode ser chamada de qualquer lugar no código.</font></font></p>
+
+  <p id="d24e43756"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma função Dart é definida da seguinte maneira:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">returnType </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">functionName</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (parâmetros) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  blockOfInstructions;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Retornar</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> returnValue;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43774"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Onde:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e43778"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">returnType</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o tipo de dados, consulte a seção </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-095.html#sec.dart.types.conversion"><em><font style="vertical-align: inherit;">conversão entre tipos Native Java / Apple e Dados Dart</font></em></a><font style="vertical-align: inherit;"> , a função retornará.</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-095.html#sec.dart.types.conversion"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e43785"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Os parâmetros, explicados no próximo parágrafo, que serão os dados que a função usará para fazer o que precisa. </font><font style="vertical-align: inherit;">Os parâmetros são variáveis ​​e seu valor é definido usando argumentos de chamada de função. </font><font style="vertical-align: inherit;">Se você não estiver familiarizado com funções e chamadas de função, o exemplo a seguir foi projetado para fornecer um exemplo real e funcional de algumas funções que tiram proveito de outras funções.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e43788"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nas chaves é onde você adiciona o bloco de instruções (uma ou mais linhas) que, se a função tiver qualquer tipo de retorno diferente de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">void</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , inclui uma </font><font style="vertical-align: inherit;">instrução de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é usada para retornar um valor para o código de chamada.
+
+</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e43807"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, a seguinte função é muito simples:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">quadrado</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">regresso</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n * n;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43830"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+mas pode ser usado dentro de uma função para calcular a atração gravitacional, que é um pouco mais complexa, com mais parâmetros:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// Vamos ver como configurar todos esses argumentos em breve</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">calculateGravitationalAttraction</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Massa1, </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> mass2, </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> distância)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> L = 6.67e-11; </font></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// constante gravitação universal</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ *</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Chamar a função quadrado usando a distância como</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * O único argumento (n será igual a</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * O valor na variável distância)</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * E salvar o valor de retorno</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Para a variável squaredDistance</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> squaredDistance = quadrado (distância);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> G * Massa1 * mass2 / squaredDistance;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43906"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e ele, por sua vez, pode ser usado para calcular, por exemplo, a força de atração entre a terra e o sol, potencialmente envolvida em outra função:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">calculateSunEarthAttraction</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> earthMass = 5.97e24; </font></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// massa da Terra</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> sunMass = 1.99e30; </font></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// massa do Sol</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dist = 1.496e8; </font></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// distância entre a Terra eo Sol</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ *</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Chamar a calculateGravitationalAttraction</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * A função de estabelecer os argumentos, um por um</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Na ordem dos parâmetros no</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Definição da função e retornando</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Seu valor de retorno para qualquer outra função</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Que precisa do valor da força de</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * Atração entre o Sol ea Terra</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   * /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> calculateGravitationalAttraction (earthMass, sunMass, dist);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3 id="sec.dart.function.parameters"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Parâmetros de Função</font></font></h3>
+
+  <p id="d24e43977"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Até agora, usamos apenas parâmetros posicionais: você os define como variáveis, uma após a outra, e define os argumentos da mesma forma, seguindo a mesma ordem.
+
+</font></font></p>
+
+  <p id="d24e43982"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Agora, porém, você precisa saber sobre os </font><font style="vertical-align: inherit;">parâmetros </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nomeados</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que permitem que a função de chamada defina os argumentos em uma ordem diferente (ou mesmo para apenas alguns dos parâmetros) especificando um nome para cada parâmetro. </font><font style="vertical-align: inherit;">Se você envolver os parâmetros entre chaves, você os tornará </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nomeados</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">opcionais</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , como no exemplo a seguir:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">calculateSunPlanetAttraction</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ({})</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A flecha</font></font></h3>
+
+  <p id="d24e44027"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Se a função for simplesmente composta de uma instrução, você pode usar a notação de seta, de modo que:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">quadrado</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">regresso</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n * n;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e44062"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">torna-se:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">quadrado</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) =&gt; n * n;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e44076"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">geralmente escrito, especialmente quando a expressão é mais longa, como:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">quadrado</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  n * n;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3 id="sec.dart.functions.closures"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Funções anônimas e fechamentos</font></font></h3>
+
+  <p id="d24e44095"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Fechamentos são o que usamos para definir retornos de chamada. </font><font style="vertical-align: inherit;">Eles são funções definidas como variáveis ou, mais especificamente, as variáveis do tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">de função</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-093.html#sec.dart.typedef"><em><font style="vertical-align: inherit;">Typedef e chamadas de retorno</font></em></a><font style="vertical-align: inherit;"> .
+
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-093.html#sec.dart.typedef"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-087_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

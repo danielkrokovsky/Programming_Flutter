@@ -1,0 +1,1187 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e29170">Testing</h2>
+
+  <p id="d24e29173">
+There are multiple kinds of automated tests that can be applied to Flutter apps:
+
+
+</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e29192">Unit testing, the most common, which tests a smaller piece of code and should comprise the majority of the testing you should do on an app.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e29195">Integration testing, which tests a big section of integrated pieces of code and, in the case of Flutter, runs the app in an emulator or physical device to check whether it behaves as it should when the user interacts with it in a certain way.</p>
+
+    </li>
+
+  </ul>
+
+  <ul>
+
+    <li>Widget testing, which tests UI elements without firing up the app on an emulator or device, instead just keeping track of everything that is supposed to be on screen and letting us interact with it in a way that is much simpler and faster than is done in integration tests.</li>
+
+  </ul>
+
+  <p id="d24e29202">In this section we are going to use as an example the calculator app we built earlier in the book (Chapter 3, <a href="Capítulo-031.html#chp.calculator">​<em> Building a Calculator App </em>​</a>) and write some tests that make sure each section of the app is working correctly. We are then going to test the XKCD comic browsing app built in the previous chapter to introduce you to mock objects and dependency injection in Flutter.
+</p>
+
+  <h3>Dart Unit Testing</h3>
+
+  <p id="d24e29210">
+
+
+Unit testing is really simple: you run a piece of code (for example, a class constructor and a few member methods) and check whether the return value is what is expected.</p>
+
+  <p id="d24e29224">
+
+
+To perform unit testing, we need to add the <span class="cf ic">test</span> package to <span class="cf filename">pubspec.yaml</span>’s <span class="cf ic">dev_dependencies</span>, which is the section where we list dependencies only needed for development and debugging/testing and not needed for the execution of the app on an user’s device.</p>
+
+  <h4>Writing Unit Tests for the Calculator App</h4>
+
+  <p id="d24e29253">
+Let’s start by taking a look at the app tree created by <span class="cf commandname">flutter create</span>: it contains a directory called <span class="cf dir">test</span>. That’s where we’re going to add any tests we want to be performed by Flutter.</p>
+
+  <p id="d24e29265">Here we’ll create a file called <span class="cf filename">calculation_test.dart</span>, inside which, as the name says, we are going to test the <span class="cf class">Calculation</span> class which, if you remember (or go back to <a href="Capítulo-043.html#sec.calculator.calculation">​<em>Implement the Calculations</em>​</a>), allows us to add little pieces of an expression (as <span class="cf class">String</span>s) at a time and then get either the result as a <span class="cf ic">double</span> number or a <span class="cf class">String</span> representing the expression.</p>
+
+  <p id="d24e29285">There are multiple tests that can be done: we’ll test whether it performs all the different operations and return the right result, then whether it can handle multiple operations and then whether it respects operator precedence. Additionally, we need to check both string values and numeric values returned by it.</p>
+
+  <p id="d24e29292">
+We’ll start writing the test by importing the needed classes. In this case we’ll need to import the <span class="cf ic">test</span> package and the <span class="cf filename">calculator.dart</span> file in which we have defined the <span class="cf class">Calculation</span> class:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter_test/flutter_test.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:calculator/calculator.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29323">Then we call the <span class="cf class">Calculation</span> constructor to get an object on which to operate:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ calc = Calculation();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29334">Everything else will go into the <span class="cf methodname">main</span> function:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() {</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29353">The first thing to do is to define a <span class="cf methodname">setUp</span> function that will get called before each test, creating a brand-new calculation object by calling the constructor in order to make sure each test is run in isolation.</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">setUp(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc = Calculation();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29366">
+We are going to call the <span class="cf methodname">test</span> function, which takes a string and a callback function as positional arguments. The string is a text description of the test, so that we know what tests failed (if any fail) and the callback is the code that is going to be run when that test is fired. Inside the callback we’ll use the <span class="cf methodname">expect</span> function to specify what value a certain instruction should return.
+For example, if we wanted to test a simple addition operation in our <span class="cf class">Calculation</span> we could write the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">test(​<em class="string">'simple addition'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"+"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"6"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  expect(calc.getResult(), 70.0);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29427">If we want to test more than one addition/subtraction operation in the same test, we just add the following after it:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">test(​<em class="string">'more sums'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"-"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"+"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"50"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  expect(calc.getResult(), 100.0);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29492">We also need to test whether multiplication works, as we do in the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">test(​<em class="string">'simple multiplication'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"x"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"6"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  expect(calc.getResult(), 30.0);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29532">Division is also important, and we also get a chance to check whether we can properly return floating-point values with a decimal part:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">test(​<em class="string">'division'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"÷"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"2"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  expect(calc.getResult(), 2.5);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29572">Operator precedence can’t be taken for granted, so we need to check whether it is respected:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">test(​<em class="string">'precedence'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"+"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"6"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"x"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  expect(calc.getResult(), 35.0);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29629">The last thing to check is whether the <span class="cf methodname">getString</span> operation works correctly:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">test(​<em class="string">'string'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"x"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"6"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"+"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  calc.add(​<em class="string">"7"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  expect(calc.getString().toString(), ​<em class="string">"5x6+7"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e29694">The entire <span class="cf filename">calculation_test.dart</span> file adds up to the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/calculation_test.dart">layout/calculator/test/calculation_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter_test/flutter_test.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:calculator/calculator.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ calc = Calculation();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  setUp(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc = Calculation();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test(​<em class="string">'simple addition'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"+"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"6"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    expect(calc.getResult(), 70.0);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test(​<em class="string">'more sums'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"-"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"+"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"50"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    expect(calc.getResult(), 100.0);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test(​<em class="string">'simple multiplication'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"x"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"6"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    expect(calc.getResult(), 30.0);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test(​<em class="string">'division'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"÷"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"2"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    expect(calc.getResult(), 2.5);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test(​<em class="string">'precedence'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"+"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"6"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"x"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    expect(calc.getResult(), 35.0);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  test(​<em class="string">'string'</em>​, () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"5"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"x"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"6"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"+"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    calc.add(​<em class="string">"7"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    expect(calc.getString().toString(), ​<em class="string">"5x6+7"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title">Make Your Own Changes</div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e30029">
+		If you have implemented parentheses in the calculator app, you should consider writing a unit test for that too.
+	</p>
+
+      <p id="d24e30031">
+		It is very easy to write unit tests: you actually only need to split <span class="cf methodname">calc.add</span> calls when you want to add an operator, but it’s recommended you add numbers one digit at a time at least in some tests since that’s how the actual calculator app does it and there might be an issue that only manifests itself when doing it that way (or maybe adding more than one digit at a time would break an implementation that would work in the real calculator, but that’s not the case for how we implemented it).
+	</p>
+
+    </div>
+
+  </div>
+
+  <p id="d24e30036">
+At this point, every time you try to build your app these tests will be run. You can also run the tests using <span class="cf commandname">flutter test</span> on the command line. However, probably the best way to run tests is by using Visual Studio Code, which shows a <span class="emph">Run</span> button for each test, allowing you to run each test and get the results shown in an intuitive UI. Android Studio also shows a <span class="emph">right arrow</span> button next to the line number to run a test, but I found its UI slightly less intuitive and consistent. You might feel differently, though, especially if you prefer the Android Studio/IntelliJ UI over the Visual Studio UI; opt for whichever you’re more comfortable using.
+
+
+
+</p>
+
+  <h3>Flutter Widget and Integration Testing</h3>
+
+  <p id="d24e30059">Unit testing was simple and straight-forward enough, but widget and integration testing need more attention since they rely on UI, which isn’t exactly as dry and simple as the calculation processing code.</p>
+
+  <p id="d24e30061">Each little piece of low-level logic in our app may be correct, but there might be something wrong in the UI or the combination of some of the pieces of code we already tested. This is why widget testing and integration testing exist. It’s to test whether a single widget or a bigger part of the app work correctly.</p>
+
+  <h4>Flutter Widget Testing</h4>
+
+  <p id="d24e30066">
+
+Flutter provides a way to test whether widgets work correctly and to programmatically interact with widgets in our app.</p>
+
+  <p id="d24e30075">This might be really hard to imagine if you’re not used to similar testing infrastructure, so here’s an example of how you might test whether pressing the 5 button will actually make the 5 number appear on the calculator screen after importing <span class="cf filename">main.dart</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/widget_test.dart">layout/calculator/test/widget_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">testWidgets(​<em class="string">'5 press test'</em>​, (WidgetTester tester) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">  await tester.pumpWidget(​<strong class="kw">new</strong>​ MyApp()); </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">  expect(find.text(​<em class="string">'5'</em>​), findsOneWidget);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">④</span>​</span></td>
+      <td class="codeline">  await tester.tap(find.text(​<em class="string">'5'</em>​));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑤</span>​</span></td>
+      <td class="codeline">  await tester.pump();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">⑥</span>​</span></td>
+      <td class="codeline">  expect(find.text(​<em class="string">'5'</em>​), findsNWidgets(2));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30134">
+      The <span class="cf methodname">testWidgets</span> function is very similar to the <span class="cf methodname">test</span> function, but with a big difference: it passes a <span class="cf class">WidgetTester</span> object to its callback, and that object is what makes widget testing special.
+	  
+	  
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30156">
+      <span class="emph">pump</span> means <span class="emph">build</span> or <span class="emph">render</span>. <span class="cf methodname">tester.pumpWidget</span> renders a widget for which we have a definition.
+	  
+    </p>
+
+      <p id="d24e30175">
+    	It’s important to keep in mind that, even though the <span class="cf methodname">pumpWidgets</span> gives the impression that it allows to pump any kind of widget, if you have a <span class="cf class">Scaffold</span> in your widget it needs to be wrapped in a <span class="cf class">MaterialApp</span> (or the more generic <span class="cf class">WidgetsApp</span> class, which doesn’t rely on the Material Design classes) because it needs to have a <span class="cf class">MediaQuery</span> widget in its scope, and such a widget is provided by the aforementioned classes.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30193">
+      This is the first <span class="cf methodname">expect</span> call. When we build the app for the first time, just one widget containing the <span class="cf constant">5</span> string should exist (the 5 button).
+	  
+    </p>
+
+      <p id="d24e30206">
+    	<span class="cf constant">find</span> is a constant. We’ll look at its use in more detail later in this section.
+		
+    </p>
+
+      <p id="d24e30216">
+    	<span class="cf methodname">find.text</span> is a <span class="cf class">Finder</span> and <span class="cf constant">findsOneWidget</span> is a <span class="emph">flutter_test</span>-provided <span class="cf class">Matcher</span> constant.
+    </p>
+
+      <p id="d24e30233">
+	
+	
+    
+	
+      We’ll list all <span class="cf class">Finder</span>s and <span class="cf class">Matcher</span>s in more detail in the next two paragraphs after this code’s explanation. All you need to know now is that a <span class="cf class">Matcher</span> is used to judge the results delivered by a <span class="cf class">Finder</span>, which looks for widgets based on a certain characteristic.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">④</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30273">
+      This is quite self-explanatory: we tap that widget.
+	  
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑤</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30281">
+      When testing, Flutter widgets aren’t rebuilt automatically when <span class="cf methodname">setState</span> is called: to do that, we need to call <span class="cf methodname">tester.pump</span>, which re-renders the next frame the app is waiting to render.
+	  
+    </p>
+
+      <p id="d24e30294">
+    	There is also another method called <span class="cf methodname">tester.pumpAndSettle</span>, which keeps rendering frames until there is no re-render waiting to happen. This is useful when certain actions trigger an animation that takes several frames to complete.
+		
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">⑥</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30305">
+      This is just like the other <span class="cf methodname">find.text</span> check, but this time there should be two widgets with that text: one is the button, and the other is the screen, which should now show that number.
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e30310">As you can see, the interface is quite flexible and intuitive, and it is really useful to check whether the UI actually functions correctly.</p>
+
+  <p><strong>All of the Finders</strong></p>
+
+  <p id="d24e30315">
+
+
+Let’s get a bigger picture of Flutter widget testing: there are multiple ways to find widgets using the <span class="cf constant">find</span> constant, which is a collection (of class <span class="cf class">CommonFinders</span><sup><a class="footnote" href="Capítulo-075.html#FOOTNOTE-43" id="FNPTR-43">[43]</a></sup>) of the most commonly used <span class="cf class">Finder</span>s:
+
+
+
+
+</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e30377"><span class="cf methodname">find.text(text)</span>, which finds <span class="cf class">Text</span> widgets that display a string that is <span class="emph">equal</span> to its <span class="cf ic">text</span> argument.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e30391"><span class="cf methodname">find.byIcon(icon)</span>, which looks for <span class="cf class">Icon</span> widgets that show an <span class="cf class">IconData</span> (something such as <span class="cf constant">Icons.not_interested</span>) equal to its <span class="cf ic">icon</span> argument.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e30408"><span class="cf methodname"> find.byKey(key)</span>, which takes us back to <a href="Capítulo-029.html#sec.layout.key">​<em>The Key</em>​</a>: it matches the widget that has the <span class="cf class">Key</span> you give it as an argument.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e30418"><span class="cf methodname">find.byElementPredicate(predicate)</span>, which is very flexible: the <span class="cf ic">predicate</span> argument (of type <span class="cf class">WidgetPredicate</span>) is simply a callback that receives a <span class="cf class">Widget</span> as its argument, and returning either <span class="cf ic">true</span> or <span class="cf ic">false</span> will, respectively, consider the widget being examined as matching or not matching the requirements to be included in the <span class="cf class">Finder</span>’s result, which gives the developer significantly more freedom in deciding matching conditions than the other <span class="cf class">Finder</span>s.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e30445"><span class="cf methodname">find.byWidget(widget)</span>, which is the most specific of the <span class="cf class">Finder</span>s: it matches just the <span class="cf class">Widget</span> given as an argument.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e30455">There are other, less common <span class="cf class">Finder</span> provided by the <span class="cf constant">find</span> constant:</p>
+
+  <ul>
+
+    <li><span class="cf methodname">find.byTooltip</span>;</li>
+
+    <li><span class="cf methodname">find.byElementType</span>;</li>
+
+    <li><span class="cf methodname">find.byType</span>;</li>
+
+    <li><span class="cf methodname">find.widgetWithIcon</span>;</li>
+
+    <li><span class="cf methodname">find.widgetWithText</span>;</li>
+
+    <li><span class="cf methodname">find.byDescendant</span>.</li>
+
+  </ul>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title">Offstage Widgets</div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e30497">
+		All of the <span class="cf class">Finder</span>s we have talked about allow you to set a named boolean <span class="cf variable">skipOffstage</span> argument which, if set to true, will skip any widgets contained in the rarely used <span class="cf class">Offstage</span> widget, which is a class that allows you to get some widgets (set as the <span class="cf class">Offstage</span>’s <span class="cf variable">child</span>) to get laid out and occupy space without actually being shown.
+	</p>
+
+    </div>
+
+  </div>
+
+  <p><strong>All of the Matchers</strong></p>
+
+  <p id="d24e30517">
+
+In addition to <span class="cf constant">findsNothing</span>, <span class="cf constant">findsOneWidget</span>, and <span class="cf methodname">findsNWidgets(n)</span> there is also <span class="cf constant">findsWidgets</span>, which is the opposite of <span class="cf constant">findsNothing</span> (equal to <span class="cf ic">!findsNothing</span>).</p>
+
+  <p><strong>More Calculator Testing</strong></p>
+
+  <p id="d24e30552">
+Let’s actually get into a more complete and realistic example of widget testing our calculator app.</p>
+
+  <p><strong>Checking the Grid</strong></p>
+
+  <p id="d24e30561">The first part of the <span class="emph">5 press test</span> can actually be turned into something very useful: checking whether all of the grid is actually being rendered and the user has a button for each button. The numbers, the deletion buttons, the <span class="emph">.</span> button and all of the operation buttons except the division button contain a <span class="cf class">Text</span> to show their use. This means that we can match them using <span class="cf methodname">find.text</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator/test/widget_test.dart">layout/calculator/test/widget_test.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">testWidgets(​<em class="string">'grid existence test'</em>​, (WidgetTester tester) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await tester.pumpWidget(​<strong class="kw">new</strong>​ MyApp());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">  expect(find.text(​<em class="string">'0'</em>​), findsNWidgets(2));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">      ​<strong class="kw">for</strong>​(​<strong class="kw">int</strong>​ i = 1; i &lt; 10; i++) { </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              expect(find.text(​<em class="string">'</em>​​<em class="string">$i</em>​​<em class="string">'</em>​), findsOneWidget);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      [​<em class="string">'+'</em>​, ​<em class="string">'-'</em>​, ​<em class="string">'x'</em>​, ​<em class="string">'&lt;-'</em>​, ​<em class="string">'C'</em>​].forEach(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    (str) =&gt; expect(find.text(str), findsOneWidget)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">  ); </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">④</span>​</span></td>
+      <td class="codeline">  expect(find.byElementPredicate((element) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(!(element.widget ​<strong class="kw">is</strong>​ Image))</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">else</strong>​ ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      (element.widget ​<strong class="kw">as</strong>​ Image).image</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ==</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      AssetImage(​<em class="string">"icons/divide.png"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<strong class="kw">return</strong>​ ​<strong class="kw">true</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">else</strong>​ ​<strong class="kw">return</strong>​ ​<strong class="kw">false</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }), findsOneWidget);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30731">
+      There should be two widgets containing the <span class="emph">0</span> string: the calculator screen at the start and the zero button.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30737">
+      The numbers from 1 to 10 can be found by simply using a <span class="cf keyword">for</span> loop.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30743">
+      We haven’t used <span class="cf methodname">forEach</span> much in this book, but it is very useful: it executes the same callback on each member of a <span class="cf class">List</span> or <span class="cf class">Iterable</span>. In this case, it is a good replacement for a for loop iterating over the list of symbols or just writing the instruction to look for each symbol separately.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">④</span>​</dt>
+
+    <dd>
+
+      <p id="d24e30755">
+      We can’t use <span class="cf methodname">find.text</span> for images obviously, and <span class="cf methodname">find.byWidget</span> might come up as a viable alternative. The issue with that, though, is that it doesn’t actually work in our case: it looks for an <span class="emph">exact</span> match, and it wouldn’t find our image if we tried since the resulting object usually contains extra arguments that control widget position and other properties that we don’t set directly while creating the widget.
+    </p>
+
+      <p id="d24e30766">
+      That’s where <span class="cf methodname">find.byElementPredicate</span> comes to our rescue: we can judge ourselves whether the widget matches what we want, which means we can focus just on what we need: we need the widget in question to be an image and we want it to be displaying <span class="cf filename">icons/divide.png</span> from the assets.
+    </p>
+
+      <p id="d24e30774">
+      What gets passed to the callback closure is an <span class="cf class">Element</span> (an instance of a widget along with some context on its position in the widget tree, which we don’t need for what we’re doing right now). We can access the <span class="cf class">Widget</span> that <span class="cf class">Element</span> was spawned from by accessing its <span class="cf variable">widget</span> member property, so that’s what we’re doing when using <span class="cf variable">element.widget</span>.
+    </p>
+
+      <p id="d24e30791">
+      If the widget isn’t an instance of an <span class="cf class">Image</span> (that’s what <span class="cf keyword">is</span> is for, it’s checking whether the widget is an instance of an <span class="cf class">Image</span> or a subclass), we need to ignore it (return <span class="cf constant">false</span> to exclude it from the found widgets). If it is, we need to check whether the <span class="cf class">ImageProvider</span> it’s taking the image from is actually the <span class="cf filename">icons/divide.png</span> file from the assets.
+    </p>
+
+      <p id="d24e30812">
+      Please note that accessing assets in unit and widget tests is only available starting from Flutter version <span class="emph">1.5</span>.
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <h4>Flutter Integration Testing</h4>
+
+  <p id="d24e30820">
+
+
+
+
+Integration testing is a level above widget testing: for mobile apps, it is performed in an emulator and is meant to test whether a big part of app functionality works correctly. The calculator app is really simple and we don’t really get much from integration testing when compared with widget testing, whereas one app that requires integration testing is the previous chapter’s XKCD comics app.</p>
+
+  <p id="d24e30835">Before we get to running integration tests on it, we need to figure out how to also run unit tests and widget tests on it without being dependent on a network connection to the XKCD servers being available and without being able to access the filesystem, as is the case during unit and widget testing.</p>
+
+</body>
+
+</html>

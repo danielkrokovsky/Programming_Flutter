@@ -1,0 +1,1365 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.dart.variables">Variables and Conditions</h2>
+
+  <p id="d24e41765">
+
+
+Variables can be declared in two ways in Dart:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e41783"> In the <span class="emph">traditional</span> C-like way, by prefixing the variable name with the data type:</p>
+
+      <table class="processedcode">
+
+        <tr>
+          <td class="codeinfo">​<span class="codeprefix"> </span></td>
+          <td class="codeline">​<strong class="kw">int</strong>​ a = 3;</td>
+        </tr>
+
+      </table>
+
+    </li>
+
+    <li>
+
+      <p id="d24e41795">By prefixing the variable name with ‘var‘:
+
+  </p>
+
+      <table class="processedcode">
+
+        <tr>
+          <td class="codeinfo">​<span class="codeprefix"> </span></td>
+          <td class="codeline">​<strong class="kw">var</strong>​ a = 3;</td>
+        </tr>
+
+      </table>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e41803">A list of some of the most common data types is provided at the end of this appendix.</p>
+
+  <h3 id="sec.dart.strings">Characters and Strings</h3>
+
+  <p id="d24e41808">
+
+
+
+
+
+
+In some languages there are <span class="cf ic">char</span> types for single characters and arrays of <span class="cf ic">char</span>s or separate types for strings. In Dart, the <span class="cf class">String</span> type is the only character/string type, and it can contain one or more characters. For that reason, unlike in other languages, you can use single or double quotes to enclose what you assign to the string (called a <span class="emph">string literal</span>):</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ greeting = ​<em class="string">"Hi!"</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e41864">will work just as well as:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ greeting = ​<em class="string">'Hi!'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e41875">
+
+
+Like in many other modern languages, two strings can be concatenated using the same <span class="cf ic">+</span> operator you use for addition between numbers:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ firstGreeting = ​<em class="string">"Hi"</em>​ + ​<em class="string">"!"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(firstGreeting == ​<em class="string">'Hi!'</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e41915">
+What’s <span class="cf ic">assert</span>? It’s something you will get used to seeing reading this appendix: its effect in compiled code is that, in a testing/debugging situation (it does nothing on production code), it terminates the execution if the condition in its parentheses isn’t true, but it’s widely used in programming language tutorials and documentation to explain language features. Whenever you see one in this appendix, you should expect the condition inside its parentheses to always be true.</p>
+
+  <h4>The Backslash</h4>
+
+  <p id="d24e41928">
+
+
+Just like in many other languages, the backslash can be used to escape some characters or insert special characters.</p>
+
+  <p id="d24e41949">For example, if you wanted to have quotes inside a string, you have two ways to do it:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e41953">You use different kind of quotes to enclose the string (for example <span class="cf ic">’He said: "Hi!"’</span>).</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e41959">You escape the quotes (for example, <span class="cf ic">"He said: \"Hi!\""</span>).</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e41964">For the special characters part, this will be familiar especially to C developers; the <span class="cf ic">\n</span> character can be used to go to a new line:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Text(​<em class="string">"First line</em>​​<em class="string">\n</em>​​<em class="string">Second line"</em>​)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e41980">will render <span class="emph">Second line</span> below <span class="emph">First line</span>.</p>
+
+  <p id="d24e41988">Obviously, the backslash itself has to be escaped to be used as part of a string:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Text(​<em class="string">"</em>​​<em class="string">\\</em>​​<em class="string"> is the backslash character"</em>​)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42002">will display <span class="cf ic">\ is the backslash character</span>.
+
+
+</p>
+
+  <h4>String Interpolation</h4>
+
+  <p id="d24e42015">
+
+String interpolation allows you to insert one or more variables’ value into a string. Let’s first explore how things would be done <span class="emph">without</span> string interpolation.</p>
+
+  <p id="d24e42027">For example, if you wanted to display the value of an <span class="cf ic">int</span> with a <span class="cf class">Text</span>, you can’t just write:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ number;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">// (...)</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Text(number)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42048">because <span class="cf class">Text</span> expects a <span class="cf class">String</span>. This means you need to change that to:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Text(number.toString())</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42063">What if you want to display a string and the number? Then you would need to write something like this, using string concatenation:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"You tapped the button"</em>​ + number.toString() + ​<em class="string">"times"</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42077">What string interpolation allows you to do is write this instead:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"You tapped the button </em>​​<em class="string">$number</em>​​<em class="string"> times"</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42088">
+
+
+
+
+By prefixing a variable’s name with $ you can insert its value into the string. If you need to access an element of a <span class="cf class">List</span>, the member of a class, or write any kind of expression, you need to enclose the statement in curly braces. If you had a list like the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">List numbers = [1, 2, 3];</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42121">you would use string interpolation like this:
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"There are </em>​​<em class="string">${numbers.length}</em>​​<em class="string"> and second element is number </em>​​<em class="string">${numbers[1]}</em>​​<em class="string">"</em>​</td>
+    </tr>
+
+  </table>
+
+  <h4>Multi-Line Strings and Raw Strings</h4>
+
+  <p id="d24e42142">
+
+
+
+
+
+
+Like in many other languages, you can make multi-line strings by using triple quotes and you can make raw strings by prefixing the opening quotes with the letter “r”.</p>
+
+  <p id="d24e42179">A multi-line string makes it so that you can turn this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"First line</em>​​<em class="string">\n</em>​​<em class="string">Second line"</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42191">or this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"First line</em>​​<em class="string">\n</em>​​<em class="string">"</em>​ +</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"Second line"</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42206">into this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">First line</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">Second line</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">"""</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42223">A raw string treats any special characters inside it (<span class="cf ic">$</span>, <span class="cf ic">\</span>, and so on) like any other character, without giving it any special meaning that you can write just:
+
+
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="string">r"\ is the backslash character"</em>​</td>
+    </tr>
+
+  </table>
+
+  <h3>Conditions: Boolean Algebra in Dart</h3>
+
+  <p id="d24e42249">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dart conditions will look exactly like the conditions you find in C, Java or JavaScript: you use <span class="cf ic">==</span>, <span class="cf ic">!=</span>, <span class="cf ic">&gt;</span>, <span class="cf ic">&lt;</span>, <span class="cf ic">&lt;=</span> and <span class="cf ic">&gt;=</span> to compare values, and you use <span class="cf ic">&amp;&amp;</span> as the AND operator, <span class="cf ic">||</span> as the OR operator and <span class="cf ic">!</span> as the NOT operator.</p>
+
+  <h3>Immutable Variables: final and const</h3>
+
+  <p id="d24e42343">
+
+
+
+
+If the variable doesn’t need to vary at all, there are two keywords that can make sure the compiler knows your wish: <span class="cf ic">final</span> and <span class="cf ic">const</span>:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e42376">A <span class="cf ic">final</span> variable’s value can’t be changed: you initialize it with a value and that value is stored there forever, this is needed for all widget properties in Flutter because widgets themselves are immutable.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e42382"><span class="cf ic">const</span> is used to create compile-time constants: the compiler will evaluate the value of the constant when you build your app, so you can’t have <span class="cf ic">const</span> arguments.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e42390">You use these two keywords by replacing the word <span class="cf ic">var</span> with them:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">const</strong>​ a = 3;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42401">or by prefixing the variable data type with one of them:
+
+
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ greeting = ​<em class="string">"Hi!"</em>​;</td>
+    </tr>
+
+  </table>
+
+  <h3 id="sec.dart.lists">Lists and collection literals</h3>
+
+  <p id="d24e42427">
+
+
+A <span class="cf class">List</span> is what is commonly referred to as an array: an ordered collection of data, the elements of which are indexed with the values from 0 to <span class="cf ic">length-1</span> where the <span class="cf ic">length</span> of a <span class="cf class">List</span> is the number of elements it contains. A <span class="cf class">List</span> can be initialized with a list literal, which is a comma-separated list of values enclosed in square brackets:
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ list = [30, 20, 500];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(list[0] == 30);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(list[1] == 20);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(list[2] == 500);</td>
+    </tr>
+
+  </table>
+
+  <h4>If and For in List Literals</h4>
+
+  <p id="d24e42498">
+
+List literals in Dart can do more than that, though—you can have <span class="cf ic">if</span> statements in them:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">bool</strong>​ condition;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">// ...</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ list = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(condition)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"First"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"First, alternative"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Second"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(list[1] == ​<em class="string">"Second"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(condition)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">assert</strong>​(list[0] == ​<em class="string">"First"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">else</strong>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">assert</strong>​(list[0] == ​<em class="string">"First, alternative"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">/*</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment"> * As in other languages, these latest two assert() calls could become one:</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment"> * assert((condition &amp;&amp; list[0] == "First") ||</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment"> *        (!condition &amp;&amp; list[0] == "First, alternative"))</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment"> */</em>​</td>
+    </tr>
+
+  </table>
+
+  <h4>Adding and Removing Items from Lists</h4>
+
+  <p id="d24e42606">
+An item can be added to the end of a list by using <span class="cf methodname">List.add</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ l = [1, 2, 3];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">l.add(4);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(l[3] == 4);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42632">
+An item can be removed in two main ways (there are others, feel free to check out all <span class="cf class">List</span> methods at the official Dart language reference<sup><a class="footnote" href="Capítulo-096.html#FOOTNOTE-55" id="FNPTR-55">[55]</a></sup>). One of them is by passing the value you want to remove with <span class="cf methodname">List.remove</span> (which will only remove the first occurence):</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ l = [​<em class="string">"Test"</em>​, ​<em class="string">"test"</em>​, ​<em class="string">"Test"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">l.remove(​<em class="string">"Test"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(l[0] == ​<em class="string">"test"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(l[1] == ​<em class="string">"Test"</em>​); ​<em class="comment">// The second occurrence won't be removed</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42690">
+The other is by passing the index at which you want to remove an element to <span class="cf methodname">List.removeAt</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ l = [5, 6, 7];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">l.removeAt(1);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(l[1] == 7);</td>
+    </tr>
+
+  </table>
+
+  <h4 id="sec.dart.lists.generate">Generating Lists</h4>
+
+  <p id="d24e42719">
+One of the ways to create lists is by using the <span class="cf methodname">List.generate</span> constructor, which takes two arguments: the number of elements the list will have and a callback function (a function to be run by another function in certain conditions and with certain arguments) that generates each element based on its index.</p>
+
+  <p id="d24e42728">For example, this is how you’d create a list from the concatenation of the strings contained in two lists:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ l1 = [​<em class="string">"First"</em>​, ​<em class="string">"Second"</em>​, ​<em class="string">"Third"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ l2 = [​<em class="string">"1"</em>​, ​<em class="string">"2"</em>​, ​<em class="string">"3"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ l = List.generate(3, (index) =&gt; l1[i]+l2[i]);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42766">If this example wasn’t clear to you, check out the section about functions (<a href="Capítulo-087.html#sec.dart.functions">​<em>Functions</em>​</a>) and the one about classes (<a href="Capítulo-092.html#sec.dart.classes">​<em>Classes</em>​</a>).</p>
+
+  <h4>Iterating Over Lists: for, map, and forEach</h4>
+
+  <p id="d24e42775">We’ve found out how to generate lists, now what about how to iterate over the elements of a list? There are multiple ways to do that:</p>
+
+  <ul>
+
+    <li>The <span class="cf ic">for</span> <span class="cf ic">in</span> loop.</li>
+
+    <li>The <span class="cf methodname">.forEach</span> method.</li>
+
+    <li>The <span class="cf methodname">.map</span> method.</li>
+
+  </ul>
+
+  <p><strong>The for in Loop</strong></p>
+
+  <p id="d24e42802">
+Present in most modern languages, it’s a special kind of <a href="Capítulo-091.html#sec.dart.loops">​<em>Loops: while, do while, and for</em>​</a> that iterates over the elements of a list:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ listName = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"First"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Second"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Third"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Fourth"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">for</strong>​(​<strong class="kw">var</strong>​ elName ​<strong class="kw">in</strong>​ listName) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(elName);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p><strong>map and forEach</strong></p>
+
+  <p id="d24e42855">
+
+Particularly loved by some for their functional style, the <span class="cf class">Iterable</span>’s <span class="cf methodname">map</span> and <span class="cf methodname">forEach</span> methods are alternatives to the <span class="cf keyword">for</span> <span class="cf ic">in</span> loop.</p>
+
+  <p id="d24e42882"><span class="cf methodname">forEach</span> is the most similar to the <span class="cf keyword">for</span> loop, as it is used to execute an operation on (or for) each of the elements of a list. The callback closure you use is of type <span class="cf ic">void</span>, so you can’t return anything. Here’s an example, showing how to print each element of a list:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">listName.forEach((el) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(el);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">});</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42903">
+<span class="cf methodname">map</span> is different: it is used to create an <span class="cf class">Iterable</span> from calling a function on each element of the <span class="cf class">List</span>, here’s an example:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ numbers = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  2,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  3,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  4,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  5,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  6</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ iter = numbers.map((el) =&gt; ​<em class="string">"#</em>​​<em class="string">$el</em>​​<em class="string">"</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e42953">
+<span class="cf variable">iter</span> is an <span class="cf class">Iterable</span>, not a proper <span class="cf class">List</span>. If you want to access the elements directly just like you do with a list, you need to use the <span class="cf methodname">toList</span> method:
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ list = numbers.map((el) =&gt; ​<em class="string">"#</em>​​<em class="string">$el</em>​​<em class="string">"</em>​).toList();</td>
+    </tr>
+
+  </table>
+
+  <h3 id="sec.dart.underscore">The underscore</h3>
+
+  <p id="d24e42999">
+
+
+
+
+You might have seen in many code examples that we have prefixed some variable or class names with an underscore (<span class="cf ic">_</span>). It is used to make them <span class="emph">library private</span>.</p>
+
+  <p id="d24e43035">For example, when we write:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyWidget ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// (...)</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ _MyWidgetState ​<strong class="kw">extends</strong>​ State&lt;MyWidget&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// (...)</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43066">We are making the <span class="cf class">MyWidgetState</span> class <span class="emph">library private</span>, meaning it is only accessible from within the current package: if you are working on a library and you want to make a class or top-level function inaccessible to users of that library, you us the underscore this way.</p>
+
+  <p id="d24e43074">Using the underscore for class members is used to make it inaccessible from outside its class definition, like in the following example:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ CounterClass {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ _setCounterTo(​<strong class="kw">int</strong>​ n) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    _counter = n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ getCounter() =&gt; _counter</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">void</strong>​ increaseCounter() =&gt; _setCounterTo(_counter+1);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43114">which is obviously a lot more complicated than it needs to be (<span class="cf methodname">_setCounterTo</span> adds unnecessary complication) in order to show how different kinds of methods may be chosen to be set as private: if we are making a counter class, we want to be able to get the current value of the counter, but we don’t need to change it to any value other than it incremented by 1, so we only give access to a method that does exactly that and another that returns the value of the counter.</p>
+
+  <h3>Other Iterable Data Structures: Maps, Sets, and More</h3>
+
+  <p id="d24e43122">
+
+
+
+The <span class="cf class">Map</span> is a key/value collection, similar to JSON objects and often used as the way to handle JSON objects in Dart as a simpler alternative to defining a class for each kind of object the app works with. A <span class="cf class">Map</span> literal is enclosed in curly braces and looks something like this:
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ user = {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"userId"</em>​: 1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"firstName"</em>​: ​<em class="string">"Carmine"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"lastName"</em>​: ​<em class="string">"Zaccagnino"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">};</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43195">You can access and add elements to a <span class="cf class">Map</span> by using the same <span class="cf ic">[]</span> and <span class="cf ic">[]</span> you’d use to access and modify elements of a <span class="cf class">List</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ name = ​<em class="string">"</em>​​<em class="string">${user["firstName"]}</em>​​<em class="string"> </em>​​<em class="string">${user["lastName"]}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">user[​<em class="string">"password"</em>​] = ​<em class="string">"my!!Very!!own!!Very!!safe1passWordstr"</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43234">
+
+
+
+
+
+A <span class="cf class">Set</span> a linear collection of different values:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ G8 = {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"United States"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Japan"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Germany"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"United Kingdom"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"France"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Italy"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Canada"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Russia"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">};</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43318">You can remove an item from a <span class="cf class">Set</span> by value using <span class="cf methodname">remove</span> and add one using <span class="cf methodname">add</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ G7 = G8</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ..remove(​<em class="string">"Russia"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ..add(​<em class="string">"European Union"</em>​);</td>
+    </tr>
+
+  </table>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell">Set Literals</p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images/aside-icons/warning.png" class="" id="d24e43362" src="images/aside-icons/Imagem-96.png" style="width: 100%"/>
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p>
+    Set literals using curly braces are supported starting from Dart version 2.2, in earlier versions the most similar way was to use the <span class="cf methodname">Set.from</span> method, which takes a <span class="cf class">List</span>:
+  </p>
+          <table class="processedcode">
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">​<strong class="kw">var</strong>​ countriesByGDP = ​<strong class="kw">Set</strong>​.from([​<em class="string">"USA"</em>​, ​<em class="string">"PRC"</em>​, ​<em class="comment">/*...*/</em>​]);</td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e43399">There are many more <span class="cf class">Iterable</span>s. A very common one in computer science is the linked list, which can be implemented using <span class="cf class">LinkedList</span>, but there is also a <span class="cf class">Queue</span> class and the unordered hash table-based alternatives to the <span class="cf class">Map</span> and <span class="cf class">Set</span> called <span class="cf class">HashMap</span> and <span class="cf class">HashSet</span>.
+
+</p>
+
+  <h3>Numbers: The num Type and Its Subclasses</h3>
+
+  <p id="d24e43429">
+
+
+
+
+
+
+The <span class="cf class">num</span> class is a generic number class, and its subclasses are <span class="cf class">int</span> for integers and <span class="cf class">double</span> for floating-point numbers. There’s no <span class="cf class">float</span> in Dart; floating-point numbers are all 64-bit <span class="cf class">double</span>s.</p>
+
+  <p id="d24e43479">
+
+
+Keeping with the mathematical notation used in the UK and the United States, the decimal separator is a dot (<span class="cf ic">.</span>). You can specify powers of 10 by using <span class="cf ic">e</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ a = 5.2e2;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(a == 520);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43512">
+
+
+<span class="cf class">double</span> numbers can be rounded using <span class="cf methodname">round</span> (which rounds away from 0 with the decimal part starting from .5), rounded down by using <span class="cf methodname">floor</span> or rounded up using <span class="cf methodname">ceil</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ a = 5.2;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(a.round() == 5);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(a.floor() == 5);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(a.ceil() == 6);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ b = 5.5;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(a.round() == 6);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43582">
+
+An hexadecimal integer is obtained by prefixing it with <span class="cf ic">0x</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(0x7E3 == 2019);</td>
+    </tr>
+
+  </table>
+
+  <h4 id="sec.dart.typed">Lists of Bytes and More: the dart:typed_data library</h4>
+
+  <p id="d24e43606">
+
+
+
+When reading binary data, using a <span class="cf class">List</span> of 64-bit <span class="cf keyword">int</span>s is extremely inefficient if all each of those integers is doing is clearly less than optimally efficient. That’s why the <span class="cf ic">dart:typed_data</span> contains the <span class="cf class">Uint8List</span> class, which works exactly like the regular <span class="cf class">List</span>, but with 8-bit integers.</p>
+
+  <h4>Type Casting</h4>
+
+  <p id="d24e43648">
+Type casting in Dart is done in one of the following two ways.</p>
+
+  <p id="d24e43652">
+You can use an <span class="cf ic">as</span> expression to cast a value to one of its subtypes:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">num</strong>​ a = 5;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ a_int = a ​<strong class="kw">as</strong>​ ​<strong class="kw">int</strong>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(a_int ​<strong class="kw">is</strong>​ ​<strong class="kw">int</strong>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e43690">
+or use <span class="cf methodname">cast</span> to cast all values of <span class="cf class">List</span> to a specified type:
+
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">List&lt;​<strong class="kw">num</strong>​&gt; l = [1, 2, 3];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ l_int = l.cast&lt;​<strong class="kw">int</strong>​&gt;();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(l_int[0] ​<strong class="kw">is</strong>​ ​<strong class="kw">int</strong>​);</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

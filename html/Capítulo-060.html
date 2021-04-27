@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e20985">Writing Methods to Fetch Comics</h2>
+
+  <p id="d24e20988">
+
+
+
+
+
+
+
+A consideration has to be done before continuing with the implementation: the optimal data type to store comics is <span class="cf ic">Map&lt;String, dynamic&gt;</span>, which handles JSON objects perfectly.</p>
+
+  <p id="d24e21033">Given that we know how to fetch comics, let’s start writing some code to use that knowledge to write methods to fetch comics that we can use in our app!</p>
+
+  <h3>Fetching the Latest Comic</h3>
+
+  <p id="d24e21038">
+Wrapping the code we discussed earlier into an arrow function isn’t hard at all:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; fetchLatestComic() async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(​<em class="string">"https://xkcd.com/info.0.json"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e21071">We can access a <span class="cf class">Map</span>’s field a lot like we would access <span class="cf class">List</span> elements by using <span class="cf ic">varName["attrName"]</span> where <span class="cf ic">varName</span> is the name of the <span class="cf class">Map</span> variable and <span class="cf ic">attrName</span> is the name of the attributes.
+This is exactly the same syntax used in Python to access dictionary elements.
+This is how you access every attribute:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ comic = fetchLatestComic();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ ​<strong class="kw">num</strong>​ = comic[​<em class="string">"num"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ link = comic[​<em class="string">"link"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ news = comic[​<em class="string">"news"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ safe_title = comic[​<em class="string">"safe_title"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ transcript = comic[​<em class="string">"transcript"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ alt = comic[​<em class="string">"alt"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ImageProvider img = NetworkImage(comic[​<em class="string">"img"</em>​]);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ title = comic[​<em class="string">"title"</em>​];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ MDYDate = ​<em class="string">"</em>​​<em class="string">${comic["month"]}</em>​​<em class="string">/</em>​​<em class="string">${comic["day"]}</em>​​<em class="string">/</em>​​<em class="string">${comic["year"]}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ DMYDate = ​<em class="string">"</em>​​<em class="string">${comic["day"]}</em>​​<em class="string">/</em>​​<em class="string">${comic["month"]}</em>​​<em class="string">/</em>​​<em class="string">${comic["year"]}</em>​​<em class="string">"</em>​;</td>
+    </tr>
+
+  </table>
+
+  <h3>Fetching Previous Comics</h3>
+
+  <p id="d24e21196">
+Fetching by comic number is easy since the API is designed to do just that:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; fetchComic(​<strong class="kw">int</strong>​ n) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(​<em class="string">"https://xkcd.com/info.0.json"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e21230">But sorting reverse chronological is a lot harder, as we need to know the latest comic number to get the previous, and so on:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; fetchComic(​<strong class="kw">int</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ latestComicNum = ...;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(​<em class="string">"https://xkcd.com/info.0.json"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e21270">The obvious way to do that would be to just call <span class="cf ic">fetchLatestComic</span> and get the num attribute, like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ latestComicNum = fetchLatestComic()[​<em class="string">"num"</em>​];</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e21284">But doing it that way would require two different GET requests to fetch each comic, and many of them are going to be redundant and useless.</p>
+
+  <h3>Fetching the Latest Comic Number Just Once</h3>
+
+  <p id="d24e21289">Since we are going to use these methods inside an app, which will have a wrapper class around it (at least for the home screen), we can just pass it to that class when we run the app and then the <span class="cf methodname">fetchComic</span> method inside that class will be able to access it directly.</p>
+
+  <h4 id="sec.networking.fetchcomic.new">The New fetchComic</h4>
+
+  <p id="d24e21297">Fetching a comic is really simple this way, since we don’t need to worry about the latest comic number, which will be provided by the class in which we’ll define the method:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; fetchComic(​<strong class="kw">int</strong>​ n) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"https://xkcd.com/</em>​​<em class="string">${latestComicNum-n}</em>​​<em class="string">/info.0.json"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+  </table>
+
+  <h4 id="sec.networking.fetchcomic.latestnummethod">A Function to Get the Latest Comic Number</h4>
+
+  <p id="d24e21337">
+We need to get the latest comic number when we run the app though, and to do that we need to define a function that will fetch that when we need it:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;​<strong class="kw">int</strong>​&gt; getLatestComicNumber() async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(​<em class="string">'https://xkcd.com/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> [​<em class="string">"num"</em>​];</td>
+    </tr>
+
+  </table>
+
+  <h4>What If There’s No Internet Connection?</h4>
+
+  <p id="d24e21373">
+
+
+
+
+
+
+
+
+
+If there is no Internet connection, the app will not work. This is a problem but, since we are downloading all of the comics anyway, we should be able to fix it just by saving them to permanent local storage so that we can load them when there is no Internet connection.</p>
+
+  <p id="d24e21401">This has the added advantage of giving us the chance to optimize our app in a significant way: if we have the previous comics on local storage we don’t need to fetch them from the Internet, so we finally eliminate all the redundant GET requests and we can just focus on getting new data when we need it.</p>
+
+</body>
+
+</html>

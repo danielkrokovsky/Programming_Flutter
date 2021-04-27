@@ -1,0 +1,214 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-066.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-066_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-066_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-066_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e26774"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Permitindo que o usuário clique na imagem e vá para o site: O pacote url_launcher</font></font></h2>
+
+  <p id="d24e26777"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+E se os usuários quiserem ver uma história em quadrinhos no site do XKCD? </font><font style="vertical-align: inherit;">No momento, a única maneira de fazer isso é aproveitando o número cômico e o título e pesquisando eles próprios no site do XKCD.</font></font></p>
+
+  <p id="d24e26803"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Não seria muito difícil fornecer aos usuários a capacidade de fazer isso com um toque no aplicativo, então vamos lá!</font></font></p>
+
+  <p id="d24e26805"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para iniciar URLs de aplicativos Flutter, usaremos um pacote útil no Pub chamado </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url_launcher</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando o pacote url_launcher</font></font></h3>
+
+  <p id="d24e26813"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vamos adicionar o </font><font style="vertical-align: inherit;">pacote </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url_launcher</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> às dependências em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/pubspec.yaml"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / pubspec.yaml</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url_launcher: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">^ 5.0.2</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26829"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e importe-o em nosso código em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">main.dart</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: url_launcher / url_launcher.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e26843"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">pacote </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">url_launcher</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> oferece duas funções: </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">canLaunch (url)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">launch (url)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">O primeiro retorna um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bool</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> envolvido em um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Future</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que será </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">verdadeiro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> se houver um aplicativo que possa manipular a URL ou </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">falso</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> se não houver. </font><font style="vertical-align: inherit;">A segunda realmente inicia a URL e retorna o mesmo valor que a outra função: se a inicialização foi bem-sucedida, ela retorna </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">verdadeiro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ; </font><font style="vertical-align: inherit;">se não foi, retorna </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">falso</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e26873"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Portanto, sabemos como iniciar a URL, mas não obtemos a URL da história em quadrinhos quando buscamos o JSON da história em quadrinhos. </font><font style="vertical-align: inherit;">Na verdade, isso não é um problema, já que o URL de cada quadrinho é apenas </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://xkcd.com/comic_number/</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : o URL para acessar o quadrinho # 2019 é </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://xkcd.com/2019/</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e26881"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso significa que um método de lançamento de quadrinhos, a ser definido dentro da </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ComicPage</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , pode ser escrito da seguinte forma:</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_launchComic</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> comicNumber) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  lançamento ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"https://xkcd.com/ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ comicNumber </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Adicionar um evento onTap</font></font></h3>
+
+  <p id="d24e26912"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Sabemos como lançar um URL, mas a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">imagem</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> construtores ‘s não fornecem um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ONTAP</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> argumento, por isso precisamos envolvê-la em um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tinteiro</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é muito parecido envolvendo um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">img</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> tag de imagem HTML em um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">uma</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> tag link: a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O InkWell</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> precisa de dois argumentos: um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filho</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que, neste caso, será a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">imagem</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , e o </font><font style="vertical-align: inherit;">argumento </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onTap</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que queríamos, junto com um monte de opções para personalizar o efeito inksplash que você pode verificar na documentação oficial do Flutter. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-069.html#FOOTNOTE-41" id="FNPTR-41"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[41]</font></font></a></sup></p>
+
+  <p id="d24e26955"><font style="vertical-align: inherit;"></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Só falta</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> encontrar o local onde mostramos a imagem da banda desenhada no </font><span class="cf class"><font style="vertical-align: inherit;">ComicPage</font></span><font style="vertical-align: inherit;"> e </font><span class="cf class"><font style="vertical-align: inherit;">embrulhá</font></span><font style="vertical-align: inherit;"> -la no </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InkWell</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :
+
+
+
+
+</font></font></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / main.dart</font></font></a></div>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tinteiro(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  OnTap: () {_launchComic (widget.comic [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"num"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ]);},</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   criança: Image.file (File (widget.comic [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ])),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mostrando o Inksplash no InkWell</font></font></p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images / Side-icons / info.png" class="" id="d24e27008" src="./Capítulo-066_files/Imagem-59.png" style="width: 100%">
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+  Um dos </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">recursos</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do </font><span class="cf class"><font style="vertical-align: inherit;">InkWell</font></span><font style="vertical-align: inherit;"> é que ele pode mostrar um efeito inksplash quando o usuário toca na área onde está localizado, mas isso não funcionará em nosso aplicativo por causa de como efeitos visuais como o inksplash são aplicados em widgets Flutter.
+</font></font></p>
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+  Um layout Flutter é feito de widgets, mas o inksplash não é aplicado a widgets: ele é aplicado a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Material</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é a classe que também é responsável pelos efeitos de recorte e elevação. </font><font style="vertical-align: inherit;">Uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">imagem</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é desenhada </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">sobre</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">material</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , então o inksplash será aplicado ao </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">material </font></font></span> <span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">abaixo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> da imagem, o que o tornará invisível.
+</font></font></p>
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+  Para mostrar o efeito inksplash, você precisa sobrepor a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">imagem</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com um </font><font style="vertical-align: inherit;">widget de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">material</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> transparente </font><font style="vertical-align: inherit;">. </font><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ink </font></font></span><font style="vertical-align: inherit;"></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-069.html#FOOTNOTE-42" id="FNPTR-42"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[42]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> torna isso mais simples: ele fornece um </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ink.image</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que permite definir o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InkWell</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como uma </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">criança</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , tornando a imagem e o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Material</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> sobre ela um ancestral do </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InkWell</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+</font></font></p>
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+  Uma desvantagem do </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ink</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é que ele requer a configuração de largura e altura máximas. </font><font style="vertical-align: inherit;">Para obter um exemplo de código que mostra corretamente o inksplash sobre a imagem e que funciona ao substituir o código que usamos acima, dê uma olhada nisso:
+</font></font></p>
+          <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/inkSplashComicLaunch.dart"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">networking / xkcd_app / lib / inkSplashComicLaunch.dart</font></font></a></div>
+          <table class="processedcode">
+
+            <tbody><tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Material(</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  filho: Ink.image (</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    imagem: FileImage (File (widget.comic [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ])),</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    altura: 300,</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    largura: 200,</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    filho: InkWell (</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      OnTap: () {_launchComic (widget.comic [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"num"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ]);},</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ),</font></font></td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">),</font></font></td>
+            </tr>
+
+          </tbody></table>
+          <p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+  Se você não estiver interessado no efeito inskplash, você pode usar um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GestureDetector em</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> vez do </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InkWell</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Funciona da mesma forma que o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">InkWell</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , com os mesmos argumentos, mas sem aplicar o efeito inksplash em nenhum tipo de widget.
+</font></font></p>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-066_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

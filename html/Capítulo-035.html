@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e10765">How the App Will Be Structured</h2>
+
+  <p id="d24e10768">We will be using a separate file with a separate <span class="cf ic">Calculation</span> class to actually carry out calculations—implementing, adding, and deleting numbers and operators and computing expressions.</p>
+
+  <p id="d24e10773">We will worry about that in <a href="Capítulo-043.html#sec.calculator.calculation">​<em>Implement the Calculations</em>​</a>.</p>
+
+  <h3>Layout</h3>
+
+  <p id="d24e10780">
+
+The base layout of the app will be the following:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/calclayout.png" class="" id="d24e10791" src="images/WidgetLayout/Imagem-13.png" style="width: 27%"/>
+
+  </div>
+
+  <p id="d24e10792">It is a simple calculator, and it can be implemented using the following Flutter layout structures:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/calcstructure.png" class="" id="fig.layout.calcstructure" src="images/WidgetLayout/Imagem-14.png"/>
+
+  </div>
+
+  <p id="d24e10795">Representing Flutter apps as trees is a very effective way to visualize the layout of a Flutter app.</p>
+
+  <p id="d24e10797">In this case, the app’s main structure will be a <span class="cf class">Column</span> with three children:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e10804">The calculator’s screen, which will a <span class="cf ic">Card</span> with some <span class="cf ic">Text</span> on it.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e10813">A <span class="cf class">Row</span> containing the button that deletes the entire expression and the button that deletes one character at a time, which will be a couple of <span class="cf class">FlatButton</span>s.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e10822">A <span class="cf class">Row</span> for the rest of the calculator’s buttons, which contains two <span class="cf class">Column</span> widgets: one for the three columns containg the numbers (which is made up of four <span class="cf class">Row</span>s of four buttons each), and one for the column containing the operator buttons.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e10833">To make the layout look and work better, we will be making expansive (no pun intended) use of the <span class="cf class">Expanded</span>, but that will come later on in <a href="Capítulo-041.html#sec.calculator.expanded">​<em>Make the App Look and Work Right with Expanded</em>​</a>.
+</p>
+
+</body>
+
+</html>

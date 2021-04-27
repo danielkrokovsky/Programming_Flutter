@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e5694">Displaying Images</h2>
+
+  <p id="d24e5697">Images can have different usages and they can come from different places, so displaying images in Flutter varies depending on where you want to load the images and what you need to use them for.</p>
+
+  <p id="d24e5699">
+
+
+There are two classes that are used for this purpose. One is the <span class="cf class">Image</span>, which is a widget like a <span class="cf class">Text</span>, an <span class="cf class">Icon</span>, or any other widget you’ve seen until now. The other is the <span class="cf ic">ImageProvider</span>, which is needed when you need to specify an image and externally manipulate its size or shape.</p>
+
+  <p id="d24e5728">An <span class="cf ic">Image</span> widget is a representation of the image and you can add it to an app’s layout anywhere, whereas the <span class="cf ic">ImageProvider</span> class is a source for an image and it is used to form widgets with that image.</p>
+
+  <h3>Displaying Images from the Network</h3>
+
+  <p id="d24e5739">
+
+
+
+If you have a URL containing an image, in the form <span class="cf ic">http://example.com/image.png</span>, you can get its corresponding <span class="cf ic">Image</span> widget by using the <span class="cf ic">Image.network</span> constructor like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.network(​<em class="string">"http://example.com/image.png"</em>​)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5780">You can use it anywhere any other widget (like a <span class="cf ic">Text</span> or an <span class="cf ic">Icon</span>) can be used.</p>
+
+  <h4>Change the Image’s Attributes</h4>
+
+  <p id="d24e5791">
+You can change the following options:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e5799">The <span class="cf ic">scale</span>, which is a <span class="cf ic">double</span> value, and you use it to set the scale at which the image is displayed.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5808">The maximum <span class="cf ic">width</span> and <span class="cf ic">height</span> in pixels.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5817"><span class="cf ic">repeat</span>, which controls whether the image will be repeated within the <span class="cf ic">width</span> and <span class="cf ic">height</span> and is of type <span class="cf ic">ImageRepeat</span>. By default, <span class="cf ic">ImageRepeat</span> is set to <span class="cf ic">ImageRepeat.noRepeat</span>, which leaves the remaining <span class="cf ic">width</span> and <span class="cf ic">height</span> as empty or transparent. The other options are <span class="cf ic">ImageRepeat.repeatX</span> and <span class="cf ic">ImageRepeat.repeatY</span> (which control whether the image can only be repeated along one axis or the other) and <span class="cf ic">ImageRepeat.repeat</span> (which enables the image to be repeated in all directions to fit the <span class="cf ic">width</span> and <span class="cf ic">height</span>).</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5861">The <span class="cf ic">color</span> of the background of the widget, which is shown where there is transparency. This is also used around the image if the <span class="cf ic">width</span> and <span class="cf ic">height</span> are incompatible with the image’s and repetition is not allowed.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5873"><span class="cf ic">headers</span> sets the headers for the HTTP request using a <span class="cf ic">Map&lt;String, String&gt;</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5881">A <span class="cf ic">semanticLabel</span> <span class="cf ic">String</span> for screen reading accessibility services and an <span class="cf ic">excludeFromSemantics</span> <span class="cf ic">bool</span> if it’s explicitly not needed.</p>
+
+    </li>
+
+  </ul>
+
+  <p><strong>Use Width, Height, and Repetition Attributes to Display Images the Way You Want Them</strong></p>
+
+  <p id="d24e5901">To further clarify how <span class="cf ic">width</span>, <span class="cf ic">height</span>, and <span class="cf ic">repeat</span> are used, we’ll look at a few screenshots showing different combinations of size and repetition settings.</p>
+
+  <p id="d24e5912">If you don’t set anything at all, and just give a URL, like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.network(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  url</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5925">the image will be fitted to the view, as you can see in the first <a href="#fig.layout.image_fit">screenshot</a>.</p>
+
+  <div id="fig.layout.image_fit">
+
+    <div>
+
+      <img alt="images/WidgetLayout/image_fit.png" class="border " id="d24e5931" src="images/WidgetLayout/Imagem-54.png" style="width: 38%"/>
+
+    </div>
+
+  </div>
+
+  <p id="d24e5933">If you set a width lower than the view’s width, like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.network(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  url,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  width: 200.0</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5949">the image will scale down to fit within that width (see the second <a href="#fig.image_shrunk_width">screenshot</a>).</p>
+
+  <div id="fig.image_shrunk_width">
+
+    <div>
+
+      <img alt="images/WidgetLayout/image_shrunk_width.png" class="border " id="d24e5955" src="images/WidgetLayout/Imagem-57.png" style="width: 38%"/>
+
+    </div>
+
+  </div>
+
+  <p id="d24e5959">Setting a width higher than the view’s width will have no effect: the result will be the same as on the first <a href="#fig.layout.image_fit">screenshot</a>. Setting a height higher or lower than the height the image will end up being normally (given that the image is width-restricted in this case) will have the same effect as the that we’ve seen when setting the width to a value higher or lower than the width of the view.</p>
+
+  <p id="d24e5964">Things change when we set <span class="cf ic">repeat</span> to anything other than the default <span class="cf ic">ImageRepeat.noRepeat</span>: allowing for repetition makes it possible to fill a width/height ratio that is different when compared to the aspect ratio of the image that we want to display.</p>
+
+  <p id="d24e5972">If we set both a width and an height the image will be repeated on the side ending up longer than the original image’s aspect ratio—for example, if you set the height to an high value and the width to a low value and you set repetition to either <span class="cf ic">ImageRepeat.repeat</span> or <span class="cf ic">ImageRepeat.repeatY</span>, this code:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.network(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  url,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  width: 412.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  height: 450.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  repeat: ImageRepeat.repeatY ​<em class="comment">// or ImageRepeat.repeat</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6002">will yield the result as seen in the first <a href="#fig.image_repeat_height">screenshot</a>, with the image vertically repeated to fit the higher height.</p>
+
+  <div id="fig.image_repeat_height">
+
+    <div>
+
+      <img alt="images/WidgetLayout/image_repeat_height.png" class="border " id="d24e6009" src="images/WidgetLayout/Imagem-55.png" style="width: 38%"/>
+
+    </div>
+
+  </div>
+
+  <p id="d24e6011">If, instead, you set the height and width so that the image has more horizontal space than it has content (by constraining the height more), like in this example:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.network(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  url,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  width: 380.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  height: 180.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  repeat: ImageRepeat.repeatX ​<em class="comment">// or ImageRepeat.repeat</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6035">you will get the result as seen in the second <a href="#fig.image_repeat_horiz">screenshot</a>.</p>
+
+  <div id="fig.image_repeat_horiz">
+
+    <div>
+
+      <img alt="images/WidgetLayout/image_repeat_horiz.png" class="border " id="d24e6041" src="images/WidgetLayout/Imagem-56.png" style="width: 38%"/>
+
+    </div>
+
+  </div>
+
+  <p id="d24e6043">If we had just limited the height the result would be very similar, but the image would fill the entire horizontal space available by showing a bigger portion of the image in the repeated portions.
+</p>
+
+  <h4>ImageProvider for Images from the Network</h4>
+
+  <p id="d24e6051">
+
+When we want to use the image from the network for an <span class="cf ic">ImageProvider</span> like, for example, we will when we discuss how to make round widgets in <a href="Capítulo-023.html#sec.layout.round">​<em>Make Round Widgets</em>​</a>, we need to use the <span class="cf ic">NetworkImage</span> class.
+The <span class="cf ic">NetworkImage</span> is created by passing to its contructor the URL of the image:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ imageProv = NetworkImage(​<em class="string">"http://example.com/image.png"</em>​)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6084">The <span class="cf ic">NetworkImage</span> constructor also allows for setting the <span class="cf ic">scale</span> of the image and the image GET request’s HTTP <span class="cf ic">headers</span>.
+
+
+
+</p>
+
+  <h3 id="sec.layout.images.assets">Displaying Images from the Assets</h3>
+
+  <p id="d24e6106">
+
+We learned how to add assets to your Flutter app in <a href="Capítulo-021.html#sec.layout.assets">​<em>Add Your Own Assets to the App</em>​</a>, but now you’ll see the classes that are used to take the images you add there and display them.</p>
+
+  <p id="d24e6119">
+Given the name of the asset you display that image asset in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.asset(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"imagename.png"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <h4>ImageProvider for Asset Images</h4>
+
+  <p id="d24e6142">
+
+You can use images as <span class="cf ic">ImageProvider</span>s using the <span class="cf ic">AssetImage</span> class:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">AssetImage(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"imagename.png"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <h3>Displaying Images from Memory</h3>
+
+  <p id="d24e6175">
+
+This is used when images are stored in memory as bytes using <span class="cf ic">Image.toByteData()</span>, which stores them as a <span class="cf ic">Uint8List</span> (we’ll discuss this further in <a href="Capítulo-086.html#sec.dart.typed">​<em>Lists of Bytes and More: the dart:typed_data library</em>​</a>).
+For example, to store an image called <span class="cf ic">image</span> in a variable called <span class="cf ic">bytes</span>, you would use the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ bytes = image.toByteData();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6210">After you have done that, you might write that to a file or just leave it in memory.</p>
+
+  <p id="d24e6212">
+If you wanted to display those bytes as an image again, you would write the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.memory(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  bytes</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <h4>ImageProvider for Memory Images</h4>
+
+  <p id="d24e6232">
+
+You can use an image stored in memory as an <span class="cf ic">ImageProvider</span> using the <span class="cf ic">MemoryImage</span> class, which is used in the following way, as you might have predicted by now:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">MemoryImage(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  bytes</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <h3>Using an ImageProvider Inside an Image Widget</h3>
+
+  <p id="d24e6262">
+As an example, we’ll use the <span class="cf ic">ImageProvider</span> to create an <span class="cf ic">Image</span> widget by passing the <span class="cf ic">ImageProvider</span> as the named <span class="cf ic">image</span> argument. This adds unnecessary complexity in this case, but it is important to understand how to create <span class="cf ic">ImageProvider</span>s to be able to understand other examples throughout the book:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  image: NetworkImage(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"http://example.com/image.png"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6301">along with any scale, width, height, repetition, or other modifications to the image.</p>
+
+  <p id="d24e6303">The same is also true for <span class="cf ic">AssetImage</span>s and <span class="cf ic">MemoryImage</span>s, and might help to explain the difference in the data contained in an <span class="cf ic">ImageProvider</span> when compared to an <span class="cf ic">Image</span> widget.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,1364 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-086.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-086_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-086_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-086_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.dart.variables"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Variáveis ​​e Condições</font></font></h2>
+
+  <p id="d24e41765"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+As variáveis ​​podem ser declaradas de duas maneiras no Dart:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e41783"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Na forma </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tradicional do tipo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> C, prefixando o nome da variável com o tipo de dados:</font></font></p>
+
+      <table class="processedcode">
+
+        <tbody><tr>
+          <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+          <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a = 3;</font></font></td>
+        </tr>
+
+      </tbody></table>
+
+    </li>
+
+    <li>
+
+      <p id="d24e41795"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Prefixando o nome da variável com 'var':
+
+  </font></font></p>
+
+      <table class="processedcode">
+
+        <tbody><tr>
+          <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+          <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a = 3;</font></font></td>
+        </tr>
+
+      </tbody></table>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e41803"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma lista de alguns dos tipos de dados mais comuns é fornecida no final deste apêndice.</font></font></p>
+
+  <h3 id="sec.dart.strings"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Personagens e Strings</font></font></h3>
+
+  <p id="d24e41808"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+
+Em algumas linguagens, existem </font><font style="vertical-align: inherit;">tipos de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">char</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para caracteres únicos e matrizes de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">char</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s ou tipos separados para strings. </font><font style="vertical-align: inherit;">No Dart, o </font><font style="vertical-align: inherit;">tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o único tipo de caractere / string e pode conter um ou mais caracteres. </font><font style="vertical-align: inherit;">Por esse motivo, ao contrário de outras linguagens, você pode usar aspas simples ou duplas para delimitar o que você atribui à string (chamado de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">literal de string</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ):</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> saudação = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Hi!" </font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e41864"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">funcionará tão bem quanto:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> saudação = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Oi!' </font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e41875"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Como em muitas outras linguagens modernas, duas strings podem ser concatenadas usando o mesmo </font><font style="vertical-align: inherit;">operador </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">+</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que você usa para a adição entre os números:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> firstGreeting = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Hi"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> + </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"!" </font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (firstGreeting == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Oi!'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e41915"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O que é </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">afirmado</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ? </font><font style="vertical-align: inherit;">É algo que você vai se acostumar a ver lendo este apêndice: seu efeito no código compilado é que, em uma situação de teste / depuração (não faz nada no código de produção), ele termina a execução se a condição entre parênteses não for verdadeira, mas é amplamente usado em tutoriais e documentação de linguagem de programação para explicar os recursos da linguagem. </font><font style="vertical-align: inherit;">Sempre que você vir um neste apêndice, deve esperar que a condição entre parênteses seja sempre verdadeira.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A barra invertida</font></font></h4>
+
+  <p id="d24e41928"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Assim como em muitos outros idiomas, a barra invertida pode ser usada para escapar alguns caracteres ou inserir caracteres especiais.</font></font></p>
+
+  <p id="d24e41949"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, se você quiser colocar aspas dentro de uma string, há duas maneiras de fazer isso:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e41953"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você usa diferentes tipos de aspas para incluir a string (por exemplo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'Ele disse: "Oi!"'</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ).</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e41959"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você escapa das aspas (por exemplo, </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Ele disse: \" Oi! \ ""</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ).</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e41964"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para a parte dos caracteres especiais, isso será familiar especialmente para desenvolvedores C; </font><font style="vertical-align: inherit;">o </font><font style="vertical-align: inherit;">caractere </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\ n</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode ser usado para ir para uma nova linha:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"primeira linha </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Segunda linha"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e41980"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">irá renderizar a </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">segunda linha</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> abaixo da </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">primeira linha</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e41988"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Obviamente, a barra invertida em si deve ser escapada para ser usada como parte de uma string:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\\ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">é a barra invertida"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42002"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exibirá </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\ é o caractere de barra invertida</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+
+
+</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Interpolação de String</font></font></h4>
+
+  <p id="d24e42015"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+A interpolação de string permite inserir o valor de uma ou mais variáveis ​​em uma string. </font><font style="vertical-align: inherit;">Vamos primeiro explorar como as coisas seriam feitas </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">sem a</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> interpolação de strings.</font></font></p>
+
+  <p id="d24e42027"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, se você quiser exibir o valor de um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , não pode simplesmente escrever:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> número;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// (...)</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto (número)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42048"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">porque </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Text</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> espera uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Isso significa que você precisa mudar para:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Texto (number.toString ())</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42063"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E se você quiser exibir uma string e o número? </font><font style="vertical-align: inherit;">Então você precisaria escrever algo assim, usando concatenação de string:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Você bateu no botão"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> + number.toString () + </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"times"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42077"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O que a interpolação de string permite que você faça é escrever isso:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Você bateu o botão de </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">número $ </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vezes"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42088"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+Ao prefixar o nome de uma variável com $, você pode inserir seu valor na string. </font><font style="vertical-align: inherit;">Se você precisa acessar um elemento de uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o membro de uma classe, ou escrever qualquer tipo de expressão, você precisa colocar a instrução entre chaves. </font><font style="vertical-align: inherit;">Se você tivesse uma lista como a seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Números da lista = [1, 2, 3];</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42121"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">você usaria interpolação de string como esta:
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Existem </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {numbers.length} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e segundo elemento é o número </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {números [1]} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Multi-Line Strings e Raw Strings</font></font></h4>
+
+  <p id="d24e42142"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+
+Como em muitas outras línguas, você pode fazer strings de várias linhas usando aspas triplas e pode fazer strings brutas prefixando as aspas iniciais com a letra “r”.</font></font></p>
+
+  <p id="d24e42179"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma string de várias linhas permite que você gire:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Primeira linha </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Segunda linha"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42191"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ou isto:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Primeira linha </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\ n </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> +</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Segunda linha"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42206"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nisso:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"""</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">primeira linha</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">segunda linha</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"""</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42223"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma string bruta trata quaisquer caracteres especiais dentro dela ( </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e assim por diante) como qualquer outro caractere, sem dar a ele qualquer significado especial que você possa escrever apenas:
+
+
+
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">r "\ é a barra invertida"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Condições: Álgebra Booleana em Dart</font></font></h3>
+
+  <p id="d24e42249"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+Condições Dart será exatamente como as condições que você encontra em C, Java ou JavaScript: você usa </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">==</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">! =</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&gt;</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&lt;</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&lt;=</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> E </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&gt; =</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para comparar valores, e você usar </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&amp;&amp;</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como o operador AND, </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">|| </font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como o operador OR e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">! </font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como o operador NOT.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Variáveis ​​imutáveis: final e const</font></font></h3>
+
+  <p id="d24e42343"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+Se a variável não precisar variar, existem duas palavras-chave que podem garantir que o compilador saiba o que você deseja: </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">final</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e42376"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O valor de </font><font style="vertical-align: inherit;">uma </font><font style="vertical-align: inherit;">variável </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">final</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> não pode ser alterado: você a inicializa com um valor e esse valor é armazenado lá para sempre, isso é necessário para todas as propriedades do widget no Flutter porque os próprios widgets são imutáveis.</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e42382"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é usado para criar constantes de tempo de compilação: o compilador avaliará o valor da constante quando você construir seu aplicativo, portanto, você não pode ter </font><font style="vertical-align: inherit;">argumentos </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e42390"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Use essas duas palavras-chave substituindo a palavra </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> por elas:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">const</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a = 3;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42401"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ou prefixando o tipo de dados variável com um deles:
+
+
+
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">última </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordas</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> saudação = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Hi!" </font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3 id="sec.dart.lists"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Listas e literais de coleção</font></font></h3>
+
+  <p id="d24e42427"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o que comumente se chama de array: uma coleção ordenada de dados, cujos elementos são indexados com os valores de 0 a </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">comprimento-1,</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> onde o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">comprimento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o número de elementos que ela contém. </font><font style="vertical-align: inherit;">Uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pode ser inicializada com um literal de lista, que é uma lista de valores separados por vírgulas entre colchetes:
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> lista = [30, 20, 500];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (lista [0] == 30);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (lista [1] == 20);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (lista [2] == 500);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">If e For em literais de lista</font></font></h4>
+
+  <p id="d24e42498"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+No entanto, os literais de lista no Dart podem fazer mais do que isso - você pode ter </font><font style="vertical-align: inherit;">instruções </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">if</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> neles:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">booleano</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> condição;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// ...</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> list = [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (condição)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Primeiro"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mais</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Primeiro, alternativa"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Em segundo lugar"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (lista [1] == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Segundo"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (condição)</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (lista [0] == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"First"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mais</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (lista [0] == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Primeiro, alternativa"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ *</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">* Como em outros idiomas, estas últimas duas assert () chamadas poderia tornar-se um:</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">* Assert ((condição lista &amp;&amp; [0] == "primeiro") ||</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">* (! Condição lista &amp;&amp; [0] == "Primeiro, alternativa"))</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">* /</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Adicionando e removendo itens de listas</font></font></h4>
+
+  <p id="d24e42606"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Um item pode ser adicionado ao final de uma lista usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">List.add</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> l = [1, 2, 3];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">1. adicionar (4);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (l [3] == 4);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42632"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Um item pode ser removido de duas maneiras principais (existem outras, sinta-se à vontade para verificar todos os </font><font style="vertical-align: inherit;">métodos de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> na referência de linguagem oficial do DART </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-096.html#FOOTNOTE-55" id="FNPTR-55"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[55]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ). </font><font style="vertical-align: inherit;">Um deles é passar o valor que você deseja remover com </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">List.remove</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (que removerá apenas a primeira ocorrência):</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> l = [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"teste"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"teste"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Test"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">l.remove ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Ensaio"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (l [0] == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"teste"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (l [1] == </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"teste"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ); </font></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// A segunda ocorrência não será removido</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42690"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+A outra é passar o índice no qual você deseja remover um elemento para </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">List.removeAt</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> l = [5, 6, 7];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">l.removeAt (1);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (l [1] == 7);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4 id="sec.dart.lists.generate"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Gerando Listas</font></font></h4>
+
+  <p id="d24e42719"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Uma das maneiras de criar listas é usando o </font><font style="vertical-align: inherit;">construtor </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">List.generate</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que leva dois argumentos: o número de elementos que a lista terá e uma função de retorno de chamada (uma função a ser executada por outra função em certas condições e com certos argumentos) que gera cada elemento com base em seu índice.</font></font></p>
+
+  <p id="d24e42728"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, é assim que você criaria uma lista a partir da concatenação das strings contidas em duas listas:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> L1 = [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Primeiro"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Segundo"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Third"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> L2 = [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"1"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"2"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"3"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> l = List.generate (3, (índice) =&gt; L1 [i] + L2 [i]);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42766"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se este exemplo não estava claro para você, confira a seção sobre funções ( </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-087.html#sec.dart.functions"><em><font style="vertical-align: inherit;">Funções</font></em></a><font style="vertical-align: inherit;"> ) e aquele sobre classes ( </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-092.html#sec.dart.classes"><em><font style="vertical-align: inherit;">Classes</font></em></a><font style="vertical-align: inherit;"> ).</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-087.html#sec.dart.functions"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-092.html#sec.dart.classes"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Iterando sobre listas: for, map e forEach</font></font></h4>
+
+  <p id="d24e42775"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Descobrimos como gerar listas, agora que tal como iterar sobre os elementos de uma lista? </font><font style="vertical-align: inherit;">Existem várias maneiras de fazer isso:</font></font></p>
+
+  <ul>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">for </font></font></span> <span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">em</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> loop.</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.forEach</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.map</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+
+  </ul>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O for em Loop</font></font></strong></p>
+
+  <p id="d24e42802"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Presente na maioria das línguas modernas, é um tipo especial de </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-091.html#sec.dart.loops"><em><font style="vertical-align: inherit;">Loops: while, do tempo, e para</font></em></a><font style="vertical-align: inherit;"> que itera sobre os elementos de uma lista:</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-091.html#sec.dart.loops"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> NomedaLista = [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Primeiro"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Em segundo lugar"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Third"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Quarto"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> elName </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">em</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> NomedaLista) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  imprimir (elNome);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">map e forEach</font></font></strong></p>
+
+  <p id="d24e42855"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Particularmente amado por alguns por seu estilo funcional, o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Iterable</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">forEach</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> métodos são alternativas para o </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">para </font></font></span> <span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">em</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> loop.</font></font></p>
+
+  <p id="d24e42882"><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">forEach</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o mais semelhante ao </font><font style="vertical-align: inherit;">loop </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">for</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , pois é usado para executar uma operação em (ou para) cada um dos elementos de uma lista. </font><font style="vertical-align: inherit;">O encerramento de retorno de chamada que você usa é do tipo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">void</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , portanto, você não pode retornar nada. </font><font style="vertical-align: inherit;">Aqui está um exemplo, mostrando como imprimir cada elemento de uma lista:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">listName.forEach ((el) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  imprimir (el);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">});</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42903">
+<span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">map</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é diferente: ele é usado para criar um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Iterable a</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> partir da chamada de uma função em cada elemento da </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . Aqui está um exemplo:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> números = [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  1,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  2,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  3,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  4,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  5,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  6</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> iter = numbers.map ((el) =&gt; </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"# </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ el </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e42953">
+<span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">iter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Iterável</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , não uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> adequada </font><font style="vertical-align: inherit;">. </font><font style="vertical-align: inherit;">Se quiser acessar os elementos diretamente da mesma forma que faz com uma lista, você precisa usar o </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">toList</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :
+
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> list = numbers.map ((el) =&gt; </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"# </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ el </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) .ToList ();</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3 id="sec.dart.underscore"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O sublinhado</font></font></h3>
+
+  <p id="d24e42999"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+Você deve ter visto em muitos exemplos de código que prefixamos alguns nomes de variáveis ​​ou classes com um sublinhado ( </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ). </font><font style="vertical-align: inherit;">É usado para torná-los uma </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">biblioteca privada</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e43035"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por exemplo, quando escrevemos:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> MyWidget </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatefulWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// (...)</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _MyWidgetState </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Estado &lt;MyWidget&gt; {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">// (...)</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43066"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Estamos tornando a </font><span class="emph"><font style="vertical-align: inherit;">biblioteca de</font></span><font style="vertical-align: inherit;"> classes </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MyWidgetState </font></font></span><font style="vertical-align: inherit;"></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">privada</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que significa que ela só é acessível de dentro do pacote atual: se você estiver trabalhando em uma biblioteca e quiser tornar uma classe ou função de nível superior inacessível para os usuários dessa biblioteca, use o sublinhado Por aqui.</font></font></p>
+
+  <p id="d24e43074"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usar o sublinhado para os membros da classe é usado para torná-lo inacessível de fora de sua definição de classe, como no exemplo a seguir:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> CounterClass {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _counter = 0;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _setCounterTo ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    _contador = n;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  }</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> getCounter () =&gt; _counter</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> increaseCounter () =&gt; _setCounterTo (_counter + 1);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43114"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">o que é obviamente muito mais complicado do que precisa ser ( </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">_setCounterTo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> adiciona complicações desnecessárias) para mostrar como diferentes tipos de métodos podem ser escolhidos para serem definidos como privados: se estamos criando uma classe de contador, queremos ser capazes de obtém o valor atual do contador, mas não precisamos alterá-lo para qualquer valor diferente de incrementado em 1, portanto, só damos acesso a um método que faz exatamente isso e a outro que retorna o valor do contador.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Outras estruturas de dados iteráveis: mapas, conjuntos e mais</font></font></h3>
+
+  <p id="d24e43122"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é uma coleção de chave / valor, semelhante a objetos JSON e frequentemente usado como a forma de lidar com objetos JSON no Dart como uma alternativa mais simples para definir uma classe para cada tipo de objeto com o qual o aplicativo trabalha. </font><font style="vertical-align: inherit;">Um </font><font style="vertical-align: inherit;">literal </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Map</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é colocado entre chaves e se parece com isto:
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> = utilizador {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"userId"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : 1,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"firstName"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Carmine"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"lastName"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Zaccagnino"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">};</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43195"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você pode acessar e adicionar elementos a um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mapa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> usando os mesmos </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[]</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[]</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que usaria para acessar e modificar os elementos de uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> name = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {user [" firstName "]} </font></font></em><font style="vertical-align: inherit;"><em class="string"><font style="vertical-align: inherit;">$ {user [" lastName "]} </font></em><em class="string"><font style="vertical-align: inherit;">"</font></em><font style="vertical-align: inherit;"> ;</font></font><em class="string"> </em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">user [ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"password"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ] = </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"meu !! Muito !! própria !! Muito !! safe1passWordstr"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43234"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+A </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Defina</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> uma coleção linear de valores diferentes:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> = G8 {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Estados Unidos"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Japão"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Alemanha"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Reino Unido"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"França"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Itália"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Canadá"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Russia"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">};</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43318"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você pode remover um item de um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Conjunto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> por valor usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">remove</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e adicionar um usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">add</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> G7 = G8</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  ..remove ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Rússia"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  .add ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"União Europeia"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Definir literais</font></font></p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images / Side-icons / warning.png" class="" id="d24e43362" src="./Capítulo-086_files/Imagem-96.png" style="width: 100%">
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    Os literais definidos usando chaves são suportados a partir do Dart versão 2.2. Em versões anteriores, a maneira mais semelhante era usar o </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Set.from</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que usa uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :
+  </font></font></p>
+          <table class="processedcode">
+
+            <tbody><tr>
+              <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+              <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> countriesByGDP = </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Conjunto</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .de ([ </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"EUA"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"CRP"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><em class="comment"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/*...*/</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ]);</font></font></td>
+            </tr>
+
+          </tbody></table>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e43399"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Existem muitos mais </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Iterable</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s. </font><font style="vertical-align: inherit;">Um muito comum em ciência da computação é a lista vinculada, que pode ser implementada usando </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">LinkedList</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas também há uma </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Queue</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e as alternativas baseadas em hash table não ordenadas para </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Map</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Set</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> chamadas </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HashMap</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HashSet</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Números: o tipo num e suas subclasses</font></font></h3>
+
+  <p id="d24e43429"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+
+A </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">num</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é uma classe numérica genérica e suas subclasses são </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para inteiros e </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">double</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para números de ponto flutuante. </font><font style="vertical-align: inherit;">Não há </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutuação</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em Dart; </font><font style="vertical-align: inherit;">todos os números de ponto flutuante são </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">double</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s de </font><font style="vertical-align: inherit;">64 bits </font><font style="vertical-align: inherit;">.</font></font></p>
+
+  <p id="d24e43479"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Seguindo a notação matemática usada no Reino Unido e nos Estados Unidos, o separador decimal é um ponto ( </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ). </font><font style="vertical-align: inherit;">Você pode especificar potências de 10 usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a = 5.2e2;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (a == 520);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43512">
+
+
+<span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">os</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> números </font><span class="cf class"><font style="vertical-align: inherit;">duplos</font></span><font style="vertical-align: inherit;"> podem ser arredondados usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">round</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (que arredonda de 0 com a parte decimal começando em 0,5), arredondados para baixo usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">floor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou arredondados para cima usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ceil</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a = 5.2;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (a.round () == 5);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (a.floor () == 5);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (a.ceil () == 6);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> b = 5,5;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (a.round () == 6);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43582"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Um inteiro hexadecimal é obtido prefixando-o com </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">0x</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (0x7E3 == 2019);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4 id="sec.dart.typed"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Listas de bytes e mais: a biblioteca dart: typed_data</font></font></h4>
+
+  <p id="d24e43606"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Ao ler dados binários, usar uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s </font><font style="vertical-align: inherit;">de 64 bits </font><font style="vertical-align: inherit;">é extremamente ineficiente se tudo o que cada um desses inteiros está fazendo é claramente menos eficiente do que o ideal. </font><font style="vertical-align: inherit;">É por isso que o </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: typed_data</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> contém a </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uint8List</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que funciona exatamente como a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">List</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> regular </font><font style="vertical-align: inherit;">, mas com inteiros de 8 bits.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fundição de Tipo</font></font></h4>
+
+  <p id="d24e43648"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+A fundição de tipos no Dart é feita de uma das duas maneiras a seguir.</font></font></p>
+
+  <p id="d24e43652"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você pode usar um </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> expressão de lançar um valor a um de seus subtipos:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Num</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a = 5;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a_int = um </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (a_int </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">é </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e43690"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+ou use </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">cast</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para converter todos os valores de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">List</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para um tipo especificado:
+
+
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">List &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">num</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; l = [1, 2, 3];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> l_int = l.cast &lt; </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt; ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (l_int [0] </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">é </font></font></strong><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> );</font></font></td>
+    </tr>
+
+  </tbody></table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-086_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

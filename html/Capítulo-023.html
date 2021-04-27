@@ -1,0 +1,2037 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e6318">Vertical Layout</h2>
+
+  <p id="d24e6321">There are two options available when the developer needs to lay out items vertically, depending on what is needed: the <span class="cf ic">Column</span> and the <span class="cf ic">ListView</span>.</p>
+
+  <h3 id="sec.layout.column">The Column</h3>
+
+  <p id="d24e6332">
+
+The <span class="cf ic">Column</span> is used to create a vertical stack of widgets, and it is not scrollable.
+It is used to display items next to each other vertically and not to create a list of items.</p>
+
+  <h4>How You Use It</h4>
+
+  <p id="d24e6351">You can make a simple <span class="cf ic">Column</span> this way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">// Widgets separated by commas</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <h4 id="sec.layout.options">Layout Widget Options</h4>
+
+  <p id="d24e6373">
+You just need to put the widgets inside the square brackets of the <span class="cf ic">Widget</span> collection literal (more on collection literals and lists in <a href="Capítulo-086.html#sec.dart.lists">​<em>Lists and collection literals</em>​</a>) and the widgets will be shown in a vertical stack, but there are a lot of options to customize in the constructor’s arguments, like the <span class="cf ic">mainAxisAlignment</span>, which sets how the children widgets should be aligned along the main axis (in the case of a <span class="cf ic">Column</span> it is the vertical axis), and can be one of:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e6394"><span class="cf ic">MainAxisAlignment.start</span>, <span class="cf ic">MainAxisAlignment.center</span>, or <span class="cf ic">MainAxisAlignment.end</span>, which will place the widgets as close as possible, respectively, to the start, middle, or end of the main axis.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e6405"><span class="cf ic">MainAxisAlignment.spaceAround</span>, which uses half of the available space to separate the children from each other and the other half of it to separate the first and last of them from the start and end of the Column.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e6410"><span class="cf ic">MainAxisAlignment.spaceBetween</span>, which uses the space to make the children as far as possible to each other.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e6415"><span class="cf ic">MainAxisAlignment.spaceEvenly</span>, which separates each child from the next as much as the start of the <span class="cf ic">Column</span> to the first and the last to the end of the ‘Column.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e6422">Closely related is the <span class="cf ic">mainAxisSize</span>, which can be either <span class="cf ic">MainAxisSize.max</span> or <span class="cf ic">MainAxisSize.min</span>.</p>
+
+  <p id="d24e6433">There is also <span class="cf ic">crossAxisAlignment</span>, which sets how the children widgets should be aligned along the cross axis (in the case of a <span class="cf ic">Column</span> it is the horizontal axis) and can be one of the following:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e6443">The default <span class="cf ic">CrossAxisAlignment.center</span>, which aligns the widgets so that their center is aligned.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e6449"><span class="cf ic">CrossAxisAlignment.start</span> and <span class="cf ic">CrossAxisAlignment.end</span> which, respectively, align the widgets to the start or the end of the cross axis.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e6457"><span class="cf ic">CrossAxisAlignment.stretch</span>, which makes the widgets occupy as much space as possible in the cross axis.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e6462"><span class="cf ic">CrossAxisAlignment.baseline</span>, especially useful with <span class="cf ic">Row</span>’s, which aligns the children’s baseline.</p>
+
+    </li>
+
+  </ul>
+
+  <h4>What You Use It For</h4>
+
+  <p id="d24e6472">You can use a <span class="cf ic">Column</span> simply, like in the previous chapter, to show two widgets one on top of the other, like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  appBar: AppBar(...),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  body: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    crossAxisAlignment: CrossAxisAlignment.start,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    mainAxisAlignment: MainAxisAlignment.spaceBetween,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Icon(Icons.arrow_upward),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Text(​<em class="string">"This will be in the middle"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Text(​<em class="string">"This will be at the bottom"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/column.png" class="border " id="d24e6519" src="images/WidgetLayout/Imagem-25.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e6520">but you will probably want to use it more often to group together widgets, perhaps forming a new and more complex widget:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ TwoTexts ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  TwoTexts({​<strong class="kw">this</strong>​.firstText, ​<strong class="kw">this</strong>​.secondText});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ firstText, secondText;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(firstText),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(secondText)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6577">This will be especially useful inside <span class="cf ic">ListView</span>s, which we’ll see in action now.
+
+</p>
+
+  <h3 id="sec.layout.listview">The ListView</h3>
+
+  <p id="d24e6588">
+
+The <span class="cf ic">ListView</span> is used to create a scrollable list of widgets.</p>
+
+  <p id="d24e6604">It is used when there is a need to create long lists of similar (or the same) items, and it can dynamically load other elements when they are many (or unlimited).</p>
+
+  <p id="d24e6606">The list can be expressed in multiple ways, as we will now see.</p>
+
+  <h4 id="sec.layout.listview.usage">How You Use It</h4>
+
+  <p id="d24e6611">There are multiple constructors that you can use to create a <span class="cf ic">ListView</span>.</p>
+
+  <p id="d24e6616">The default constructor works just like the <span class="cf ic">Column</span>’s constructor: you just need to provide a <span class="cf ic">List</span> of <span class="cf ic">Widget</span>s as the <span class="cf ic">children</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListView(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"1"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"2"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"3"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ...</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6657">
+This example shows the advantage of using another constructor, the <span class="cf ic">ListView.builder</span> constructor, which is used the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: 499,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (BuildContext context, ​<strong class="kw">int</strong>​ i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"</em>​​<em class="string">${i+1}</em>​​<em class="string">"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6691">This does the same and creates a list of 499 <span class="cf ic">Text</span> widgets with the numbers from 1 to 500.</p>
+
+  <p id="d24e6696">But this constructor can also be useful when each element has something different—for example, if each <span class="cf ic">Text</span> needs a different, unrelated string.</p>
+
+  <p id="d24e6701">After defining something like:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">const</strong>​ strings = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"The First Widget"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"The Second Widget"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"The Third Widget"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"The Last Widget"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">]</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6731">or generating a <span class="cf ic">List</span> list using what is described in <a href="Capítulo-086.html#sec.dart.lists.generate">​<em>Generating Lists</em>​</a>.</p>
+
+  <p id="d24e6739">You can create a <span class="cf ic">ListView</span> like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: strings.length,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (BuildContext context, ​<strong class="kw">int</strong>​ i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(strings[i]),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6765">
+There is also <span class="cf ic">ListView.separated</span>, which allows you to add a separator widget, in this case yet another <span class="cf ic">Text</span> for simplicity:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListView.separated(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: 500,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (context, i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"</em>​​<em class="string">$i</em>​​<em class="string">"</em>​, style: Theme.of(context).textTheme.display1,),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  separatorBuilder: (context, i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    i%3 == 0 ? Divider() : Padding(padding: EdgeInsets.all(0.5),),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e6815">This adds a divider widget<sup><a class="footnote" href="Capítulo-030.html#FOOTNOTE-21" id="FNPTR-21">[21]</a></sup> once every three numbers, starting from the space between the first and second widget, like in the following screenshot:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/separate.png" class="border " id="d24e6822" src="images/WidgetLayout/Imagem-82.png" style="width: 30%"/>
+
+  </div>
+
+  <p id="d24e6824">This is especially useful when you want do display lists of items separated into categories.</p>
+
+  <p id="d24e6826">Other uses for <span class="cf ic">ListView</span> in general are explained in the <span class="cf ic">Row</span>’s usage section in <a href="Capítulo-024.html#sec.layout.row.uses">​<em>Where You’ll Use the Row Together with Other Widgets</em>​</a>.</p>
+
+  <p id="d24e6836"><span class="cf ic">shrinkWrap</span>, when set to <span class="cf ic">false</span> (default), will make the list take up as much space as is available on the main axis. If, instead, you set it to <span class="cf ic">true</span> the grid’s size will adapt to the size that is needed to display its <span class="cf ic">children</span>.</p>
+
+  <h4>Customizing the Divider</h4>
+
+  <p id="d24e6852">
+The <span class="cf class">Divider</span> can be customized to fit your app’s overall look, feel and needs:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e6863">You can set the <span class="cf ic">color</span> option to another color.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e6869">You can set its <span class="cf ic">height</span> option by providing a <span class="cf ic">double</span> number to make the space bigger or smaller.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e6878">You can set its <span class="cf ic">indent</span> option by providing a <span class="cf ic">double</span> number to make the line start at a different position along the horizontal axis.
+
+</p>
+
+    </li>
+
+  </ul>
+
+  <h4>Horizontal Lists</h4>
+
+  <p id="d24e6892">
+You can use <span class="cf ic">scrollDirection</span> to make a horizontally scrolling list, which is very useful if you want to have a horizontal list inside a vertical list.
+This can be seen in several apps and you’ll see exactly why it is useful.</p>
+
+  <p id="d24e6903">In the following example, I’ll explain how to show many products, grouped in categories, using a combination of <span class="cf ic">ListView.builder</span> to display the categories and horizontal <span class="cf ic">ListView.builder</span> to show the products.
+We’ll use example data, defined in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">const</strong>​ categories = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Automotive"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Books"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Electronics"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Food"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">const</strong>​ products = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"Car"</em>​, ​<em class="string">"Tyre"</em>​, ​<em class="string">"Fuel"</em>​, ​<em class="string">"Oil"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"Programming Book"</em>​, ​<em class="string">"Novel"</em>​, ​<em class="string">"Politics Book"</em>​, ​<em class="string">"Business Book"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"Desktop Computer"</em>​, ​<em class="string">"Laptop"</em>​, ​<em class="string">"Computer keyboard"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"Pasta"</em>​, ​<em class="string">"Pizza"</em>​, ​<em class="string">"Bread"</em>​ ​<em class="string">"Cheese"</em>​, ​<em class="string">"Ham"</em>​, ​<em class="string">"Sausage"</em>​, ​<em class="string">"Beef"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ]</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">];</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7021">and then render the product list using something like:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">return</strong>​ ​<strong class="kw">Scaffold</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  backgroundColor: Colors.greenAccent,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  appBar: AppBar(title: Text(​<em class="string">"List inside List example"</em>​)),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  body: ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    itemCount: categories.length,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    itemBuilder: (context, i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Text(categories[i]),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            height: 150.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            child: ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              padding: EdgeInsets.all(10.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              scrollDirection: Axis.horizontal,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              itemCount: products[i].length,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              itemBuilder: (context, j) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  padding: EdgeInsets.all(20.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  child: Card(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    child:Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                      padding: EdgeInsets.all(10.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                      child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                        products[i][j],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                        style: Theme.of(context)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                                        .textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                      ).</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7142">which produces the result as seen in the <a href="#fig.listinsidelist">screenshot</a>.</p>
+
+  <div id="fig.listinsidelist">
+
+    <div>
+
+      <img alt="images/WidgetLayout/listinsidelist.png" class="border " id="d24e7148" src="images/WidgetLayout/Imagem-64.png" style="width: 38%"/>
+
+    </div>
+
+  </div>
+
+  <p id="d24e7151">The <span class="cf class">Container</span> is needed to constrain the internal <span class="cf class">ListView</span> since it is inside another scrollable widget and the app wouldn’t work without it.
+</p>
+
+  <p id="d24e7160">More on the <span class="cf class">Card</span> in <a href="Capítulo-026.html#sec.layout.card">​<em>The Card</em>​</a>.</p>
+
+  <h4>The ListTile</h4>
+
+  <p id="d24e7170">
+
+The <span class="cf ic">ListTile</span> is the typical widget that is used with <span class="cf ic">ListView</span>s and is very common in chat apps: the typical row made of a (usually round) preview picture, on the left, and on the right side a title and an optional subtitle.</p>
+
+  <p><strong>Implement a ListTile</strong></p>
+
+  <p id="d24e7194"><span class="cf ic">ListTile</span> is very common and useful and very easy to implement in Flutter:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  leading: Image(leftImage), ​<em class="comment">// OPTIONAL</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  subtitle: Text(subtitle), ​<em class="comment">// OPTIONAL</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onTap: () =&gt; openTile(), ​<em class="comment">// OPTIONAL</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7218"><span class="cf ic">leading</span> is the little preview widget shown <span class="emph">before</span> the title, and it is usually an image, <span class="cf ic">title</span> is the big text description of the element, the <span class="cf ic">subtitle</span> is smaller and shown below, and <span class="cf ic">onTap</span> is the funciton that will be fired when the user taps on the tile.</p>
+
+  <p id="d24e7234">There is also a (less common) <span class="cf ic">trailing</span> argument available to add a widget placed <span class="emph">after</span> the title.</p>
+
+  <p id="d24e7242">For example, the following code, using the list icon as the leading icon:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (context, i) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ListTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      leading: Icon(Icons.list),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: Text(​<em class="string">"title number </em>​​<em class="string">${i+1}</em>​​<em class="string">"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      subtitle: Text(​<em class="string">"subtitle"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7278">will produce:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/listtile.png" class="border " id="d24e7280" src="images/WidgetLayout/Imagem-65.png" style="width: 38%"/>
+
+  </div>
+
+  <h4 id="sec.layout.round">Make Round Widgets</h4>
+
+  <p id="d24e7284">
+
+You previously learned that the <span class="cf ic">leading</span> widget of a <span class="cf ic">ListTile</span> is usually round, but how can you make a round widget?</p>
+
+  <p id="d24e7301">You build round widgets in two ways: using a <span class="cf ic">CircleAvatar</span> or using a <span class="cf ic">BoxDecoration</span> for a <span class="cf ic">Container</span>.</p>
+
+  <p><strong>Use a Container to Make Widgets of Any Shape and Size</strong></p>
+
+  <p id="d24e7315">
+
+The most versatile and generic way is to contain the widget within a circular shape using a circle-shaped <span class="cf ic">Container</span>.</p>
+
+  <p id="d24e7331">As an example of the usage of the container, the following code produces a normal square box with an icon and some text:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  height: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  width: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  color: Colors.blueAccent,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Icon(Icons.apps),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<em class="string">"Test"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        style: TextStyle(color: Colors.white),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7376">just like in the following screenshot:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/squarecontainer.png" class="" id="d24e7378" src="images/WidgetLayout/Imagem-85.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e7379">A <span class="cf ic">Container</span> can be made of any shape or size. Making it round is very simple, but you have to keep in mind that you need to move the <span class="cf ic">color</span> attribute to the <span class="cf ic">BoxDecoration</span> widget:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  height: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  width: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Icon(Icons.apps),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<em class="string">"Test"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        style: TextStyle(color: Colors.white),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  decoration: BoxDecoration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    color: Colors.blueAccent,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    shape: BoxShape.circle,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7442">and that produces:
+
+</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/roundcontainer.png" class="" id="d24e7448" src="images/WidgetLayout/Imagem-77.png" style="width: 38%"/>
+
+  </div>
+
+  <p><strong>Use a CircleAvatar to Round Widgets</strong></p>
+
+  <p id="d24e7452">
+The alternative is to use a <span class="cf ic">CircleAvatar</span>, which simplifies the process when it can be used.</p>
+
+  <p id="d24e7461">A <span class="cf ic">CircleAvatar</span> is comparable to a pre-made circle container and it is optimized for rounding images, but it can also be used as a container.</p>
+
+  <p id="d24e7466">For example, you could exactly replicate the <span class="cf ic">Container</span> example from before in a simpler way like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">CircleAvatar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  radius: 25.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  backgroundColor: Colors.blue,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Icon(Icons.apps),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(​<em class="string">"Test"</em>​, style: TextStyle(color: Colors.white),)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7510">Where the <span class="cf ic">radius</span> is the radius of the circle, the <span class="cf ic">backgroundColor</span> is the background color of the circle and the <span class="cf ic">child</span> is what will actually be displayed inside the circle.</p>
+
+  <p id="d24e7521">The real advantage of using a <span class="cf ic">CircleAvatar</span> is that it allows you to cut an image into a round shape in a really easy way by simply passing an <span class="cf ic">ImageProvider</span> as the <span class="cf ic">backgroundImage</span> argument.</p>
+
+  <p id="d24e7532">Using the pragprog.com website’s PNG favicon<sup><a class="footnote" href="Capítulo-030.html#FOOTNOTE-22" id="FNPTR-22">[22]</a></sup> as an example, you would display it inside an app by using the <span class="cf ic">Image.network</span> contructor of the <span class="cf ic">Image</span> widget and passing the URL as the positional argument (as we’ll do in the Chapter 5, <a href="Capítulo-057.html#chp.networking">​<em> Network and Storage I/O and Navigation </em>​</a>), like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.network(​<em class="string">"https://pragprog.com/favicon.png"</em>​)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7558">but that can’t be used for the <span class="cf ic">CircleAvatar</span>’s <span class="cf ic">backgroundImage</span> because it needs an <span class="cf ic">ImageProvider</span>, not an <span class="cf ic">Image</span>.</p>
+
+  <p id="d24e7572">So you need to use the <span class="cf ic">NetworkImage</span> class, and pass that as the argument of the <span class="cf ic">CircleAvatar</span>, like in the following example:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">CircleAvatar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  backgroundImage: NetworkImage(​<em class="string">"https://pragprog.com/favicon.png"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7591">which produces the following round image:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/roundfavicon.png" class="" id="d24e7593" src="images/WidgetLayout/Imagem-78.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e7594">Obviously you can change the radius to your liking by using the <span class="cf ic">radius</span> argument.</p>
+
+  <p><strong>Use a CircleAvatar in a ListTile</strong></p>
+
+  <p id="d24e7603">Integrating it into a <span class="cf ic">ListTile</span> is as simple as using the <span class="cf ic">CircleAvatar</span> as the <span class="cf ic">leading</span> widget, like in the following example:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  leading: CircleAvatar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    backgroundImage: NetworkImage(​<em class="string">"https://pragprog.com/favicon.png"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(​<em class="string">"Example"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7635">which produces:
+
+
+
+
+</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/listtileroundfavicon.png" class="" id="d24e7646" src="images/WidgetLayout/Imagem-66.png" style="width: 35%"/>
+
+  </div>
+
+  <h4>Use the Expandable ListTile: The ExpansionTile</h4>
+
+  <p id="d24e7650">
+
+The <span class="cf ic">ExpansionTile</span> is an expandable <span class="cf ic">ListTile</span>: it is just like a <span class="cf ic">ListTile</span> when it first gets rendered but you can, without leaving the current view, make an <span class="cf ic">ExpansionTile</span> taller and show more widgets, like more text or additional buttons and features.</p>
+
+  <p id="d24e7680">You use the <span class="cf ic">ExpansionTile</span> like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ExpansionTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  leading: Image(leftImage), ​<em class="comment">// OPTIONAL</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">// ExpansionTile-specific arguments</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  initiallyExpanded: ​<strong class="kw">true</strong>​, ​<em class="comment">// OPTIONAL default: false</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(​<em class="string">"Left on first row"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(​<em class="string">"Right on first row"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"Second row"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  backgroundColor: Colors.green[100], ​<em class="comment">// OPTIONAL</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// OPTIONAL, argument is a boolean, true if expanding, false if collapsing</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onExpansionChanged: (expanding) {​<strong class="kw">return</strong>​;},</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p><strong>Change the ExpansionTile’s attributes</strong></p>
+
+  <p id="d24e7755">Most of the properties are the same as the <span class="cf ic">ListTile</span>’s (except for <span class="cf ic">onTap</span>, which doesn’t exist for <span class="cf ic">ExpansionTiles</span>), but <span class="cf ic">trailing</span> is different this time: if it is not specified it will be an arrow which, when clicked, rotates to show whether the widget is expanded or not.</p>
+
+  <p id="d24e7769">There are four main <span class="cf ic">ExpansionTile</span>-specific arguments:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e7776"><span class="cf ic">initiallyExpanded</span>, which can be set to <span class="cf ic">true</span> if you want the inital state of the widget to be the expanded state.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e7784"><span class="cf ic">children</span>, which is the list of widgets to be displayed below the tile when it expands.</p>
+
+    </li>
+
+  </ul>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e7791"><span class="cf ic">backgroundColor</span>, which is the background color of the list of children widgets.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e7796"><span class="cf ic">onExpansionChanged</span>, with which you can set a function to be called when the tile is expanded.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e7800">For example, the following code:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ExpansionTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  leading: Icon(Icons.list),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  title: Text(​<em class="string">"title"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      mainAxisAlignment: MainAxisAlignment.spaceEvenly,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(​<em class="string">"Left on first row"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Text(​<em class="string">"Right on first row"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Text(​<em class="string">"Second row"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7851">produces:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/expandabletile.png" class="border " id="d24e7853" src="images/WidgetLayout/Imagem-38.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e7856">which can be expanded to:
+
+</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/expandedtile.png" class="border " id="d24e7861" src="images/WidgetLayout/Imagem-40.png" style="width: 38%"/>
+
+  </div>
+
+  <h4 id="sec.layout.dismissible">Dismissible ListTiles</h4>
+
+  <p id="d24e7865">
+
+
+A very common usage for <span class="cf class">ListTile</span>s is as dismissible widgets, which means they can be deleted with a swipe gesture.
+A widget gains that ability by being wrapped in a <span class="cf ic">Dismissible</span> widget.</p>
+
+  <p id="d24e7895"><span class="cf class">Dismissible</span> requires a <span class="cf class">Key</span> to be provided.
+It’s not strictly necessary to understand <span class="cf class">Key</span>s to use <span class="cf class">Dismissible</span>s, but a more in-depth explanation will be provided in <a href="Capítulo-029.html#sec.layout.key">​<em>The Key</em>​</a>.</p>
+
+  <p id="d24e7910">The <span class="cf class">Dismissible</span> widget is used in the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Dismissible(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  background: Container(color: Colors.green),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  key: Key(string),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: ListTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    title: Text(string),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e7934">where the <span class="cf ic">background</span> is what is shown behind the tile when it is swiped by the user. Setting it to a container makes it possible to choose the background color.</p>
+
+  <p id="d24e7941">A complete implementation of <span class="cf class">Dismissible</span> inside a <span class="cf class">ListView</span> would be:</p>
+
+  <table class="processedcode" id="code.layout.dismissibletiles">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: 20,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (context, i) =&gt; Dismissible(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    background: Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      color: Colors.red,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        mainAxisAlignment: MainAxisAlignment.spaceBetween,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Icon(Icons.clear, color: Colors.white,),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Icon(Icons.clear, color: Colors.white,),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    key: UniqueKey(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    child: ListTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      leading: CircleAvatar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        backgroundImage: NetworkImage(​<em class="string">"https://pragprog.com/favicon.png"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: Text(​<em class="string">"Example </em>​​<em class="string">${i+1}</em>​​<em class="string">"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8027">The <span class="cf ic">UniqueKey</span> is the most basic and uncomplicated <span class="cf ic">Key</span>, and it should be enough unless you need greater control over the widgets’ state than is provided by Flutter by default.
+The <span class="cf ic">Row</span> with two spaced-out <span class="cf ic">Icons.clear</span> icons shows the <span class="cf ic">Icon</span> on both sides when the tile is swiped.
+That code generates the following list:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/DismissableListInitial.png" class="border " id="d24e8045" src="images/WidgetLayout/Imagem-36.png" style="width: 35%"/>
+
+  </div>
+
+  <p id="d24e8046">Partially swiping a tile shows the red background and an icon:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/DismissableListPartial.png" class="border " id="d24e8048" src="images/WidgetLayout/Imagem-37.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e8049">And completely swiping it removes the tile from the list with a nice animation, eventually leaving the list looking like this:
+
+
+</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/DismissableListFinal.png" class="border " id="d24e8056" src="images/WidgetLayout/Imagem-35.png" style="width: 35%"/>
+
+  </div>
+
+  <h4>Displaying a SnackBar</h4>
+
+  <p id="d24e8061">
+
+
+In most apps, when a <span class="cf class">ListTile</span> is dismissed, a <span class="cf class">SnackBar</span><sup><a class="footnote" href="Capítulo-030.html#FOOTNOTE-23" id="FNPTR-23">[23]</a></sup> is displayed at the bottom of the screen.</p>
+
+  <p id="d24e8095">Displaying a <span class="cf class">SnackBar</span> using Flutter is really simple:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Scaffold.of(context).showSnackBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  SnackBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    content: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"Tile #</em>​​<em class="string">${i+1}</em>​​<em class="string"> was dismissed"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8128">And it can be displayed automatically when a tile is dismissed by changing the <a href="#code.layout.dismissibletiles">​code​</a><a href="#code.layout.dismissibletiles">​​</a> to:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: 20,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder: (context, i) =&gt; Dismissible(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    background: Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      color: Colors.red,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Row(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        mainAxisAlignment: MainAxisAlignment.spaceBetween,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Icon(Icons.clear, color: Colors.white,),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Icon(Icons.clear, color: Colors.white,),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    key: UniqueKey(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    child: ListTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      leading: CircleAvatar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        backgroundImage: NetworkImage(​<em class="string">"https://pragprog.com/favicon.png"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: Text(​<em class="string">"Example </em>​​<em class="string">${i+1}</em>​​<em class="string">"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    onDismissed: (direction) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Scaffold.of(context).showSnackBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            SnackBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              content: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">                ​<em class="string">"Tile #</em>​​<em class="string">${i+1}</em>​​<em class="string"> was dismissed"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        },</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8242">The <span class="cf class">SnackBar</span>’s constructor supports, in addition to the <span class="cf ic">content</span>, an <span class="cf ic">action</span> attribute, in the form of a <span class="cf class">SnackBarAction</span>, which allows the developer to display a button that allows the user to take an action in response to the <span class="cf class">SnackBar</span>’s message:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">SnackBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  content: Text(​<em class="string">"Something happened"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  action: SnackBarAction(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    label: ​<em class="string">"DO SOMETHING ABOUT IT"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    onPressed: () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="comment">// do something about it</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    },</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e8288">A <span class="cf class">SnackBar</span> built with that code looks like this:
+
+
+
+</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/snackbar.png" class="" id="d24e8300" src="images/WidgetLayout/Imagem-83.png" style="width: 45%"/>
+
+  </div>
+
+</body>
+
+</html>

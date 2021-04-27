@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e26774">Allowing the User to Click the Image and Go to the Website: The url_launcher Package</h2>
+
+  <p id="d24e26777">
+
+
+
+
+What if users want to see a comic on the XKCD website? Right now, the only way they could do that is by taking advantage of the comic number and title and searching the XKCD website themselves.</p>
+
+  <p id="d24e26803">It wouldn’t be too hard to provide users with the ability to do that with a tap in the app, so let’s do it!</p>
+
+  <p id="d24e26805">To launch URLs from Flutter apps, we’ll use a handy package on Pub called <span class="emph">url_launcher</span>.</p>
+
+  <h3>Using the url_launcher Package</h3>
+
+  <p id="d24e26813">Let’s add the <span class="cf ic">url_launcher</span> package to the dependencies in <span class="cf filename">pubspec.yaml</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/pubspec.yaml">networking/xkcd_app/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">url_launcher: ​<em class="string">^5.0.2</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26829">and import it in our code in <span class="cf filename">main.dart</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:url_launcher/url_launcher.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26843">The <span class="emph">url_launcher</span> package provides two functions: <span class="cf methodname">canLaunch(url)</span> and <span class="cf methodname">launch(url)</span>. The first returns a <span class="cf ic">bool</span> wrapped in a <span class="cf class">Future</span>, which will be <span class="cf ic">true</span> if there is an app that can handle the URL or <span class="cf ic">false</span> if there isn’t. The second actually launches the URL and returns the same value as the other function: if the launch was successfull, it returns <span class="cf ic">true</span>; if it wasn’t, it returns <span class="cf ic">false</span>.</p>
+
+  <p id="d24e26873">So we know how to launch the URL, but we don’t actually get the comic URL when we fetch the comic’s JSON. That’s not actually a problem, since the URL for each comic is just <span class="emph">https://xkcd.com/comic_number/</span>: the URL to reach comic #2019 is <span class="emph">https://xkcd.com/2019/</span>.</p>
+
+  <p id="d24e26881">This means that a method to launch comics, to be defined inside the <span class="cf class">ComicPage</span> class, can be written in the following way:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">_launchComic</strong>​(​<strong class="kw">int</strong>​ comicNumber) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  launch(​<em class="string">"https://xkcd.com/</em>​​<em class="string">$comicNumber</em>​​<em class="string">/"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Adding an onTap Event</h3>
+
+  <p id="d24e26912">
+
+We know how to launch an URL, but the <span class="cf class">Image</span>’s constructors don’t provide an <span class="cf ic">onTap</span> argument, so we need to wrap it in a <span class="cf class">InkWell</span>, which is a lot like wrapping an <span class="cf ic">img</span> HTML image tag in an <span class="cf ic">a</span> link tag: the <span class="cf class">InkWell</span> needs two arguments: a <span class="cf ic">child</span> which, in this case, will be the <span class="cf class">Image</span>, and the <span class="cf ic">onTap</span> argument we wanted, along with a bunch of options to customize the inksplash effect you can check out on the official Flutter documentation.<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-41" id="FNPTR-41">[41]</a></sup></p>
+
+  <p id="d24e26955">All that’s left to do is to find the place where we show the comic image in <span class="cf class">ComicPage</span> and wrap it in the <span class="cf class">InkWell</span>:
+
+
+
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">InkWell(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  onTap: () {_launchComic(widget.comic[​<em class="string">"num"</em>​]);},</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   child: Image.file(File(widget.comic[​<em class="string">"img"</em>​])),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell">Showing Inksplash on the InkWell</p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images/aside-icons/info.png" class="" id="d24e27008" src="images/aside-icons/Imagem-59.png" style="width: 100%"/>
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p>
+
+  One of <span class="cf class">InkWell</span>’s features is that it can show an inksplash effect when the user taps on the area where it is located, but that will not work in our app because of how visual effects like the inksplash are applied on Flutter widgets.
+</p>
+          <p>
+  A Flutter layout is made of widgets, but the inksplash is not applied to widgets: it is applied to <span class="cf class">Material</span>, which is
+  the class that is also responsible for clipping and elevation effects. An <span class="cf class">Image</span> is drawn <span class="emph">over</span> a <span class="cf class">Material</span>, so the inksplash will be applied to the <span class="cf class">Material</span> <span class="emph">below</span> the image, which will make it invisible.
+</p>
+          <p>
+
+  To show the inksplash effect you’d need to overlap the <span class="cf class">Image</span> with a transparent <span class="cf class">Material</span> widget. The <span class="cf class">Ink</span> widget<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-42" id="FNPTR-42">[42]</a></sup> makes that simpler: it provides a <span class="cf methodname">Ink.image</span> method that allows you to set the <span class="cf class">InkWell</span> as a <span class="cf variable">child</span>, making the image and the <span class="cf class">Material</span> on top of it an ancestor of the <span class="cf class">InkWell</span>.
+</p>
+          <p>
+  A disadvantage of the <span class="cf methodname">Ink</span> is that it requires setting a maximum width and height. For an example of code that correctly shows the inksplash over the image and that works when replacing the code we used above, take a look at this:
+</p>
+          <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/inkSplashComicLaunch.dart">networking/xkcd_app/lib/inkSplashComicLaunch.dart</a></div>
+          <table class="processedcode">
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">Material(</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">  child: Ink.image(</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">    image: FileImage(File(widget.comic[​<em class="string">"img"</em>​])),</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">    height: 300,</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">    width: 200,</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">    child: InkWell(</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">      onTap: () {_launchComic(widget.comic[​<em class="string">"num"</em>​]);},</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">    ),</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">  ),</td>
+            </tr>
+
+            <tr>
+              <td class="codeinfo">​<span class="codeprefix"> </span></td>
+              <td class="codeline">),</td>
+            </tr>
+
+          </table>
+          <p class="last-para-in-cell">
+  If you are not interested in the inskplash effect at all, you can use a <span class="cf class">GestureDetector</span> instead of the <span class="cf class">InkWell</span>. It works in the same way as the <span class="cf class">InkWell</span>, with the same arguments, but without applying an inksplash effect on any kind of widget.
+</p>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</body>
+
+</html>

@@ -1,0 +1,929 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.networking.storage">Making Everything Faster by Caching to Local Storage</h2>
+
+  <p id="d24e25502">
+
+
+
+
+Our app works, but it is very slow because it downloads everything every time, and that wastes the user’s time and data.</p>
+
+  <p id="d24e25528">To make our app more efficient, we’ll have to save the comics to a local cache and retrieve them from there before trying to get them from the Internet. If the needed comic isn’t already saved, we’ll download it from the Internet.</p>
+
+  <h3>An Introduction to the path_provider Package</h3>
+
+  <p id="d24e25533">
+Mobile apps can store data in two directories: a temporary cache directory (which is what we’ll use for this example) or a permanent Data/Documents directory (which is meant to be used for permanent storage of user data). The difference between those two directories is that the cache directory may be wiped at any time by the operating system or the user; wiping the data directory should be done only after warning the user that they may lose important data.</p>
+
+  <p id="d24e25539">The <span class="cf ic">path_provider</span> package allows you to get the path where these folders are located in all of the operating systems supported by Flutter, whereas the I/O operations themselves are handled by the built-in <span class="cf ic">dart:io</span> plugin. Let’s start by adding the following to the dependencies in <span class="cf filename">pubspec.yaml</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/pubspec.yaml">networking/xkcd_app/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">path_provider:</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25556">And import it in our Dart code using this at the top:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:path_provider/path_provider.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25567">
+Since they perform I/O operations (which take a considerable amount of time to complete), both <span class="cf ic">path_provider</span> and <span class="cf ic">dart:io</span> functions return <span class="cf class">Future</span>s.
+</p>
+
+  <h3>Get Down to It: Implement Caching</h3>
+
+  <p id="d24e25586">
+
+
+Since we also need to use Dart’s built-in <span class="cf ic">dart:io</span> plugin to actually perform the I/O operations, we need to add the following at the top of the Dart file:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'dart:io'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25618">The code we need to modify is the code that fetches the comics: we need the comic fetching functions to check if the comic is already saved, get it from local storage if it is, and download it and save it if it isn’t already saved.</p>
+
+  <p id="d24e25620">We’ll create a file to store the number of the latest comic (which is going to be updated whenever the app is started with a network connection available) and each comic is going to be saved in a separate file.</p>
+
+  <p id="d24e25622">
+Let’s start with the most significant change: the change to the <span class="cf methodname">fetchComic</span> methods.</p>
+
+  <p id="d24e25631">Specifically, the <span class="cf class">HomeScreen</span>’s fetchComic method, which, at the moment, looks like this:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">int</strong>​ n) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"https://xkcd.com/</em>​​<em class="string">${latestComic-n}</em>​​<em class="string">/info.0.json"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25671">Fat arrow syntax won’t work for what we need now: before returning a value we need to get the temporary directory path, check if the comic has already been downloaded and fetch it if it hasn’t.</p>
+
+  <p id="d24e25674">We’ll start editing it by reverting to the regular syntax, with braces and return:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">int</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"https://xkcd.com/</em>​​<em class="string">${latestComic-n}</em>​​<em class="string">/info.0.json"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25716">At the start of the function, we’ll declare three variables: the directory that will contain the files, the comic number (since we’ll use it more than once it’s easier  to just calculate it once and use it every time) and the File object itself.</p>
+
+  <p id="d24e25718">The function that returns the directory is <span class="cf methodname">getTemporaryDirectory</span>, it is asynchronous and returns a <span class="cf class">Directory</span> object, the path string itself is the <span class="cf ic">Directory.path</span> member.</p>
+
+  <p id="d24e25729">
+Files are managed through the <span class="cf class">File</span> class, which allows us to create files and perform read/write operations on them.</p>
+
+  <p id="d24e25738">The <span class="cf class">File</span> constructor is very simple: it takes one positional argument, which is the path to the file.</p>
+
+  <p id="d24e25743">
+We can perform operations on files using two methods for each operation: we can choose between a synchronous method (like <span class="cf methodname">File.readAsStringSync</span>) which returns whatever is requested directly (no <span class="cf class">Future</span>s involved), and an asynchronous method (like <span class="cf methodname">File.readAsString</span>) which is asynchronous, returns a <span class="cf class">Future</span> and requires <span class="cf ic">await</span> or <span class="cf methodname">Future.then</span> to retrieve the requested data. The advantage of the synchronous method is that we don’t need to convert everything to asynchronous methods and we don’t need to use <span class="cf ic">await</span> all the time, while the advantage of the asynchronous method is that we can just run it and let the rest of the main thread run unaffected if we don’t need the result, as would happen when we create files, for example.</p>
+
+  <h4>The First Step: Saving the JSON Response</h4>
+
+  <p id="d24e25774">These three things can be done with the following three lines of code:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ comicNumber = latestComic-n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$comicNumber</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25801">Now we need to check if the file exists and isn’t empty and return its decoded content:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">if</strong>​(await comicFile.exists() &amp;&amp; comicFile.readAsStringSync() != ​<em class="string">""</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25829">If it isn’t, we need to create the file and write the JSON string to it:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ comic =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await http.read(​<em class="string">'https://xkcd.com/</em>​​<em class="string">${latestComic - n}</em>​​<em class="string">/info.0.json'</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25854">The entire function, when put together, ends up being:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">int</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">int</strong>​ comicNumber = latestComic-n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$comicNumber</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(await comicFile.exists() &amp;&amp; comicFile.readAsStringSync() != ​<em class="string">""</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ comic =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        await http.read(​<em class="string">'https://xkcd.com/</em>​​<em class="string">${latestComic - n}</em>​​<em class="string">/info.0.json'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="comment">/* no need to use sync methods as we</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<em class="comment">       don't have to wait for it to finish caching */</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.writeAsString(comic);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ json.decode(comic);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e25969">Since the <span class="cf class">SelectionPage</span> should also take advantage of cached comics, we just need to modify this function slightly to take the comic number as a string argument:
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">int</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(await comicFile.exists() &amp;&amp; comicFile.readAsStringSync() != ​<em class="string">""</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ comic =</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        await http.read(​<em class="string">'https://xkcd.com/</em>​​<em class="string">$n</em>​​<em class="string">/info.0.json'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.writeAsString(comic);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ json.decode(comic);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Saving the Latest Comic Number</h3>
+
+  <p id="d24e26078">
+In its current state, our app still depends on the latest comic number being fetched at startup to work, but we can save that in a file when we get it and, if at some point we can’t fetch it at startup, we will try to get it from the file instead.</p>
+
+  <p id="d24e26084">We obviously want to fetch the remote one whenever we can, since we want that number to change when new comics come out, unlike what we did in <span class="cf methodname">_fetchComic</span>, where we fetched from files whenever possible and only resorted to fetching from the Internet if that wasn’t possible.</p>
+
+  <p id="d24e26089">To do this in our app we need to change the <span class="cf methodname">getLatestComicNumber</span> top-level function, and to achieve what we want there is a feature that will be familiar to most programmers is catching exception using <span class="cf ic">try</span> and <span class="cf ic">catch</span>.</p>
+
+  <p id="d24e26100">If the app attempts a network connection and fails (which happens when the site can’t be reached by the device for any reason), it will throw an exception.</p>
+
+  <p id="d24e26102">We can catch that exception and grab the comic number from local storage instead.</p>
+
+  <p id="d24e26104">We’ll start editing the function declaring the directory and file variables, along with a variable to store the latest comic number that will be returned:
+
+
+
+
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ file = File(​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/latestComicNumber.txt'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ n = 1;</td>
+    </tr>
+
+  </table>
+
+  <h3>Catching Exceptions</h3>
+
+  <p id="d24e26142">
+
+This section is an anticipation of <a href="Capítulo-073.html#sec.testing.errors">​<em>Throwing and Catching Exceptions</em>​</a>, since we will deal with <span class="cf ic">try</span>-<span class="cf ic">catch</span> block to catch exceptions.</p>
+
+  <p id="d24e26161">Whenever, in any programming language, a piece of code fails to perform the action that is requested to perform, the programming language allows it to <span class="emph">throw</span> an <span class="emph">exception</span>. This will result in a crash of the piece of software in question, but any exception can be handled by <span class="emph">catching</span> it and performing an action in response to the exception.</p>
+
+  <p id="d24e26172">For example, if we try to get the comic number and an exception is thrown (meaning that the latest comic number couldn’t be fetched, probably because no network connection is available) we can catch that exception and check if we have fetched it in a previous occasion, so that we can retrieve it from there instead.</p>
+
+  <p id="d24e26174">To do that, we’ll start by wrapping whatever could fail in a <span class="cf ic">try</span> block, like this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="comment">// CODE THAT COULD FAIL</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">} ​<strong class="kw">catch</strong>​(exceptionDetails) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(​<em class="string">"Something failed"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  print(exceptionDetails);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26203">So let’s fetch the latest comic number, but in a <span class="cf ic">try</span> block:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">try</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  n = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(​<em class="string">'https://xkcd.com/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  )[​<em class="string">"num"</em>​];</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26237">Since saving the number in a file doesn’t affect the rest of the function’s execution,  we can check if the file exist, create it if it doesn’t and write the number to the file in a separate thread, without making the function wait for these operations to be completed (all of this will go inside the <span class="cf ic">try</span> block and will only be executed if the previous instruction doesn’t fail):</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">file.exists().then(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  (exists) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">if</strong>​(!exists) file.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.writeAsString(​<em class="string">'</em>​​<em class="string">$n</em>​​<em class="string">'</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26278">The <span class="cf methodname">.then</span> method creates a new thread, waiting for the function to return a value.</p>
+
+  <p id="d24e26283">When <span class="cf methodname">file.exists</span> returns a value, it is passed to an anonymous function that does everything we need it to do without affecting the rest of the function.</p>
+
+  <p id="d24e26288">If this fails and there is a file from which we can get the number we will get the number from that file, using the <span class="cf ic">catch</span> keyword:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">catch</strong>​(e) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.existsSync() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    file.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    n = ​<strong class="kw">int</strong>​.parse(file.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26331">And, regardless of how we get here, we return the number:
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">return</strong>​ n;</td>
+    </tr>
+
+  </table>
+
+  <h3>Saving the Images</h3>
+
+  <p id="d24e26345">
+
+
+
+Now, if you try to open the app with no network connection, you will notice that everything works, but there are no images.</p>
+
+  <p id="d24e26366">This shouldn’t be surprising: we are only saving their URL, and we obviously can’t access the images without a network connection.</p>
+
+  <p id="d24e26368">This means we need to download the images to make our app 100% usable offline and, to be able to do this, we will, once again, have to make changes to <span class="cf methodname">fetchComic</span>.</p>
+
+  <p id="d24e26373">The code that runs when the file already exists doesn’t need to be changed: it just reads the file and saves it, we just need to ensure that we clear the cache before running the app since we’ll be making changes to how the comic’s JSON string is being saved and we will be making changes to the functions that use the values in the cached comics.</p>
+
+  <p id="d24e26375">In the <span class="cf ic">else</span> statement’s curly braces in the <span class="cf class">HomeScreen</span>’s fetchComic method we need to create the file, get the comic’s JSON body, save the image to local storage, and replace the URL in the img parameter with the saved image’s path.</p>
+
+  <p id="d24e26385">These are all operations that have already been described by this book and, when put together, produce the following <span class="cf methodname">_fetchComic</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">int</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">int</strong>​ comicNumber = latestComic-n;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">var</strong>​ comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$comicNumber</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  await comicFile.exists() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  comicFile.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comicFile.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">final</strong>​ comic = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     await http.read(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">'https://xkcd.com/</em>​​<em class="string">$comicNumber</em>​​<em class="string">/info.0.json'</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    File(​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$comicNumber</em>​​<em class="string">.png'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      .writeAsBytesSync(await http.readBytes(comic[​<em class="string">"img"</em>​]));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comic[​<em class="string">"img"</em>​] = ​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$comicNumber</em>​​<em class="string">.png'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    comicFile.writeAsString(json.encode(comic));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26557">We are just using an asynchronous function without an <span class="cf ic">await</span> expression to write the comic file, since it isn’t going to be used by the app until it is restarted, so we don’t need to pause the execution to write it like we do, for example, for the image file that is going to be used by the <span class="cf class">ComicTile</span> not long after the method returns.</p>
+
+  <p id="d24e26565">The same exact changes apply to the <span class="cf class">SelectionPage</span>’s <span class="cf methodname">_fetchComic</span> method, given that this part of the function doesn’t change between the two:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">String</strong>​ n) async {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ dir = await getTemporaryDirectory();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">var</strong>​ comicFile = File(​<em class="string">"</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.json"</em>​);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">if</strong>​(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   await comicFile.exists() &amp;&amp;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comicFile.readAsStringSync() != ​<em class="string">""</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ json.decode(comicFile.readAsStringSync());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">else</strong>​ {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comicFile.createSync();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">final</strong>​ comic = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     await http.read(​<em class="string">'https://xkcd.com/</em>​​<em class="string">$n</em>​​<em class="string">/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   File(​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     .writeAsBytesSync(await http.readBytes(comic[​<em class="string">"img"</em>​]));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comic[​<em class="string">"img"</em>​] = ​<em class="string">'</em>​​<em class="string">${dir.path}</em>​​<em class="string">/</em>​​<em class="string">$n</em>​​<em class="string">.png'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   comicFile.writeAsString(json.encode(comic));</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26732">Since the <span class="cf ic">comic["img"]</span> value is now the path to the file that contains the comic image, we need to change (in the build methods for the <span class="cf class">ComicPage</span> and for the <span class="cf class">ComicTile</span>) the following line:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.network(comic[​<em class="string">"img"</em>​])</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26753">to:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Image.file(File(comic[​<em class="string">"img"</em>​]))</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e26765">At this point opening the app with an active Internet connection, closing it and opening it again without an Internet connection will reveal that the app is now completely capable of browsing comics that have already been fetched while not being able to perform requests to the XKCD website.
+
+
+
+</p>
+
+</body>
+
+</html>

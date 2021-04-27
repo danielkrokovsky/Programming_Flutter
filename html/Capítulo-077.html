@@ -1,0 +1,713 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e35136">What Is Firebase?</h2>
+
+  <p id="d24e35139">The traditional way to build web and mobile apps is by having a front end and a back end. The front end is what is built using tools like Flutter, platform-specific native SDKs, <span class="emph">React</span> or <span class="emph">HTML</span> and it’s run on a the users’ client device, whereas the back end is ran on a server and is built with tools like <span class="emph">PHP</span>, <span class="emph">Spring</span> or <span class="emph">Node.js</span>.</p>
+
+  <p id="d24e35156">Firebase aims to replace most of the features run on server-side software with their own services that connect directly to apps using Google’s own API instead of using standard HTTP requests. Apps built using Firebase are usually simpler to set up and less complicated to maintain. There is a free plan (called <span class="emph">Spark</span>) that allows a limited number of connections and only offers limited storage and computing, but you don’t need anything more to complete the tasks described in this chapter.</p>
+
+  <h3>Getting Started</h3>
+
+  <p id="d24e35164">
+Let’s start by navigating to the Firebase Console,<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-46" id="FNPTR-46">[46]</a></sup> logging into Google and creating a new project:</p>
+
+  <div class="ss">
+
+    <img alt="images/Firebase/addProjectButton.png" class="border " id="d24e35175" src="images/Firebase/Imagem-04.png" style="width: 33%"/>
+
+  </div>
+
+  <p id="d24e35176">after that, you’ll get the following popup window:</p>
+
+  <div class="ss">
+
+    <img alt="images/Firebase/addProjectScreen.png" class="border " id="d24e35178" src="images/Firebase/Imagem-05.png" style="width: 55%"/>
+
+  </div>
+
+  <p id="d24e35179">Choose a project name (for this example, we’ll use <span class="emph">ChatOnFire</span> from now on for all project/app names) and the closest servers to your location in the world. Now you need to connect your app to Firebase, and this has to be done separately for the Android and iOS configuration of the app by following the instructions provided on screen, keeping in mind that you can find the platform-specific configuration for each platform the app runs on in the <span class="cf dir">android</span> and <span class="cf dir">ios</span> directories of your app tree.</p>
+
+  <p id="d24e35190">After completing the platform-specific configuration, we need to start connecting Firebase to Flutter, and there are a bunch of Google-developed Flutter packages on Dart Pub that help us build apps using Flutter and Firebase.
+</p>
+
+  <h3>Firebase for Flutter</h3>
+
+  <p id="d24e35196">
+
+
+After installing the <span class="emph">firebase_core</span> package<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-47" id="FNPTR-47">[47]</a></sup> (you know the drill, there’s no need for further explanations, remember to run <span class="cf commandname">flutter packages get</span> after editing <span class="cf filename">pubspec.yaml</span>) we need to worry about the specific features we need for our app. There is a complete list of Flutter Firebase packages on GitHub’s official Flutter account.<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-48" id="FNPTR-48">[48]</a></sup></p>
+
+  <p id="d24e35231">Let’s start with the most commonly used Firebase tool: the Cloud Firestore database.</p>
+
+  <h3>The Firebase Cloud Firestore</h3>
+
+  <p id="d24e35236">
+
+The Firebase Cloud Firestore is ideal for data that is subject to frequent additions and needs to be accessed in real time. This means it is perfectly suited to the creation of a chat app.</p>
+
+  <p id="d24e35243">For this example, navigate to Database -&gt; Rules in the Firebase Console and change the rules to the following so that we don’t need to authenticate (we’ll worry about that <a href="#sec.firebase.authentication">​<em>Authentication</em>​</a>).:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">service cloud.firestore {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  match /databases/{database}/documents {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    match /{document=**} {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      allow read, write;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35263">What is commonly referred to in any SQL DBMS as a table is called a collection in Cloud Firestore. Let’s create one. Since we’re going to build a chat app, we’ll create one to store messages sent by the users.</p>
+
+  <h4>Creating a Collection</h4>
+
+  <p id="d24e35268">
+
+
+Since our example is going to be a simple public chatroom, we just need to store three pieces of data about the message:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e35286">Who sent the message, which will be a string that we’ll initially set to <span class="emph">Anonymous</span> for each message, but that will be the user ID of the sender (which is a string) after we implement authentication.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e35292">The message body itself (another string).</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e35295">The date and time at which the message was sent, which can be set to the Firestore data type <span class="cf ic">timestamp</span>, which is converted to a <span class="cf class">DateTime</span> object in Dart.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e35303">So, let’s go to Databases -&gt; Data in the Firebase Console, click the <span class="emph">Add collection</span> button, which will prompt you to enter a name for the collection. We’ll use <span class="emph">Messages</span> as the collection name. After that, you’ll be prompted to enter the data for the first document to be added to the collection.</p>
+
+  <p id="d24e35312">The Document ID doesn’t have to be anything in particular, so you can click the <span class="emph">Auto-ID</span> button to get it automatically filled for you by random characters;
+We also need to add all of the fields we mentioned earlier, choosing the appropriate types and setting an appropriate value for each field to be used for the creation of the first message. For our example, let’s set the fields in the following way:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e35319">A <span class="cf ic">string</span> called <span class="emph">from</span> to identify the sender, with <span class="emph">Anonymous</span> as the value.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e35331">A <span class="cf ic">string</span> called <span class="emph">msg</span>, which will be the body of the message, the value of which we you could set simply to <span class="emph">Hi</span>, as a test.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e35343">A <span class="cf ic">timestamp</span> called <span class="emph">when</span>, which you should set to your current time converted to UTC time.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e35351">We are using UTC time for the <span class="cf ic">when</span> field because we want the date and time to be in the user’s local time, so we keep the UTC time in the database and convert it to the local time in the app. We’ll have to keep this in mind when sending messages from the app because in that occasion we’ll have to convert the local time to UTC.
+
+
+</p>
+
+  <h4>Interacting with Cloud Firestore in Flutter Apps</h4>
+
+  <p id="d24e35364">
+
+
+
+To use Firestore in our Flutter app, we’ll take advantage of the <span class="emph">cloud_firestore</span> package.</p>
+
+  <p id="d24e35388">Let’s start by adding the <span class="cf ic">cloud_firestore</span> package to the dependencies in <span class="cf filename">pubspec.yaml</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/pubspec.yaml">firebase/chatonfire/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  firebase_core:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  cloud_firestore:</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35424">and importing it into <span class="cf filename">main.dart</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/lib/main.dart">firebase/chatonfire/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:cloud_firestore/cloud_firestore.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35438">
+We interact with Cloud Firestore using an instance of the <span class="cf class">Firestore</span> class created using <span class="cf ic">Firestore.instance</span>. We can access a collection with <span class="cf methodname">Firestore.instance.collection("collectionName")</span> where <span class="emph">collectionName</span> is the name of the collection we want to access. The type of data returned by that is <span class="cf class">CollectionReference</span>, and we will explore how to use that in this section.
+
+
+</p>
+
+  <p><strong id="sec.firebase.firestore.read">Reading from the Cloud Firestore</strong></p>
+
+  <p id="d24e35468">
+
+
+If we want to access a certain document directly, we use the:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">CollectionReference.document(path)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35491">
+simple query method (where) <span class="cf ic">path</span> is actually the ID of the document, which corresponds with the path leading to the document within the collection. This returns a <span class="cf class">DocumentReference</span>, and doesn’t actually fetch the document. To fetch it, we need to call <span class="cf methodname">DocumentReference.get</span>, which returns a <span class="cf ic">Future&lt;DocumentSnapshot&gt;</span>. After <span class="cf ic">await</span>ing or otherwise getting the <span class="cf class">DocumentSnapshot</span> itself, we can access the data contained in the document by accessing the <span class="cf variable">DocumentSnapshot.data</span> property, which contains a <span class="cf class">Map</span> of the data contained in the document.</p>
+
+  <p id="d24e35522">For example, if we had the name of a collection stored in a variable called <span class="cf ic">collectionName</span> and we wanted to access document with ID <span class="cf ic">docPath</span>, and in particular its property <span class="cf ic">"myMember"</span> and set it to the <span class="cf variable">data</span> variable, we would need to write the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ firestore = Firestore.instance;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ data = (</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  await firestore</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    .collection(collectionName)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    .document(docPath)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    .get()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">).data[​<em class="string">"myMember"</em>​];</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35574">Querying a single document is useful for some purposes, but what we really want in a chat app when fetching messages is a way to access the list of all of the documents that have been stored in the collection.</p>
+
+  <p id="d24e35576">To do that, we can use the <span class="cf methodname">CollectionReference.getDocuments</span> method, which returns all of the documents in the given collection in a <span class="cf class">Future</span>, but its disadvantage is that we need to fetch it again every time we want to update the list of messages, which doesn’t really go well with the real-time nature of instant messaging.</p>
+
+  <p id="d24e35584">What we want is to get the messages as a <span class="cf class">Stream</span> that is changed in real time to yield the list of all messages updated in real time. This is done using the <span class="cf methodname">CollectionReference.snapshots</span> method, meaning we can use it to get a <span class="cf class">Stream</span> of the messages by writing:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Firestore.instance.collection(​<em class="string">"Messages"</em>​).snapshots()</td>
+    </tr>
+
+  </table>
+
+  <p><strong id="sec.firebase.firestore.add">Adding Data to the Cloud Firestore</strong></p>
+
+  <p id="d24e35615">
+
+We can add a document to a Firestore collection by using <span class="cf methodname">CollectionReference.add(doc)</span> where <span class="cf ic">doc</span> is a <span class="cf class">Map</span> assigning a value for each of the document’s fields, like in the following example, which sends an anonymous message to be stored in the collection:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Firestore.instance.collection(​<em class="string">"Messages"</em>​).add(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"from"</em>​: ​<em class="string">"Anonymous"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"when"</em>​: DateTime.now().toUtc(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"msg"</em>​: ​<em class="string">"Hi There From The App"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35684">In a real app we need to authenticate users, so we’ll start by discovering how we can authenticate users to our Flutter apps using Firebase Authentication.</p>
+
+  <p><strong>Deleting or Changing Data from the Cloud Firestore</strong></p>
+
+  <p id="d24e35690">
+
+
+
+Given a <span class="cf class">DocumentReference</span> (the object we get from <span class="cf methodname">Firestore.instance.collection(collection).document(document)</span>), we can, in addition to getting the data using the <span class="cf methodname">DocumentReference.get</span> as we said earllier, perform some actions on the document:</p>
+
+  <ul>
+
+    <li>Delete it using <span class="cf methodname">DocumentReference.delete</span>.</li>
+
+    <li>Change some fields by passing a <span class="cf class">Map</span> to <span class="cf methodname">DocumentReference.updateData</span>.</li>
+
+    <li>Set the contents of the document, creating it if doesn’t exist, by passing a <span class="cf class">Map</span> to <span class="cf methodname">DocumentReference.setData</span>.</li>
+
+  </ul>
+
+  <p id="d24e35746">All of these methods run asynchronously but don’t return anything.
+
+
+
+</p>
+
+  <h3 id="sec.firebase.authentication">Authentication</h3>
+
+  <p id="d24e35758">
+
+
+Authentication requires its own <span class="emph">firebase_auth</span> package<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-49" id="FNPTR-49">[49]</a></sup> and can be configured in Flutter’s console by going to Develop -&gt; Authentication -&gt; Sign-in method. In our example we’ll authenticate users using their email address and password, which is made very easy by Firebase and is representative of the majority of apps. After selecting it, you’ll be warned that more platform-specific setup is required: specifically, we need to add:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">implementation 'com.google.firebase:firebase-auth:16.2.1'</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35786">to the app-level <span class="cf filename">build.gradle</span> dependencies for Android, and:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">pod 'Firebase/Auth'</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35795">to the iOS <span class="cf filename">Podfile</span> you should have from the CocoaPods configuration that was needed to connect the iOS app to Firebase.</p>
+
+  <h4>Using the firebase_auth Package</h4>
+
+  <p id="d24e35803">Let’s import the <span class="emph">firebase_auth</span> package, which provides an intuitive Flutter interface to the Firebase Authentication tools:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/pubspec.yaml">firebase/chatonfire/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">firebase_auth: ​<em class="string">^0.6.2</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35816">As always, we need to import the firebase_auth package in <span class="cf filename">main.dart</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/lib/main.dart">firebase/chatonfire/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:firebase_auth/firebase_auth.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p><strong>The FirebaseAuth</strong></p>
+
+  <p id="d24e35833">
+
+Firebase authentication is achieved using an instance of the <span class="cf class">FirebaseAuth</span> class, obtained using:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ auth = FirebaseAuth.instance;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35853">After this, we can use the <span class="cf variable">auth</span> object to handle most authentication-related actions.</p>
+
+  <p id="d24e35858">
+Among them, we find:</p>
+
+  <p id="d24e35864"><span class="cf methodname">createUserWithEmailAndPassword(email, password)</span></p>
+
+  <p id="d24e35867">
+which creates a user with the given email and password, and:</p>
+
+  <p id="d24e35873"><span class="cf methodname">signInWithEmailAndPassword(email, password)</span></p>
+
+  <p id="d24e35876">which signs in the user with the given email and password.</p>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title">The Many Authentication Methods Available in Flutter</div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e35881">
+	
+		There are many authentication methods available to use with Firebase. Here is a list of the most common ones:
+	</p>
+
+      <ul>
+
+        <li>
+
+          <p id="d24e35890">Phone Authentication, which relies on two phases: running <span class="cf methodname">FirebaseAuth.instance.verifyPhoneNumber</span>, which takes methods to be run when the code is sent, it’s automatically retrieved, or there was an issue during verification. If it is auto-retrieved, we should consider the user authenticated and move on. If it is not, we need to provide the user a way to insert the code they received via SMS and use and use an <span class="cf class">AuthCredential</span> to log in, as described in the aside <span class="emph">Package and Library Versions</span> that follows this sidebar.
+		</p>
+
+        </li>
+
+        <li>
+
+          <p id="d24e35904">Google Sign-In Authentication, using <span class="cf methodname">FirebaseAuth.instance.signInWithGoogle</span>.
+		</p>
+
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell">Package and Library Versions</p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images/aside-icons/warning.png" class="" id="d24e35922" src="images/aside-icons/Imagem-96.png" style="width: 100%"/>
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p>
+  
+  	The <span class="emph">FlutterFire</span> packages (as Google likes to call the Firebase-related Flutter packages), just like the testing interface, are sometimes incompatible with some versions of Flutter or of the platform-specific API (the one we import in the Gradle/CocoaPods configuration) or don’t work at all. Additionally, they tend to have breaking changes from one version to another, meaning the same code has a high change of not working after one or two major releases.
+  </p>
+          <p>
+  
+  
+  
+  	For our example, I used <span class="emph">firebase_auth</span> version 0.6.X because that was the only version that consistenly worked with the current Flutter version (1.5) and native API version. If, in the future, you need to use a newer version because of security concerns about the older versions or any other reason. One thing to keep in mind is that the package is slowly switching to using the generic <span class="cf methodname">auth.signInWithCredential</span> method, which takes as a positional argument a <span class="cf class">AuthCredential</span> object.
+  </p>
+          <p>
+  
+  	An <span class="cf class">AuthCredential</span> object can be generated by calling the <span class="cf methodname">getCredential</span> of each <span class="cf class">AuthProvider</span>, providing to each the arguments it needs to perform the authentication.
+  </p>
+          <p class="last-para-in-cell">
+  	You can look at all of the <span class="cf class">AuthProvider</span>s available and the methods you can use to get <span class="cf class">AuthCredential</span>s on the official <span class="emph">firebase_auth</span> API reference.<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-50" id="FNPTR-50">[50]</a></sup> That’s also where you should look in case you upgrade the package version and have issues in general.
+  </p>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p><strong id="sec.firebase.firebaseuser">The FirebaseUser</strong></p>
+
+  <p id="d24e36002">
+The final result of an authentication process is the generation of a <span class="cf class">FirebaseUser</span> variable, which will also be stored. This represents the user account and stores the following information as properties:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e36013">Its <span class="cf variable">uid</span>, a string equivalent to a typical numerical User ID.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36019">Its <span class="cf variable">phoneNumber</span> and/or <span class="cf variable">email</span> address.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36028">An <span class="cf variable">isEmailVerified</span> to establish whether a user’s email address has been verified, which is useful when doing email and password authentication.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e36034">A <span class="cf variable">displayName</span> and <span class="cf variable">photoUrl</span> we can set by changing these properties directly.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e36042">To make changes to these properties (for example to set the display name), we need to create an <span class="cf class">UserUpdateInfo</span> object, which will have all of these properties. Change any properties you want to change and then run <span class="cf methodname">user.updateProfile(userUpdateInfo)</span>, where <span class="cf variable">userUpdateInfo</span> is the <span class="cf class">UserUpdateInfo</span> object containing the changed properties.</p>
+
+  <p id="d24e36056">To change the user’s email address, you can use <span class="cf methodname">user.updateEmail(newEmail)</span>, whereas to change the user’s password you can use <span class="cf methodname">user.updatePassword(newPassword)</span>. You can reload the local profile to match the remote one using <span class="cf methodname">user.reload</span>. Keep in mind that this will only have an effect if you reassign the <span class="cf variable">user</span> variable to <span class="cf methodname">auth.currentUser</span>.</p>
+
+  <p id="d24e36073">Firebase’s authentication tools can do a lot: other than just creating and deleting accounts, resetting passwords and changing email address, it allows you to also verify email addresses. Verification happens by calling <span class="cf methodname">user.sendEmailVerification</span>, which sends an email containg a verification link to the user. When the user clicks the link, the email will be considered as verified.</p>
+
+  <p id="d24e36078">The only difference this makes to Firebase itself is that users with a verified email addresses have the <span class="cf variable">user.isEmailVerified</span> boolean property set to <span class="cf constant">true</span> instead of <span class="cf constant">false</span>. You get to decide what to do with unverified users: whether to supply all features, only some of them, or no features at all.</p>
+
+  <p id="d24e36089">You also get to decide what the email sent to the user will look like: by going to Authentication -&gt; Templates you can choose the sender name, some aspects of the sender email address and the entire body of the email sent to the user.
+</p>
+
+  <p><strong id="sec.firebase.loginsignup">Writing Log-In and Sign-Up Methods</strong></p>
+
+  <p id="d24e36095">That’s the theory, here are two examples of how you can use those methods to write an interface to the Firebase Authentication API for our app.</p>
+
+  <p id="d24e36097">This is what a sign-up method for email and password authentication could look like:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/lib/main.dart">firebase/chatonfire/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;FirebaseUser&gt; signUp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ email, ​<strong class="kw">String</strong>​ password</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  _auth.createUserWithEmailAndPassword(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    email: email,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    password: password</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e36125">and this is how we could write a log-in method</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firebase/chatonfire/lib/main.dart">firebase/chatonfire/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;FirebaseUser&gt; logIn(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">String</strong>​ email, ​<strong class="kw">String</strong>​ password</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  _auth.signInWithEmailAndPassword(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      email: email,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      password: password</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+  </table>
+
+  <p><strong>Checking Whether the User is Logged-In and Getting Information on the Current user</strong></p>
+
+  <p id="d24e36158">Running:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">auth.currentUser();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e36167">
+
+will return (asynchronously) the currently logged in <span class="cf class">FirebaseUser</span>.</p>
+
+  <p id="d24e36181">If we haven’t performed log-in yet, it will return <span class="cf ic">null</span>, meaning there is an easy way to check whether log-in has happened.</p>
+
+  <p><strong>Log-In Persistency in Local Cache</strong></p>
+
+  <p id="d24e36190">
+
+
+Firebase will preserve login information in local storage, meaning we don’t have to worry about persistence of user data on the local user’s device since Firebase will take care of that for us as well.</p>
+
+  <p><strong>Sign Out</strong></p>
+
+  <p id="d24e36209">
+Given that the user data is kept by Firebase indefinetly, to sign out a user you need to run:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">auth.signOut();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e36222">which is an asynchronous method that doesn’t return anything.</p>
+
+  <h3>Combining Authentication and Database Access</h3>
+
+  <p id="d24e36227">
+
+Firebase is great: you just need to authenticate the user and then any operation you try to execute on a Firebase database will be executed on behalf of that user. You don’t even need to think about it: Firebase does it on its own and Flutter supports it perfectly. That’s what we’re going to take advantage of when we build our chat app in <a href="Capítulo-081.html#sec.firebase.chat">​<em>Building the Chat App</em>​</a>.
+
+
+</p>
+
+</body>
+
+</html>

@@ -1,0 +1,598 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e266">Installing the SDK and the IDE Plugins</h2>
+
+  <p id="d24e269">To use Flutter, you need to install its SDK, and to be able to get on with your programming in a quick and uncomplicated manner, you’ll probably want to install the IDE tools too.</p>
+
+  <p id="d24e271">If you prefer to use the command line (maybe because you want to use other, perhaps lighter, IDEs or text editors) there will be guidance on the usage of the <span class="cf ic">flutter</span> command throughout the book.</p>
+
+  <h3>Installing Flutter</h3>
+
+  <p id="d24e279">
+The installation process for the Flutter SDK differs slightly for each operating system, so I’ll separate the instructions into three sections. Skip ahead to the instructions specific to your platform and, if you want to install them, the part that covers IDE plugin installation.</p>
+
+  <p id="d24e285">
+At the time of writing, the latest stable version is 1.9.1 and requires a 495MB download on Linux (tar.xz archive), a 655MB download on Windows (zip archive), or a 786MB download on macOS (zip archive).</p>
+
+  <h4>Installing on Linux</h4>
+
+  <p id="d24e294">
+
+On a Linux machine only Android development is supported, so we will install just the Android SDK and the Flutter SDK itself. You’ll receive guidance for both CLI and graphical installation methods.</p>
+
+  <p><strong>Installing the Android SDK on Linux</strong></p>
+
+  <p id="d24e304">
+
+If you have never developed Android apps, you need to install the Android SDK, which includes the tools needed to build and debug Android apps.</p>
+
+  <p id="d24e315">
+
+In order to use Flutter, you need to install Android Studio and the Android SDK tools. Flutter requires Android Studio to be installed, but you don’t have to use it for development.</p>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell">Alternatives to the Official Zip File</p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images/aside-icons/info.png" class="" id="d24e336" src="images/aside-icons/Imagem-59.png" style="width: 100%"/>
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p>
+
+
+	On Gentoo and Arch Linux you can use packages to install the Android SDK and/or Android Studio:
+</p>
+          <ul>
+
+            <li>
+
+              <p id="d24e355">
+				On Gentoo, you can install the Android Studio package<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-4" id="FNPTR-4">[4]</a></sup>
+				by running <span class="cf commandname">emerge --ask dev-util/android-studio</span>;
+			</p>
+
+            </li>
+
+            <li>
+
+              <p id="d24e366">For Arch Linux there is an actively maintained and popular package available on the AUR called <span class="emph">android-studio</span><sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-5" id="FNPTR-5">[5]</a></sup>.</p>
+
+            </li>
+
+          </ul>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e376">Start by heading over to the downloads page on the Android Developers page:<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-6" id="FNPTR-6">[6]</a></sup> there you’ll find links for the .zip download of Android Studio (around 1GB in size).</p>
+
+  <p id="d24e383">
+
+
+Regardless of what you choose, you might need to install some 32-bit libraries to make the SDK work on a 64-bit operating system:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e401">On Debian/Ubuntu, run <span class="cf ic">sudo apt install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386</span></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e406">On Fedora, run <span class="cf ic">sudo dnf install zlib.i686 ncurses-libs.i686 bzip2-libs.i686</span>.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e411">After that, we’re ready to actually install the Android SDK.</p>
+
+  <p id="d24e413">To do that using the full Android Studio installer, after extracting the zip file you downloaded from Google’s website, run the <span class="cf filename">studio.sh</span> script contained in the <span class="cf dir">bin</span> subdirectory. This will start a setup wizard. After you complete the setup of the SDK you can launch Android Studio by running that same <span class="cf filename">studio.sh</span> script.
+
+</p>
+
+  <p><strong>Installing the Flutter SDK on Linux</strong></p>
+
+  <p id="d24e433">
+
+This part will provide guidance for Linux installation aimed at beginners; if you are comfortable with the command line the CLI steps will be more predictable. (For complete Linux newbies it might be easier to follow GUI-oriented guidance since that’s usually more familiar.)</p>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell">Alternatives to the Tarball</p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images/aside-icons/info.png" class="" id="d24e454" src="images/aside-icons/Imagem-59.png" style="width: 100%"/>
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p>
+	
+	There are alternatives to installing the official tarball:
+</p>
+          <ul>
+
+            <li>
+
+              <p id="d24e468">Arch Linux has an actively maintained package in the AUR to install Flutter.<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-7" id="FNPTR-7">[7]</a></sup>
+			</p>
+
+            </li>
+
+          </ul>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e477">The Linux download is a source tarball that also contains the script needed to run the <span class="cf ic">flutter</span> command, which means you just need to extract it and add the <span class="cf dir">bin</span> subdirectory of the extracted tarball to the <span class="cf ic">PATH</span> environment variable.</p>
+
+  <p id="d24e488">Before we can do that, we need to browse to the SDK archive<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-8" id="FNPTR-8">[8]</a></sup> page on Flutter’s official website and download the latest stable version.</p>
+
+  <p id="d24e495">Alternatively, in a CLI-only environment, you can download the 1.2.1 tarball using <span class="cf ic">curl https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_v1.2.1-stable.tar.xz -o flutter_linux_v1.2.1-stable.tar.xz</span>.</p>
+
+  <p id="d24e500">Extract the tarball you just downloaded with any GUI tool of your liking or by running the following command:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ tar -xf flutter_linux_v1.2.1-stable.tar.xz</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e511">Now we need to add the executable script to the <span class="cf ic">PATH</span> environment variable.</p>
+
+  <p id="d24e516">Before doing this, you need to take note of the directory where you extracted the tarball. It contains a <span class="cf dir">flutter</span> directory, inside which there is a <span class="cf dir">bin</span> directory; we need to know the path to reach that <span class="cf dir">bin</span> directory.</p>
+
+  <p id="d24e528">If you are using the GUI, in most distribution it is available by browsing the directory’s properties. It will be something along the lines of <span class="cf dir">/home/username/Downloads/flutter_linux_v1.9.1-stable/flutter/bin</span> if you have gone with the default settings for each piece of software used in the steps we described earlier. I suggest moving this to a more permanent path; ideally one at which you’ll remember you have installed Flutter.</p>
+
+  <p id="d24e533">If you worked in the CLI using the commands just outlined, browse to your Flutter installation directory and then change the working directory to the <span class="cf dir">flutter/bin</span> subdirectory by running:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ cd flutter/bin</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e544">and get the working directory by running:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ pwd</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e552">which will return something along the lines of <span class="cf dir">/home/username/flutter/bin</span> (here you’ll see the path where you installed Flutter, so your mileage may vary significantly).</p>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell">Know Your Shell</p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images/aside-icons/info.png" class="" id="d24e567" src="images/aside-icons/Imagem-59.png" style="width: 100%"/>
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p class="last-para-in-cell">
+
+	This section supposes that your shell is Bash.<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-9" id="FNPTR-9">[9]</a></sup>
+	This is the case for most Linux distributions (and Unix-like operating systems in general—some exceptions are the BSDs, which have tcsh,<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-10" id="FNPTR-10">[10]</a></sup>
+	ksh,<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-11" id="FNPTR-11">[11]</a></sup>
+	or ash,<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-12" id="FNPTR-12">[12]</a></sup>
+	and Arch Linux’s installer, which runs on Zsh<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-13" id="FNPTR-13">[13]</a></sup>
+	but installs Bash by default) and, since you would need to manually install and configure a different one, you probably would know how to add a directory to its <span class="cf variable">PATH</span>.
+</p>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e608">To add this to the <span class="cf variable">PATH</span> environment variable, we need to edit <span class="cf filename">~/.bash_profile</span>.</p>
+
+  <p id="d24e616">To do that using the GUI, you first need your file manager to display hidden files. If you can’t find a file named <span class="cf filename">.bash_profile</span> in your home directory, you need to toggle the option that makes the file manager show hidden files, and this depends on the file manager that you’re using:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e624">In Nautilus (a.k.a. GNOME Files, default in most distributions using the GNOME desktop like Ubuntu, RHEL, Fedora, and default SLED and Debian) you need to press <span class="keystroke">Ctrl</span>+<span class="keystroke">H</span>. This shortcut also works in PCManFM (part of the LXDE, as found in Lubuntu), Caja (part of Mate), and Thunar (part of the XFCE desktop, as found in Xubuntu).</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e633">If you are using the KDE desktop (for example when running Kubuntu or when choosing it when installing distributions like openSUSE or Debian) and its default Dolphin file manager, use <span class="keystroke">Alt</span>+<span class="keystroke">+</span>.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e641">Once you have located a file called <span class="cf filename">.bash_profile</span>, open it with any text editor and add the following line to the end of it, in a new line:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">export PATH=$PATH:/home/username/etc</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e656">where you’ll replace <span class="emph">/home/username/etc</span> with the string you took note of earlier.</p>
+
+  <p id="d24e661">If you prefer using the command line or just want a copy-paste experience from this installation guide, you can instead open a terminal window or TTY and run the following command:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ echo ​<em class="string">"export PATH=</em>​$PATH​<em class="string">:/home/username/etc"</em>​ &gt;&gt; ~/.bash_profile</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e676">replacing <span class="cf dir">/home/username/etc</span> with the path you found earlier for the extracted tarball’s <span class="cf dir">flutter/bin</span> directory.</p>
+
+  <p id="d24e684">To actually be able to run the <span class="cf ic">flutter</span> command, you need to refresh your terminal’s configuration by running:
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ source ~/.bash_profile</td>
+    </tr>
+
+  </table>
+
+  <h4>Installing on Windows</h4>
+
+  <p id="d24e703">Just like on Linux, Windows-only Android development is supported, so we will install just the Android SDK with Android Studio and the Flutter SDK itself.</p>
+
+  <p><strong>Installing the Android SDK on Windows</strong></p>
+
+  <p id="d24e708">
+
+
+
+All you need to do to install the Android SDK on Windows is to download and run the Android Studio installation file available on the official download page.<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-14" id="FNPTR-14">[14]</a></sup> This will also install the feature-rich Android Studio IDE. After installing Android Studio, you will be guided through the installation of the Android SDK.</p>
+
+  <p><strong>Installing the Flutter SDK on Windows</strong></p>
+
+  <p id="d24e737">
+
+To install the Flutter SDK on Windows you need to install Git for Windows first. You can find the installation file for it on its official download page.<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-15" id="FNPTR-15">[15]</a></sup> During installation, you need to choose the <span class="emph">Use Git from the Windows Command Prompt</span> option.</p>
+
+  <p id="d24e756">After you have installed Git, download the latest version of Flutter from its official installation page.<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-16" id="FNPTR-16">[16]</a></sup> This, unlike what happens with most of the software available for Windows, will download a zip archive (a.k.a. a compressed folder) that contains a <span class="cf dir">flutter</span> folder: extract it wherever you want (this will be the SDK folder any IDE plugin will ask you to enter).</p>
+
+  <p id="d24e766">If you want to run a command on the Flutter Console, run the <span class="cf filename">flutter.bat</span> script contained in the <span class="cf dir">bin</span> subfolder.</p>
+
+  <h4>Installing on macOS</h4>
+
+  <p id="d24e777">The advantage macOS has is that it also supports iOS building and debugging. To take advantage of that, we also need to install Xcode and the iOS SDK.</p>
+
+  <p><strong>Installing Xcode and the iOS SDK</strong></p>
+
+  <p id="d24e782">
+
+
+
+To be able to run Flutter and use it for iOS development you need to download Xcode<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-17" id="FNPTR-17">[17]</a></sup> and the iOS SDK<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-18" id="FNPTR-18">[18]</a></sup> from Apple’s official website.</p>
+
+  <p><strong>Installing the Android SDK on macOS</strong></p>
+
+  <p id="d24e816">
+
+Installing the Android SDK on macOS is really simple: head over to the Android Studio downloads page<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-19" id="FNPTR-19">[19]</a></sup> to download the .dmg file that also includes the feature-rich but resource intensive Android Studio IDE.</p>
+
+  <p><strong>Installing the Flutter SDK on macOS</strong></p>
+
+  <p id="d24e835">
+
+Installing Flutter on macOS is very similar to installing Flutter on Linux. The main differences are that macOS uses the zip archive format instead of the more efficient tar.xz format, and there are no OS or GUI differences among distributions to contend with.</p>
+
+  <p id="d24e846">Start by downloading the latest stable .zip from Flutter’s official website.<sup><a class="footnote" href="Capítulo-012.html#FOOTNOTE-20" id="FNPTR-20">[20]</a></sup></p>
+
+  <p id="d24e852">Unzip it to any directory, then open the <span class="cf dir">flutter</span> directory you just extracted. Press <span class="keystroke"><span style="font-family:Quivira;">⌘</span></span>+<span class="keystroke">I</span> and take note of the path that appears to the right of <span class="emph">Where:</span>.</p>
+
+  <p id="d24e866">Now, open a Terminal window and run the command:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ nano ~/.bash_profile</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e874">After doing that, paste the following in the terminal window:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">export PATH=$PATH:/example/path/to/flutter/bin</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e880">replacing <span class="cf ic">/example/path/to/flutter/bin</span> with the path you took note of earlier.</p>
+
+  <p id="d24e886">All that’s left to do is to close the file using <span class="keystroke">Ctrl</span>-<span class="keystroke">X</span> and confirming you want to save the file by pressing <span class="keystroke">Y</span>.</p>
+
+  <p id="d24e897">To actually be able to run the <span class="cf ic">flutter</span> command, you need to refresh your terminal’s configuration by running:
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ source ~/.bash_profile</td>
+    </tr>
+
+  </table>
+
+  <h3>Installing the IDE Plugins</h3>
+
+  <p id="d24e916">
+
+The Flutter IDE plugins for VSCode and Android Studio are installed using the canonical installation tools and techniques for each IDE. They also require the installation of the respective Dart plugin.</p>
+
+  <p id="d24e927">If you’re not familiar with that process, we’ll now discuss how to install the Flutter plugin on each IDE.</p>
+
+  <h4>VSCode</h4>
+
+  <p id="d24e932">
+To install the Flutter plugin for Visual Studio Code you need to open Visual Studio Code itself, then use the keyboard shortcut <span class="keystroke">Ctrl</span>-<span class="keystroke">Shift</span>-<span class="keystroke">P</span> to open the command palette, then type “Install extensions” and press <span class="keystroke">Enter</span>.</p>
+
+  <p id="d24e950">On the panel that opens up on the left, type Flutter and press <span class="keystroke">Enter</span>.</p>
+
+  <p id="d24e955">Click the Install button in the Flutter entry in the list, this will install both the Flutter and the Dart plugins.</p>
+
+  <p id="d24e957">Unlike the Flutter plugin for Android Studio, the Flutter plugin for Visual Studio Code plugin will auto-detect the location where the Flutter SDK is installed.</p>
+
+  <h4>Android Studio</h4>
+
+  <p id="d24e962">
+To install the Flutter plugin for Android Studio you need to navigate to File &gt; Settings &gt; Plugins, click <span class="emph">Browse repositories...</span>, type Flutter and click Install.</p>
+
+  <p id="d24e971">To create a Flutter Project in Android Studio you need to restart Android Studio if you haven’t since installing the Flutter plugin, navigate to File &gt; New Flutter Project, choose <span class="emph">Flutter Application</span> and give the app a name and a path, set the package name and you’re done.
+
+</p>
+
+  <h3>Using the CLI and the Plugins</h3>
+
+  <p id="d24e982">There are two ways of interacting with the Flutter SDK: using the <span class="cf commandname">flutter</span> CLI command directly or through the IDE plugins. The plugins for Android Studio and VSCode are very different to use, as they adapt to the usual conventions of the respective IDE.</p>
+
+  <h4>Create a Flutter App Project</h4>
+
+  <p id="d24e990">
+
+To create a Flutter app project, run the <span class="cf commandname">flutter create appname</span> command or follow the procedure corresponding to the IDE you want to use to develop your app:
+
+</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e1015">In Android Studio, click on <span class="emph">File &gt; New &gt; New Flutter Project...</span> and follow the instructions that will appear on screen;</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e1021">In Visual Studio Code, hit <span class="keystroke">Ctrl</span>+<span class="keystroke">Shift</span>+<span class="keystroke">P</span> to open the Command Menu and type New Project, <span class="emph">Flutter: New Project</span> should appear as an option in the menu, click on it and then type a name for your app project.</p>
+
+    </li>
+
+  </ul>
+
+  <h4>Building and Running</h4>
+
+  <p id="d24e1038">
+
+You can build a Flutter app using the <span class="cf commandname">flutter</span> <span class="cf commandoption">build</span> command when the working directory is the project’s root directory (where <span class="cf filename">pubspec.yaml</span> is located):
+
+</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e1070">To build an APK for your app (standard Android installation file), use <span class="cf commandname">flutter build apk</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e1076">To build an iOS application bundle, use <span class="cf commandname">flutter build ios</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e1082">To build an Android App Bundle (the new generation Android installation file that reduces file size), use <span class="cf commandname">flutter build appbundle</span>.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e1087">
+
+If you want to run the app directly on an open emulator or a device connected by USB (with USB Debugging turned on in the device’s settings), use <span class="cf commandname">flutter run</span>.</p>
+
+  <p id="d24e1103">
+
+If you’re using an IDE, you can use the Flutter plugin to run apps directly from the IDE.</p>
+
+  <p id="d24e1114">To run an app on an open emulator or connected USB device:</p>
+
+  <ul>
+
+    <li>Using VSCode, press <span class="keystroke">F5</span> or click on <span class="emph">Debug &gt; Start Debug</span>.</li>
+
+    <li>Using Android Studio, press <span class="keystroke">Shift</span>-<span class="keystroke">F10</span> and click the button that looks like the one highlighted in the following image:</li>
+
+  </ul>
+
+  <div class="ss">
+
+    <img alt="images/Preface/image7.png" class="" id="d24e1135" src="images/Preface/Imagem-58.png"/>
+
+  </div>
+
+  <h4>Hot Reload</h4>
+
+  <p id="d24e1139">
+
+Flutter comes with a feature you might know from other frameworks: hot reload. If you’re not familiar with it, the hot reload feature allows you to update the app’s current view based on changes you’ve made to the code without rebuilding the entire app which, as anyone who has ever tried knows, is very painful when you are making many small changes and trying to see how they affect the app.</p>
+
+  <p id="d24e1148">This feature is accessible in both Android Studio and Visual Studio Code and, actually, also in the command line when you run an app using <span class="cf commandname">flutter run</span>: pressing <span class="keystroke">R</span> in the terminal when that command is running will reload the app.</p>
+
+  <p id="d24e1158">In Android Studio you need to find an icon like this in the <span class="emph">Run</span> menu at the bottom:</p>
+
+  <div class="ss">
+
+    <img alt="images/Preface/studiohotreload.png" class="border " id="d24e1163" src="images/Preface/Imagem-86.png" style="width: 55%"/>
+
+  </div>
+
+  <p id="d24e1164">In Visual Studio Code you need to find an icon like this in the menu that appears at the top of the screen when you start debugging:</p>
+
+  <div class="ss">
+
+    <img alt="images/Preface/codehotreload.png" class="border " id="d24e1166" src="images/Preface/Imagem-24.png" style="width: 35%"/>
+
+  </div>
+
+  <p id="d24e1167">The app will immediately reload, showing any changes you’ve made to the app’s code immediately on the connected emulator or device.</p>
+
+  <p id="d24e1169">If you’re running a recent version of Android Studio and/or Visual Studio Code, you’ll have IDE access to two different but similar features: stateful hot reload and hot restart. The difference between the two is that the stateful hot reload (as the name implies) preserves each of the <span class="cf class">State</span> objects and is faster, but it won’t work with bigger changes that require those to be reloaded too, and for that there’s hot restart.</p>
+
+  <p id="d24e1174">When running an app using <span class="cf commandname">flutter run</span> from the CLI, stateful hot reload is associated to the lowercase <span class="cf ic">r</span> character, while hot restart is achieved with the uppercase <span class="cf ic">R</span> character.</p>
+
+  <p id="d24e1185">
+
+In both IDEs you’ll find, next to the button shown above, a lightning bolt icon like the one you can see in the following VSCode screenshot:</p>
+
+  <div class="ss">
+
+    <img alt="images/Preface/vscodeicons.png" class="" id="d24e1197" src="images/Preface/Imagem-94.png"/>
+
+  </div>
+
+  <p id="d24e1198">The lightning bolt performs the stateful hot reload, while the typical <span class="emph">restart</span> icon performs the hot restart.
+
+</p>
+
+  <h4>Updating and Maintaining Your Flutter Installation</h4>
+
+  <p id="d24e1209">
+You’ll know when you need to update your Flutter SDK installation because you’ll get a notice whenever you build or run an app.</p>
+
+  <p id="d24e1215">
+To update your Flutter installation you need to run the <span class="cf commandname">flutter upgrade</span> command, which will check and download anything that’s needed using Git, so you need to have Git installed.</p>
+
+  <p id="d24e1224">
+
+Flutter includes a tool called Flutter Doctor, available using the <span class="cf commandname">flutter doctor</span> command, which will list information about the installed Flutter version, the Android/iOS SDK, the IDE plugins, and connected devices.</p>
+
+  <h4>Other Flutter-Related Commands in the VSCode Plugins</h4>
+
+  <p id="d24e1241">
+Once the VSCode Flutter plugin is installed, opening the command palette and typing <span class="cf commandname">flutter</span> will show all available commands.</p>
+
+  <p id="d24e1251">Among these you’ll want to get familiar with:</p>
+
+  <dl>
+
+    <dt class="force-newline" style="font-style:italic;">Flutter: Run Flutter Doctor</dt>
+
+    <dd>
+
+      <p id="d24e1257">Check if there are dependencies that need to be installed.</p>
+
+    </dd>
+
+    <dt class="force-newline" style="font-style:italic;">Flutter: New Project</dt>
+
+    <dd>
+
+      <p id="d24e1262">Creates a new Flutter project.</p>
+
+    </dd>
+
+    <dt class="force-newline" style="font-style:italic;">Flutter: Select Device</dt>
+
+    <dd>
+
+      <p id="d24e1267">Select the device on which you want to debug your app.</p>
+
+    </dd>
+
+    <dt class="force-newline" style="font-style:italic;">Flutter: Get Packages and Flutter: Upgrade Packages</dt>
+
+    <dd>
+
+      <p id="d24e1272">Commands for interacting with Flutter Packages (we’ll discuss packages in Chapter 4).</p>
+
+    </dd>
+
+  </dl>
+
+</body>
+
+</html>

@@ -1,0 +1,871 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.xkcdapp.UI">Build the App’s Basic UI</h2>
+
+  <p id="d24e23900">
+
+We’ll build an app that is going to display a <span class="cf class">ListView</span> of <span class="cf class">ListTile</span>s. There will be a tile for each comic and tapping on a tile should display the details of that comic.</p>
+
+  <p id="d24e23915">The home is going to look like the <a href="#fig.home1">screenshot</a>.</p>
+
+  <div id="fig.home1">
+
+    <div>
+
+      <img alt="images/Networking/home1.png" class="border " id="d24e23921" src="images/Networking/Imagem-50.png" style="width: 38%"/>
+
+    </div>
+
+  </div>
+
+  <p id="d24e23923">Let’s start by defining the classes we need for this app:</p>
+
+  <ul>
+
+    <li>A class for the home screen.</li>
+
+    <li>A custom <span class="cf class">ComicTile</span> class to make creating <span class="cf class">ListTile</span>s for the comics easier.</li>
+
+    <li>A class for the comic page.</li>
+
+  </ul>
+
+  <p id="d24e23941">For a change, we won’t be using an app class; the <span class="cf methodname">main</span> method will pass the needed data directly to the <span class="cf class">HomeScreen</span> class we’re going to create:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> runApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">new</strong>​ MaterialApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     home: HomeScreen(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       title: ​<em class="string">'XKCD app'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       latestComic: await getLatestComicNumber(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> );</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e23980">
+The <span class="cf methodname">getLatestComicNumber</span> method is the one we created in <a href="Capítulo-060.html#sec.networking.fetchcomic.latestnummethod">​<em>A Function to Get the Latest Comic Number</em>​</a>, and we need to define it at the start of the file, after the library <span class="cf ic">import</span>s and outside any class definitions:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;​<strong class="kw">int</strong>​&gt; getLatestComicNumber() async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(​<em class="string">'https://xkcd.com/info.0.json'</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> [​<em class="string">"num"</em>​];</td>
+    </tr>
+
+  </table>
+
+  <h3>Define the Home Screen</h3>
+
+  <p id="d24e24025">
+At this point we need to define the <span class="cf class">HomeScreen</span> widget. This time the app tree is very simple and we don’t need a figure to get the big picture: the <span class="cf class">HomeScreen</span> will be a normal <span class="cf class">Scaffold</span>, with an <span class="cf class">AppBar</span> (as always), and as a <span class="cf ic">body</span> it will have a <span class="cf class">ListView</span> made of <span class="cf class">ListTile</span>s.</p>
+
+  <p id="d24e24053">Since we need a <span class="cf class">ListTile</span> for each comic, we’ll use the <span class="cf methodname">ListView.builder</span> constructor, as seen in <a href="Capítulo-023.html#sec.layout.listview">​<em>The ListView</em>​</a>, which uses an <span class="cf ic">itemBuilder</span> function to generate each widget. In this case, the <span class="cf ic">itemBuilder</span> will be a call to a <span class="cf class">FutureBuilder</span>, which is a kind of item builder that builds widgets based on the contents of a <span class="cf class">Future</span>, which is what we need since <span class="cf methodname">http.get</span> is an asynchronous function that returns a <span class="cf class">Future</span>.</p>
+
+  <p id="d24e24083">Let’s start writing the class definition with the basics: it will be a <span class="cf class">StatelessWidget</span> and it needs two parameters—the title that should appear in the <span class="cf class">AppBar</span> and the latest comic number:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ HomeScreen ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> HomeScreen({​<strong class="kw">this</strong>​.title, ​<strong class="kw">this</strong>​.latestComic});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">int</strong>​ latestComic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ title;</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e24134">
+At this point we’ll finish doing the preparatory work on the class by defining a <span class="cf methodname">_fetchComic</span> method, just like the one we talked about in <a href="Capítulo-060.html#sec.networking.fetchcomic.new">​<em>The New fetchComic</em>​</a>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">int</strong>​ n) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    await http.read(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ​<em class="string">"https://xkcd.com/</em>​​<em class="string">${latestComic-n}</em>​​<em class="string">/info.0.json"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e24181">Now all that’s left to do is the fun part: defining the UI we want for our app in the <span class="cf methodname">build</span> method. We’ll start by defining the <span class="cf class">Scaffold</span> and <span class="cf class">AppBar</span>, as we always do:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: Text(title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e24219">
+The <span class="cf class">Scaffold</span>’s <span class="cf ic">body</span> will be, as we said, a <span class="cf methodname">ListView.builder</span>-built <span class="cf class">ListView</span>, and we need to give it two arguments:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e24243">An <span class="cf ic">itemCount</span>, which is the maximum number of items that will be built; in this case, it will be the <span class="cf ic">latestComic</span> number, since that’s also the number of comics that have ever been published.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e24252">An <span class="cf ic">itemBuilder</span>, which is a function called with the <span class="cf class">BuildContext</span> and an <span class="cf ic">int</span> that starts from 0 at the top (we’ll call it <span class="cf variable">i</span>).</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e24266">
+In this case the <span class="cf ic">itemBuilder</span> is going to be, as we said before, a <span class="cf class">FutureBuilder</span>.</p>
+
+  <p id="d24e24278">
+The <span class="cf class">FutureBuilder</span>, in turn, requires two arguments: a <span class="cf variable">future</span>, which is the <span class="cf class">Future</span> that will retrieve the data needed for each tile, and  a <span class="cf ic">builder</span> function, which builds the tile taking the <span class="cf class">BuildContext</span> and the result of the <span class="cf class">Future</span>.</p>
+
+  <p id="d24e24303">The <span class="cf variable">future</span> will be a call to <span class="cf methodname">fetchComic(i)</span> where <span class="cf variable">i</span> is the aforementioned progressive integer variable and the <span class="cf variable">itemBuilder</span> will return a <span class="cf class">ComicTile</span> that takes the comic data as an argument. We’ll worry about implementing the <span class="cf class">ComicTile</span> itself later.
+</p>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell">On the Correct Use of the FutureBuilder</p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images/aside-icons/warning.png" class="" id="d24e24335" src="images/aside-icons/Imagem-96.png" style="width: 100%"/>
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p>
+  
+  The <span class="cf class">FutureBuilder</span>’s <span class="cf variable">future</span> shouldn’t be a function call: it should be a previously obtained <span class="cf class">Future</span> because setting it to a function call would result in the <span class="cf variable">future</span> being called every time the parent widget is rebuilt, but that doesn’t apply in our case: the parent widget is a <span class="cf class">StatelessWidget</span> and there are no <span class="cf class">StatefulWidgets</span> above. You need to remember this when you build your own Flutter apps though: forgetting this could make app interactions needlessly slow and clunky.
+</p>
+          <p class="last-para-in-cell">
+  Usually these <span class="cf class">Future</span>s should be obtained in the <span class="cf methodname">initState</span> method of <span class="cf class">StatefulWidget</span>s.
+</p>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e24382">Here is the full <span class="cf ic">body</span> of the <span class="cf class">HomeScreen</span>’s <span class="cf class">Scaffold</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">body: ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemCount: latestComic,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder:(context, i) =&gt; FutureBuilder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    future: _fetchComic(i),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    builder: (context, comicResult) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comicResult.hasData ?</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ComicTile(comic: comicResult.data) :</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Divider();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e24424">The full <span class="cf class">HomeScreen</span> class definition, combining all of the pieces of code we saw earlier, is:
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ HomeScreen ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> HomeScreen({​<strong class="kw">this</strong>​.title, ​<strong class="kw">this</strong>​.latestComic});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">int</strong>​ latestComic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ title;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Future&lt;Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt;&gt; _fetchComic(​<strong class="kw">int</strong>​ n) async =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      await http.read(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<em class="string">"https://xkcd.com/</em>​​<em class="string">${latestComic-n}</em>​​<em class="string">/info.0.json"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       title: Text(title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     body: ListView.builder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       itemCount: latestComic,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       itemBuilder:(context, i) =&gt; FutureBuilder(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         future: _fetchComic(i),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         builder: (context, comicResult) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           comicResult.hasData ?</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ComicTile(comic: comicResult.data) :</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           Divider();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <h3>Define the ComicTile</h3>
+
+  <p id="d24e24561">
+
+Now we need to define the <span class="cf class">ComicTile</span> class, which will be yet another <span class="cf class">StatelessWidget</span> and it will take the comic data it needs to display as its only argument:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ ComicTile ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ComicTile({​<strong class="kw">this</strong>​.comic});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt; comic;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e24607">The <span class="cf class">ComicTile</span> will be a <span class="cf class">ListTile</span> that has the comic image as the <span class="cf ic">leading</span>, a comic title <span class="cf class">Text</span> as its <span class="cf ic">title</span> and, when tapped, displays a new screen just for that comic, showing the comic in a bigger format along with its <span class="emph">alt-text</span>.</p>
+
+  <p id="d24e24628">We’ll worry about building the comic page later: we now need to figure out how to show that screen. We talked about push/pop navigation earlier in <a href="Capítulo-061.html#sec.networking.navigation.pushpop">​<em>Push/Pop Navigation Using the Navigator</em>​</a>, and that’s what we’re going to use:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ ListTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">①</span>​</span></td>
+      <td class="codeline">    leading: Image.network( </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      comic[​<em class="string">"img"</em>​],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      height: 30,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      width: 30</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">②</span>​</span></td>
+      <td class="codeline">    title: Text(comic[​<em class="string">"title"</em>​]), </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">​<span class="callout-number" style="font-family:Quivira;">③</span>​</span></td>
+      <td class="codeline">    onTap: () { </td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      Navigator.push(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          builder: (BuildContext context) =&gt; ComicPage(comic)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    },</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <dl class="calloutlist">
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">①</span>​</dt>
+
+    <dd>
+
+      <p id="d24e24694">
+      In this section we define the <span class="cf variable">leading</span> widget of the <span class="cf class">ListTile</span>: an <span class="cf class">Image</span> taken from the network URL provided (the comic’s ‘img‘ attribute).
+    </p>
+
+      <p id="d24e24705">
+      We set the maximum width and height for the image preview to 30 pixels to avoid having the previews take up too much vertical or horizontal space in the list.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">②</span>​</dt>
+
+    <dd>
+
+      <p id="d24e24708">
+      This is the text that will appear for each tile. In this case we use the comic’s title, taken from the comic’s <span class="cf variable">title</span> attribute.
+    </p>
+
+    </dd>
+
+    <dt>​<span class="callout-number" style="font-family:Quivira;">③</span>​</dt>
+
+    <dd>
+
+      <p id="d24e24714">
+      Here we set what will happen when the user taps on the tile. In this case, it opens a <span class="cf class">ComicPage</span> (that we’ll define later) using the <span class="cf variable">push</span> operation we discussed in <a href="Capítulo-061.html#sec.networking.navigation.pushpop">​<em>Push/Pop Navigation Using the Navigator</em>​</a>.
+    </p>
+
+    </dd>
+
+  </dl>
+
+  <p id="d24e24724">The full <span class="cf class">ComicTile</span> class definition is:
+
+
+
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking_starting/xkcd_app/lib/main.dart">networking_starting/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ ComicTile ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ComicTile({​<strong class="kw">this</strong>​.comic});</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">final</strong>​ Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt; comic;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<strong class="kw">return</strong>​ ListTile(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      leading: Image.network(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        comic[​<em class="string">"img"</em>​],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        height: 30,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        width: 30</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: Text(comic[​<em class="string">"title"</em>​]),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      onTap: () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        Navigator.push(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            builder: (BuildContext context) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">              ComicPage(comic)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      },</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

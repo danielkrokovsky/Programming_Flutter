@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.networking.progress">Using the CircularProgressIndicator</h2>
+
+  <p id="d24e25415">
+
+
+In those screenshots you see what the app looks like when everything has finished loading, but we also need to think about what it looks like while it’s still in the process of loading: we currently display a <span class="cf class">Divider</span> when it’s loading each tile, but that isn’t really visually pleasing if the user is on a slow network and will therefore look at many dividers stacked on top of each other for a few seconds.</p>
+
+  <p id="d24e25431">There is a class specifically meant to be used for this placeholder task: the <span class="cf class">CircularProgressIndicator</span>.<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-40" id="FNPTR-40">[40]</a></sup> It’s not the only progress indicator: there is also a <span class="cf class">LinearProgressIndicator</span>, but it’s less common and less flexible.</p>
+
+  <p id="d24e25444">You can just place its constructor (<span class="cf methodname">CircularProgressIndicator</span>) anywhere you want to display it (for example, instead of the <span class="cf class">Divider</span> placeholder for the <span class="cf class">ComicTile</span>), but that would make it stretch to fill the space given to it. This is fixed by restraining it to a <span class="cf class">Container</span> with a limited width.</p>
+
+  <p id="d24e25458">The <span class="cf ic">builder</span> for the <span class="cf class">FutureBuilder</span> inside the <span class="cf class">ListView.builder</span> in the <span class="cf class">HomeScreen</span> becomes the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/lib/main.dart">networking/xkcd_app/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">builder: (context, snapshot) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ snapshot.hasData ?</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ComicTile(comic: snapshot.data) :</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      width: 30,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     child: CircularProgressIndicator()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">},</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

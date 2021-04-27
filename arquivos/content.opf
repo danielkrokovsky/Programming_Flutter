@@ -1,0 +1,437 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" xmlns:redirect="http://xml.apache.org/xalan/redirect" unique-identifier="PragmaticBook" version="3.0">
+   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:language>en</dc:language>
+    <dc:title>Programming Flutter</dc:title>
+    <dc:creator>Carmine Zaccagnino</dc:creator>
+    <dc:publisher>Pragmatic Bookshelf</dc:publisher>
+    <dc:rights>Copyright © 2020 The Pragmatic Programmers, LLC</dc:rights>
+    <dc:subject>Pragmatic Bookshelf</dc:subject>
+    <dc:identifier id="PragmaticBook">978-1-68050-695-2</dc:identifier>
+    <meta name="cover" content="cover-image"/>
+    <meta name="cover" content="cover-image"/>
+    <meta property="dcterms:modified">2011-01-01T12:00:00Z</meta>
+    <description xmlns="http://purl.org/dc/elements/1.1/">&lt;p&gt;Work in Flutter, a framework designed from the ground up for dual platform development, with support for native Java/Kotlin or Objective-C/Swift methods from Flutter apps. Write your next app in one language and build it for both Android and iOS. Deliver the native look, feel, and performance you and your users expect from an app written with each platform's own tools and languages. Deliver apps fast, doing half the work you were doing before and exploiting powerful new features to speed up development. Write once, run anywhere.&lt;/p&gt;&lt;p&gt;Learn Flutter, Google's multi-platform mobile development framework. Instantly view the changes you make to an app with stateful hot reload and define a declarative UI in the same language as the app logic, without having to use separate XML UI files. You can also reuse existing platform-specific Android and iOS code and interact with it in an efficient and simple way.&lt;/p&gt;&lt;p&gt;Use built-in UI elements - or build your own - to create a simple...</description>
+  </metadata>
+   <manifest>
+      <item href="css/bookshelf.css" id="bookshelf-css" media-type="text/css"/>
+      <item href="css/book_local.css" id="book_local-css" media-type="text/css"/>
+      <item href="Capítulo-001.html" id="cover" media-type="application/xhtml+xml"/>
+      <item href="fonts/Ubuntu-M.ttf" id="UbuntuSans" media-type="application/vnd.ms-opentype"/>
+      <item href="fonts/Ubuntu-B.ttf" id="UbuntuSansBold" media-type="application/vnd.ms-opentype"/>
+      <item href="fonts/Ubuntu-MI.ttf" id="UbuntuSansOblique" media-type="application/vnd.ms-opentype"/>
+      <item href="fonts/Ubuntu-BI.ttf" id="UbuntuSansBoldOblique" media-type="application/vnd.ms-opentype"/>
+      <item href="fonts/UbuntuMono-R.ttf" id="UbuntuMono" media-type="application/vnd.ms-opentype"/>
+      <item href="fonts/UbuntuMono-RI.ttf" id="UbuntuMonoOblique" media-type="application/vnd.ms-opentype"/>
+      <item href="fonts/UbuntuMono-B.ttf" id="UbuntuMonoBold" media-type="application/vnd.ms-opentype"/>
+      <item href="fonts/UbuntuMono-BI.ttf" id="UbuntuMonoBoldOblique" media-type="application/vnd.ms-opentype"/>
+      <item href="fonts/copyright.txt" id="UbuntuFontCopyright" media-type="text/plain"/>
+      <item href="fonts/LICENCE.txt" id="UbuntuFontLicence" media-type="text/plain"/>
+      <item href="images/Imagem-31.jpg" id="cover-image" media-type="image/jpeg" properties="cover-image"/>
+      <item href="images/Imagem-07.jpg" id="apple-image" media-type="image/jpeg"/>
+      <item href="images/Imagem-46.gif" id="h1-underline" media-type="image/gif"/>
+      <item href="images/Imagem-63.jpg" id="joe-image" media-type="image/jpeg"/>
+      <item href="images/Imagem-99.jpg" id="wiggly-image" media-type="image/jpeg"/>
+      <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+<item href="Capítulo-002.html" id="f_0000" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-003.html" id="f_0001" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-004.html" id="f_0002" media-type="application/xhtml+xml" properties="nav"/>
+
+<item href="Capítulo-005.html" id="f_0003" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-006.html" id="f_0004" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-007.html" id="f_0005" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-008.html" id="f_0006" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-009.html" id="f_0007" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-010.html" id="f_0008" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-011.html" id="f_0009" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-012.html" id="f_0010" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-013.html" id="f_0011" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-014.html" id="f_0012" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-015.html" id="f_0013" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-016.html" id="f_0014" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-017.html" id="f_0015" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-018.html" id="f_0016" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-019.html" id="f_0017" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-020.html" id="f_0018" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-021.html" id="f_0019" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-022.html" id="f_0020" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-023.html" id="f_0021" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-024.html" id="f_0022" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-025.html" id="f_0023" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-026.html" id="f_0024" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-027.html" id="f_0025" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-028.html" id="f_0026" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-029.html" id="f_0027" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-030.html" id="f_0028" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-031.html" id="f_0029" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-032.html" id="f_0030" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-033.html" id="f_0031" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-034.html" id="f_0032" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-035.html" id="f_0033" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-036.html" id="f_0034" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-037.html" id="f_0035" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-038.html" id="f_0036" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-039.html" id="f_0037" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-040.html" id="f_0038" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-041.html" id="f_0039" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-042.html" id="f_0040" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-043.html" id="f_0041" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-044.html" id="f_0042" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-045.html" id="f_0043" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-046.html" id="f_0044" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-047.html" id="f_0045" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-048.html" id="f_0046" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-049.html" id="f_0047" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-050.html" id="f_0048" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-051.html" id="f_0049" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-052.html" id="f_0050" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-053.html" id="f_0051" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-054.html" id="f_0052" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-055.html" id="f_0053" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-056.html" id="f_0054" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-057.html" id="f_0055" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-058.html" id="f_0056" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-059.html" id="f_0057" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-060.html" id="f_0058" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-061.html" id="f_0059" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-062.html" id="f_0060" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-063.html" id="f_0061" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-064.html" id="f_0062" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-065.html" id="f_0063" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-066.html" id="f_0064" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-067.html" id="f_0065" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-068.html" id="f_0066" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-069.html" id="f_0067" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-070.html" id="f_0068" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-071.html" id="f_0069" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-072.html" id="f_0070" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-073.html" id="f_0071" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-074.html" id="f_0072" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-075.html" id="f_0073" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-076.html" id="f_0074" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-077.html" id="f_0075" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-078.html" id="f_0076" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-079.html" id="f_0077" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-080.html" id="f_0078" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-081.html" id="f_0079" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-082.html" id="f_0080" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-083.html" id="f_0081" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-084.html" id="f_0082" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-085.html" id="f_0083" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-086.html" id="f_0084" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-087.html" id="f_0085" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-088.html" id="f_0086" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-089.html" id="f_0087" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-090.html" id="f_0088" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-091.html" id="f_0089" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-092.html" id="f_0090" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-093.html" id="f_0091" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-094.html" id="f_0092" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-095.html" id="f_0093" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-096.html" id="f_0094" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-097.html" id="f_0095" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-098.html" id="f_0096" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-099.html" id="f_0097" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-100.html" id="f_0098" media-type="application/xhtml+xml"/>
+
+<item href="Capítulo-101.html" id="f_0099" media-type="application/xhtml+xml"/>
+
+      <item href="images/Preface/Imagem-58.png" id="img4" media-type="image/png"/>
+      <item href="images/Preface/Imagem-86.png" id="img5" media-type="image/png"/>
+      <item href="images/Preface/Imagem-24.png" id="img6" media-type="image/png"/>
+      <item href="images/Preface/Imagem-94.png" id="img7" media-type="image/png"/>
+      <item href="images/FirstApp/Imagem-33.png" id="img8" media-type="image/png"/>
+      <item href="images/FirstApp/Imagem-71.png" id="img9" media-type="image/png"/>
+      <item href="images/FirstApp/Imagem-01.png" id="img10" media-type="image/png"/>
+      <item href="images/FirstApp/Imagem-10.png" id="img11" media-type="image/png"/>
+      <item href="images/FirstApp/Imagem-12.png" id="img12" media-type="image/png"/>
+      <item href="images/FirstApp/Imagem-11.png" id="img13" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-97.png" id="img14" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-72.png" id="img15" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-93.png" id="img16" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-54.png" id="img17" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-57.png" id="img18" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-55.png" id="img19" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-56.png" id="img20" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-25.png" id="img21" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-82.png" id="img22" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-64.png" id="img23" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-65.png" id="img24" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-85.png" id="img25" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-77.png" id="img26" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-78.png" id="img27" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-66.png" id="img28" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-38.png" id="img29" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-40.png" id="img30" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-36.png" id="img31" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-37.png" id="img32" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-35.png" id="img33" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-83.png" id="img34" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-84.png" id="img35" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-44.png" id="img36" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-45.png" id="img37" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-19.png" id="img38" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-20.png" id="img39" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-23.png" id="img40" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-39.png" id="img41" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-13.png" id="img42" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-14.png" id="img43" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-17.png" id="img44" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-15.png" id="img45" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-16.png" id="img46" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-18.png" id="img47" media-type="image/png"/>
+      <item href="images/Packages/Imagem-06.png" id="img48" media-type="image/png"/>
+      <item href="images/Packages/Imagem-21.png" id="img49" media-type="image/png"/>
+      <item href="images/Packages/Imagem-42.png" id="img50" media-type="image/png"/>
+      <item href="images/Packages/Imagem-60.png" id="img51" media-type="image/png"/>
+      <item href="images/Packages/Imagem-67.png" id="img52" media-type="image/png"/>
+      <item href="images/Packages/Imagem-70.png" id="img53" media-type="image/png"/>
+      <item href="images/Packages/Imagem-98.png" id="img54" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-68.png" id="img55" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-69.png" id="img56" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-92.png" id="img57" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-91.png" id="img58" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-75.png" id="img59" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-09.png" id="img60" media-type="image/png"/>
+      <item href="images/WidgetLayout/Imagem-87.png" id="img61" media-type="image/png"/>
+      <item href="images/Networking/Imagem-50.png" id="img64" media-type="image/png"/>
+      <item href="images/Networking/Imagem-26.png" id="img65" media-type="image/png"/>
+      <item href="images/aside-icons/Imagem-59.png" id="img66" media-type="image/png"/>
+      <item href="images/Networking/Imagem-81.png" id="img67" media-type="image/png"/>
+      <item href="images/Networking/Imagem-51.png" id="img68" media-type="image/png"/>
+      <item href="images/Networking/Imagem-52.png" id="img69" media-type="image/png"/>
+      <item href="images/Networking/Imagem-28.png" id="img70" media-type="image/png"/>
+      <item href="images/Networking/Imagem-27.png" id="img71" media-type="image/png"/>
+      <item href="images/Networking/Imagem-41.png" id="img72" media-type="image/png"/>
+      <item href="images/Networking/Imagem-53.png" id="img73" media-type="image/png"/>
+      <item href="images/Firebase/Imagem-04.png" id="img74" media-type="image/png"/>
+      <item href="images/Firebase/Imagem-05.png" id="img75" media-type="image/png"/>
+      <item href="images/Firebase/Imagem-32.png" id="img77" media-type="image/png"/>
+      <item href="images/Firebase/Imagem-49.png" id="img78" media-type="image/png"/>
+      <item href="images/Firebase/Imagem-47.png" id="img79" media-type="image/png"/>
+      <item href="images/Firebase/Imagem-48.png" id="img80" media-type="image/png"/>
+      <item href="images/Firebase/Imagem-22.png" id="img81" media-type="image/png"/>
+      <item href="images/Firebase/Imagem-74.png" id="img82" media-type="image/png"/>
+      <item href="images/aside-icons/Imagem-96.png" id="img83" media-type="image/png"/>
+      <item href="images/Cupertino/Imagem-29.png" id="img84" media-type="image/png"/>
+      <item href="images/Cupertino/Imagem-88.png" id="img85" media-type="image/png"/>
+      <item href="images/Cupertino/Imagem-89.png" id="img86" media-type="image/png"/>
+      <item href="images/Cupertino/Imagem-08.png" id="img87" media-type="image/png"/>
+      <item href="images/Cupertino/Imagem-03.png" id="img88" media-type="image/png"/>
+      <item href="images/Cupertino/Imagem-34.png" id="img89" media-type="image/png"/>
+      <item href="images/Imagem-30.png" id="img90" media-type="image/png"/>
+      <item href="images/_covers/Imagem-76.jpg" id="cover-rails6" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-80.jpg" id="cover-rwscala" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-79.jpg" id="cover-rrscrum" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-43.jpg" id="cover-gdestimate" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-90.jpg" id="cover-tbreact" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-02.jpg" id="cover-7apps" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-62.jpg" id="cover-jgotp" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-73.jpg" id="cover-phoenix14" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-95.jpg" id="cover-vskotlin" media-type="image/jpeg"/>
+      <item href="images/_covers/Imagem-61.jpg" id="cover-jfelm" media-type="image/jpeg"/>
+   </manifest>
+   <spine toc="ncx">
+      <itemref idref="cover"/>
+    <itemref idref="f_0000"/>
+    <itemref idref="f_0001"/>
+    <itemref idref="f_0002"/>
+    <itemref idref="f_0003"/>
+    <itemref idref="f_0004"/>
+    <itemref idref="f_0005"/>
+    <itemref idref="f_0006"/>
+    <itemref idref="f_0007"/>
+    <itemref idref="f_0008"/>
+    <itemref idref="f_0009"/>
+    <itemref idref="f_0010"/>
+    <itemref idref="f_0011"/>
+    <itemref idref="f_0012"/>
+    <itemref idref="f_0013"/>
+    <itemref idref="f_0014"/>
+    <itemref idref="f_0015"/>
+    <itemref idref="f_0016"/>
+    <itemref idref="f_0017"/>
+    <itemref idref="f_0018"/>
+    <itemref idref="f_0019"/>
+    <itemref idref="f_0020"/>
+    <itemref idref="f_0021"/>
+    <itemref idref="f_0022"/>
+    <itemref idref="f_0023"/>
+    <itemref idref="f_0024"/>
+    <itemref idref="f_0025"/>
+    <itemref idref="f_0026"/>
+    <itemref idref="f_0027"/>
+    <itemref idref="f_0028"/>
+    <itemref idref="f_0029"/>
+    <itemref idref="f_0030"/>
+    <itemref idref="f_0031"/>
+    <itemref idref="f_0032"/>
+    <itemref idref="f_0033"/>
+    <itemref idref="f_0034"/>
+    <itemref idref="f_0035"/>
+    <itemref idref="f_0036"/>
+    <itemref idref="f_0037"/>
+    <itemref idref="f_0038"/>
+    <itemref idref="f_0039"/>
+    <itemref idref="f_0040"/>
+    <itemref idref="f_0041"/>
+    <itemref idref="f_0042"/>
+    <itemref idref="f_0043"/>
+    <itemref idref="f_0044"/>
+    <itemref idref="f_0045"/>
+    <itemref idref="f_0046"/>
+    <itemref idref="f_0047"/>
+    <itemref idref="f_0048"/>
+    <itemref idref="f_0049"/>
+    <itemref idref="f_0050"/>
+    <itemref idref="f_0051"/>
+    <itemref idref="f_0052"/>
+    <itemref idref="f_0053"/>
+    <itemref idref="f_0054"/>
+    <itemref idref="f_0055"/>
+    <itemref idref="f_0056"/>
+    <itemref idref="f_0057"/>
+    <itemref idref="f_0058"/>
+    <itemref idref="f_0059"/>
+    <itemref idref="f_0060"/>
+    <itemref idref="f_0061"/>
+    <itemref idref="f_0062"/>
+    <itemref idref="f_0063"/>
+    <itemref idref="f_0064"/>
+    <itemref idref="f_0065"/>
+    <itemref idref="f_0066"/>
+    <itemref idref="f_0067"/>
+    <itemref idref="f_0068"/>
+    <itemref idref="f_0069"/>
+    <itemref idref="f_0070"/>
+    <itemref idref="f_0071"/>
+    <itemref idref="f_0072"/>
+    <itemref idref="f_0073"/>
+    <itemref idref="f_0074"/>
+    <itemref idref="f_0075"/>
+    <itemref idref="f_0076"/>
+    <itemref idref="f_0077"/>
+    <itemref idref="f_0078"/>
+    <itemref idref="f_0079"/>
+    <itemref idref="f_0080"/>
+    <itemref idref="f_0081"/>
+    <itemref idref="f_0082"/>
+    <itemref idref="f_0083"/>
+    <itemref idref="f_0084"/>
+    <itemref idref="f_0085"/>
+    <itemref idref="f_0086"/>
+    <itemref idref="f_0087"/>
+    <itemref idref="f_0088"/>
+    <itemref idref="f_0089"/>
+    <itemref idref="f_0090"/>
+    <itemref idref="f_0091"/>
+    <itemref idref="f_0092"/>
+    <itemref idref="f_0093"/>
+    <itemref idref="f_0094"/>
+    <itemref idref="f_0095"/>
+    <itemref idref="f_0096"/>
+    <itemref idref="f_0097"/>
+    <itemref idref="f_0098"/>
+    <itemref idref="f_0099"/>
+   </spine>
+   <guide>
+      <reference href="Capítulo-001.html" title="Cover" type="cover"/>
+   </guide>
+</package>

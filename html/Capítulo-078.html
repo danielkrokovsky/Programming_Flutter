@@ -1,0 +1,540 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e36245">Animations and Transistions</h2>
+
+  <p id="d24e36248">
+
+There are two ways to animate widgets in Flutter: animating them <span class="emph">within</span> a given screen and animating them <span class="emph">between</span> different screens.</p>
+
+  <h3>Animating Within a Screen: the AnimatedContainer and Similar Widgets</h3>
+
+  <p id="d24e36264">
+The <span class="cf class">AnimatedContainer</span> is one of the simplest widgets to start animating your Flutter app: it’s a regular <span class="cf class">Container</span> but it animates to when a property is changed, giving a nicer transition to a different state. For example, changing its <span class="cf ic">height</span> or <span class="cf ic">width</span> will make the widget shrink or expand gradually, and similar effects can be had by changing the border or color properties of the widget. The duration of the animation can optionally be changed using the <span class="cf ic">duration</span> argument and its curve (whether or not and how much the animation slows down or speeds up over time) can be changed using the <span class="cf ic">curve</span> argument.</p>
+
+  <p id="d24e36289">
+
+The <span class="cf ic">duration</span> is of type duration, so you’d use the <span class="cf class">Duration</span> we used earlier during authentication, while the <span class="cf ic">curve</span> is of type <span class="cf class">Curve</span>. A collection of the most common curves is found in the <span class="cf class">Curves</span> class. It is a big collection, so you might consider reading the full list on the official Flutter reference manual<sup><a class="footnote" href="Capítulo-082.html#FOOTNOTE-51" id="FNPTR-51">[51]</a></sup> in the <span class="emph">Constants</span> section if the following basic curves aren’t enough for you or if you want to know the mathematical function that produces each curve:</p>
+
+  <ul>
+
+    <li><span class="cf constant">Curves.easeIn</span>, which starts out slowly and quickens over time.</li>
+
+    <li><span class="cf constant">Curves.easeOut</span>, which starts out fast and slows down over time.</li>
+
+  </ul>
+
+  <p id="d24e36335">
+If you want to animate just some padding, you can replace a <span class="cf class">Padding</span> widget with some <span class="cf class">AnimatedPadding</span>, and if you want to anymate changes in <span class="cf class">TextStyle</span> you can use the animated version of the <span class="cf class">DefaultTextStyle</span> (which is a class that applies its <span class="cf ic">style</span> <span class="cf class">TextStyle</span> arguments to all of the descendants of its <span class="cf ic">child</span>), called the <span class="cf class">AnimatedDefaultTextStyle</span> (which animates the change in the <span class="cf ic">style</span>) by providing, optionally, a <span class="cf ic">curve</span> and a <span class="cf ic">duration</span> to these animated widgets.</p>
+
+  <p id="d24e36375">Those are all interesting, but the most useful is certainly the <span class="cf class">AnimatedList</span>, which animates additions made to a list or deletions of elements of a list.</p>
+
+  <h4>AnimatedList</h4>
+
+  <p id="d24e36383">
+
+The <span class="cf class">AnimatedList</span> starts out as a normal <span class="cf class">ListView</span>, but its state object can be used (via a <span class="cf class">GlobalKey</span>) to insert or delete items, showing a transition when one of these operations is performed.</p>
+
+  <p id="d24e36407">We can construct an <span class="cf class">AnimatedList</span> just like a <span class="cf methodname">ListView.builder</span>-constructed <span class="cf class">ListView</span>, but we have to set a <span class="cf variable">key</span> that we’ll use to interact with it later, which has to be a <span class="cf ic">GlobalKey&lt;AnimatedListState&gt;</span>, and the <span class="cf variable">itemCount</span> will instead be called <span class="cf variable">initialItemCount</span>.</p>
+
+  <p id="d24e36431">The <span class="cf variable">itemBuilder</span> gets an extra <span class="cf variable">animation</span> argument, which provides the current state of the animation, which can be used by a <span class="cf class">SizeTransition</span> widget inside the <span class="cf variable">itemBuilder</span> to actually visually create the transition when an item is inserted by increasing the size of the widget (clipping it at the start and gradually showing it all) to animate the insertion of a widget.</p>
+
+  <p id="d24e36445">All of that adds up to the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">AnimatedList(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  key: key,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  initialItemCount: n,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  itemBuilder(context, i, animation) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    SizeTransition(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      sizeFactor: animation,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: WidgetToShow()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e36467">
+
+The <span class="cf class">SizeTransition</span> isn’t the only widget that can perform similar transitions (for example the similar <span class="cf class">ScaleTransition</span> scales the widget up and down instead of clipping it), but it’s the most effective for the purpose of animating a list.</p>
+
+  <p id="d24e36484">
+Having the same <span class="cf ic">key</span> stored somewhere allows us to get the <span class="cf class">AnimatedListState</span> object relative to that <span class="cf class">AnimatedList</span> by writing:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ listState = key.currentState ​<strong class="kw">as</strong>​ AnimatedListState;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e36512">which allows us to add a list item by wrapping the following in a call to <span class="cf methodname">setState</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">listState.insertItem(position);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e36524">keeping in mind that the <span class="cf class">AnimatedList</span> needs to be able to build the new element at that position: if it’s taking elements from a <span class="cf class">List</span>, make sure there is actually new data to build the new item from.</p>
+
+  <p id="d24e36532">A full example of a widget (or, more accurately, a stateful widget’s state) that takes advantage of an <span class="cf class">AnimatedList</span> to dynamically add items to a list when a floating action button is pressed is the following:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">GlobalKey _key = GlobalKey&lt;AnimatedListState&gt;();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ _nextWidget = 3;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ _strings = [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"First"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Second"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"Third"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">];</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    appBar: AppBar(title: Text(​<em class="string">"Animated List"</em>​)),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    body: AnimatedList(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      key: _key,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      initialItemCount: _nextWidget,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      itemBuilder: (context, i, animation) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        SizeTransition(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          sizeFactor: animation,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          child: ListTile(title: Text(_strings[i]),),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Icon(Icons.add),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      onPressed: () {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          (_key.currentState ​<strong class="kw">as</strong>​ AnimatedListState).insertItem(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            _nextWidget++</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          _strings.add(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ​<em class="string">"</em>​​<em class="string">${_nextWidget}</em>​​<em class="string">th"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      },</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e36655">These widgets provide the simplest kind of animation available in Flutter: the most interesting animations are provided by the <span class="cf class">Hero</span> widget, which allows you to animate the movement of a widget across different screens.
+
+</p>
+
+  <h3>Hero Animation</h3>
+
+  <p id="d24e36666">
+
+Hero animations are performed by the Flutter framework on <span class="cf class">Hero</span> widgets. An <span class="cf class">Hero</span> widget needs a <span class="cf variable">tag</span> that identifies it and a <span class="cf variable">child</span> (which is the widget to animate). Adding the same <span class="cf variable">tag</span> to two <span class="cf class">Hero</span> widgets in two different screens, one of which is pushed from the other, will make the widget animate to move to its new position on the screen.</p>
+
+  <p id="d24e36694">A simple example that demonstrates the use of the <span class="cf class">Hero</span> widget is the following: there are two pages that have in common a widget (I used <span class="cf class">FlutterLogo</span> as an example) that is wrapped in an <span class="cf class">Hero</span> widget with the same <span class="cf ic">tag</span>. Switching between the views by clicking the floating action button will cause the widget to animate between its centered position in the first page to a top-left position in the second page and vice versa:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ FirstPage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      body:Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child:Hero(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          tag: ​<em class="string">"Flutter Logo Hero"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          child: FlutterLogo(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Icon(Icons.looks_two),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        onPressed: () =&gt; Navigator.pushReplacement(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            builder: (context) =&gt; SecondPage()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ SecondPage ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  Widget build(BuildContext context) =&gt;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      body:Hero(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        tag: ​<em class="string">"Flutter Logo Hero"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: FlutterLogo(),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Icon(Icons.looks_one),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        onPressed: () =&gt; Navigator.pushReplacement(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          context,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          MaterialPageRoute(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            builder: (context) =&gt; FirstPage()</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

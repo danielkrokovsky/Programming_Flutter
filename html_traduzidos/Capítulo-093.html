@@ -1,0 +1,99 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-093.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-093_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-093_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-093_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.dart.typedef"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Typedef e Callbacks</font></font></h2>
+
+  <p id="d24e46582">
+
+
+
+
+<span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">typedef</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o que é usado para criar tipos de retorno de chamada como </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">VoidCallback</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que é um </font><font style="vertical-align: inherit;">tipo de retorno de chamada </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nulo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para funções que não requerem argumentos. </font><font style="vertical-align: inherit;">Um retorno de chamada é um tipo de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">encerramento</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> fornecido como um argumento para uma função a ser chamada quando algumas condições são atendidas. </font><font style="vertical-align: inherit;">Um fechamento é uma função que é definida como uma variável. </font><font style="vertical-align: inherit;">O </font><font style="vertical-align: inherit;">tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">VoidCallback</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um tipo especial de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Função</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que não aceita argumentos e tem um </font><font style="vertical-align: inherit;">tipo de retorno </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">void</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e pode ser definido da seguinte maneira usando </font></font><span class="cf keyword"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">typedef</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">typedef</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> VoidCallback = </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vazio</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Função ();</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e46639"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você quiser definir um retorno de chamada de um tipo diferente que leva algum tipo de argumento, você escreveria o seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">typedef</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> IntFunctionCallback = </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Função ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e46653"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ou a seguinte definição matemática muito comum de uma função real de uma variável real:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">typedef</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> RealFunctionOfARealVariable = </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dupla</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> função ( </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duplo</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> n);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e46667"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+As definições podem ser independentes de tipo (este tipo de sintaxe pode ser usada com qualquer coisa no Dart):</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">typedef</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> OneArgumentCallback &lt;T&gt; = Função T (T a);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e46688"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de definir esse tipo ou apenas usar o </font><font style="vertical-align: inherit;">tipo </font><font style="vertical-align: inherit;">genérico </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Function</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , podemos criar funções da mesma forma que criamos variáveis. </font><font style="vertical-align: inherit;">Por exemplo, se nós queria recriar em Dart equivalente a </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">f (x) = e </font></font><sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">x</font></font></sup></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> função exponencial (onde </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o número de Euler, mais conhecido em alguns países como o número de Napier), gostaríamos de escrever o seguinte, usando </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pow</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dardo : matemática</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">RealFunctionOfARealVariable f = (x) =&gt; pow (e, x);</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (f (2) == POW (e, 2));</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assert</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (f (1)&gt; 2,71 &amp;&amp; f (1) &lt;2,72);</font></font></td>
+    </tr>
+
+  </tbody></table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-093_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

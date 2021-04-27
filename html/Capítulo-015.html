@@ -1,0 +1,1345 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e1303">Get Familiar with Dart Syntax and Flutter Classes</h2>
+
+  <p id="d24e1306">In this first section of the chapter, we’ll take a look at the Flutter CLI’s example code, review how to work with Dart code, and learn the basics of Flutter app architecture and implementation.</p>
+
+  <p id="d24e1308">
+
+
+
+To create a new Flutter app, create a directory to contain the app’s source code and, inside it, another directory called <span class="cf dir">lib</span>. The <span class="cf dir">lib</span> directory is where we’ll add our Dart files defining what our app looks like and what our app does.</p>
+
+  <p id="d24e1333">For now we won’t work in the CLI, but once we’re ready to build the app we will use <span class="cf ic">flutter create</span> to generate the files that are necessary for the app to build (which you’ll get to know and edit in the appendix about app configuration). In addition to the files and directories directly related to Flutter and your app, the root of your Flutter app must also contain an <span class="cf dir">android</span> and an <span class="cf dir">ios</span> directory containing the configuration for the build system for each platform.
+
+</p>
+
+  <p id="d24e1353">
+Inside the <span class="cf dir">lib</span> directory, create a file called <span class="cf filename">main.dart</span>.</p>
+
+  <p id="d24e1365">
+Outside <span class="cf dir">lib</span>, create a file called <span class="cf filename">pubspec.yaml</span> and paste this in it:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/pubspec.yaml">firstapp/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">name: ​<em class="string">flutter_example_name</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">description: ​<em class="string">Example description of a flutter app that makes</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<em class="string">great things happen.</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dev_dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter_test:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  uses-material-design: true</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1442">The <span class="cf filename">pubspec.yaml</span> file contains information about your project and its dependencies, which Flutter will need to build your app. Actually this file is required for any Dart package, but it’ll take a while and a few chapters before we start looking at Dart packages that aren’t Flutter apps.</p>
+
+  <p id="d24e1447">Inside <span class="cf filename">main.dart</span>, write the following:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/material.dart'</em>​;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() =&gt; runApp(MyApp());</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyApp ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ MaterialApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     title: ​<em class="string">'Flutter Demo'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     theme: ThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       primarySwatch: Colors.blue,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     home: MyHomePage(title: ​<em class="string">'Flutter Demo Home Page'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyHomePage ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> MyHomePage({Key key, ​<strong class="kw">this</strong>​.title}) : ​<strong class="kw">super</strong>​(key: key);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ title;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> _MyHomePageState createState() =&gt; _MyHomePageState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ _MyHomePageState ​<strong class="kw">extends</strong>​ State&lt;MyHomePage&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">int</strong>​ _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">void</strong>​ _incrementCounter() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _counter++;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       title: Text(widget.title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     body: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<em class="string">'You have pushed the button this many times:'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       tooltip: ​<em class="string">'Increment'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       child: Icon(Icons.add),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1669">You’ll get a simple view with a counter and a floating action button which, when clicked, increments a counter that is shown at the center of the view, like in this screenshot:</p>
+
+  <div class="ss">
+
+    <img alt="images/FirstApp/def.png" class="border " id="d24e1671" src="images/FirstApp/Imagem-33.png" style="width: 38%"/>
+
+  </div>
+
+  <p id="d24e1672">
+If the app doesn’t work, try running:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ flutter create .</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1685">As mentioned in the Preface, <span class="cf commandname">flutter create</span> is the command used to create Flutter app projects, and executing it with a directory containing Flutter code will create the files and directories necessary for the app to compile for Android and iOS (and, as they become more stable, will also include the files needed for desktop development).</p>
+
+  <p id="d24e1690">
+Keep in mind that you can fix most build problems not caused by errors in the code, especially after multiple builds, by running:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ flutter clean</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1702">which will delete build files left by previous builds.
+
+</p>
+
+  <h3>Analyze the Example Code</h3>
+
+  <p id="d24e1710">Let’s break down this code so that you can understand this example.</p>
+
+  <h4>The pubspec.yaml File</h4>
+
+  <p id="d24e1715">
+Before moving on to <span class="cf filename">main.dart</span>, which contains the main app code, we should take a brief look at the <span class="cf filename">pubspec.yaml</span> file, which we will discuss in greater detail in Chapter 4, <a href="Capítulo-048.html#chp.packages">​<em> Beyond the Standard Library: Plugins and Packages </em>​</a> and, in even greater detail, in Appendix 2, <a href="Capítulo-097.html#chp.pubspec">​<em> Apple-Like Look and Additional App Configuration </em>​</a>.</p>
+
+  <p id="d24e1731">It is important to understand that the <span class="cf filename">pubspec.yaml</span> file is not unique to Flutter apps: it is a feature of Dart packages and, as such, also contains all the information needed to make it a Flutter app.</p>
+
+  <p id="d24e1736">In the first part we’ll specify some metadata about the Flutter app. In this section, two attributes are set:
+</p>
+
+  <ul>
+
+    <li>The <span class="cf ic">name</span>, which is the Dart package name and it is the default app name that appears on the home screen or the app drawer. The one drawback with <span class="cf ic">name</span> is that it must be all lowercase and be a valid Dart identifier: it can’t start with a digit, it can’t contain any character other than letters and underscores (no spaces allowed) and it can’t be a Dart keyword (like <span class="cf ic">class</span>, <span class="cf ic">if</span>, <span class="cf ic">try</span>, etc.). Thus, it is recommended to edit the app files in the <span class="cf dir">android</span> and <span class="cf dir">ios</span> directories, as explained in <a href="Capítulo-100.html#sec.appconfig.platspec">​<em>Platform-Specific Setup</em>​</a>, if you want an app name that doesn’t fit within those restrictions and if you want to change the launcher icon.</li>
+
+  </ul>
+
+  <ul>
+
+    <li>The <span class="cf ic">description</span>, which should be a brief, sentence or two explanation of the Flutter app.</li>
+
+  </ul>
+
+  <p id="d24e1778">
+In order to avoid build issues and as general good practice, the name of the directory that contains the root of the project (the <span class="cf dir">lib</span> directory and the <span class="cf filename">pubspec.yaml</span> file) should be the same as the Dart package name.</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/pubspec.yaml">firstapp/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">name: ​<em class="string">flutter_example_name</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">description: ​<em class="string">Example description of a flutter app that makes</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<em class="string">great things happen.</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1808">
+
+The rest of the file specifies the dependencies.</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp/pubspec.yaml">firstapp/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dev_dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  flutter_test:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    sdk: ​<em class="string">flutter</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  uses-material-design: true</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1865">
+Since we are not using any third-party packages, we are just specifying the Flutter SDK itself as a dependency and, with the lines:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">flutter:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  uses-material-design: true</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1882">we make sure that Material Design (Google/Android style) assets like icons are included.
+</p>
+
+  <h4>The App Widget</h4>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">import</strong>​ ​<em class="string">'package:flutter/material.dart'</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1897">
+
+
+
+
+
+This brings in the Flutter classes we need to use. In this chapter you’ll learn about the simplest ones and how to work with them (we’ll look at many others as we continue in Chapter 2, <a href="Capítulo-018.html#chp.layout">​<em> Laying Out More Widgets </em>​</a> as well).</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">main</strong>​() =&gt; runApp(​<strong class="kw">new</strong>​ MyApp());</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1941">
+This line means that, when our code gets executed, we will start an app, and this app’s behavior and appearance is specified inside a class called <span class="cf class">MyApp</span>, which is defined as:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyApp ​<strong class="kw">extends</strong>​ StatelessWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ MaterialApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     title: ​<em class="string">'Flutter Demo'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     theme: ThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       primarySwatch: Colors.blue,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     home: MyHomePage(title: ​<em class="string">'Flutter Demo Home Page'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e1995">Let’s break this down further.</p>
+
+  <h4>Defining Widgets in Flutter</h4>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyApp ​<strong class="kw">extends</strong>​ StatelessWidget</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2009">
+
+In Flutter every UI element or collection of UI elements is a widget, which is an immutable object.
+This means we can’t change a widget’s member variables: if there are any, they have to be declared as <span class="cf ic">final</span> or constant.
+You can find more information on Dart variables in <a href="Capítulo-086.html#sec.dart.variables">​<em>Variables and Conditions</em>​</a>.</p>
+
+  <p id="d24e2021">There are two kinds of widgets:
+
+
+
+</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e2044">Stateless widgets (subclasses of <span class="cf class">StatelessWidget</span>), which get rendered when the app starts and when a parent widget gets re-rendered, like <span class="cf class">MyApp</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e2053">Stateful widgets (subclasses of <span class="cf class">StatefulWidget</span>), which you can re-render at any time by calling the <span class="cf ic">setState()</span> function, like this app’s <span class="cf class">MyHomePage</span>, which is covered in <a href="#sec.firstapp.stateful">​<em>The Home Page Widget</em>​</a>.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e2066">
+
+
+The app widget is the collection of every other widget, so it is a widget.
+In this case it is a <span class="cf class">StatelessWidget</span>.
+
+
+</p>
+
+  <h4>Working with Stateless Widgets</h4>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ MaterialApp(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    title: ​<em class="string">'Flutter Demo'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    theme: ThemeData(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      primarySwatch: Colors.blue,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    home: MyHomePage(title: ​<em class="string">'Flutter Demo Home Page'</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2129">
+
+
+
+
+This is the build method, which gets called when the widget needs to be rendered and returns a <span class="cf class">Widget</span> object, which is every widget’s superclass.</p>
+
+  <p id="d24e2156">In this case it gets called just once: when the app starts, given that <span class="cf class">MyApp</span> doesn’t have a parent widget (it is every other widget’s parent widget).</p>
+
+  <p id="d24e2161">
+In MyApp’s build method it is specified that the <span class="cf class">MyApp</span> widget (the app itself) is a <span class="cf class">MaterialApp</span>, which means that our app will use Material Design features that are part of the standard library.</p>
+
+  <p id="d24e2173">
+
+
+
+
+
+
+The code sets, using the <span class="cf class">MaterialApp</span> constructor, an app title, a theme with a primary swatch (a range of similar colors, as specified in Google’s Material Design guidelines), and a home page, which will be of class <span class="cf class">MyHomePage</span> and have the title “Flutter Demo Home Page”.
+
+</p>
+
+  <h4 id="sec.firstapp.stateful">The Home Page Widget</h4>
+
+  <p id="d24e2222">
+This defines the aforementioned <span class="cf ic">MyHomePage</span> class, which is a <span class="cf ic">StatefulWidget</span> (a widget that has a state, unlike <span class="cf class">MyApp</span>) with a title member and a state, which is <span class="cf class">_MyHomePageState</span>:
+</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ MyHomePage ​<strong class="kw">extends</strong>​ StatefulWidget {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> MyHomePage({Key key, ​<strong class="kw">this</strong>​.title}) : ​<strong class="kw">super</strong>​(key: key);</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">final</strong>​ ​<strong class="kw">String</strong>​ title;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> _MyHomePageState createState() =&gt; _MyHomePageState();</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2279">In Dart, the underscore (<span class="cf ic">_</span>) in <span class="cf class">_MyHomePageState</span> has an effect akin to the one <span class="cf ic">private</span> has in languages like Java and is explained in <a href="Capítulo-086.html#sec.dart.underscore">​<em>The underscore</em>​</a>.</p>
+
+  <p><strong>The Advantage of Stateful Widgets</strong></p>
+
+  <p id="d24e2296">Stateful widgets  have the ability to be re-rendered programmatically, allowing the developer to build an app that reacts to changes in the data it is showing or representing.</p>
+
+  <p id="d24e2298">
+Because of this, they are more complex than stateless widgets: a stateful widget has a state, which is represented by a <span class="cf class">State</span> object, which contains the widget’s logic and mutable data. As I mentioned in the previous section, widgets themselves are immutable, so they need a different object (the <span class="cf class">State</span>) to hold the mutable data.</p>
+
+  <p id="d24e2310">
+
+They get re-rendered when you call the <span class="cf ic">setState()</span> function, which notifies the framework that the state of the widget has changed and it needs to be re-rendered (by calling its <span class="cf ic">build</span> method again) to show the changes to the user.</p>
+
+  <p><strong>The MyHomePage Widget</strong></p>
+
+  <p id="d24e2330">The line:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">MyHomePage({Key key, ​<strong class="kw">this</strong>​.title}) : ​<strong class="kw">super</strong>​(key: key);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2345">defines <span class="cf class">MyHomePage</span>’s arguments (as explained in <a href="Capítulo-092.html#sec.dart.classes.constructors">​<em>Constructors</em>​</a>). Since they are wrapped in braces, they are named arguments, which is why, when calling <span class="cf class">MyHomePage</span>’s constructor, the syntax was:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">MyHomePage(title: ​<em class="string">'Flutter Demo Home Page'</em>​)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2362">The unused key parameter is used by the framework to identify which widgets to re-render. You can provide it and it can be useful, but it’s optional, and we won’t need it for this app.</p>
+
+  <p id="d24e2364">We’ll talk about keys in the next chapter in <a href="Capítulo-029.html#sec.layout.key">​<em>The Key</em>​</a>.</p>
+
+  <p id="d24e2368">You can find more information on Dart class and constructor definitions in <a href="Capítulo-092.html#sec.dart.classes">​<em>Classes</em>​</a>.</p>
+
+  <p id="d24e2372">Inside <span class="cf class">_MyHomePageState</span> is where the app’s logic is defined:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ _MyHomePageState ​<strong class="kw">extends</strong>​ State&lt;MyHomePage&gt; {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">int</strong>​ _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> ​<strong class="kw">void</strong>​ _incrementCounter() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     _counter++;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> @override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> Widget build(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       title: Text(widget.title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     body: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<em class="string">'You have pushed the button this many times:'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             ​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">             style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">           ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">         ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       tooltip: ​<em class="string">'Increment'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">       child: Icon(Icons.add),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">     ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">   );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"> }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">class</strong>​ _MyHomePageState ​<strong class="kw">extends</strong>​ State&lt;MyHomePage&gt;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2509">
+<span class="cf class">_MyHomePageState</span> is defined as the state of the widget <span class="cf class">MyHomePage</span>.</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ _counter = 0;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline"/>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">void</strong>​ ​<strong class="kw">_incrementCounter</strong>​() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  setState(() {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    _counter++;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  });</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e2543">
+
+This declares a counter and defines a function that increments the counter and triggers a re-render by changing the state of the widget (calling <span class="cf ic">setState()</span>).</p>
+
+  <p><strong>The Main build Method for the Home Page</strong></p>
+
+  <p id="d24e2558"></p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/firstapp_starting/lib/main.dart">firstapp_starting/lib/main.dart</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">@override</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Widget ​<strong class="kw">build</strong>​(BuildContext context) {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<strong class="kw">return</strong>​ Scaffold(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    appBar: AppBar(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      title: Text(widget.title),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    body: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        mainAxisAlignment: MainAxisAlignment.center,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        children: &lt;Widget&gt;[</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ​<em class="string">'You have pushed the button this many times:'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            ​<em class="string">'</em>​​<em class="string">$_counter</em>​​<em class="string">'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            style: Theme.of(context).textTheme.display1,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+  </table>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    floatingActionButton: FloatingActionButton(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      onPressed: _incrementCounter,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      tooltip: ​<em class="string">'Increment'</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Icon(Icons.add),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  );</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">}</td>
+    </tr>
+
+  </table>
+
+  <p><strong>Use of a Widget to Provide the Basic App Structure: The Scaffold</strong></p>
+
+  <p id="d24e2663">
+
+This time the widget we return is a <span class="cf class">Scaffold</span>, the basic Material Design visual layout structure; in other words, it is a generic container for all of our app content.</p>
+
+  <p id="d24e2677">
+A <span class="cf class">Scaffold</span> has an <span class="cf class">AppBar</span>, which (using a <span class="cf class">Text</span> widget) displays the title which was set earlier in <span class="cf class">MyHomePage</span>’s constructor.</p>
+
+  <p><strong>Build the App’s Body</strong></p>
+
+  <p id="d24e2698">
+The body of our <span class="cf class">Scaffold</span> is wrapped inside a <span class="cf class">Center</span> widget, which centers our content in the middle of the page.</p>
+
+  <p id="d24e2710">The <span class="cf class">Center</span>’s child (the content which it centers) is a <span class="cf class">Column</span>, which displays its children in a vertical stack.</p>
+
+  <p id="d24e2718">The first <span class="cf class">Text</span> widget simply displays a <span class="cf class">String</span>, whereas the second displays the counter with a built-in theme called <span class="cf ic">display1</span>.</p>
+
+  <p><strong>Add the Floating Action Button</strong></p>
+
+  <p id="d24e2732">
+Not centered (but inside the <span class="cf class">Scaffold</span>, outside the body, in its own <span class="cf ic">floatingActionButton</span> attribute) is the <span class="cf class">FloatingActionButton</span> which, when pressed, calls the <span class="cf ic">_incrementCounter</span> function we saw previously.</p>
+
+  <p id="d24e2750">Quite easy to understand are the tooltip code and the <span class="cf class">Icon</span> widget (again, everything is a widget here) inside of it (its “child”) which is a simple plus (or “add”, as it is called) sign.</p>
+
+  <p id="d24e2755">
+
+
+Every time we click the FAB the counter is incremented and the state changes, the <span class="cf ic">setState()</span> call triggers the <span class="cf ic">build</span> method again and the UI gets reloaded with the updated counter.</p>
+
+  <h3>What We’ve Seen and Where We’re Going</h3>
+
+  <p id="d24e2778">This is a very simple app: it’s just a <span class="cf ic">MaterialApp</span> that contains a <span class="cf ic">Scaffold</span>, with a simple FAB in the lower right and, in the middle, a Column with two <span class="cf ic">Text</span> widgets showing the number of times the FAB has been clicked.</p>
+
+  <p id="d24e2789">This is very simple, but the only way to really understand how something is done is by doing it, so the next section is going to focus on adding new features to the existing code.</p>
+
+</body>
+
+</html>

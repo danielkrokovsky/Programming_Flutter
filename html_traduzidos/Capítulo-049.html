@@ -1,0 +1,232 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-049.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-049_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-049_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-049_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e17035"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma introdução aos pacotes</font></font></h2>
+
+  <p id="d24e17038"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Como muitas linguagens, o Dart permite que os desenvolvedores compartilhem código modular, que pode ser usado por outros desenvolvedores para obter facilmente a funcionalidade comumente necessária que, de outra forma, exigiria uma solução complicada.</font></font></p>
+
+  <p id="d24e17045"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Existem muitos pacotes Dart genéricos que podemos usar para obter funcionalidade útil para aplicativos da web e aplicativos móveis Flutter, mas também existem pacotes específicos do Flutter, que usam recursos específicos do Flutter e só funcionam com aplicativos Flutter.</font></font></p>
+
+  <p id="d24e17047"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Geralmente, os pacotes são escritos em Dart e são muito semelhantes a pacotes e bibliotecas de outras linguagens, mas podem se comunicar com código Android / iOS específico do dispositivo, o que os tornaria </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes de plug</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - </font><span class="emph"><font style="vertical-align: inherit;">ins</font></span><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Encontrando Pacotes: Usando o Dart Pub</font></font></h3>
+
+  <p id="d24e17062"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Você pode encontrar pacotes acessando a </font><font style="vertical-align: inherit;">página inicial </font><font style="vertical-align: inherit;">do </font></font><span class="firstuseinline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dart Pub </font></font></span><font style="vertical-align: inherit;"></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-054.html#FOOTNOTE-27" id="FNPTR-27"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[27]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e pesquisando nas categorias “Flutter” e “All”.</font></font></p>
+
+  <p id="d24e17081"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Na página inicial, você encontrará os pacotes mais usados, muitos dos quais são feitos por desenvolvedores do Google. </font><font style="vertical-align: inherit;">Clicar em um pacote permite que você encontre informações de uso, como instalar o pacote e um changelog.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando Pacotes</font></font></h3>
+
+  <p id="d24e17086"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Depois de encontrar um pacote que você acha que pode querer, você precisa instalá-lo.</font></font></p>
+
+  <p id="d24e17094"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Os pacotes Dart são instalados quando são especificados como uma dependência de um aplicativo e você pode fazer isso editando o </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A maneira simples</font></font></h4>
+
+  <p id="d24e17106"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalar um pacote é muito fácil: você só precisa editar a </font><font style="vertical-align: inherit;">seção de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dependências</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do </font><font style="vertical-align: inherit;">arquivo </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e adicionar a string da </font><font style="vertical-align: inherit;">seção </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do pacote no Pub. </font><font style="vertical-align: inherit;">As strings que você encontra lá são assim:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packagename: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">^ versão</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e17125"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+E precisa ser adicionado em </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , recuado no mesmo nível da </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter:</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> line, após as linhas que se parecem com o seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dependências:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  vibração:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    SDK: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vibração</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e17155"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Os plug-ins IDE baixam os pacotes automaticamente quando você edita o arquivo, mas você pode fazer o download do Flutter ou atualizar as dependências executando o seguinte comando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pacotes de $ flutter recebem</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e17167"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Tudo o que resta a fazer é importar o pacote em seu arquivo Dart adicionando, na parte superior do arquivo, a seguinte linha:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação </font></font></strong><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">'pacote: packagename / filename.dart'</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e17188"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O nome do arquivo é igual ao nome do pacote na maioria dos casos, mas é melhor verificar no Pub, já que ele geralmente é especificado nas </font><font style="vertical-align: inherit;">seções </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">README.md</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Exemplo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalação</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Se você estiver usando os plug-ins IDE oficiais, o nome do arquivo correto também será sugerido pelo IDE.</font></font></p>
+
+  <p id="d24e17199"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">importação</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> também tem mais recursos, que são explicadas em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-094.html#sec.dart.import"><em><font style="vertical-align: inherit;">Mastering importação</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-094.html#sec.dart.import"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <p id="d24e17205"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso é tudo que você precisa saber se os desenvolvedores de pacote estão usando o controle de versão semântico corretamente e você apenas deseja obter todas as atualizações para o pacote que não quebrarão seu código, mas há casos em que simplesmente copiar e colar do Pub para o dependências não são ideais ou não funcionam.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Especificando a versão do pacote manualmente</font></font></h4>
+
+  <p id="d24e17210"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Entender como especificar dependências manualmente pode ser útil, por exemplo, quando você deseja atualizar para a próxima versão, mesmo se precisar alterar seu código.</font></font></p>
+
+  <p id="d24e17216"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Também pode ser útil quando você deseja uma versão de pacote específica ou sempre a versão mais recente do pacote, como aconteceria quando você fosse o desenvolvedor do pacote.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sintaxe de acento circunflexo</font></font></strong></p>
+
+  <p id="d24e17221"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+A linha que vimos antes declara que o projeto depende da versão mais recente do pacote do Pub que é declarada compatível com a versão especificada. </font><font style="vertical-align: inherit;">Por exemplo, </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">^ 0.1.0</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> significa qualquer versão no grupo 0.1 e </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">^ 1.2.3</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> significa qualquer versão maior ou igual a 1.2.3 e menor que 2.0.0. </font><font style="vertical-align: inherit;">Essa é a maneira mais comum de especificar a versão do pacote e é chamada de </font></font><span class="firstuseinline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">sintaxe circunflexa</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Outras maneiras de especificar a versão do pacote</font></font></strong></p>
+
+  <p id="d24e17240"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+As versões do pacote também podem ser especificadas usando operadores de comparação matemática (por exemplo, </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&gt; = 0,5.9</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> usará qualquer versão a partir de 0,5.9).</font></font></p>
+
+  <p id="d24e17254"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Esses operadores também podem ser combinados (por exemplo, você pode usar algo como </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&gt; = 0,5,9 &lt;2,5.3</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ).</font></font></p>
+
+  <p id="d24e17259"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Você também pode usar apenas:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nome do pacote:</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e17267"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ou:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">packagename: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">qualquer</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e17277"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se você quiser que o Flutter baixe a versão mais recente que puder encontrar, sem restrições.
+
+</font></font></p>
+
+  <h4 id="sec.packages.nopub"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Buscando pacotes em locais diferentes do pub</font></font></h4>
+
+  <p id="d24e17285"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A versão não é a única coisa que você pode especificar na lista de dependências: se você não quiser que o pacote seja obtido do Pub, você também pode especificar de onde deseja que o pacote seja obtido, o que pode ser útil , por exemplo, ao testar uma nova versão que ainda não foi publicada ou ao usar um pacote que não está no Pub.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Buscando do Git</font></font></strong></p>
+
+  <p id="d24e17290"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Por exemplo, você pode buscar o pacote em um repositório Git:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nome do pacote:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  git:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    url: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">git: //github.com/username/packagename.git</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e17320"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se o pacote não estiver na raiz do repositório Git, você pode especificar um caminho dentro do repositório onde o pacote está localizado:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nome do pacote:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  git:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    url: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">git: //github.com/username/packagename.git</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    path: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">path / to / pkg</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Buscando de um caminho local</font></font></strong></p>
+
+  <p id="d24e17350"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você também pode buscar o pacote em um caminho em seu ambiente de desenvolvimento local:
+
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nome do pacote:</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  caminho: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">../packagename/</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+  </tbody></table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-049_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

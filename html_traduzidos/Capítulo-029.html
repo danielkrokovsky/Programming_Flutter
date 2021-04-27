@@ -1,0 +1,68 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-029.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-029_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-029_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-029_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="sec.layout.key"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A chave</font></font></h2>
+
+  <p id="d24e10348"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+A chave é usada para identificar exclusivamente um widget e é usada pela estrutura para atualizar os elementos que realmente precisam ser atualizados.</font></font></p>
+
+  <p id="d24e10360"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Normalmente você não usará chaves, já que o framework cuidará delas por si só, mas você pode usá-las para ter maior controle do estado e das atualizações do widget.</font></font></p>
+
+  <p id="d24e10362"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Além disso, existem widgets que solicitam expressamente uma chave, como o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">descartável</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que s encontrados em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.dismissible"><em><font style="vertical-align: inherit;">ListTiles descartável</font></em></a><font style="vertical-align: inherit;"> .</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.dismissible"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Muitas chaves para a mesma fechadura</font></font></h3>
+
+  <p id="d24e10372"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Existem muitos tipos de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Key se</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> alguns são realmente mais úteis do que o </font><font style="vertical-align: inherit;">construtor </font><font style="vertical-align: inherit;">simples de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Key</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que toma como um argumento nomeado uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que deve ser única dentro do pai do widget.</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ExampleWidget (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  chave: Chave ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"exemplo"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e10394"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GlobalKey</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s também existem e, devido ao seu escopo global, devem ser absolutamente únicas.</font></font></p>
+
+  <p id="d24e10398"><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">As GlobalKey</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s permitem que os widgets sejam movidos para serem filhos de um pai completamente diferente, preservando seu estado.</font></font></p>
+
+  <p id="d24e10402"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Também existem </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">LocalKey</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s, que têm o mesmo escopo que </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Key</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s </font><font style="vertical-align: inherit;">normais </font><font style="vertical-align: inherit;">, mas têm alguns construtores diferentes:</font></font></p>
+
+  <ul>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ValueKey</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que assume um valor de qualquer tipo, não apenas uma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">UniqueKey</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que não tem valor em tudo e é sempre único (o que usamos na </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.dismissible"><em><font style="vertical-align: inherit;">descartável ListTiles</font></em></a><font style="vertical-align: inherit;"> ).</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.dismissible"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></li>
+
+  </ul>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando Chaves</font></font></h3>
+
+  <p id="d24e10431"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Na maioria das vezes, você não precisa usar as </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">teclas</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ; </font><font style="vertical-align: inherit;">eles só se tornam necessárias quando os widgets exigem que você defina uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">chave</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , como aconteceu quando falamos sobre o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">descartável</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em </font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.dismissible"><em><font style="vertical-align: inherit;">ListTiles descartável</font></em></a><font style="vertical-align: inherit;"> .
+</font></font><a href="http://localhost:8080/html/Cap%C3%ADtulo-023.html#sec.layout.dismissible"><font style="vertical-align: inherit;"></font><em><font style="vertical-align: inherit;"></font></em><font style="vertical-align: inherit;"></font></a><font style="vertical-align: inherit;"></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-029_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

@@ -1,0 +1,199 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-058.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-058_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-058_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-058_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e19819"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A API</font></font></h2>
+
+  <p id="d24e19822"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Já que falar sobre a criação de um back-end para seu aplicativo se desviaria significativamente do escopo deste livro, usaremos uma API HTTP simples que não requer autenticação: a API do popular site de quadrinhos XKCD.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Por que XKCD?</font></font></h3>
+
+  <p id="d24e19837"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você provavelmente já está familiarizado com o site do XKCD: seus quadrinhos são frequentemente compartilhados em comunidades relacionadas à engenharia e à informática (especialmente aquelas de desenvolvimento de software), e a API do XKCD é muito simples de usar e não requer autenticação, o que significa que você será capaz de use os exemplos de código neste capítulo sem ter que atualizar as chaves de API de espaço reservado com aquelas que você obtém ao se inscrever para o uso da API, como faria se o exemplo fosse sobre uma API que requer autenticação.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como funciona a API XKCD</font></font></h3>
+
+  <p id="d24e19844"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A API XKCD, como é o caso para a maioria dos endpoints HTTP, envia respostas JSON para solicitações GET simples.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Obtendo dados sobre quadrinhos XKCD</font></font></h4>
+
+  <p id="d24e19849"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+Por exemplo, o envio de uma solicitação GET padrão para </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://xkcd.com/info.0.json</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> retorna algo assim:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"mês"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"1"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"num"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : 2097,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"link"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Ano"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"2019"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"notícia"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"safe_title"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Thor Ferramentas"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"transcrição"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">""</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"alt"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"CORREÇÃO: Após uma cuidadosa avaliação," </font></font></em><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">+</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"nós determinamos que o" </font></font></em><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">+</font></font></strong><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"eixo etiqueta neste gráfico foi impresso para trás". </font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"img"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"https://imgs.xkcd.com/comics/thor_tools.png"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"título"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Thor Ferramentas"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"dia"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"11"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e19987"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">que descreve o quadrinho mais recente que o XKCD publicou, e você pode ver o resultado atual navegando até essa página no navegador.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Os dados JSON</font></font></h4>
+
+  <p id="d24e19992"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você nunca trabalhou com JSON, é apenas uma maneira de descrever um objeto de qualquer linguagem de programação orientada a objetos (ou, ainda mais de perto, uma estrutura do tipo C) com uma string: é uma entidade única contendo vários campos, cada um descrevendo algo diferente sobre a entidade que está descrevendo.</font></font></p>
+
+  <p id="d24e19994"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nesse caso, é o último quadrinho que o XKCD publicou e as seguintes informações sobre ele:</font></font></p>
+
+  <ul>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em que mês foi lançado (1 de janeiro).</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O ID numérico da história em quadrinhos (progressivo, começando em 1 para a primeira história em quadrinhos do XKCD).</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O link que clica na imagem de quadrinhos nos sites aponta para </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-069.html#FOOTNOTE-33" id="FNPTR-33"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[33]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (geralmente vazio).</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O ano em que a história em quadrinhos foi publicada.</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Um </font><font style="vertical-align: inherit;">campo de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">notícias</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> geralmente vazio </font><font style="vertical-align: inherit;">.</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O título somente de texto da história em quadrinhos (o </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">título</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> normal </font><font style="vertical-align: inherit;">pode conter tags HTML).</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Uma transcrição textual (uma descrição) do que está acontecendo na imagem dos quadrinhos, que não foi adicionada aos quadrinhos desde o número 1674.</font></font></li>
+
+    <li><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">alt</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é uma explicação da piada ou texto adicional destinado a ser visto depois de ver a própria imagem em quadrinhos. </font><font style="vertical-align: inherit;">Ele foi incluído no site oficial de duas maneiras: a versão desktop exibe quando o mouse passa sobre a imagem, e a versão móvel exibe quando um botão abaixo da imagem é tocado.</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A própria imagem cômica.</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O título da história em quadrinhos, potencialmente contendo tags HTML.</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O dia do mês em que o quadrinho foi publicado.</font></font></li>
+
+  </ul>
+
+  <p id="d24e20046"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+
+
+
+
+
+No código Dart, podemos analisar e decodificar os dados JSON e armazená-los em um Dart </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Map</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> usando a </font><font style="vertical-align: inherit;">biblioteca Dart integrada </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: convert</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que fornece o </font><font style="vertical-align: inherit;">método </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json.decode (JSON) necessário</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para converter uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> JSON </font><font style="vertical-align: inherit;">em um objeto Dart , bem como um </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">método json.decode (var)</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (que não usaremos) que converte objetos Dart compatíveis em </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> s </font><font style="vertical-align: inherit;">formatadas em JSON </font><font style="vertical-align: inherit;">.</font></font></p>
+
+  <div class="sidebar">
+
+    <div class="sidebar-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Como funciona a biblioteca de conversão </font></font></div>
+
+    <div class="sidebar-content">
+
+      <p id="d24e20110"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+		
+        
+		
+		
+        
+		A </font><font style="vertical-align: inherit;">biblioteca </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dart: convert</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> fornece a </font><font style="vertical-align: inherit;">constante </font></font><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-069.html#FOOTNOTE-34" id="FNPTR-34"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[34]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que é do tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JsonCodec</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-069.html#FOOTNOTE-35" id="FNPTR-35"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[35]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que tem dois métodos: </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json.decode</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que recebe uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como argumento e pode retornar qualquer objeto Dart, já que seu tipo de retorno é </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dinâmico</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que significa que pode ser qualquer coisa.
+	</font></font></p>
+
+      <p id="d24e20171"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+		
+		O outro método é </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">json.encode</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que faz exatamente o oposto: ele pega qualquer </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">objeto</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Dart </font><font style="vertical-align: inherit;">(novamente, pode ser qualquer coisa) e retorna uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">String</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que pode ser usada - por exemplo, como parte de uma solicitação POST se for necessário fazer, e como faremos mais tarde no livro.
+	</font></font></p>
+
+    </div>
+
+  </div>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Obtendo HQs anteriores</font></font></h4>
+
+  <p id="d24e20193"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Você pode obter os quadrinhos publicados antes do atual (e mais recente) enviando uma solicitação get para </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://xkcd.com/num/info.0.json,</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> onde </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">num</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o número do quadrinho em ordem cronológica (começando em 1) ; </font><font style="vertical-align: inherit;">por exemplo, você pode obter o primeiro enviando uma solicitação GET para </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https://xkcd.com/1/info.0.json</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e20213"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Não há como obter uma lista de quadrinhos da API, mas podemos fazer uma lista de quadrinhos em ordem cronológica reversa (do mais recente para o mais antigo) simplesmente buscando o quadrinho mais recente e, em seguida, usando seu número de ID (vamos chamar it </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">latestNum</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) para buscar os quadrinhos com números que vão de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">latestNum-1</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a 1.
+
+
+</font></font></p><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-058_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

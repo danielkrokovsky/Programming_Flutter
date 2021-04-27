@@ -1,0 +1,531 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e4794">Contain and Add Padding to Widgets Using Invisible Layout Widgets</h2>
+
+  <p id="d24e4797">Some widgets are not meant to add visible content to your app but instead are simply used to move other widgets inside the available space or change the shape and size of a widget in order to make the app look exactly how you want it to look.</p>
+
+  <p id="d24e4799">They all operate on a <span class="cf variable">child</span> widget, and you can use them to change the shape and size of that widget or to separate the widget from other widgets.</p>
+
+  <h3>Add Padding to a Widget</h3>
+
+  <p id="d24e4807">
+
+There might be cases in which a widget in your app has to (or should) be a certain distance away from all or some other widgets—for example, if the widget has to be separated from other widgets in a list or grid, or if there are multiple small widgets used for interaction close to each other, or maybe just because it looks better with some empty space.</p>
+
+  <p id="d24e4820">The space that gets left empty is called <span class="emph">padding</span>, and is usually defined in terms of the amount of pixels for each direction that are left empty.</p>
+
+  <p id="d24e4825">You can add padding to the outside of a widget by wrapping it inside a <span class="cf class">Padding</span> widget.</p>
+
+  <p id="d24e4830"><span class="cf class">Padding</span> takes a <span class="cf variable">child</span> and the <span class="cf variable">padding</span> option as named arguments, so you can create a <span class="cf class">Text</span> with 20px padding the following way:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  padding: EdgeInsets.all(20.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Text(​<em class="string">"Example text"</em>​),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e4859">The <span class="cf variable">padding</span> option takes an object of type <span class="cf class">EdgeInsetsGeometry</span>, which we’ll learn about in the next section.</p>
+
+  <h4>EdgeInsetsGeometry and EdgeInsets: Defining the Amount and Position of Padding</h4>
+
+  <p id="d24e4870">
+
+You can generate objects of type <span class="cf class">EdgeInsetsGeometry</span> using the following constructors of the class <span class="cf class">EdgeInsets</span>:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e4889"><span class="cf methodname">EdgeInsets.all(paddingAmount)</span>, where <span class="cf variable">paddingAmount</span> is a <span class="cf class">double</span> value specifying the amount of padding, which adds padding everywhere around the content.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4902"><span class="cf methodname">EdgeInsets.symmetric(vertical: paddingAmountVertical, horizontal: paddingAmountHorizontal)</span>, where both arguments are optional and specify the amount of padding for each side in the respective axis.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4907"><span class="cf methodname">EdgeInsets.only(top: paddingAmountTop, bottom: paddingAmountBottom, left: paddingAmountLeft, right: paddingAmountRight)</span>, where all four arguments are optional and specify the amount of padding for the respective side of the content.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e4911">There are other constructors for <span class="cf class">EdgeInsets</span> (like <span class="cf methodname">EdgeInsets.fromWindowPadding</span> and <span class="cf methodname">EdgeInsets.fromLTRB</span>) but they are not really very useful with <span class="cf class">Padding</span>.</p>
+
+  <p id="d24e4925"><span class="cf methodname">EdgeInsetsDirectional.only</span> and <span class="cf methodname">EdgeInsetsDirectional.fromSTEB</span> also exist, and they are just like <span class="cf methodname">EdgeInsets.only</span> and <span class="cf methodname">EdgeInsets.fromLTRB</span>, but they use <span class="cf ic">start</span>, <span class="cf ic">top</span>, <span class="cf ic">bottom</span>, and <span class="cf ic">end</span> relative to the direction in which text is written and are useful when padding has to change whether the text goes from left to right (like when writing text in the Latin alphabet) or from right to left (like when writing text in the Arabic script or Hebrew alphabet).
+
+</p>
+
+  <h3>The Container and the BoxDecoration</h3>
+
+  <p id="d24e4957">
+
+The <span class="cf class">Container</span> is a generic containment widget, and it has multiple uses, depending on the options we decide to set:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e4975">We can choose to constrain the <span class="cf variable">child</span> to a set <span class="cf variable">width</span> and <span class="cf ic">height</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4987">We can choose to add a background color to a widget or set of widgets.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4990">We can add <span class="cf ic">padding</span> to a widget.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e4996">We can make the <span class="cf ic">Container</span> of a shape other than square or rectangular using <span class="cf class">BoxDecoration</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5005">We can do all or some of these at the same time.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e5007">For example, we can create white text with a blue background and 20 pixel padding between the edges and the text, all limited to a 200x50 rectangle with the following code:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  color: Colors.blue,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  padding: EdgeInsets.all(20.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  width: 200.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  height: 50.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Text(​<em class="string">"Prova"</em>​, style: TextStyle(color: Colors.white)),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <h4>BoxDecoration</h4>
+
+  <p id="d24e5040">
+
+<span class="cf class">BoxDecoration</span>, instead, is used to determine the <span class="cf class">Container</span>’s features.</p>
+
+  <p id="d24e5059">You can assign it to the <span class="cf class">Container</span>’s <span class="cf ic">decoration</span> option and you might be interested in the following options:</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e5069"><span class="cf ic">padding</span>, which takes <span class="cf class">EdgeInsetsGeometry</span> and is the same as <span class="cf class">Padding</span><span class="cf ic">.padding</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5082"><span class="cf ic">shape</span>, which can be <span class="cf ic">BoxShape.circle</span> or <span class="cf ic">BoxShape.rectangle</span>.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5093"><span class="cf ic">color</span>, <span class="cf ic">image</span>, or <span class="cf ic">gradient</span>, which are used to specify the background, since the <span class="cf class">BoxDecoration</span> isn’t actually used just for the shape and, if you decide to use the <span class="cf ic">Container.decoration</span>, you need to move arguments such as <span class="cf ic">color</span> to the <span class="cf class">BoxDecoration</span>’s constructor.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e5117"><span class="cf ic">borderRadius</span> which, when set for a rectangle-shaped box, creates rounded edges of the set <span class="cf class">BorderRadius</span>, which can be set as the same for all edges using <span class="cf methodname">BorderRadius.circular(radius)</span> (where <span class="cf ic">radius</span> is a <span class="cf ic">double</span> number).</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e5133">Using the following <span class="cf class">Container</span> and <span class="cf class">BoxDecoration</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  width: 300.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  height: 300.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  decoration: BoxDecoration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    shape: BoxShape.circle,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    color: Colors.black,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ​<em class="string">"Test Text"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        style:TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          color: Colors.yellowAccent,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          fontSize: 30</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e5192">You can make a circle with yellow text in it like this:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/oneball.png" class="border " id="d24e5194" src="images/WidgetLayout/Imagem-72.png" style="width: 30%"/>
+
+  </div>
+
+  <p id="d24e5195">And, just to show how they can work anywhere, you can have two in a <span class="cf class">Column</span> (explained a bit further later in <a href="Capítulo-023.html#sec.layout.column">​<em>The Column</em>​</a>) in the following way (also see the <a href="#fig.twoballs">figure</a>):</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  mainAxisAlignment: MainAxisAlignment.spaceEvenly,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      width: 300.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      height: 300.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      decoration: BoxDecoration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        shape: BoxShape.circle,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        color: Colors.black,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<em class="string">"The First Text"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          style:TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            color: Colors.yellowAccent,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            fontSize: 30</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          )</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Container(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      width: 300.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      height: 300.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      decoration: BoxDecoration(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        shape: BoxShape.circle,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        color: Colors.black,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: Center(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ​<em class="string">"The Second Text"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          style:TextStyle(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            color: Colors.lightBlueAccent,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">            fontSize: 30</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">          ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <div id="fig.twoballs">
+
+    <div>
+
+      <img alt="images/WidgetLayout/twoballs.png" class="border " id="d24e5317" src="images/WidgetLayout/Imagem-93.png" style="width: 28%"/>
+
+    </div>
+
+  </div>
+
+  <p id="d24e5319">More detailed examples of the usage of a <span class="cf class">Container</span> and <span class="cf class">BoxDecoration</span> can be found in <a href="Capítulo-023.html#sec.layout.round">​<em>Make Round Widgets</em>​</a>.
+
+
+
+</p>
+
+</body>
+
+</html>

@@ -1,0 +1,539 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-078.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-078_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-078_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-078_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e36245"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Animações e transições</font></font></h2>
+
+  <p id="d24e36248"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Existem duas maneiras de animar widgets no Flutter: animando-os </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dentro de</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> uma determinada tela e animando-os </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">entre</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> telas diferentes.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Animando em uma tela: o AnimatedContainer e widgets semelhantes</font></font></h3>
+
+  <p id="d24e36264"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedContainer</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é um dos widgets mais simples para começar a animar seu aplicativo Flutter: é um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Container</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> regular, </font><font style="vertical-align: inherit;">mas é animado quando uma propriedade é alterada, proporcionando uma transição mais agradável para um estado diferente. </font><font style="vertical-align: inherit;">Por exemplo, alterar sua </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">altura</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">largura</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> fará o widget encolher ou expandir gradualmente, e efeitos semelhantes podem ser obtidos alterando as propriedades de borda ou cor do widget. </font><font style="vertical-align: inherit;">A duração da animação pode ser alterada opcionalmente usando o </font><font style="vertical-align: inherit;">argumento de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duração</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e sua curva (se e quanto a animação diminui ou acelera com o tempo) pode ser alterada usando o </font><font style="vertical-align: inherit;">argumento de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">curva</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e36289"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+A </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duração</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é do tipo duração, então você usaria a </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Duração</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que usamos anteriormente durante a autenticação, enquanto a </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">curva</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é do tipo </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Curva</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Uma coleção das curvas mais comuns é encontrada na </font><font style="vertical-align: inherit;">classe </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Curves</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">É uma coleção grande, então você pode considerar a leitura da lista completa no manual oficial de referência do Flutter </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-082.html#FOOTNOTE-51" id="FNPTR-51"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[51]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> na </font><font style="vertical-align: inherit;">seção </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Constantes</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> se as seguintes curvas básicas não forem suficientes para você ou se você quiser saber a função matemática que produz cada uma curva:</font></font></p>
+
+  <ul>
+
+    <li><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Curves.easeIn</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que começa lentamente e acelera com o tempo.</font></font></li>
+
+    <li><span class="cf constant"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Curves.easeOut</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que começa rápido e diminui com o tempo.</font></font></li>
+
+  </ul>
+
+  <p id="d24e36335"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Se você deseja animar apenas alguns padding, você pode substituir um </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Padding</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> por algum </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedPadding</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , e se você quiser fazer alterações em </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TextStyle,</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> você pode usar a versão animada de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DefaultTextStyle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (que é uma classe que aplica seus </font><font style="vertical-align: inherit;">argumentos de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estilo </font></font></span> <span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TextStyle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a todos dos descendentes de seu </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filho</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ), chamado de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedDefaultTextStyle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (que anima a mudança de </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estilo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) ao fornecer, opcionalmente, uma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">curva</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e uma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">duração</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para esses widgets animados.</font></font></p>
+
+  <p id="d24e36375"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Todos eles são interessantes, mas o mais útil é certamente o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedList</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que anima adições feitas a uma lista ou exclusões de elementos de uma lista.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedList</font></font></h4>
+
+  <p id="d24e36383"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedList</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> começa como um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ListView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> normal </font><font style="vertical-align: inherit;">, mas seu objeto de estado pode ser usado (por meio de uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GlobalKey</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ) para inserir ou excluir itens, mostrando uma transição quando uma dessas operações é executada.</font></font></p>
+
+  <p id="d24e36407"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Podemos construir um </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedList</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> exatamente como um </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ListView.builder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> construído em </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ListView</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , mas temos que definir uma </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">chave</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que usaremos para interagir com ela mais tarde, que deve ser uma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GlobalKey &lt;AnimatedListState&gt;</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , e o </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">itemCount</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> será chamado </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">initialItemCount</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e36431"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">itemBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> obtém um </font><font style="vertical-align: inherit;">argumento de </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">animação</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> extra </font><font style="vertical-align: inherit;">, que fornece o estado atual da animação, que pode ser usado por um </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SizeTransition</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> dentro do </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">itemBuilder</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para criar visualmente a transição quando um item é inserido, aumentando o tamanho do widget (recortando-o em o início e gradualmente mostrando tudo) para animar a inserção de um widget.</font></font></p>
+
+  <p id="d24e36445"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tudo isso se soma ao seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedList (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  chave: chave,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  initialItemCount: n,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  itemBuilder (contexto, i, animação) =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    SizeTransition (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      sizeFactor: animação,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      filho: WidgetToShow ()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">)</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e36467"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SizeTransition</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> não é o único widget que pode realizar transições semelhantes (por exemplo, o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ScaleTransition</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> semelhante </font><font style="vertical-align: inherit;">escala o widget para cima e para baixo em vez de </font><span class="cf class"><font style="vertical-align: inherit;">recortá-</font></span><font style="vertical-align: inherit;"> lo), mas é o mais eficaz para o propósito de animar uma lista.</font></font></p>
+
+  <p id="d24e36484"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Ter a mesma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">chave</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> armazenada em algum lugar nos permite obter o </font><font style="vertical-align: inherit;">objeto </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedListState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> relativo a esse </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedList</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> escrevendo:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> listState = key.currentState </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> AnimatedListState;</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e36512"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">que nos permite adicionar um item de lista envolvendo o seguinte em uma chamada para </font></font><span class="cf methodname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">setState</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> :</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">listState.insertItem (posição);</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e36524"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tendo em mente que o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedList</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> precisa ser capaz de construir o novo elemento naquela posição: se estiver pegando elementos de uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lista</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , certifique-se de que haja realmente novos dados a partir dos quais construir o novo item.</font></font></p>
+
+  <p id="d24e36532"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Um exemplo completo de um widget (ou, mais precisamente, o estado de um widget com estado) que aproveita uma </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">AnimatedList</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para adicionar itens dinamicamente a uma lista quando um botão de ação flutuante é pressionado é o seguinte:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GlobalKey _key = GlobalKey &lt;AnimatedListState&gt; ();</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">int</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _nextWidget = 3;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">var</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> _strings = [</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Primeiro"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Em segundo lugar"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Third"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">];</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Widget </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">de construção</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (contexto BuildContext) {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">retorno</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> andaime (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    AppBar: AppBar (título: Texto ( </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Lista Animado"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> )),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    body: AnimatedList (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      chave: _key,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      initialItemCount: _nextWidget,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      itemBuilder: (contexto, i, animação) =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        SizeTransition (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          sizeFactor: animação,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          child: ListTile (title: Text (_strings [i]),),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    floatingActionButton: FloatingActionButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      filho: Ícone (Icons.add),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      onPressed: () {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        setState (() {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          (_key.currentState </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">como</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> AnimatedListState) .insertItem (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">            _nextWidget ++</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          _strings.add (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">" </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {_ NextWidget} </font></font></em><font style="vertical-align: inherit;"></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">th"</font></font></em><font style="vertical-align: inherit;"></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        });</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      },</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e36655"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Esses widgets fornecem o tipo mais simples de animação disponível no Flutter: as animações mais interessantes são fornecidas pelo </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hero</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que permite animar o movimento de um widget em diferentes telas.
+
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hero Animation</font></font></h3>
+
+  <p id="d24e36666"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+As animações do Hero são executadas pela estrutura Flutter nos </font><font style="vertical-align: inherit;">widgets do </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hero</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Um </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hero</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> precisa de uma </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tag</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que o identifique e de um </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">filho</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (que é o widget a ser animado). </font><font style="vertical-align: inherit;">Adicionar a mesma </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tag</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> a dois </font><font style="vertical-align: inherit;">widgets </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hero</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em duas telas diferentes, uma das quais empurrada da outra, fará com que o widget seja animado para mover-se para sua nova posição na tela.</font></font></p>
+
+  <p id="d24e36694"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Um exemplo simples que demonstra o uso do </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hero</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> é o seguinte: há duas páginas que têm em comum um widget (usei o </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FlutterLogo</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> como exemplo) que está envolvido em um </font><font style="vertical-align: inherit;">widget </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hero</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> com a mesma </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">tag</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Alternar entre as visualizações clicando no botão de ação flutuante fará com que o widget seja animado entre sua posição centralizada na primeira página e uma posição superior esquerda na segunda página e vice-versa:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> FirstPage </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatelessWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Construção de widget (contexto BuildContext) =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Andaime(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      corpo: Centro (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        criança: Hero (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          tag: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Flutter Logo Hero"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          filho: FlutterLogo (),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      floatingActionButton: FloatingActionButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        filho: Ícone (Icons.looks_two),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        onPressed: () =&gt; Navigator.pushReplacement (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          contexto,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          MaterialPageRoute (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">            construtor: (contexto) =&gt; SecondPage ()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline">
+    </td></tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">classe</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> SegundaPágina </font></font><strong class="kw"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estende</font></font></strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> StatelessWidget {</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  @sobrepor</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Construção de widget (contexto BuildContext) =&gt;</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    Andaime(</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      corpo: Hero (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        tag: </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"Flutter Logo Hero"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        filho: FlutterLogo (),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      floatingActionButton: FloatingActionButton (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        filho: Ícone (Icons.looks_one),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        onPressed: () =&gt; Navigator.pushReplacement (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          contexto,</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          MaterialPageRoute (</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">            construtor: (contexto) =&gt; Primeira página ()</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">          )</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">        ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">      ),</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    );</font></font></td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">}</font></font></td>
+    </tr>
+
+  </tbody></table><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-078_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

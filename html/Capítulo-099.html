@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e48283">pubspec.yaml</h2>
+
+  <p id="d24e48286">
+<span class="cf filename">pubspec.yaml</span> is the file that defines all of the information that Dart needs to build the app.</p>
+
+  <h3>Basic Package Data</h3>
+
+  <p id="d24e48298">
+
+The most basic data contained in <span class="cf filename">pubspec.yaml</span> is the <span class="cf ic">name</span> and the <span class="cf ic">description</span>. The <span class="cf ic">description</span> can contain upper and lower case characters as well as spaces and punctuation, whereas the <span class="cf ic">name</span> must only contain lower case letters and underscores.</p>
+
+  <p id="d24e48325">Given that the name you set when creating the app project is also the default app name, the user experience isn’t helped by having to select an app that only has lowercase letters and spaces in it, which isn’t really the style that is favored in the mobile industry at the moment (there aren’t many spaces being used, but names are usually capitalized). We’ll be solving this problem at <a href="Capítulo-100.html#sec.appconfig.platspec">​<em>Platform-Specific Setup</em>​</a>. In that section we’ll also be seeing how to change the app icon from the default Flutter logo.</p>
+
+  <h3>Setting the Version</h3>
+
+  <p id="d24e48332">
+One of the things that can be set in <span class="cf filename">pubspec.yaml</span> is the <span class="cf ic">version</span>. If you’re building a package to be released on Pub, it’s obviously going to be used by your users when they are installing the package. In the case of apps, it is automatically added to the platform-specific configuration of each app so that you don’t need to change the app version in multiple files every time.</p>
+
+  <h4>Dependency Versions, Caret Syntax, and Semantic Versioning</h4>
+
+  <p id="d24e48347">
+
+
+
+Versions of Dart dependencies can either be specified by providing just one version number, which will force the installation of that version of the package, as a range using comparison operators (for example, <span class="cf ic">&gt;=1.0.0 &lt; 1.7.3</span>) or by prefixing a version with the <span class="cf ic">^</span> character (for example, <span class="cf ic">^1.2.0</span>), which will allow all versions that are backwards compatible with calls that worked in that version of a library. This is called caret syntax. It was introduced in Dart 1.8.3, which is the reason why the <span class="cf ic">environment</span> section in <span class="cf filename">pubspec.yaml</span> is specified using traditional syntax: we need to make sure we can use it before we use it, and we make sure we can use it by depending on newer versions of Dart. That <span class="cf ic">environment</span> section should be kept in mind when changing the app using features that were only recently introduced to Dart.</p>
+
+  <p id="d24e48383">
+This means the version can’t just be a number you make up: it should follow semantic versioning, which is a standard followed by most package managers and explained in detail in its own website.<sup><a class="footnote" href="Capítulo-100.html#FOOTNOTE-58" id="FNPTR-58">[58]</a></sup> In case you’re not aware, it is based on the idea that the version should follow the <span class="emph">MAJOR.MINOR.PATCH</span> template, meaning that the first number should be changed when making breaking changes, the second should be changed when adding new features without breaking compatibility, and the third should be changed when fixing bugs.</p>
+
+  <p id="d24e48400">Dart versions are made of the version specified according to semantic versioning and, optionally, a plus sign and a number called the <span class="emph">build number</span>, which is usually used when a new version only introduces documentation or configuration changes.
+
+</p>
+
+</body>
+
+</html>

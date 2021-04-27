@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.layout.expanded">Fill the Space Available in the View Using Expanded</h2>
+
+  <p id="d24e9943">
+
+
+
+
+When using <span class="cf class">Row</span>s and <span class="cf class">Column</span>s you only use as much space as you need to and two of the same widget will always take up the same amount of space.</p>
+
+  <p id="d24e9969">If you want to use all of the space in the view and split the space among the widgets in specific ways you need to use the <span class="cf ic">Expanded</span> widget.</p>
+
+  <h3>How You Use It</h3>
+
+  <p id="d24e9977">
+
+An <span class="cf ic">Expanded</span> widget can only be used inside a <span class="cf ic">Row</span> or <span class="cf ic">Column</span>, and it takes a <span class="cf ic">child</span> argument for the widget to expand and an optional integer as the <span class="cf ic">flex</span> argument.</p>
+
+  <p id="d24e10012">The <span class="cf ic">child</span> will be expanded to fill as much space as possible, and if there is more than one <span class="cf ic">Expanded</span> on the same <span class="cf ic">Row</span> or <span class="cf ic">Column</span> the space they will take up is directly proportional to their <span class="cf ic">flex</span> value.</p>
+
+  <p id="d24e10029">For example, the following code:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Column(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  children: &lt;Widget&gt; [</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Expanded(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      flex: 5,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: (</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ...</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    Expanded(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      flex: 2,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      child: (</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">        ...</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e10066">Will space the widgets out like this:</p>
+
+  <div class="ss">
+
+    <img alt="images/WidgetLayout/expanded.png" class="" id="d24e10068" src="images/WidgetLayout/Imagem-39.png" style="width: 30%"/>
+
+  </div>
+
+  <p id="d24e10069">Excluding the app bar, every green or yellow rectangle represents 1/7 of the view, the yellow part (5/7 of the view) will be taken up by the first <span class="cf ic">Expanded</span>’s child, whereas the green part (the remaining 2/7) will be where the second <span class="cf ic">Expanded</span>’s child will reside.</p>
+
+  <p id="d24e10077">We are going to make extensive use of <span class="cf class">Expanded</span> in the next chapter when we build a calculator app.
+
+
+
+</p>
+
+</body>
+
+</html>

@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e20226">The http Package</h2>
+
+  <p id="d24e20229">
+
+
+
+
+
+
+To make GET requests we need to use the <span class="emph">http</span> package. You can find the http package on Dart Pub.<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-36" id="FNPTR-36">[36]</a></sup></p>
+
+  <p id="d24e20267">
+Let’s start by creating a new Flutter app project using:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">$ flutter create xkcd_app</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20279">
+
+and installing the HTTP package by adding the following to <span class="cf filename">pubspec.yaml</span>:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/networking/xkcd_app/pubspec.yaml">networking/xkcd_app/pubspec.yaml</a></div>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">dependencies:</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  http: ​<em class="string">"</em>​​<em class="string">^0.12.0+1"</em>​</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20308">
+Run <span class="cf commandname">flutter packages get</span> to download and install the package if you aren’t using the IDE plugins (which will do it automatically for you after you make changes to <span class="cf filename">pubspec.yaml</span>).</p>
+
+  <h3>Using the http Package</h3>
+
+  <p id="d24e20323">The HTTP package can be used to make HTTP requests of all kinds.<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-37" id="FNPTR-37">[37]</a></sup></p>
+
+  <p id="d24e20329">
+
+All of them are asynchronous, which means that, by default, they are ran in a separate thread without affecting the rest of the app’s execution. You can choose to make them behave exactly like synchronous functions if their return value is vital to the prosecution of the app’s execution.</p>
+
+  <h4>Asynchronous Code in Dart</h4>
+
+  <p id="d24e20343">
+
+
+
+There are many ways to run asynchronous code in Dart, outlined in <a href="Capítulo-089.html#sec.dart.async">​<em>Asynchronous Code in Dart: The dart:async Library</em>​</a>, but the basic concept has already been explained in the previous chapter: calls to functions that return a <span class="cf class">Future</span> (or <span class="cf class">Stream</span>, which we won’t be using in this chapter) and run in a separate thread are called asynchronous.</p>
+
+  <p id="d24e20377">
+We can get the data returned by an asynchronous function by using an <span class="cf ic">await</span> expression:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">var returnedData = await asyncFunction();</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20390">This can only be done in <span class="cf ic">async</span> functions and <span class="cf ic">async</span> functions have to return <span class="cf class">Future</span>s, so asynchrony tends to propagate to all of the calling methods.</p>
+
+  <h4>Making GET Requests</h4>
+
+  <p id="d24e20404">
+
+
+
+
+
+An HTTP request is made using <span class="cf methodname">http.get</span>, which is an <span class="cf ic">async</span> method that returns a <span class="cf class">Response</span> inside a <span class="cf class">Future</span>.</p>
+
+  <p id="d24e20446">
+We can unwrap the inner <span class="cf class">Response</span> using <span class="cf ic">await</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ latestComicResponse = await http.get(​<em class="string">"https://xkcd.com/info.0.json"</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20470">and we can get the body of the response as a <span class="cf ic">String</span> by querying its <span class="cf ic">body</span> attribute, like we will need to do when we build our XKCD app:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ latestComicString = latestComicResponse.body;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20489">We could also do everything in one line, enclosing the <span class="cf ic">await</span> expression in parentheses:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">var</strong>​ latestComicString = (await http.get(​<em class="string">"https://xkcd.com/info.0.json"</em>​)).body;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20510">
+HTTP headers can be set by setting the <span class="cf ic">headers</span> named arguments to a <span class="cf ic">Map&lt;String, String&gt;</span>, like in the following example:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">http.get(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ​<em class="string">"http://example.com/exampleGet?testAttr=</em>​​<em class="string">$val1</em>​​<em class="string">&amp;testAttr2=</em>​​<em class="string">$val2</em>​​<em class="string">"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  headers: {</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"Accept"</em>​: ​<em class="string">"application/json"</em>​,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ​<em class="string">"Accept-Charset"</em>​: ​<em class="string">"utf-8"</em>​</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  }</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">)</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20563">Wikipedia has a comprehensive list of standard HTTP headers.<sup><a class="footnote" href="Capítulo-069.html#FOOTNOTE-38" id="FNPTR-38">[38]</a></sup></p>
+
+  <p id="d24e20569">
+
+The <span class="cf ic">http</span> package also provides <span class="cf ic">http.read()</span> and <span class="cf ic">http.readBytes()</span>, which are, respectively, just like <span class="cf methodname">http.get()</span>’s <span class="cf ic">body</span> and <span class="cf ic">bodyBytes</span> attributes.</p>
+
+  <p id="d24e20599">For example, you could go from calling:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ res = (await http.get(​<em class="string">"http://example.com"</em>​)).body;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20616">to just:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ res = await http.read(​<em class="string">"http://example.com"</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20631">or go from:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ res = (await http.get(​<em class="string">"http://example.com"</em>​)).bodyBytes;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20648">to just:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ res = await http.readBytes(​<em class="string">"http://example.com"</em>​);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20662">Be careful, though, as you lose other attributes of the <span class="cf class">Response</span> object (the type of data <span class="cf methodname">http.get</span> returns), such as:</p>
+
+  <ul>
+
+    <li><span class="cf ic">headers</span>, which is needed when you need to read the response’s headers;</li>
+
+    <li><span class="cf ic">contentLength</span>, which is the size (in bytes) of the response.
+
+
+
+
+</li>
+
+  </ul>
+
+  <h4>Making Other Requests</h4>
+
+  <p id="d24e20693">Other kinds of HTTP requests are also supported, and all of them support setting headers in the way we’ve just seen and all of them return <span class="cf ic">Future&lt;Response&gt;</span> objects:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e20774">A POST request is made using <span class="cf methodname">http.post</span>, the request URL is provided as a positional argument and you can set the request body by setting the <span class="cf ic">body</span> named argument to whatever you want.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e20783">A PUT request is made using <span class="cf methodname">http.put</span>, the request URL is provided as a positional argument and you can set the request body by setting the <span class="cf ic">body</span> named argument to whatever you want.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e20792">A DELETE request is made using <span class="cf methodname">http.delete</span>, the request URL is provided as a positional argument.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e20798">A PATCH request is made using <span class="cf methodname">http.patch</span>, the request URL is provided as a positional argument and you can set the request body by setting the <span class="cf ic">body</span> named argument to whatever you want.</p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e20807">A HEAD request is made using <span class="cf methodname">http.head</span>, the request URL is provided as a positional argument.</p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e20812">Whenever it’s possible to add a <span class="cf ic">body</span> attribute it’s also possible to add an <span class="cf ic">encoding</span> attribute, which is of type <span class="cf class">Econding</span> and is used to define the body’s encoding. Some <span class="cf class">Encoding</span> subclasses are <span class="cf class">AsciiCodec</span> and <span class="cf class">Utf8Codec</span>.
+
+</p>
+
+  <h3>Parsing the JSON Response Body</h3>
+
+  <p id="d24e20839">
+
+
+
+
+
+
+The HTTP response body is just a string, so it is not useful unless it is parsed.</p>
+
+  <p id="d24e20880">Manually parsing it would be incredibly time-consuming and pointless, since the <span class="cf ic">dart:convert</span> built-in library already provides a constant called <span class="cf ic">json</span>, which is of type <span class="cf class">JsonCodec</span>, meaning it exposes two methods:</p>
+
+  <ul>
+
+    <li><span class="cf methodname">json.encode(obj)</span>, which converts the <span class="cf ic">obj</span> object to a JSON string.</li>
+
+    <li><span class="cf methodname">json.decode(str)</span>, which converts the <span class="cf ic">str</span> JSON string to a Dart object.</li>
+
+  </ul>
+
+  <p id="d24e20908">In our specific case, we want to convert a JSON string to a <span class="cf ic">Map&lt;String, dynamic&gt;</span>, which allows us to access each of the comic’s attributes by name as we’ll see in the next section.</p>
+
+  <p id="d24e20913">Using <span class="cf ic">dart:convert</span>, if we had previously stored the response body of a call to XKCD’s API to a variable called <span class="cf ic">latestComicString</span>, we would be able to convert it to a <span class="cf ic">Map</span> by using:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt; latestComic = json.decode(latestComicString);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e20937">So the code we would add to our app if we needed to store the latest comic in a <span class="cf class">Map</span> variable is:
+
+
+
+
+
+
+
+
+
+</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Map&lt;​<strong class="kw">String</strong>​, ​<strong class="kw">dynamic</strong>​&gt; latestComic = json.decode(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  await http.read(​<em class="string">"https://xkcd.com/info.0.json"</em>​)</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">);</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

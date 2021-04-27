@@ -1,0 +1,597 @@
+
+<!-- saved from url=(0049)http://localhost:8080/html/Cap%C3%ADtulo-011.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Flutter de programação</title>
+  <link href="./Capítulo-011_files/bookshelf.css" rel="stylesheet" type="text/css">
+  <link href="./Capítulo-011_files/book_local.css" rel="stylesheet" type="text/css">
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource">
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Capítulo-011_files/translateelement.css"></head>
+
+<body>
+
+  <h2 id="d24e266"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando o SDK e os plug-ins IDE</font></font></h2>
+
+  <p id="d24e269"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para usar o Flutter, você precisa instalar seu SDK e, para poder continuar com sua programação de uma maneira rápida e descomplicada, você provavelmente vai querer instalar as ferramentas IDE também.</font></font></p>
+
+  <p id="d24e271"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você preferir usar a linha de comando (talvez porque deseja usar outros IDEs ou editores de texto, talvez mais leves), haverá orientação sobre o uso do </font><font style="vertical-align: inherit;">comando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ao longo do livro.</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando Flutter</font></font></h3>
+
+  <p id="d24e279"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+O processo de instalação do Flutter SDK difere um pouco para cada sistema operacional, portanto, separarei as instruções em três seções. </font><font style="vertical-align: inherit;">Pule para as instruções específicas para sua plataforma e, se desejar instalá-las, veja a parte que cobre a instalação do plug-in IDE.</font></font></p>
+
+  <p id="d24e285"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+No momento da escrita, a versão estável mais recente é 1.9.1 e requer um download de 495 MB no Linux (arquivo tar.xz), um download de 655 MB no Windows (arquivo zip) ou um download de 786 MB no macOS (arquivo zip).</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando no Linux</font></font></h4>
+
+  <p id="d24e294"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Em uma máquina Linux, apenas o desenvolvimento Android é compatível, portanto, instalaremos apenas o SDK do Android e o próprio SDK do Flutter. </font><font style="vertical-align: inherit;">Você receberá orientação para os métodos de instalação gráfica e CLI.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando o Android SDK no Linux</font></font></strong></p>
+
+  <p id="d24e304"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Se você nunca desenvolveu aplicativos Android, você precisa instalar o Android SDK, que inclui as ferramentas necessárias para construir e depurar aplicativos Android.</font></font></p>
+
+  <p id="d24e315"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Para usar o Flutter, você precisa instalar o Android Studio e as ferramentas do Android SDK. </font><font style="vertical-align: inherit;">O Flutter requer a instalação do Android Studio, mas você não precisa usá-lo para desenvolvimento.</font></font></p>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Alternativas ao arquivo zip oficial</font></font></p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images / Side-icons / info.png" class="" id="d24e336" src="./Capítulo-011_files/Imagem-59.png" style="width: 100%">
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+	No Gentoo e Arch Linux você pode usar pacotes para instalar o Android SDK e / ou Android Studio:
+</font></font></p>
+          <ul>
+
+            <li>
+
+              <p id="d24e355"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+				No Gentoo, você pode instalar o pacote Android Studio </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-4" id="FNPTR-4"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[4]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+				executando </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">emerge --ask dev-util / android-studio</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ;
+			</font></font></p>
+
+            </li>
+
+            <li>
+
+              <p id="d24e366"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para Arch Linux, há um pacote popular e mantido ativamente disponível no AUR chamado </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">android-studio </font></font></span><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-5" id="FNPTR-5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[5]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+            </li>
+
+          </ul>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e376"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Comece indo para a página de downloads na página Android Developers: </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-6" id="FNPTR-6"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[6]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> lá você encontrará links para o download .zip do Android Studio (cerca de 1 GB de tamanho).</font></font></p>
+
+  <p id="d24e383"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+Independentemente do que você escolher, pode ser necessário instalar algumas bibliotecas de 32 bits para fazer o SDK funcionar em um sistema operacional de 64 bits:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e401"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No Debian / Ubuntu, execute </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">sudo apt install libc6: i386 libncurses5: i386 libstdc ++ 6: i386 lib32z1 libbz2-1.0: i386</font></font></span></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e406"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No Fedora, execute </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">sudo dnf install zlib.i686 ncurses-libs.i686 bzip2-libs.i686</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e411"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois disso, estamos prontos para realmente instalar o Android SDK.</font></font></p>
+
+  <p id="d24e413"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para fazer isso usando o instalador completo do Android Studio, depois de extrair o arquivo zip que você baixou do site do Google, execute o </font><font style="vertical-align: inherit;">script </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">studio.sh</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> contido no </font><font style="vertical-align: inherit;">subdiretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Isso iniciará um assistente de configuração. </font><font style="vertical-align: inherit;">Depois de concluir a configuração do SDK, você pode iniciar o Android Studio executando o mesmo </font><font style="vertical-align: inherit;">script </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">studio.sh</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+
+</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando o Flutter SDK no Linux</font></font></strong></p>
+
+  <p id="d24e433"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Esta parte fornecerá orientação para a instalação do Linux destinada a iniciantes; </font><font style="vertical-align: inherit;">se você se sentir confortável com a linha de comando, as etapas da CLI serão mais previsíveis. </font><font style="vertical-align: inherit;">(Para iniciantes completos no Linux, pode ser mais fácil seguir as orientações orientadas para a GUI, já que isso geralmente é mais familiar.)</font></font></p>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Alternativas ao Tarball</font></font></p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images / Side-icons / info.png" class="" id="d24e454" src="./Capítulo-011_files/Imagem-59.png" style="width: 100%">
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+	
+	Existem alternativas para instalar o tarball oficial:
+</font></font></p>
+          <ul>
+
+            <li>
+
+              <p id="d24e468"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O Arch Linux tem um pacote mantido ativamente no AUR para instalar o Flutter. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-7" id="FNPTR-7"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[7]</font></font></a></sup>
+			</p>
+
+            </li>
+
+          </ul>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e477"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O download do Linux é um tarball de origem que também contém o script necessário para executar o </font><font style="vertical-align: inherit;">comando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , o que significa que você só precisa extraí-lo e adicionar o </font><font style="vertical-align: inherit;">subdiretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do tarball extraído à </font><font style="vertical-align: inherit;">variável de ambiente </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PATH</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e488"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Antes de fazermos isso, precisamos navegar até a página do arquivo SDK </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-8" id="FNPTR-8"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[8]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no site oficial do Flutter e baixar a última versão estável.</font></font></p>
+
+  <p id="d24e495"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Como alternativa, em um ambiente somente CLI, você pode baixar o tarball 1.2.1 usando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">curl https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_v1.2.1-stable.tar.xz -o flutter_linux_v1. 2.1-stable.tar.xz</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e500"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Extraia o tarball que você acabou de baixar com qualquer ferramenta GUI de sua preferência ou executando o seguinte comando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ tar -xf flutter_linux_v1.2.1-stable.tar.xz</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e511"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora precisamos adicionar o script executável à </font><font style="vertical-align: inherit;">variável de ambiente </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PATH</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e516"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Antes de fazer isso, você precisa anotar o diretório onde extraiu o tarball. </font><font style="vertical-align: inherit;">Ele contém um </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , dentro do qual existe um </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ; </font><font style="vertical-align: inherit;">precisamos saber o caminho para chegar a esse </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e528"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você estiver usando a GUI, na maioria das distribuições ela está disponível navegando nas propriedades do diretório. </font><font style="vertical-align: inherit;">Será algo parecido com </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/home/username/Downloads/flutter_linux_v1.9.1-stable/flutter/bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> se você tiver optado pelas configurações padrão para cada parte do software usado nas etapas que descrevemos anteriormente. </font><font style="vertical-align: inherit;">Eu sugiro mover isso para um caminho mais permanente; </font><font style="vertical-align: inherit;">idealmente, um em que você se lembre de ter instalado o Flutter.</font></font></p>
+
+  <p id="d24e533"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você trabalhou na CLI usando os comandos descritos anteriormente, navegue até o diretório de instalação do Flutter e altere o diretório de trabalho para o </font><font style="vertical-align: inherit;">subdiretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter / bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> executando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ cd flutter / bin</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e544"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">e obtenha o diretório de trabalho executando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ pwd</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e552"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">que retornará algo nas linhas de </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ home / username / flutter / bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> (aqui você verá o caminho onde instalou o Flutter, portanto, sua milhagem pode variar significativamente).</font></font></p>
+
+  <table class="simpletable outerlines">
+
+    <thead>
+
+      <tr><th class="outerlines" colspan="2"><p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Conheça sua Shell</font></font></p></th></tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr class="tr zebra ">
+        <td style="valign: middle; width: 12%; ">
+          <img alt="images / Side-icons / info.png" class="" id="d24e567" src="./Capítulo-011_files/Imagem-59.png" style="width: 100%">
+        </td>
+        <td style="valign: middle; width: 88%; ">
+          <p class="last-para-in-cell"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+	Esta seção supõe que seu shell seja Bash. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-9" id="FNPTR-9"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[9]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+	Este é o caso da maioria das distribuições Linux (e sistemas operacionais semelhantes ao Unix em geral - algumas exceções são os BSDs, que têm tcsh, </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-10" id="FNPTR-10"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[10]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+	ksh, </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-11" id="FNPTR-11"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[11]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+	ou ash, </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-12" id="FNPTR-12"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[12]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+	e o instalador do Arch Linux, que roda em Zsh </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-13" id="FNPTR-13"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[13],</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+	mas instala o Bash por padrão) e, como você precisaria instalar e configurar manualmente um diferente, provavelmente saberia adicionar um diretório ao seu </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PATH</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .
+</font></font></p>
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <p id="d24e608"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para adicionar isso à </font><font style="vertical-align: inherit;">variável de ambiente </font></font><span class="cf variable"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PATH</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , precisamos editar </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">~ / .bash_profile</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e616"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para fazer isso usando a GUI, primeiro você precisa do seu gerenciador de arquivos para exibir os arquivos ocultos. </font><font style="vertical-align: inherit;">Se você não conseguir encontrar um arquivo chamado </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.bash_profile</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> em seu diretório inicial, será necessário alternar a opção que faz o gerenciador de arquivos mostrar arquivos ocultos e isso depende do gerenciador de arquivos que você está usando:</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e624"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Em Nautilus (aka GNOME Files, padrão na maioria das distribuições utilizando o desktop GNOME como o Ubuntu, RHEL, Fedora e padrão SLED e Debian), você precisa pressionar </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ctrl</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> + </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">H</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> . </font><font style="vertical-align: inherit;">Este atalho também funciona no PCManFM (parte do LXDE, como encontrado no Lubuntu), Caja (parte do Mate) e Thunar (parte do desktop XFCE, como encontrado no Xubuntu).</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e633"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você estiver usando o desktop KDE (por exemplo, ao executar o Kubuntu ou ao escolhê-lo ao instalar distribuições como openSUSE ou Debian) e seu gerenciador de arquivos Dolphin padrão, use </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Alt</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> + </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">+</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e641"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de localizar um arquivo chamado </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.bash_profile</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , abra-o com qualquer editor de texto e adicione a seguinte linha ao final dele, em uma nova linha:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exportar PATH = $ PATH: / home / nome de usuário / etc</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e656"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">onde você substituirá </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ home / username / etc</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pela string que você anotou anteriormente.</font></font></p>
+
+  <p id="d24e661"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você preferir usar a linha de comando ou apenas quiser uma experiência de copiar e colar deste guia de instalação, você pode abrir uma janela de terminal ou TTY e executar o seguinte comando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ Echo </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">"export PATH =</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ PATH </font></font><em class="string"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">: / home / username / etc"</font></font></em><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> &gt;&gt; ~ / .bash_profile</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e676"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">substituindo </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ home / username / etc</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pelo caminho que você encontrou anteriormente para o </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter / bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do tarball extraído </font><font style="vertical-align: inherit;">.</font></font></p>
+
+  <p id="d24e684"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para realmente conseguir executar o </font><font style="vertical-align: inherit;">comando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , você precisa atualizar a configuração do seu terminal executando:
+
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ source ~ / .bash_profile</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando no Windows</font></font></h4>
+
+  <p id="d24e703"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Assim como no Linux, o desenvolvimento do Android somente para Windows é compatível, portanto, instalaremos apenas o Android SDK com o Android Studio e o próprio Flutter SDK.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando o Android SDK no Windows</font></font></strong></p>
+
+  <p id="d24e708"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Tudo que você precisa fazer para instalar o Android SDK no Windows é baixar e executar o arquivo de instalação do Android Studio disponível na página oficial de download. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-14" id="FNPTR-14"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[14]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Isso também instalará o Android Studio IDE rico em recursos. </font><font style="vertical-align: inherit;">Depois de instalar o Android Studio, você será guiado pela instalação do Android SDK.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando o Flutter SDK no Windows</font></font></strong></p>
+
+  <p id="d24e737"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Para instalar o Flutter SDK no Windows, você precisa primeiro instalar o Git para Windows. </font><font style="vertical-align: inherit;">Você pode encontrar o arquivo de instalação para ele em sua página oficial de download. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-15" id="FNPTR-15"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[15]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Durante a instalação, você precisa escolher a opção </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usar Git no prompt de comando do Windows</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e756"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de instalar o Git, baixe a versão mais recente do Flutter em sua página oficial de instalação. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-16" id="FNPTR-16"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[16]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Isso, ao contrário do que acontece com a maioria dos softwares disponíveis para Windows, fará o download de um arquivo zip (também conhecido como uma pasta compactada) que contém uma </font><font style="vertical-align: inherit;">pasta </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutuante</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : extraia onde quiser (esta será a pasta SDK que qualquer plugin IDE irá pedir para você entrar).</font></font></p>
+
+  <p id="d24e766"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você deseja executar um comando no Console do Flutter, execute o </font><font style="vertical-align: inherit;">script </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter.bat</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> contido na </font><font style="vertical-align: inherit;">subpasta </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando no macOS</font></font></h4>
+
+  <p id="d24e777"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">A vantagem do macOS é que ele também oferece suporte à criação e depuração de iOS. </font><font style="vertical-align: inherit;">Para tirar proveito disso, também precisamos instalar o Xcode e o iOS SDK.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando o Xcode e o iOS SDK</font></font></strong></p>
+
+  <p id="d24e782"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+
+
+Para ser capaz de executar o Flutter e usá-lo para desenvolvimento iOS, você precisa baixar o Xcode </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-17" id="FNPTR-17"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[17]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e o iOS SDK </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-18" id="FNPTR-18"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[18]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> do site oficial da Apple.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando o Android SDK no macOS</font></font></strong></p>
+
+  <p id="d24e816"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Instalar o Android SDK no macOS é realmente simples: vá para a página de downloads do Android Studio </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-19" id="FNPTR-19"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[19]</font></font></a></sup><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para baixar o arquivo .dmg que também inclui o Android Studio IDE rico em recursos, mas com muitos recursos.</font></font></p>
+
+  <p><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalação do Flutter SDK no macOS</font></font></strong></p>
+
+  <p id="d24e835"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+A instalação do Flutter no macOS é muito semelhante à instalação do Flutter no Linux. </font><font style="vertical-align: inherit;">As principais diferenças são que o macOS usa o formato de arquivo zip em vez do formato tar.xz, mais eficiente, e não há diferenças de sistema operacional ou GUI entre as distribuições a serem enfrentadas.</font></font></p>
+
+  <p id="d24e846"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Comece baixando o .zip estável mais recente do site oficial do Flutter. </font></font><sup><a class="footnote" href="http://localhost:8080/html/Cap%C3%ADtulo-012.html#FOOTNOTE-20" id="FNPTR-20"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">[20]</font></font></a></sup></p>
+
+  <p id="d24e852"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Descompacte-o em qualquer diretório e, em seguida, abra o </font><font style="vertical-align: inherit;">diretório </font></font><span class="cf dir"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> que acabou de extrair. </font><font style="vertical-align: inherit;">Imprensa </font></font><span class="keystroke"><span style="font-family:Quivira;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">⌘</font></font></span></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> + </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">I</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e tomar nota do caminho que aparece à direita do </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Onde:</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e866"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Agora, abra uma janela do Terminal e execute o comando:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ nano ~ / .bash_profile</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e874"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depois de fazer isso, cole o seguinte na janela do terminal:</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">exportar PATH = $ PATH: / example / path / to / flutter / bin</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <p id="d24e880"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">substituindo </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">/ example / path / to / flutter / bin</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pelo caminho que você anotou anteriormente.</font></font></p>
+
+  <p id="d24e886"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tudo o que resta a fazer é fechar o arquivo usando </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ctrl</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">X</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e confirmando que você deseja salvar o arquivo pressionando </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Y</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e897"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para realmente conseguir executar o </font><font style="vertical-align: inherit;">comando </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , você precisa atualizar a configuração do seu terminal executando:
+
+
+</font></font></p>
+
+  <table class="processedcode">
+
+    <tbody><tr>
+      <td class="codeinfo">​<span class="codeprefix">&nbsp;</span></td>
+      <td class="codeline"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ source ~ / .bash_profile</font></font></td>
+    </tr>
+
+  </tbody></table>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instalando os Plugins IDE</font></font></h3>
+
+  <p id="d24e916"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Os plug-ins Flutter IDE para VSCode e Android Studio são instalados usando as ferramentas e técnicas de instalação canônicas para cada IDE. </font><font style="vertical-align: inherit;">Eles também requerem a instalação do respectivo plugin Dart.</font></font></p>
+
+  <p id="d24e927"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você não estiver familiarizado com esse processo, discutiremos agora como instalar o plug-in Flutter em cada IDE.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">VSCode</font></font></h4>
+
+  <p id="d24e932"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Para instalar o plug-in Flutter para Visual Studio Code, você precisa abrir o próprio Visual Studio Code e, em seguida, usar o atalho de teclado </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ctrl</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Shift</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">P</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para abrir a paleta de comandos, digite “Instalar extensões” e pressione </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Enter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e950"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No painel que se abre à esquerda, digite Flutter e pressione </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Enter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e955"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Clique no botão Instalar na entrada Flutter na lista, isso instalará os plug-ins Flutter e Dart.</font></font></p>
+
+  <p id="d24e957"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ao contrário do plug-in Flutter para Android Studio, o plug-in Flutter para o plug-in Visual Studio Code detectará automaticamente o local onde o SDK do Flutter está instalado.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Android Studio</font></font></h4>
+
+  <p id="d24e962"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Para instalar o plug-in Flutter para Android Studio, você precisa navegar até Arquivo&gt; Configurações&gt; Plug-ins, clicar em </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Procurar repositórios ...</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , digitar Flutter e clicar em Instalar.</font></font></p>
+
+  <p id="d24e971"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para criar um projeto Flutter no Android Studio, você precisa reiniciar o Android Studio se não o fez desde a instalação do plug-in Flutter, navegue até Arquivo&gt; Novo projeto Flutter, escolha </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Aplicativo Flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e dê ao aplicativo um nome e um caminho, defina o nome do pacote e pronto.
+
+</font></font></p>
+
+  <h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando a CLI e os plug-ins</font></font></h3>
+
+  <p id="d24e982"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Existem duas maneiras de interagir com o Flutter SDK: usando o </font><font style="vertical-align: inherit;">comando </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> CLI diretamente ou por meio dos plug-ins IDE. </font><font style="vertical-align: inherit;">Os plug-ins para Android Studio e VSCode são muito diferentes de usar, pois se adaptam às convenções usuais do respectivo IDE.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Criar um projeto de aplicativo Flutter</font></font></h4>
+
+  <p id="d24e990"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Para criar um projeto de aplicativo Flutter, execute o </font><font style="vertical-align: inherit;">comando </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter create appname</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou siga o procedimento correspondente ao IDE que deseja usar para desenvolver seu aplicativo:
+
+</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e1015"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No Android Studio, clique em </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Arquivo&gt; Novo&gt; Novo Projeto Flutter ...</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e siga as instruções que aparecerão na tela;</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e1021"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No Visual Studio Code, pressione </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ctrl</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> + </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Shift</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> + </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">P</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> para abrir o Menu de Comandos e digite New Project, </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Flutter: New Project</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> deve aparecer como uma opção no menu, clique nele e digite um nome para seu projeto de aplicativo.</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Construindo e funcionando</font></font></h4>
+
+  <p id="d24e1038"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Você pode construir um aplicativo Flutter usando o </font><font style="vertical-align: inherit;">comando </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter </font></font></span> <span class="cf commandoption"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">build</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> quando o diretório de trabalho for o diretório raiz do projeto (onde </font></font><span class="cf filename"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pubspec.yaml</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> está localizado):
+
+</font></font></p>
+
+  <ul>
+
+    <li>
+
+      <p id="d24e1070"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para construir um APK para o seu aplicativo (arquivo de instalação padrão do Android), use o </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">apk flutter build</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e1076"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para construir um pacote de aplicativos iOS, use </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter build ios</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+    <li>
+
+      <p id="d24e1082"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para construir um Android App Bundle (a nova geração de arquivo de instalação do Android que reduz o tamanho do arquivo), use </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter build appbundle</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+    </li>
+
+  </ul>
+
+  <p id="d24e1087"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Se você deseja executar o aplicativo diretamente em um emulador aberto ou em um dispositivo conectado por USB (com a Depuração USB ativada nas configurações do dispositivo), use o </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter run</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
+
+  <p id="d24e1103"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Se estiver usando um IDE, você pode usar o plug-in Flutter para executar aplicativos diretamente do IDE.</font></font></p>
+
+  <p id="d24e1114"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Para executar um aplicativo em um emulador aberto ou dispositivo USB conectado:</font></font></p>
+
+  <ul>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando o VSCode, pressione </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">F5</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ou clique em </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Debug&gt; Start Debug</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+
+    <li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Usando o Android Studio, pressione </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Shift</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> - </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">F10</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e clique no botão semelhante ao destacado na imagem a seguir:</font></font></li>
+
+  </ul>
+
+  <div class="ss">
+
+    <img alt="images / Preface / image7.png" class="" id="d24e1135" src="./Capítulo-011_files/Imagem-58.png">
+
+  </div>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Hot Reload</font></font></h4>
+
+  <p id="d24e1139"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O Flutter vem com um recurso que você deve conhecer de outras estruturas: hot reload. </font><font style="vertical-align: inherit;">Se você não estiver familiarizado com ele, o recurso hot reload permite que você atualize a visualização atual do aplicativo com base nas alterações feitas no código sem reconstruir todo o aplicativo, o que, como qualquer pessoa que já tentou sabe, é muito doloroso quando você está fazendo várias pequenas alterações e tentando ver como elas afetam o aplicativo.</font></font></p>
+
+  <p id="d24e1148"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Esse recurso pode ser acessado no Android Studio e no Visual Studio Code e, na verdade, também na linha de comando quando você executa um aplicativo usando </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter run</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> : pressionar </font></font><span class="keystroke"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">R</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> no terminal quando o comando estiver em execução recarregará o aplicativo.</font></font></p>
+
+  <p id="d24e1158"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No Android Studio, você precisa encontrar um ícone como este no </font><font style="vertical-align: inherit;">menu </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Executar</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> na parte inferior:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / Preface / studiohotreload.png" class="border " id="d24e1163" src="./Capítulo-011_files/Imagem-86.png" style="width: 55%">
+
+  </div>
+
+  <p id="d24e1164"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">No Visual Studio Code, você precisa encontrar um ícone como este no menu que aparece na parte superior da tela quando você inicia a depuração:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / Preface / codehotreload.png" class="border " id="d24e1166" src="./Capítulo-011_files/Imagem-24.png" style="width: 35%">
+
+  </div>
+
+  <p id="d24e1167"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O aplicativo será recarregado imediatamente, mostrando todas as alterações feitas no código do aplicativo imediatamente no emulador ou dispositivo conectado.</font></font></p>
+
+  <p id="d24e1169"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Se você estiver executando uma versão recente do Android Studio e / ou Visual Studio Code, terá acesso IDE a dois recursos diferentes, mas semelhantes: recarregamento a quente com estado e reinicialização a quente. </font><font style="vertical-align: inherit;">A diferença entre os dois é que o recarregamento a quente com estado (como o nome indica) preserva cada um dos </font><font style="vertical-align: inherit;">objetos de </font></font><span class="cf class"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">estado</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> e é mais rápido, mas não funciona com mudanças maiores que exigem que eles sejam recarregados também, e para isso há um reinício a quente .</font></font></p>
+
+  <p id="d24e1174"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ao executar um aplicativo usando </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter run a</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> partir da CLI, o reload dinâmico com estado é associado ao </font><font style="vertical-align: inherit;">caractere </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">r</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> minúsculo </font><font style="vertical-align: inherit;">, enquanto a reinicialização a quente é obtida com o </font><font style="vertical-align: inherit;">caractere </font></font><span class="cf ic"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">R</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> maiúsculo </font><font style="vertical-align: inherit;">.</font></font></p>
+
+  <p id="d24e1185"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+Em ambos os IDEs você encontrará, ao lado do botão mostrado acima, um ícone de raio como o que você pode ver na seguinte captura de tela do VSCode:</font></font></p>
+
+  <div class="ss">
+
+    <img alt="images / Preface / vscodeicons.png" class="" id="d24e1197" src="./Capítulo-011_files/Imagem-94.png">
+
+  </div>
+
+  <p id="d24e1198"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O relâmpago executa a recarga a quente com estado, enquanto o </font><font style="vertical-align: inherit;">ícone de </font></font><span class="emph"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">reinicialização</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> típico </font><font style="vertical-align: inherit;">executa a reinicialização a quente.
+
+</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Atualizando e mantendo sua instalação do Flutter</font></font></h4>
+
+  <p id="d24e1209"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Você saberá quando precisará atualizar a instalação do Flutter SDK porque receberá um aviso sempre que criar ou executar um aplicativo.</font></font></p>
+
+  <p id="d24e1215"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Para atualizar a instalação do Flutter, você precisa executar o </font><font style="vertical-align: inherit;">comando </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter upgrade</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que verificará e fará o download de tudo o que for necessário usando o Git, portanto, você precisa ter o Git instalado.</font></font></p>
+
+  <p id="d24e1224"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+
+O Flutter inclui uma ferramenta chamada Flutter Doctor, disponível usando o </font><font style="vertical-align: inherit;">comando </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter doctor</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> , que listará informações sobre a versão do Flutter instalada, o Android / iOS SDK, os plug-ins IDE e os dispositivos conectados.</font></font></p>
+
+  <h4><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Outros comandos relacionados à flutuação nos plug-ins VSCode</font></font></h4>
+
+  <p id="d24e1241"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+Depois que o plug-in VSCode Flutter estiver instalado, abrir a paleta de comandos e digitar </font></font><span class="cf commandname"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">flutter</font></font></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> mostrará todos os comandos disponíveis.</font></font></p>
+
+  <p id="d24e1251"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Entre eles, você vai querer se familiarizar com:</font></font></p>
+
+  <dl>
+
+    <dt class="force-newline" style="font-style:italic;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Flutter: Execute o Flutter Doctor</font></font></dt>
+
+    <dd>
+
+      <p id="d24e1257"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Verifique se há dependências que precisam ser instaladas.</font></font></p>
+
+    </dd>
+
+    <dt class="force-newline" style="font-style:italic;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Flutter: Novo Projeto</font></font></dt>
+
+    <dd>
+
+      <p id="d24e1262"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cria um novo projeto Flutter.</font></font></p>
+
+    </dd>
+
+    <dt class="force-newline" style="font-style:italic;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Flutter: Selecione o dispositivo</font></font></dt>
+
+    <dd>
+
+      <p id="d24e1267"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Selecione o dispositivo no qual deseja depurar seu aplicativo.</font></font></p>
+
+    </dd>
+
+    <dt class="force-newline" style="font-style:italic;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Flutter: Obter Pacotes e Flutter: Atualizar Pacotes</font></font></dt>
+
+    <dd>
+
+      <p id="d24e1272"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Comandos para interagir com Pacotes Flutter (discutiremos os pacotes no Capítulo 4).</font></font></p>
+
+    </dd>
+
+  </dl><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Capítulo-011_files/translate_24dp.png" width="20" height="20" alt="Google Tradutor"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Texto original</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Sugerir uma tradução melhor</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div></body></html>

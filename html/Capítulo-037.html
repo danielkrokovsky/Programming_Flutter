@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="sec.calculator.screencard">Let’s Give the Calculator a Screen</h2>
+
+  <p id="d24e11101">
+Obviously the <span class="cf ic">calculatorScreen</span> at the top of the <span class="cf ic">Column</span> is just a placeholder; we need to replace it with a real, working screen that will be composed of the following: a wrapping and a <span class="cf class">Card</span> and, inside it, a padded <span class="cf class">Text</span> displaying a <span class="cf class">String</span>, which represents the expression or result to be displayed.</p>
+
+  <p id="d24e11122">But, before adding that, we need to declare that <span class="cf class">String</span> inside the <span class="cf class">_CalculatorHomePageState</span> declaration, above the <span class="cf ic">@override</span> keyword preceding the build method declaration:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator_part1/lib/main.dart">layout/calculator_part1/lib/main.dart</a></div>
+
+  <table class="processedcode" id="code.layout.calculator.strDef">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">String</strong>​ _str = ​<em class="string">"0"</em>​;</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e11142">
+
+After you’ve done that, replace <span class="cf ic">calculatorScreen</span> (from the <a href="Capítulo-036.html#code.layout.calculator.basiclayout">​code​</a><a href="Capítulo-036.html#code.layout.calculator.basiclayout">​​</a>) with:</p>
+
+  <div class="livecodelozenge"><a href="http://media.pragprog.com/titles/czflutr/code/layout/calculator_part1/lib/main.dart">layout/calculator_part1/lib/main.dart</a></div>
+
+  <table class="processedcode" id="code.layout.calculator.screen">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">Card(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  color: Colors.lightGreen[50],</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  child: Padding(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    padding: EdgeInsets.all(15.0),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    child: Text(</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      _str,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">      textScaleFactor: 2.0,</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">    ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">  ),</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">),</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e11188">Where <span class="cf ic">Colors.lightGreen[50]</span> is a very low intensity light green.</p>
+
+  <p id="d24e11193">Color intensity (50, in this case) is specified on a scale where 500 is normal intensity (like using <span class="cf ic">Colors.lightGreen</span>) and higher numbers are higher intensity colors, usually used for accent color purposes.</p>
+
+</body>
+
+</html>

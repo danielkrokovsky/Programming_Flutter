@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Programming Flutter</title>
+  <link href="css/bookshelf.css" rel="stylesheet" type="text/css"/>
+  <link href="css/book_local.css" rel="stylesheet" type="text/css"/>
+  <meta content="urn:uuid:08781442-9212-4868-bf02-b4ef0fd56427" name="Adept.expected.resource"/>
+</head>
+
+<body>
+
+  <h2 id="d24e35028">Assert Statements</h2>
+
+  <p id="d24e35031">
+
+
+Somewhere in the middle of the use case of testing and the use case of exceptions you’ll find <span class="cf methodname">assert</span> statements, which are a way for the developer to define conditions that must be met during the app’s execution or to have an effective way to test the result of a certain condition.</p>
+
+  <p id="d24e35054">An <span class="cf ic">assert</span> statement can be added anywhere inside an app’s code and will terminate the app’s execution by throwing an <span class="cf class">AssertionError</span> exception when a condition doesn’t return <span class="cf ic">true</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ a = 3;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(a == 3);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35075">These two lines of code will not affect the app’s execution and similar syntax is often used in documentation when demonstrating a programming language’s features in code examples, including Google’s official Dart Language Tour.<sup><a class="footnote" href="Capítulo-075.html#FOOTNOTE-45" id="FNPTR-45">[45]</a></sup></p>
+
+  <p id="d24e35081">On the other hand, having code such as this:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">int</strong>​ a = (6+9/3)/3;</td>
+    </tr>
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(a != 3);</td>
+    </tr>
+
+  </table>
+
+  <p id="d24e35093">will terminate the app’s execution by throwing an exception <span class="emph">while debugging</span>. Assert statements do <span class="emph">not</span> have any effect on production code and are only considered while debugging code.</p>
+
+  <p id="d24e35101">It is possible to include a string to desctibe the assertion by passing it as the second named argument to <span class="cf methodname">assert</span>:</p>
+
+  <table class="processedcode">
+
+    <tr>
+      <td class="codeinfo">​<span class="codeprefix"> </span></td>
+      <td class="codeline">​<strong class="kw">assert</strong>​(condition, ​<em class="string">"The condition wasn't met"</em>​);</td>
+    </tr>
+
+  </table>
+
+</body>
+
+</html>
